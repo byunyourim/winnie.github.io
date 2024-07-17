@@ -164,7 +164,14 @@ Find out more on <a href="https://www.lipsum.com/">lipsum.com</a>. And if you li
 
 <!-- To change color of links in the page --> <style> header#main { background-size: cover; background-repeat: no-repeat; background-position: center; } .post-content a { color: turquoise !important; } .share-buttons a { color: turquoise !important; } .tag-list a:not(:hover) { color: turquoise !important; } div#post-nav a { color: turquoise !important; } footer a { color: turquoise !important; } .site-header nav a:hover { color: turquoise !important; } a.button:hover { background: turquoise !important; border: 1px solid turquoise !important; color: white; text-decoration: none; filter: none; } header#main { background-color: turquoise !important; background-image: url('/assets/img/lineart.png'); } </style> <!-- Post navigation --> <div id="post-nav"> <div id="previous-post"> <a alt="What's your title" href="/2014/11/27/whats-your-title.html"> <p>Previous post</p> What's your title </a> </div> <div id="next-post"> <a alt="Markup: Syntax Highlighting" href="/syntax/2014/08/08/Markup-Syntax-Highlighting.html"> <p>Next post</p> Markup: Syntax Highlighting </a> </div> </div> <!--Utterances--> <!-- Cusdis --> <!-- Disqus -->
 
-
+<script src="https://utteranc.es/client.js"
+        repo="byunyourim/comments"
+        issue-term="pathname"
+        label="comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
     </div>
     
     <footer class="site-footer"> <p class="text"> Powered by <a href='https://jekyllrb.com/'>Jekyll</a> with <a href='https://github.com/sylhare/Type-on-Strap'>Type on Strap</a></p> <div class="footer-icons"> <ul> <!-- Social icons from Font Awesome, if enabled --> <li> <a feed.xml href="/feed.xml" title="Follow RSS feed" target="_blank"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fas fa-rss fa-stack-1x fa-inverse"></i> </span> </a> </li> <li> <a href="https://github.com/sylhare" title="Follow on Github" target="_blank" rel="noopener"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fab fa-github fa-stack-1x fa-inverse"></i> </span> </a> </li> </ul> </div> <script type="module"> mermaid.initialize({ startOnLoad: false, theme: "default" }); mermaid.run({ nodes: [...document.querySelectorAll('.language-mermaid'), ...document.querySelectorAll('.mermaid')] }); </script> </footer>
