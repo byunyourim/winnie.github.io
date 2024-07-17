@@ -1,5 +1,5 @@
 # SITE CONFIGURATION
-baseurl: "/blog"
+baseurl: ""
 url: "https://imwinnie.com/"
 
 # THEME-SPECIFIC CONFIGURATION
