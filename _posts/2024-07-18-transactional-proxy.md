@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Dark Mode
-tags: [Katex, Mermaid, Markdown]
-categories: Demo
+title: Transactional과 Proxy
+categories: Spring
 ---
 
 Let's demo some code snippet, with some mermaid diagrams.
