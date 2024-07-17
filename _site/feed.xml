@@ -1,4 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/Type-on-Strap/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/Type-on-Strap/" rel="alternate" type="text/html" /><updated>2024-07-18T04:47:46+09:00</updated><id>http://localhost:4000/Type-on-Strap/feed.xml</id><title type="html">위니’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Dark Mode</title><link href="http://localhost:4000/Type-on-Strap/demo/2021/04/27/dark-mode.html" rel="alternate" type="text/html" title="Dark Mode" /><published>2021-04-27T00:00:00+09:00</published><updated>2021-04-27T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/demo/2021/04/27/dark-mode</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/demo/2021/04/27/dark-mode.html"><![CDATA[<p>More colors with less light. Click the <strong>half-moon</strong> most top-right button to turn the lights ON/OFF.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-07-18T06:18:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">위니’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Transactional과 Proxy</title><link href="http://localhost:4000/spring/2024/07/18/transactional-proxy.html" rel="alternate" type="text/html" title="Transactional과 Proxy" /><published>2024-07-18T00:00:00+09:00</published><updated>2024-07-18T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/18/transactional-proxy</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/18/transactional-proxy.html"><![CDATA[<p>Let’s demo some code snippet, with some mermaid diagrams.
+Because if you put some code in your blog, you would at least make it:</p>
+<ol>
+  <li>Searchable</li>
+  <li>Good-looking</li>
+</ol>
+
+<h2 id="search-on-code">Search on code</h2>
+
+<p>Search should be working even for complicated escape symbols.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/\"hostname\"\:.*$/\"hostname\"\: \"'</span><span class="nv">$IPADDR</span><span class="s1">'\"\,/g'</span> open-falcon/agent/config/cfg.json
+</code></pre></div></div>
+
+<p>Or try searching for partial of a command, like this article should be returned when looking for “find grep”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find /etc <span class="nt">-type</span> f <span class="nt">-exec</span> <span class="nb">cat</span> <span class="s1">'{}'</span> <span class="se">\;</span> | <span class="nb">tr</span> <span class="nt">-c</span> <span class="s1">'.[:digit:]'</span> <span class="s1">'\n'</span> | <span class="nb">grep</span> <span class="s1">'^[^.][^.]*\.[^.][^.]*\.[^.][^.]*\.[^.][^.]*$'</span>
+</code></pre></div></div>
+
+<h2 id="code-highlighting-examples">Code highlighting examples</h2>
+
+<p>Because you might put code in your blog post, and you want to make sure it will look good in here. Plus that the search
+function will still be working!</p>
+
+<h3 id="xml">XML</h3>
+
+<p>Example from [W3C]</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;part</span> <span class="na">number=</span><span class="s">"1976"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;name&gt;</span>Windscreen Wiper<span class="nt">&lt;/name&gt;</span>
+  <span class="nt">&lt;description&gt;</span>The Windscreen wiper
+    automatically removes rain
+    from your windscreen, if it
+    should happen to splash there.
+    It has a rubber <span class="nt">&lt;ref</span> <span class="na">part=</span><span class="s">"1977"</span><span class="nt">&gt;</span>blade<span class="nt">&lt;/ref&gt;</span>
+    which can be ordered separately
+    if you need to replace it.
+  <span class="nt">&lt;/description&gt;</span>
+<span class="nt">&lt;/part&gt;</span>
+</code></pre></div></div>
+
+<h3 id="java">Java</h3>
+
+<p>java example</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="nd">@Example</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Demo</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">CONSTANT</span> <span class="o">=</span> <span class="s">"String"</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">Object</span> <span class="n">o</span><span class="o">;</span>
+  <span class="cm">/**
+   * Creates a new demo.
+   * @param o The object to demonstrate.
+   */</span>
+  <span class="kd">public</span> <span class="nf">Demo</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">o</span> <span class="o">=</span> <span class="n">o</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">o</span> <span class="o">:</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="n">s</span> <span class="o">=</span> <span class="no">CONSTANT</span> <span class="o">+</span> <span class="s">"Other example of text"</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">123</span> <span class="o">-</span> <span class="mi">33</span> <span class="o">%</span> <span class="mi">11</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Demo</span> <span class="n">demo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Demo</span><span class="o">();</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">demo</span><span class="o">.</span><span class="na">o</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="javascript">Javascript</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * Does a thing
+ */</span>
+<span class="kd">function</span> <span class="nf">helloWorld</span><span class="p">(</span><span class="nx">param1</span><span class="p">,</span> <span class="nx">param2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">example</span> <span class="o">=</span> <span class="s2">`hello </span><span class="p">${</span><span class="nx">param1</span><span class="p">}</span><span class="s2">`</span>
+    <span class="kd">var</span> <span class="nx">something</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">value</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">number</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">};</span>
+
+    <span class="c1">// Do something</span>
+    <span class="k">if </span><span class="p">(</span><span class="mf">2.0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello, world!</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// TODO comment</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="json">JSON</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"animals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"tiger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tiger"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"images"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"🐯"</span><span class="p">,</span><span class="w"> </span><span class="s2">"🐅"</span><span class="p">,</span><span class="w"> </span><span class="s2">"⻁"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"turtle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"🐢"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"unicorn"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"doesExist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"🦄"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="python">Python</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
+
+
+<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">param_one</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">param_two</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sh">'''</span><span class="s">A docstring</span><span class="sh">'''</span>
+    <span class="k">if</span> <span class="n">param_one</span> <span class="o">&gt;</span> <span class="n">param_two</span><span class="p">:</span>  <span class="c1"># interesting
+</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Greater</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">return </span><span class="p">(</span><span class="n">param_two</span> <span class="o">-</span> <span class="n">param_one</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mb">0b10</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+
+
+<span class="k">class</span> <span class="nc">SomeClass</span><span class="p">:</span>
+    <span class="sh">"""</span><span class="s"> dunno what I am doing </span><span class="sh">"""</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</code></pre></div></div>
+
+<h3 id="yaml">YAML</h3>
+
+<p>You can also render some yaml, like this <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
+
+<p>```yml</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[Let’s demo some code snippet, with some mermaid diagrams. Because if you put some code in your blog, you would at least make it: Searchable Good-looking]]></summary></entry><entry><title type="html">Dark Mode</title><link href="http://localhost:4000/demo/2021/04/27/dark-mode.html" rel="alternate" type="text/html" title="Dark Mode" /><published>2021-04-27T00:00:00+09:00</published><updated>2021-04-27T00:00:00+09:00</updated><id>http://localhost:4000/demo/2021/04/27/dark-mode</id><content type="html" xml:base="http://localhost:4000/demo/2021/04/27/dark-mode.html"><![CDATA[<p>More colors with less light. Click the <strong>half-moon</strong> most top-right button to turn the lights ON/OFF.
 Here is a bit of everything, so you can check how the theme look, have fun! 👌</p>
 
 <h1 id="headers">Headers</h1>
@@ -113,167 +245,7 @@ flowchart TB
     subgraph three
     c1--&gt;c2
     end
-</div>]]></content><author><name></name></author><category term="Demo" /><category term="Katex" /><category term="Mermaid" /><category term="Markdown" /><summary type="html"><![CDATA[More colors with less light. Click the half-moon most top-right button to turn the lights ON/OFF. Here is a bit of everything, so you can check how the theme look, have fun! 👌]]></summary></entry><entry><title type="html">Tech Stuff example</title><link href="http://localhost:4000/Type-on-Strap/2019/11/02/Tech-stuff-example.html" rel="alternate" type="text/html" title="Tech Stuff example" /><published>2019-11-02T00:00:00+09:00</published><updated>2019-11-02T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/2019/11/02/Tech-stuff-example</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/2019/11/02/Tech-stuff-example.html"><![CDATA[<p>Let’s demo some code snippet, with some mermaid diagrams.
-Because if you put some code in your blog, you would at least make it:</p>
-<ol>
-  <li>Searchable</li>
-  <li>Good-looking</li>
-</ol>
-
-<h2 id="search-on-code">Search on code</h2>
-
-<p>Search should be working even for complicated escape symbols.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/\"hostname\"\:.*$/\"hostname\"\: \"'</span><span class="nv">$IPADDR</span><span class="s1">'\"\,/g'</span> open-falcon/agent/config/cfg.json
-</code></pre></div></div>
-
-<p>Or try searching for partial of a command, like this article should be returned when looking for “find grep”</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find /etc <span class="nt">-type</span> f <span class="nt">-exec</span> <span class="nb">cat</span> <span class="s1">'{}'</span> <span class="se">\;</span> | <span class="nb">tr</span> <span class="nt">-c</span> <span class="s1">'.[:digit:]'</span> <span class="s1">'\n'</span> | <span class="nb">grep</span> <span class="s1">'^[^.][^.]*\.[^.][^.]*\.[^.][^.]*\.[^.][^.]*$'</span>
-</code></pre></div></div>
-
-<h2 id="code-highlighting-examples">Code highlighting examples</h2>
-
-<p>Because you might put code in your blog post, and you want to make sure it will look good in here. Plus that the search
-function will still be working!</p>
-
-<h3 id="xml">XML</h3>
-
-<p>Example from <a href="https://www.w3.org/standards/xml/core">W3C</a></p>
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;part</span> <span class="na">number=</span><span class="s">"1976"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;name&gt;</span>Windscreen Wiper<span class="nt">&lt;/name&gt;</span>
-  <span class="nt">&lt;description&gt;</span>The Windscreen wiper
-    automatically removes rain
-    from your windscreen, if it
-    should happen to splash there.
-    It has a rubber <span class="nt">&lt;ref</span> <span class="na">part=</span><span class="s">"1977"</span><span class="nt">&gt;</span>blade<span class="nt">&lt;/ref&gt;</span>
-    which can be ordered separately
-    if you need to replace it.
-  <span class="nt">&lt;/description&gt;</span>
-<span class="nt">&lt;/part&gt;</span>
-</code></pre></div></div>
-
-<h3 id="java">Java</h3>
-
-<p>java example</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
-
-<span class="nd">@Example</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Demo</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">CONSTANT</span> <span class="o">=</span> <span class="s">"String"</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="nc">Object</span> <span class="n">o</span><span class="o">;</span>
-  <span class="cm">/**
-   * Creates a new demo.
-   * @param o The object to demonstrate.
-   */</span>
-  <span class="kd">public</span> <span class="nf">Demo</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">o</span> <span class="o">=</span> <span class="n">o</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">o</span> <span class="o">:</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
-    <span class="nc">String</span> <span class="n">s</span> <span class="o">=</span> <span class="no">CONSTANT</span> <span class="o">+</span> <span class="s">"Other example of text"</span><span class="o">;</span>
-    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">123</span> <span class="o">-</span> <span class="mi">33</span> <span class="o">%</span> <span class="mi">11</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    <span class="nc">Demo</span> <span class="n">demo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Demo</span><span class="o">();</span>
-    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">demo</span><span class="o">.</span><span class="na">o</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h3 id="javascript">Javascript</h3>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
- * Does a thing
- */</span>
-<span class="kd">function</span> <span class="nf">helloWorld</span><span class="p">(</span><span class="nx">param1</span><span class="p">,</span> <span class="nx">param2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">example</span> <span class="o">=</span> <span class="s2">`hello </span><span class="p">${</span><span class="nx">param1</span><span class="p">}</span><span class="s2">`</span>
-    <span class="kd">var</span> <span class="nx">something</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">value</span><span class="dl">"</span><span class="p">,</span>
-        <span class="na">number</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">};</span>
-
-    <span class="c1">// Do something</span>
-    <span class="k">if </span><span class="p">(</span><span class="mf">2.0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello, world!</span><span class="dl">'</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// TODO comment</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h3 id="json">JSON</h3>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"animals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"tiger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tiger"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"images"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"🐯"</span><span class="p">,</span><span class="w"> </span><span class="s2">"🐅"</span><span class="p">,</span><span class="w"> </span><span class="s2">"⻁"</span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"turtle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"🐢"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"unicorn"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"doesExist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"🦄"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="python">Python</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
-
-
-<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">param_one</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">param_two</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sh">'''</span><span class="s">A docstring</span><span class="sh">'''</span>
-    <span class="k">if</span> <span class="n">param_one</span> <span class="o">&gt;</span> <span class="n">param_two</span><span class="p">:</span>  <span class="c1"># interesting
-</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Greater</span><span class="sh">"</span><span class="p">)</span>
-    <span class="nf">return </span><span class="p">(</span><span class="n">param_two</span> <span class="o">-</span> <span class="n">param_one</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mb">0b10</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
-
-
-<span class="k">class</span> <span class="nc">SomeClass</span><span class="p">:</span>
-    <span class="sh">"""</span><span class="s"> dunno what I am doing </span><span class="sh">"""</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-</code></pre></div></div>
-
-<h3 id="yaml">YAML</h3>
-
-<p>You can also render some yaml, like this <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># Welcome to Jekyll!</span>
-<span class="c1">#</span>
-<span class="c1"># This config file is meant for settings that affect your whole blog, values</span>
-<span class="c1"># which you are expected to set up once and rarely edit after that. If you find</span>
-<span class="c1"># yourself editing this file very often, consider using Jekyll's data files</span>
-<span class="c1"># feature for the data you need to update frequently.</span>
-<span class="c1">#</span>
-<span class="c1"># This file, "_config.yml" is *NOT* reloaded automatically when you use</span>
-<span class="c1"># 'bundle exec jekyll serve'. If you change this file, please restart the server process.</span>
-
-<span class="c1"># Site settings</span>
-<span class="c1"># These are used to personalize your new site. If you look in the HTML files,</span>
-<span class="c1"># you will see them accessed via 위니's Blog, , and so on.</span>
-<span class="c1"># You can create any custom variable you would like, and they will be accessible</span>
-<span class="c1"># in the templates via .</span>
-
-<span class="c1"># SITE CONFIGURATION</span>
-<span class="na">baseurl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/Type-on-Strap"</span>
-<span class="na">url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://sylhare.github.io"</span>
-
-<span class="c1"># THEME-SPECIFIC CONFIGURATION</span>
-<span class="na">title</span><span class="pi">:</span> <span class="s">Type on Strap</span>                                    <span class="c1"># site's title</span>
-<span class="na">description</span><span class="pi">:</span> <span class="s2">"</span><span class="s">A</span><span class="nv"> </span><span class="s">website</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">blog</span><span class="nv"> </span><span class="s">posts</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">pages"</span>      <span class="c1"># used by search engines</span>
-<span class="na">avatar</span><span class="pi">:</span> <span class="s">assets/img/triangle.png</span>                         <span class="c1"># Empty for no avatar in navbar</span>
-<span class="na">favicon</span><span class="pi">:</span> <span class="s">assets/favicon.ico</span>                             <span class="c1"># Icon displayed in the tab</span>
-
-<span class="na">remote_theme</span><span class="pi">:</span> <span class="s">sylhare/Type-on-Strap</span>                     <span class="c1"># If using as a remote_theme in github</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="Highlight" /><category term="Markdown" /><summary type="html"><![CDATA[Let’s demo some code snippet, with some mermaid diagrams. Because if you put some code in your blog, you would at least make it: Searchable Good-looking]]></summary></entry><entry><title type="html">Customize the Favicon</title><link href="http://localhost:4000/Type-on-Strap/blogging/tutorial/2019/08/11/customize-the-favicon.html" rel="alternate" type="text/html" title="Customize the Favicon" /><published>2019-08-11T01:34:00+09:00</published><updated>2019-08-11T01:34:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/blogging/tutorial/2019/08/11/customize-the-favicon</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/blogging/tutorial/2019/08/11/customize-the-favicon.html"><![CDATA[<p>The <a href="https://www.favicon-generator.org/about/">favicons</a> of <a href="https://github.com/cotes2020/jekyll-theme-chirpy/"><strong>Chirpy</strong></a> are placed in the directory <code class="language-plaintext filepath highlighter-rouge">assets/img/favicons/</code>. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.</p>
+</div>]]></content><author><name></name></author><category term="Demo" /><category term="Katex" /><category term="Mermaid" /><category term="Markdown" /><summary type="html"><![CDATA[More colors with less light. Click the half-moon most top-right button to turn the lights ON/OFF. Here is a bit of everything, so you can check how the theme look, have fun! 👌]]></summary></entry><entry><title type="html">Customize the Favicon</title><link href="http://localhost:4000/blogging/tutorial/2019/08/11/customize-the-favicon.html" rel="alternate" type="text/html" title="Customize the Favicon" /><published>2019-08-11T01:34:00+09:00</published><updated>2019-08-11T01:34:00+09:00</updated><id>http://localhost:4000/blogging/tutorial/2019/08/11/customize-the-favicon</id><content type="html" xml:base="http://localhost:4000/blogging/tutorial/2019/08/11/customize-the-favicon.html"><![CDATA[<p>The <a href="https://www.favicon-generator.org/about/">favicons</a> of <a href="https://github.com/cotes2020/jekyll-theme-chirpy/"><strong>Chirpy</strong></a> are placed in the directory <code class="language-plaintext filepath highlighter-rouge">assets/img/favicons/</code>. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.</p>
 
 <h2 id="generate-the-favicon">Generate the favicon</h2>
 
@@ -321,7 +293,7 @@ function will still be working!</p>
   <p>✓ means keep, ✗ means delete.</p>
 </blockquote>
 
-<p>The next time you build the site, the favicon will be replaced with a customized edition.</p>]]></content><author><name>cotes</name></author><category term="Blogging" /><category term="Tutorial" /><category term="favicon" /><summary type="html"><![CDATA[The favicons of Chirpy are placed in the directory assets/img/favicons/. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.]]></summary></entry><entry><title type="html">Getting Started</title><link href="http://localhost:4000/Type-on-Strap/blogging/tutorial/2019/08/09/getting-started.html" rel="alternate" type="text/html" title="Getting Started" /><published>2019-08-09T21:55:00+09:00</published><updated>2019-08-09T21:55:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/blogging/tutorial/2019/08/09/getting-started</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/blogging/tutorial/2019/08/09/getting-started.html"><![CDATA[<h2 id="prerequisites">Prerequisites</h2>
+<p>The next time you build the site, the favicon will be replaced with a customized edition.</p>]]></content><author><name>cotes</name></author><category term="Blogging" /><category term="Tutorial" /><category term="favicon" /><summary type="html"><![CDATA[The favicons of Chirpy are placed in the directory assets/img/favicons/. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.]]></summary></entry><entry><title type="html">Getting Started</title><link href="http://localhost:4000/blogging/tutorial/2019/08/09/getting-started.html" rel="alternate" type="text/html" title="Getting Started" /><published>2019-08-09T21:55:00+09:00</published><updated>2019-08-09T21:55:00+09:00</updated><id>http://localhost:4000/blogging/tutorial/2019/08/09/getting-started</id><content type="html" xml:base="http://localhost:4000/blogging/tutorial/2019/08/09/getting-started.html"><![CDATA[<h2 id="prerequisites">Prerequisites</h2>
 
 <p>Follow the instructions in the <a href="https://jekyllrb.com/docs/installation/">Jekyll Docs</a> to complete the installation of the basic environment. <a href="https://git-scm.com/">Git</a> also needs to be installed.</p>
 
@@ -451,7 +423,7 @@ function will still be working!</p>
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nv">JEKYLL_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>jekyll b
 </code></pre></div></div>
 
-<p>Unless you specified the output path, the generated site files will be placed in folder <code class="language-plaintext filepath highlighter-rouge">_site</code> of the project’s root directory. Now you should upload those files to the target server.</p>]]></content><author><name>cotes</name></author><category term="Blogging" /><category term="Tutorial" /><category term="getting started" /><summary type="html"><![CDATA[Get started with Chirpy basics in this comprehensive overview. You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.]]></summary></entry><entry><title type="html">Sample post</title><link href="http://localhost:4000/Type-on-Strap/2019/06/30/sample-post.html" rel="alternate" type="text/html" title="Sample post" /><published>2019-06-30T00:00:00+09:00</published><updated>2019-06-30T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/2019/06/30/sample-post</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/2019/06/30/sample-post.html"><![CDATA[<p>Consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. 
+<p>Unless you specified the output path, the generated site files will be placed in folder <code class="language-plaintext filepath highlighter-rouge">_site</code> of the project’s root directory. Now you should upload those files to the target server.</p>]]></content><author><name>cotes</name></author><category term="Blogging" /><category term="Tutorial" /><category term="getting started" /><summary type="html"><![CDATA[Get started with Chirpy basics in this comprehensive overview. You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.]]></summary></entry><entry><title type="html">Sample post</title><link href="http://localhost:4000/2019/06/30/sample-post.html" rel="alternate" type="text/html" title="Sample post" /><published>2019-06-30T00:00:00+09:00</published><updated>2019-06-30T00:00:00+09:00</updated><id>http://localhost:4000/2019/06/30/sample-post</id><content type="html" xml:base="http://localhost:4000/2019/06/30/sample-post.html"><![CDATA[<p>Consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. 
 Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. 
 <!--more-->
 Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem.</p>
@@ -469,7 +441,7 @@ Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit 
 <div class="row">
     
     <div style="flex: 100.0%">
-        <img class="single" src="/Type-on-Strap/assets/img/pexels/travel.jpeg" alt="travel.jpeg" />
+        <img class="single" src="/assets/img/pexels/travel.jpeg" alt="travel.jpeg" />
     </div>
     
 </div>
@@ -493,7 +465,7 @@ Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit 
       <p><span class="cit-authors">John Smith</span>, <span class="cit-title">A Title About Citations</span> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name></name></author><category term="A Tag" /><category term="Katex" /><summary type="html"><![CDATA[Consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.]]></summary></entry><entry><title type="html">Color Post</title><link href="http://localhost:4000/Type-on-Strap/example/2019/05/18/color-post.html" rel="alternate" type="text/html" title="Color Post" /><published>2019-05-18T00:00:00+09:00</published><updated>2019-05-18T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/example/2019/05/18/color-post</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/example/2019/05/18/color-post.html"><![CDATA[<h1 id="what-a-colorful-post">What a colorful post!</h1>
+</div>]]></content><author><name></name></author><category term="A Tag" /><category term="Katex" /><summary type="html"><![CDATA[Consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.]]></summary></entry><entry><title type="html">Color Post</title><link href="http://localhost:4000/example/2019/05/18/color-post.html" rel="alternate" type="text/html" title="Color Post" /><published>2019-05-18T00:00:00+09:00</published><updated>2019-05-18T00:00:00+09:00</updated><id>http://localhost:4000/example/2019/05/18/color-post</id><content type="html" xml:base="http://localhost:4000/example/2019/05/18/color-post.html"><![CDATA[<h1 id="what-a-colorful-post">What a colorful post!</h1>
 
 <p>This is an idea that came from <a href="https://github.com/xukimseven/HardCandy-Jekyll">xukimseven/HardCandy-Jekyll</a> 
 looking at this cheerful and colorful theme, I wanted to enable something similar for Type-on-Strap.</p>
@@ -527,7 +499,7 @@ If you want another one, put it in <code class="language-plaintext highlighter-r
 
 <blockquote>
   <p>⚠️ It’s a bit hacking the css in the <code class="language-plaintext highlighter-rouge">post.html</code></p>
-</blockquote>]]></content><author><name>Sylhare</name></author><category term="Example" /><category term="Test" /><category term="Color" /><summary type="html"><![CDATA[What a colorful post! This is an idea that came from xukimseven/HardCandy-Jekyll looking at this cheerful and colorful theme, I wanted to enable something similar for Type-on-Strap. You can go fork and star HardCandy-Jekyll too! 😉]]></summary></entry><entry><title type="html">Feature images</title><link href="http://localhost:4000/Type-on-Strap/example/2018/10/29/feature-images.html" rel="alternate" type="text/html" title="Feature images" /><published>2018-10-29T00:00:00+09:00</published><updated>2018-10-29T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/example/2018/10/29/feature-images</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/example/2018/10/29/feature-images.html"><![CDATA[<p>Hopefully you will find enough information about how to set images in your blog here.
+</blockquote>]]></content><author><name>Sylhare</name></author><category term="Example" /><category term="Test" /><category term="Color" /><summary type="html"><![CDATA[What a colorful post! This is an idea that came from xukimseven/HardCandy-Jekyll looking at this cheerful and colorful theme, I wanted to enable something similar for Type-on-Strap. You can go fork and star HardCandy-Jekyll too! 😉]]></summary></entry><entry><title type="html">Feature images</title><link href="http://localhost:4000/example/2018/10/29/feature-images.html" rel="alternate" type="text/html" title="Feature images" /><published>2018-10-29T00:00:00+09:00</published><updated>2018-10-29T00:00:00+09:00</updated><id>http://localhost:4000/example/2018/10/29/feature-images</id><content type="html" xml:base="http://localhost:4000/example/2018/10/29/feature-images.html"><![CDATA[<p>Hopefully you will find enough information about how to set images in your blog here.
 This is an example of a post which includes a feature image specified in the front matter of the post. 
 The feature image spans the full-width of the page, and is shown with the title on permalink pages:</p>
 
@@ -553,11 +525,11 @@ It by default look into <code class="language-plaintext highlighter-rouge">asset
 <div class="row">
     
     <div class="column">
-        <img src="/Type-on-Strap/assets/img/pexels/book-glass.jpeg" alt="book-glass.jpeg" />
+        <img src="/assets/img/pexels/book-glass.jpeg" alt="book-glass.jpeg" />
     </div>
     
     <div class="column">
-        <img src="/Type-on-Strap/assets/img/feature-img/desk-messy.jpeg" alt="desk-messy.jpeg" />
+        <img src="/assets/img/feature-img/desk-messy.jpeg" alt="desk-messy.jpeg" />
     </div>
     
 </div>
@@ -570,15 +542,15 @@ It by default look into <code class="language-plaintext highlighter-rouge">asset
 <div class="row">
     
     <div style="flex: 33.333333333333336%">
-        <img src="/Type-on-Strap/assets/img/portfolio/cabin.png" alt="cabin.png" />
+        <img src="/assets/img/portfolio/cabin.png" alt="cabin.png" />
     </div>
     
     <div style="flex: 33.333333333333336%">
-        <img src="/Type-on-Strap/assets/img/portfolio/cake.png" alt="cake.png" />
+        <img src="/assets/img/portfolio/cake.png" alt="cake.png" />
     </div>
     
     <div style="flex: 33.333333333333336%">
-        <img src="/Type-on-Strap/assets/img/portfolio/circus.png" alt="circus.png" />
+        <img src="/assets/img/portfolio/circus.png" alt="circus.png" />
     </div>
     
 </div>
@@ -594,10 +566,10 @@ However you can just use the Markdown way of doing it to get the image normal si
 <div class="row">
     
     <div class="column">
-        <img class="single" src="/Type-on-Strap/assets/img/pexels/computer.jpeg" alt="computer.jpeg" />
+        <img class="single" src="/assets/img/pexels/computer.jpeg" alt="computer.jpeg" />
     </div>
     
-</div>]]></content><author><name></name></author><category term="Example" /><category term="Test" /><category term="Image" /><summary type="html"><![CDATA[Hopefully you will find enough information about how to set images in your blog here. This is an example of a post which includes a feature image specified in the front matter of the post. The feature image spans the full-width of the page, and is shown with the title on permalink pages:]]></summary></entry><entry><title type="html">Bootstrap</title><link href="http://localhost:4000/Type-on-Strap/demo/2017/09/17/Use-Bootstrap.html" rel="alternate" type="text/html" title="Bootstrap" /><published>2017-09-17T00:00:00+09:00</published><updated>2017-09-17T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/demo/2017/09/17/Use-Bootstrap</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/demo/2017/09/17/Use-Bootstrap.html"><![CDATA[<p>This theme is compatible with Bootstrap if you choose to use it in your pages or posts.
+</div>]]></content><author><name></name></author><category term="Example" /><category term="Test" /><category term="Image" /><summary type="html"><![CDATA[Hopefully you will find enough information about how to set images in your blog here. This is an example of a post which includes a feature image specified in the front matter of the post. The feature image spans the full-width of the page, and is shown with the title on permalink pages:]]></summary></entry><entry><title type="html">Bootstrap</title><link href="http://localhost:4000/demo/2017/09/17/Use-Bootstrap.html" rel="alternate" type="text/html" title="Bootstrap" /><published>2017-09-17T00:00:00+09:00</published><updated>2017-09-17T00:00:00+09:00</updated><id>http://localhost:4000/demo/2017/09/17/Use-Bootstrap</id><content type="html" xml:base="http://localhost:4000/demo/2017/09/17/Use-Bootstrap.html"><![CDATA[<p>This theme is compatible with Bootstrap if you choose to use it in your pages or posts.
 Here is a little demo with a code snippet, look at the source to see how the HTML and markdown get tangled.</p>
 
 <h2 id="use-bootstrap">Use bootstrap</h2>
@@ -703,7 +675,7 @@ Here is a code snippet for the <a href="https://getbootstrap.com/docs/4.0/gettin
 <p>That’s just for demo though, you would need to properly integrate your javascript in your page.
 Usually you would put any custom javascript script in the <em>assets</em> folder under js and reference it in your page from there.</p>
 
-<p>So try it out using the <code class="language-plaintext highlighter-rouge">bootstrap: true</code> flag! 😉</p>]]></content><author><name></name></author><category term="Demo" /><category term="Test" /><summary type="html"><![CDATA[This theme is compatible with Bootstrap if you choose to use it in your pages or posts. Here is a little demo with a code snippet, look at the source to see how the HTML and markdown get tangled.]]></summary></entry><entry><title type="html">Mermaid Chart</title><link href="http://localhost:4000/Type-on-Strap/2016/12/03/Mermaid.html" rel="alternate" type="text/html" title="Mermaid Chart" /><published>2016-12-03T00:00:00+09:00</published><updated>2016-12-03T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/2016/12/03/Mermaid</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/2016/12/03/Mermaid.html"><![CDATA[<h2 id="mermaid">Mermaid</h2>
+<p>So try it out using the <code class="language-plaintext highlighter-rouge">bootstrap: true</code> flag! 😉</p>]]></content><author><name></name></author><category term="Demo" /><category term="Test" /><summary type="html"><![CDATA[This theme is compatible with Bootstrap if you choose to use it in your pages or posts. Here is a little demo with a code snippet, look at the source to see how the HTML and markdown get tangled.]]></summary></entry><entry><title type="html">Mermaid Chart</title><link href="http://localhost:4000/2016/12/03/Mermaid.html" rel="alternate" type="text/html" title="Mermaid Chart" /><published>2016-12-03T00:00:00+09:00</published><updated>2016-12-03T00:00:00+09:00</updated><id>http://localhost:4000/2016/12/03/Mermaid</id><content type="html" xml:base="http://localhost:4000/2016/12/03/Mermaid.html"><![CDATA[<h2 id="mermaid">Mermaid</h2>
 
 <p>Diagrams with mermaid, make sure it is enabled in the <code class="language-plaintext highlighter-rouge">_config.yml</code>.
 Here is a simple example:</p>
@@ -731,7 +703,7 @@ sequenceDiagram
 <div class="row">
     
     <div class="column">
-        <img class="single" src="/Type-on-Strap/assets/img/mermaid-example.png" alt="mermaid-example.png" />
+        <img class="single" src="/assets/img/mermaid-example.png" alt="mermaid-example.png" />
     </div>
     
 </div>
@@ -912,7 +884,7 @@ sequenceDiagram
     y-axis "Revenue (in $)" 4000 --&gt; 11000
     bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
     line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
-</code></pre>]]></content><author><name></name></author><category term="Mermaid" /><summary type="html"><![CDATA[Mermaid]]></summary></entry><entry><title type="html">Markdown and HTML</title><link href="http://localhost:4000/Type-on-Strap/syntax/2014/11/28/markdown-and-html.html" rel="alternate" type="text/html" title="Markdown and HTML" /><published>2014-11-28T00:00:00+09:00</published><updated>2014-11-28T00:00:00+09:00</updated><id>http://localhost:4000/Type-on-Strap/syntax/2014/11/28/markdown-and-html</id><content type="html" xml:base="http://localhost:4000/Type-on-Strap/syntax/2014/11/28/markdown-and-html.html"><![CDATA[<p>Jekyll supports the use of <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> with inline HTML tags which makes it easier to quickly write posts with Jekyll, without having to worry too much about text formatting. A sample of the formatting follows.</p>
+</code></pre>]]></content><author><name></name></author><category term="Mermaid" /><summary type="html"><![CDATA[Mermaid]]></summary></entry><entry><title type="html">Markdown and HTML</title><link href="http://localhost:4000/syntax/2014/11/28/markdown-and-html.html" rel="alternate" type="text/html" title="Markdown and HTML" /><published>2014-11-28T00:00:00+09:00</published><updated>2014-11-28T00:00:00+09:00</updated><id>http://localhost:4000/syntax/2014/11/28/markdown-and-html</id><content type="html" xml:base="http://localhost:4000/syntax/2014/11/28/markdown-and-html.html"><![CDATA[<p>Jekyll supports the use of <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> with inline HTML tags which makes it easier to quickly write posts with Jekyll, without having to worry too much about text formatting. A sample of the formatting follows.</p>
 
 <h2 id="table-of-content">Table of content</h2>
 
@@ -955,7 +927,7 @@ sequenceDiagram
 
 <p>Here’s an example of an image, which is included using Markdown:</p>
 
-<p><img src="/Type-on-Strap/assets/img/pexels/book-glass.jpeg" alt="Image of a glass on a book" /></p>
+<p><img src="/assets/img/pexels/book-glass.jpeg" alt="Image of a glass on a book" /></p>
 
 <p>This is another example of list:</p>
 

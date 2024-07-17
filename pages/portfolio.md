@@ -1,11 +1,11 @@
 --- 
 layout: page
-title : Portfolio 
+title : Works 
 permalink: /portfolio/
-subtitle: "Projects I am working on" 
+subtitle: "" 
 feature-img: "assets/img/pexels/computer.jpeg"
 position: 4
-tags: [Page]
+tags: 
 ---
 
 {% include portfolio.html %}
