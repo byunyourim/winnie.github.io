@@ -3,7 +3,7 @@ baseurl: ""
 url: "https://imwinnie.com/"
 
 # THEME-SPECIFIC CONFIGURATION
-title:  위니's Blog                                # site's title
+title:  Winnie's Blog                                # site's title
 description: "A website with blog posts and pages"      # used by search engines
 avatar: assets/img/cat.png                         # Empty for no avatar in navbar
 favicon: assets/favicon.ico                             # Icon displayed in the tab

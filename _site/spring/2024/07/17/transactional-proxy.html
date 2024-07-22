@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.4.9
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  
+  <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=5"> <!-- Theme Mode--> <script> const darkBtn = "Dark"; const lightBtn = "Light"; const isAutoTheme = false; const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; if (isAutoTheme) { document.documentElement.setAttribute('data-theme', sessionStorage.getItem('theme') ?? preferredTheme); } else { document.documentElement.setAttribute('data-theme', "light"); } </script> <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)--> <script defer src="/assets/js/main.min.js"></script> <!-- CSS --> <link rel="stylesheet" href="/assets/css/main.css"> <!--Favicon--> <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"> <!-- KaTeX 0.16.9 --> <script defer src="/assets/js/vendor/katex.min.js"></script> <script defer src="/assets/js/vendor/katex.auto-render.min.js" onload="renderMathInElement(document.body);"></script> <!-- Mermaid 10.8.0 --> <script defer src="/assets/js/vendor/mermaid.min.js"></script> <!-- Simple Jekyll Search 1.10.0 --> <script src="/assets/js/vendor/simple-jekyll-search.min.js" type="text/javascript"></script> <!-- Google Analytics / Cookie Consent --> <script> const cookieName = 'cookie-notice-dismissed-http://localhost:4000'; const isCookieConsent = 'false'; const analyticsName = ''; const analyticsNameGA4 = ''; </script> <!-- seo tags --> <meta property="og:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta property="og:type" content="website" /> <!-- Begin Jekyll SEO tag v2.8.0 --> <title>Transactional과 Proxy | Winnie’s Blog</title> <meta name="generator" content="Jekyll v4.3.3" /> <meta property="og:title" content="Transactional과 Proxy" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다. 개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다." /> <meta property="og:description" content="좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다. 개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다." /> <link rel="canonical" href="http://localhost:4000/spring/2024/07/17/transactional-proxy.html" /> <meta property="og:url" content="http://localhost:4000/spring/2024/07/17/transactional-proxy.html" /> <meta property="og:site_name" content="Winnie’s Blog" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2024-07-17T00:00:00+09:00" /> <meta name="twitter:card" content="summary" /> <meta property="twitter:title" content="Transactional과 Proxy" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-07-17T00:00:00+09:00","datePublished":"2024-07-17T00:00:00+09:00","description":"좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다. 개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다.","headline":"Transactional과 Proxy","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/spring/2024/07/17/transactional-proxy.html"},"url":"http://localhost:4000/spring/2024/07/17/transactional-proxy.html"}</script> <!-- End Jekyll SEO tag --> <!-- RSS --> <link rel="alternate" type="application/atom+xml" title="Winnie's Blog" href="http://localhost:4000/feed.xml"/> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Winnie&apos;s Blog" /> <!-- Twitter Cards --> <meta name="twitter:title" content="Transactional과 Proxy"> <meta name="twitter:description" content="좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다.개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다.트랜잭션?일련의 작업들을 하나로 묶어서 처리하는 단위.트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하..."> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta name="twitter:image:alt" content="Transactional과 Proxy"> </head>
+  <body>
+    
+    <header class="site-header"> <!-- Logo and title --> <div class="branding"> <a href="/"> <img alt="logo img" class="avatar" src="/assets/img/cat.png" loading="lazy"/> </a> <a class="site-title" aria-label="Winnie's Blog" href="/"> Winnie's Blog </a> </div> <!-- Toggle menu --> <nav class="clear"> <a aria-label="pull" id="pull" class="toggle" href="#"> <i class="fas fa-bars fa-lg"></i> </a> <!-- Menu --> <ul class="hide"> <li class="separator"> | </li> <li> <a class="clear" aria-label="Categories" title="Categories" href="/categories/"> <span class="navbar-label ">Categories</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Github" title="Github" href="https://github.com/byunyourim"> <span class="navbar-label ">Github</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Works" title="Works" href="/portfolio/"> <span class="navbar-label ">Works</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Tags" title="Tags" href="/tags/"> <i class="navbar-icon fas fa-tags" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Tags</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Search" title="Search" href="/search/"> <i class="navbar-icon fas fa-search" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Search</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Blog Archive" title="Blog Archive" href="/archive/"> <i class="navbar-icon fas fa-archive" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Blog Archive</span> </a> </li> </ul> </nav> </header>
+    <div class="content">
+      <article >
+    <header id="main" style="">
+        <div class="title-padder">
+            
+                <h1 id="Transactional%EA%B3%BC+Proxy" class="title">Transactional과 Proxy</h1>
+                
+
+
+<div class="post-info">
+    <p class="meta">
+      
+      
+      July 17, 2024
+    </p></div>
+
+            
+        </div>
+    </header>
+
+    <section class="post-content">
+    
+            <p>좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다.
+개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다.</p>
+
+<h1 id="트랜잭션">트랜잭션?</h1>
+
+<p>일련의 작업들을 하나로 묶어서 처리하는 단위.
+트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소됩니다.
+데이터의 일관성과 결성을 유지하는 중요한 개념입니다.</p>
+
+<p>트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.</p>
+
+<p>콘서트 티켓 예매를 예로 들어보자</p>
+
+<h3 id="상품을-구매하려면-어떻게-해야할까">상품을 구매하려면 어떻게 해야할까?</h3>
+<ol>
+  <li>상품의 재고를 확인한 후 장바구니에 추가합니다.</li>
+  <li>상품을 결제합니다.</li>
+  <li>결제가 성공하면 주문을 생성하고 재고를 업데이트합니다.</li>
+</ol>
+
+<h3 id="이-과정에서-트랜잭션을-사용하지-않는다고-하면-어떤-문제가-발생할까">이 과정에서 트랜잭션을 사용하지 않는다고 하면 어떤 문제가 발생할까?</h3>
+<p>재고가 부족한 상황에서 동시에 여러 사용자가 같은 상품을 구매하려고 하면 재고가 음수가 될 수 있습니다.
+또한 결제가 성공했지만 주문 생성이 실패하거나 재고 업데이트가 실패하면 데이터의 일관성이 깨질 수 있습니다.
+그리고 결제에는 성공했지만 재고가 부족한 상황에서 주문생성에 실패하면, 사용자는 돈을 지불했지만 주문이 완료되지 않을 수 있습니다.</p>
+
+<p>상품 구매 시스템에서 트랜잭션을 사용하면 여러 단계의 구매 과정을 하나의 단위로 묶어서 처리할 수 있습니다.
+모든 단계가 성공적으로 완료됙거나, 도중에 실패하는 경우 모든 변경 사항이 롤백되어 데이터의 무결성과 일관성을 보장할 수 있습니다.
+스프링에서는 @Transactional 어노테이션을 사용하여 트랜잭션을 관리할 수 있습니다.</p>
+
+<h3 id="java">Java</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+
+    <span class="c1">// 코드 생략</span>
+    
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">orderProcess</span><span class="o">(</span><span class="nc">Long</span> <span class="n">productId</span><span class="o">,</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">,</span> <span class="nc">PaymentInfo</span> <span class="n">paymentInfo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="n">productRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">productId</span><span class="o">).</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RuntimeException</span><span class="o">(</span><span class="s">"Product not found"</span><span class="o">));</span>
+
+        <span class="c1">// 재고 확인</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getStock</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">quantity</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"Not enough stock"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 결제 처리</span>
+        <span class="n">paymentService</span><span class="o">.</span><span class="na">processPayment</span><span class="o">(</span><span class="n">paymentInfo</span><span class="o">);</span>
+
+        <span class="c1">// 재고 감소</span>
+        <span class="n">product</span><span class="o">.</span><span class="na">setStock</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getStock</span><span class="o">()</span> <span class="o">-</span> <span class="n">quantity</span><span class="o">);</span>
+        <span class="n">productRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+
+        <span class="c1">// 주문 생성</span>
+        <span class="nc">Order</span> <span class="n">order</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Order</span><span class="o">();</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setProduct</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setQuantity</span><span class="o">(</span><span class="n">quantity</span><span class="o">);</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setTotalPrice</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()</span> <span class="o">*</span> <span class="n">quantity</span><span class="o">);</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>클래스나 메서드에 붙여 해당 범위 내 메서드가 트랜잭션이 되도록 보장합니다.
+직접 객체를 생성할 필요없이 선언만으로 관리가 가능합니다.</p>
+
+<h3 id="transactional은-어떻게-동작할까">@Transactional은 어떻게 동작할까?</h3>
+<p>메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
+예외가 발생하면 트랜잭션이 롤백됩니다.</p>
+
+<ol>
+  <li>
+    <p>스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감쌉니다. <br />
+이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 처리합니다.</p>
+  </li>
+  <li>
+    <p>프록시는 메서드 호출 전에 트랜잭션을 시작합니다. 이 과정에서 트랜잭션 매니저가 트랜잭션 경계를 설정합니다.</p>
+  </li>
+  <li>
+    <p>실제 메서드가 실행됩니다.</p>
+  </li>
+  <li>
+    <p>메서드가 정상적으로 종료되면 트랜잭션이 커밋되고, 예외가 발생하면 트랜잭션이 롤백됩니다.</p>
+  </li>
+</ol>
+
+<p>그러면 프록시란 무엇일까?</p>
+
+<h2 id="proxy">Proxy</h2>
+<p>프록시는 다른 객체의 대리자로서 동작하는 객체로 실제 객체를 감싸서 부가 기능을 제공합니다. 스프링은 주로 AOP를 통해 트랜잭션 관리를 위해 프록시를 사용합니다.</p>
+
+<h3 id="프록시의-역할">프록시의 역할</h3>
+<p>프록시는 실제 객체의 호출 전후에 부가 기능을 추가할 수 있습니다. 예를 들어, 트랜잭션 시작과 종료, 예외 발생 시 롤백 등을 처리합니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyService</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">performTransaction</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Service</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyServiceImpl</span> <span class="kd">implements</span> <span class="nc">MyService</span> <span class="o">{</span>
+        <span class="nd">@Transactional</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performTransaction</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// 트랜잭션 내에서 수행할 작업</span>
+         <span class="o">}</span>
+    <span class="o">}</span>
+
+       <span class="c1">// 프록시 객체 생성 및 사용</span>
+    <span class="nc">MyService</span> <span class="n">myService</span> <span class="o">=</span> <span class="o">(</span><span class="nc">MyService</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"myService"</span><span class="o">);</span>
+    <span class="n">myService</span><span class="o">.</span><span class="na">performTransaction</span><span class="o">();</span>
+</code></pre></div></div>
+<p>프록시 객체는 실제 MyServiceImpl 객체를 감싸서 트랜잭션 관리를 추가합니다. 클라이언트는 프록시 객체를 통해 트랜잭션이 적용된 메서드를 호출합니다.</p>
+
+<p>###프록시 생성 방식</p>
+<ul>
+  <li>
+    <p>인터페이스 기반 프록시: 기본적으로 스프링은 JDK 동적 프록시를 사용하여 인터페이스를 구현하는 프록시 객체를 생성합니다.</p>
+  </li>
+  <li>
+    <p>클래스 기반 프록시 (CGLIB): 만약 빈이 인터페이스를 구현하지 않았다면, 스프링은 CGLIB를 사용하여 클래스 기반 프록시를 생성합니다.</p>
+  </li>
+</ul>
+
+<h3 id="트랜잭션-경계-설정">트랜잭션 경계 설정</h3>
+<ul>
+  <li>트랜잭션 시작: 프록시는 메서드 실행 전에 PlatformTransactionManager를 사용하여 트랜잭션을 시작합니다.</li>
+  <li>트랜잭션 커밋: 메서드가 정상적으로 완료되면 TransactionManager는 트랜잭션을 커밋합니다.</li>
+  <li>트랜잭션 롤백: 메서드 실행 중에 체크드 예외 이외의 예외(런타임 예외, 오류)가 발생하면 트랜잭션이 롤백됩니다.</li>
+</ul>
+
+<h3 id="트랜잭션-속성">트랜잭션 속성</h3>
+<p>@Transactional 어노테이션은 다양한 속성을 통해 트랜잭션의 동작 방식을 조정할 수 있습니다.</p>
+<ul>
+  <li>propagation: 트랜잭션 전파 방식 (예: REQUIRED, REQUIRES_NEW 등)</li>
+  <li>isolation: 트랜잭션 격리 수준 (예: READ_COMMITTED, SERIALIZABLE 등)</li>
+  <li>timeout: 트랜잭션이 완료되어야 하는 최대 시간</li>
+  <li>readOnly: 읽기 전용 트랜잭션 여부</li>
+  <li>rollbackFor: 롤백할 예외 타입</li>
+  <li>noRollbackFor: 롤백하지 않을 예외 타입</li>
+</ul>
+
+<p>프록시는 @Transactional이 적용된 메서드 호출을 가로채서 트랜잭션 관련 처리를 수행합니다. 이를 통해 개발자는 트랜잭션 관리 로직을 직접 작성하지 않아도 됩니다.
+프록시는 다음과 같은 방식으로 트랜잭션을 처리합니다.</p>
+
+<ol>
+  <li>메서드 호출 가로채기: 클라이언트가 @Transactional이 적용된 메서드를 호출할 때, 프록시가 이 호출을 가로챕니다.</li>
+  <li>트랜잭션 시작: 프록시는 PlatformTransactionManager를 사용하여 트랜잭션을 시작합니다.</li>
+  <li>메서드 실행: 실제 메서드를 실행합니다.</li>
+  <li>트랜잭션 커밋/롤백: 메서드 실행이 성공하면 트랜잭션을 커밋하고, 예외가 발생하면 트랜잭션을 롤백합니다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+    
+ <span class="nd">@Autowired</span>
+ <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+
+ <span class="nd">@Transactional</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">// 트랜잭션 시작</span>
+     <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+     <span class="c1">// 추가 로직</span>
+     <span class="c1">// 트랜잭션 커밋</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>위의 OrderService 클래스에서 placeOrder 메서드는 @Transactional 애노테이션을 사용하여 트랜잭션 경계를 정의하고 있습니다.<br />
+스프링은 이 클래스의 프록시를 생성하여 placeOrder 메서드 호출을 가로채고 트랜잭션을 관리합니다.</p>
+
+<h3 id="프록시가-트랜잭션을-처리하는-과정">프록시가 트랜잭션을 처리하는 과정</h3>
+<ol>
+  <li>프록시 생성: 스프링이 애플리케이션 컨텍스트를 초기화할 때, OrderService 빈에 대한 프록시를 생성합니다.</li>
+  <li>메서드 호출 가로채기: 클라이언트가 placeOrder 메서드를 호출하면 프록시가 이 호출을 가로챕니다.</li>
+  <li>트랜잭션 시작: 프록시는 TransactionManager를 사용하여 트랜잭션을 시작합니다.</li>
+  <li>실제 메서드 실행: 프록시는 실제 placeOrder 메서드를 호출합니다.</li>
+  <li>트랜잭션 커밋/롤백: 메서드가 정상적으로 종료되면 프록시는 트랜잭션을 커밋하고, 예외가 발생하면 트랜잭션을 롤백합니다.</li>
+</ol>
+
+<h3 id="트랜잭션이-하는-일을-프록시가-대신하는-이유">트랜잭션이 하는 일을 프록시가 대신하는 이유</h3>
+<ol>
+  <li>일관성 유지: 트랜잭션은 데이터베이스의 일관성과 무결성을 유지하는 데 중요한 역할을 합니다. 프록시를 사용하면 이러한 트랜잭션 관리 로직을 쉽게 적용할 수 있습니다.</li>
+  <li>코드 간결화: 트랜잭션 관리를 코드에서 직접 구현하지 않아도 되므로 코드가 간결해집니다.</li>
+  <li>중복 방지: 동일한 트랜잭션 관리 로직을 여러 곳에서 반복해서 작성할 필요가 없습니다.</li>
+  <li>AOP 지원: 프록시는 스프링 AOP(Aspect-Oriented Programming)를 사용하여 트랜잭션 관리와 같은 횡단 관심사를 쉽게 구현할 수 있게 해줍니다.</li>
+</ol>
+
+<p>프록시는 트랜잭션을 투명하게 처리하여 개발자가 비즈니스 로직에만 집중할 수 있게 해줍니다.</p>
+
+<p>프록시 없이 트랜잭션을 관리하려면, 트랜잭션 시작, 커밋, 롤백을 수동으로 처리해야 합니다. 이것은 상당히 번거롭고 오류가 발생하기 쉬운 작업입니다.</p>
+
+<h4 id="트랜잭션-관리-직접-구현">트랜잭션 관리 직접 구현</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+    
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">PlatformTransactionManager</span> <span class="n">transactionManager</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">TransactionStatus</span> <span class="n">status</span> <span class="o">=</span> <span class="n">transactionManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">(</span><span class="k">new</span> <span class="nc">DefaultTransactionDefinition</span><span class="o">());</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// 트랜잭션 시작</span>
+            <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+            <span class="c1">// 추가 비즈니스 로직 수행</span>
+            
+            <span class="c1">// 트랜잭션 커밋</span>
+            <span class="n">transactionManager</span><span class="o">.</span><span class="na">commit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 예외 발생 시 트랜잭션 롤백</span>
+            <span class="n">transactionManager</span><span class="o">.</span><span class="na">rollback</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+            <span class="k">throw</span> <span class="n">ex</span><span class="o">;</span>  <span class="c1">// 예외 재발생</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="프록시-없이-트랜잭션-관리의-문제점">프록시 없이 트랜잭션 관리의 문제점</h3>
+<ol>
+  <li>복잡성 증가: 트랜잭션을 시작하고, 커밋하거나 롤백하는 코드가 모든 트랜잭션 메서드에 반복적으로 작성되어야 합니다.</li>
+  <li>오류 가능성: 트랜잭션 시작, 커밋, 롤백 로직을 수동으로 관리하다 보면 실수로 빠뜨리거나 잘못 구현할 가능성이 높습니다.</li>
+  <li>비즈니스 로직과 트랜잭션 로직의 혼합: 비즈니스 로직과 트랜잭션 관리 로직이 같은 메서드에 섞여 있어 코드가 지저분해지고 유지보수가 어려워집니다.</li>
+  <li>재사용성 부족: 트랜잭션 관리 로직을 재사용하기 어렵고, 모든 트랜잭션이 필요한 메서드에서 중복 코드가 발생합니다.</li>
+</ol>
+
+<h3 id="프록시를-사용할-때의-장점">프록시를 사용할 때의 장점</h3>
+<ol>
+  <li>코드 간결성: 트랜잭션 관리 로직을 각 메서드에 작성할 필요 없이 @Transactional 애노테이션을 사용하여 트랜잭션 경계를 지정할 수 있습니다.</li>
+  <li>오류 감소: 스프링이 트랜잭션 관리를 대신 처리하므로, 개발자가 실수로 트랜잭션 관리 로직을 잘못 구현할 가능성이 줄어듭니다.</li>
+  <li>비즈니스 로직 집중: 트랜잭션 관리 로직이 분리되어 비즈니스 로직에 집중할 수 있습니다.</li>
+  <li>재사용성 향상: 트랜잭션 관리 로직을 재사용할 수 있고, 코드 중복이 줄어듭니다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+
+ <span class="nd">@Autowired</span>
+ <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+
+ <span class="nd">@Transactional</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+     <span class="c1">// 추가 비즈니스 로직 수행</span>
+ <span class="o">}</span>
+<span class="o">}</span> 
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>스프링이 프록시를 통해 트랜잭션 시작, 커밋, 롤백을 자동으로 처리하므로 개발자는 비즈니스 로직에만 집중할 수 있습니다.</p>
+
+<p>@Transactional 애노테이션을 이용하면 스프링 프레임워크가 프록시를 통해 트랜잭션 관리를 대신해 줍니다. 
+이를 이해하기 위해서는 스프링의 AOP (Aspect-Oriented Programming) 개념과 프록시 패턴을 이해하는 것이 중요합니다.</p>
+
+<h3 id="transactional과-프록시의-관계">@Transactional과 프록시의 관계</h3>
+<ol>
+  <li>
+    <p>AOP와 프록시 패턴: 스프링은 AOP를 이용하여 @Transactional 애노테이션을 적용할 때 프록시 패턴을 사용합니다. <br />
+AOP는 관점 지향 프로그래밍을 의미하며, 코드의 특정 관점에서의 공통된 기능을 분리하여 관리하는 기술입니다.</p>
+  </li>
+  <li>
+    <p>프록시의 역할: @Transactional 애노테이션이 붙은 메서드가 호출될 때, 스프링 프레임워크는 그 메서드를 호출하기 전후에 추가적인 작업을 수행하기 위해 프록시 객체를 생성합니다. <br />
+이 프록시 객체는 원본 객체(서비스 클래스)를 감싸며, 트랜잭션 관리와 같은 공통된 기능을 제공합니다.</p>
+  </li>
+  <li>
+    <p>트랜잭션 관리: @Transactional 애노테이션이 붙은 메서드에서는 트랜잭션을 시작하고, 메서드 실행을 감싸는 프록시가 트랜잭션을 커밋 또는 롤백합니다. <br />
+이 과정에서 데이터베이스 연산의 성공 또는 실패에 따라 트랜잭션을 적절하게 처리합니다.</p>
+  </li>
+  <li>
+    <p>간편한 설정: 개발자는 @Transactional 애노테이션을 사용하여 간편하게 트랜잭션 경계를 정의할 수 있습니다. <br />
+이는 개발자가 직접 트랜잭션을 시작하고, 커밋 또는 롤백하는 코드를 작성하지 않아도 되게 만듭니다.</p>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 비즈니스 로직 수행</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+        <span class="c1">// 추가적인 데이터베이스 작업 등</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 다른 트랜잭션 메서드</span>
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancelOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="nc">OrderStatus</span><span class="o">.</span><span class="na">CANCELED</span><span class="o">);</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+        <span class="c1">// 추가적인 로직 수행</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이 예시에서 @Transactional 애노테이션이 붙은 placeOrder()와 cancelOrder() 메서드는 스프링 프록시가 관리하는 트랜잭션 범위에서 실행됩니다. <br />
+메서드 내의 모든 데이터베이스 연산은 하나의 트랜잭션으로 묶이며, 이 트랜잭션은 메서드 실행 완료 후 자동으로 커밋 또는 롤백됩니다.</p>
+
+<p>따라서 @Transactional을 이용하면 개발자는 트랜잭션 관리에 대한 복잡한 코드를 작성하지 않아도 되며, 스프링 프록시가 이를 대신 처리하여 코드의 간결성과 유지보수성을 높여줍니다.</p>
+
+    
+    </section>
+
+    <!-- Social media shares -->
+    
+
+<div class="share-buttons">
+    <ul class="share-buttons">
+        <li class="meta">Share</li>
+              
+        <li>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/spring/2024/07/17/transactional-proxy.html&title=Transactional%EA%B3%BC+Proxy%20%7C%20Winnie%27s+Blog&summary=&source=http://localhost:4000/spring/2024/07/17/transactional-proxy.html"
+               target="_blank" title=" LinkedIn">
+                <i class="fab fa-linkedin fa-2x" aria-hidden="true"></i>
+                <span class="sr-only">Share on LinkedIn</span>
+            </a>
+        </li>
+          
+        <li>
+            <a href="mailto:?subject=Transactional과 Proxy%20%7C%20Winnie's Blog&body=http://localhost:4000/spring/2024/07/17/transactional-proxy.html"
+               target="_blank" title="">
+                <i class="fas fa-envelope-square fa-2x" aria-hidden="true"></i>
+                <span class="sr-only">Email</span></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+    <!-- Tag list -->
+    
+    
+
+
+  <div class="tag-list"></div>
+
+
+
+</article>
+
+
+
+
+<!-- To change color of links in the page --> <style> header#main { background-size: cover; background-repeat: no-repeat; background-position: center; } </style> <!-- Post navigation --> <div id="post-nav"> <div id="previous-post"> <a alt="Transaction 격리수준" href="/spring/2024/07/18/transaction-%EA%B2%A9%EB%A6%AC%EC%88%98%EC%A4%80.html"> <p>Previous post</p> Transaction 격리수준 </a> </div> <div id="next-post"> <a alt="Transaction" href="/spring/2024/07/17/transaction.html"> <p>Next post</p> Transaction </a> </div> </div> <!--Utterances--> <!-- Cusdis --> <!-- Disqus -->
+
+<script src="https://utteranc.es/client.js"
+        repo="byunyourim/comments"
+        issue-term="pathname"
+        label="comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+    </div>
+    
+    <footer class="site-footer"> <p class="text"> Powered by <a href='https://jekyllrb.com/'>Jekyll</a> with <a href='https://github.com/sylhare/Type-on-Strap'>Type on Strap</a></p> <div class="footer-icons"> <ul> <!-- Social icons from Font Awesome, if enabled --> <li> <a feed.xml href="/feed.xml" title="Follow RSS feed" target="_blank"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fas fa-rss fa-stack-1x fa-inverse"></i> </span> </a> </li> <li> <a href="https://github.com/sylhare" title="Follow on Github" target="_blank" rel="noopener"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fab fa-github fa-stack-1x fa-inverse"></i> </span> </a> </li> </ul> </div> <script type="module"> mermaid.initialize({ startOnLoad: false, theme: "default" }); mermaid.run({ nodes: [...document.querySelectorAll('.language-mermaid'), ...document.querySelectorAll('.mermaid')] }); </script> </footer>
+  </body>
+</html>

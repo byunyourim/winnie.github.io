@@ -1,1006 +1,925 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-07-18T07:16:51+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">위니’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Transactional과 Proxy</title><link href="http://localhost:4000/spring/2024/07/18/transactional-proxy.html" rel="alternate" type="text/html" title="Transactional과 Proxy" /><published>2024-07-18T00:00:00+09:00</published><updated>2024-07-18T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/18/transactional-proxy</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/18/transactional-proxy.html"><![CDATA[<p>Let’s demo some code snippet, with some mermaid diagrams.
-Because if you put some code in your blog, you would at least make it:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-07-18T13:50:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Transaction 격리수준</title><link href="http://localhost:4000/spring/2024/07/18/transaction-%EA%B2%A9%EB%A6%AC%EC%88%98%EC%A4%80.html" rel="alternate" type="text/html" title="Transaction 격리수준" /><published>2024-07-18T00:00:00+09:00</published><updated>2024-07-18T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/18/transaction-%EA%B2%A9%EB%A6%AC%EC%88%98%EC%A4%80</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/18/transaction-%EA%B2%A9%EB%A6%AC%EC%88%98%EC%A4%80.html"><![CDATA[]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Transaction</title><link href="http://localhost:4000/spring/2024/07/17/transaction.html" rel="alternate" type="text/html" title="Transaction" /><published>2024-07-17T00:00:00+09:00</published><updated>2024-07-17T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/17/transaction</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/17/transaction.html"><![CDATA[<h1 id="트랜잭션">트랜잭션?</h1>
+
+<p>일련의 작업들을 하나로 묶어서 처리하는 단위.
+트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소됩니다.
+데이터의 일관성과 결성을 유지하는 중요한 개념입니다.</p>
+
+<p>트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.</p>
+
+<p>콘서트 티켓 예매를 예로 들어보자</p>
+
+<h3 id="상품을-구매하려면-어떻게-해야할까">상품을 구매하려면 어떻게 해야할까?</h3>
 <ol>
-  <li>Searchable</li>
-  <li>Good-looking</li>
+  <li>상품의 재고를 확인한 후 장바구니에 추가합니다.</li>
+  <li>상품을 결제합니다.</li>
+  <li>결제가 성공하면 주문을 생성하고 재고를 업데이트합니다.</li>
 </ol>
 
-<h2 id="search-on-code">Search on code</h2>
+<h3 id="이-과정에서-트랜잭션을-사용하지-않는다고-하면-어떤-문제가-발생할까">이 과정에서 트랜잭션을 사용하지 않는다고 하면 어떤 문제가 발생할까?</h3>
+<p>재고가 부족한 상황에서 동시에 여러 사용자가 같은 상품을 구매하려고 하면 재고가 음수가 될 수 있습니다.
+또한 결제가 성공했지만 주문 생성이 실패하거나 재고 업데이트가 실패하면 데이터의 일관성이 깨질 수 있습니다.
+그리고 결제에는 성공했지만 재고가 부족한 상황에서 주문생성에 실패하면, 사용자는 돈을 지불했지만 주문이 완료되지 않을 수 있습니다.</p>
 
-<p>Search should be working even for complicated escape symbols.</p>
+<p>상품 구매 시스템에서 트랜잭션을 사용하면 여러 단계의 구매 과정을 하나의 단위로 묶어서 처리할 수 있습니다.
+모든 단계가 성공적으로 완료됙거나, 도중에 실패하는 경우 모든 변경 사항이 롤백되어 데이터의 무결성과 일관성을 보장할 수 있습니다.
+스프링에서는 @Transactional 어노테이션을 사용하여 트랜잭션을 관리할 수 있습니다.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/\"hostname\"\:.*$/\"hostname\"\: \"'</span><span class="nv">$IPADDR</span><span class="s1">'\"\,/g'</span> open-falcon/agent/config/cfg.json
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+
+    <span class="c1">// 코드 생략</span>
+    
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">orderProcess</span><span class="o">(</span><span class="nc">Long</span> <span class="n">productId</span><span class="o">,</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">,</span> <span class="nc">PaymentInfo</span> <span class="n">paymentInfo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="n">productRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">productId</span><span class="o">).</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RuntimeException</span><span class="o">(</span><span class="s">"Product not found"</span><span class="o">));</span>
+
+        <span class="c1">// 재고 확인</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getStock</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">quantity</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"Not enough stock"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 결제 처리</span>
+        <span class="n">paymentService</span><span class="o">.</span><span class="na">processPayment</span><span class="o">(</span><span class="n">paymentInfo</span><span class="o">);</span>
+
+        <span class="c1">// 재고 감소</span>
+        <span class="n">product</span><span class="o">.</span><span class="na">setStock</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getStock</span><span class="o">()</span> <span class="o">-</span> <span class="n">quantity</span><span class="o">);</span>
+        <span class="n">productRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+
+        <span class="c1">// 주문 생성</span>
+        <span class="nc">Order</span> <span class="n">order</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Order</span><span class="o">();</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setProduct</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setQuantity</span><span class="o">(</span><span class="n">quantity</span><span class="o">);</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setTotalPrice</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()</span> <span class="o">*</span> <span class="n">quantity</span><span class="o">);</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </code></pre></div></div>
+<p>클래스나 메서드에 붙여 해당 범위 내 메서드가 트랜잭션이 되도록 보장합니다.
+직접 객체를 생성할 필요없이 선언만으로 관리가 가능합니다.</p>
 
-<p>Or try searching for partial of a command, like this article should be returned when looking for “find grep”</p>
+<h3 id="트랜잭션의-특징">트랜잭션의 특징</h3>
+<ol>
+  <li>
+    <p>Atomicity 원자성 <br />
+한 트랜잭션 내의 모든 연산들이 완전히 수행되거나 전혀 수행되지 않습니다. ( All or Nothing )</p>
+  </li>
+  <li>
+    <p>Consistency 일관성 <br />
+어떤 트랜잭션이 수행되기 전에 데이터베이스가 일관된 상태를 가졌다면 트랜잭션이 수행된 후에 일관된 상태를 갖습니다.</p>
+  </li>
+  <li>
+    <p>Isolation 격리성 or 고립 <br />
+여러 트랜잭션이 동시에 실행될 때 각 트랜잭션은 다른 트랜잭션의 영향을 받지않고 독립적으로 실행되어야 합니다.</p>
+  </li>
+  <li>
+    <p>Durability 영속성 <br />
+성공적으로 완료된 트랜잭션의 결과를 영구적으로 보존해야 합니다.</p>
+  </li>
+</ol>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find /etc <span class="nt">-type</span> f <span class="nt">-exec</span> <span class="nb">cat</span> <span class="s1">'{}'</span> <span class="se">\;</span> | <span class="nb">tr</span> <span class="nt">-c</span> <span class="s1">'.[:digit:]'</span> <span class="s1">'\n'</span> | <span class="nb">grep</span> <span class="s1">'^[^.][^.]*\.[^.][^.]*\.[^.][^.]*\.[^.][^.]*$'</span>
-</code></pre></div></div>
+<h3 id="영속성-컨텍스트persistence-context">영속성 컨텍스트(Persistence Context)</h3>
+<p>영속성 컨텍스트는 엔티티(Entity) 객체를 관리하는 환경</p>
 
-<h2 id="code-highlighting-examples">Code highlighting examples</h2>
+<p>주로 ORM 프레임워크에서 사용되며, 데이터베이스로부터 엔티티를 읽어올 때 영속성 컨텍스트에 저장하고, 엔티티의 상태 변경을 추적하여 데이터베이스에 동기화하는 기능을 제공합니다.</p>
 
-<p>Because you might put code in your blog post, and you want to make sure it will look good in here. Plus that the search
-function will still be working!</p>
+<ol>
+  <li>
+    <p>엔티티의 생명주기<br />
+영속성 컨텍스트는 엔티티의 생명주기를 관리합니다. 엔티티 객체가 생성되어 영속성 컨텍스트에 저장되면 ‘영속 상태’가 되며, 데이터베이스와 동기화됩니다. 수정된 엔티티는 트랜잭션이 커밋될 때 자동으로 데이터베이스에 반영됩니다.</p>
+  </li>
+  <li>
+    <p>지연 로딩(Lazy Loading)<br />
+영속성 컨텍스트는 지연 로딩을 지원하여, 연관된 엔티티 객체를 실제로 사용할 때까지 데이터베이스 조회를 지연시킬 수 있습니다. 이는 성능 최적화에 도움을 줍니다.</p>
+  </li>
+  <li>
+    <p>동일성 보장<br />
+영속성 컨텍스트는 동일한 엔티티 식별자를 가진 객체에 대해 같은 인스턴스를 반환하여 동일성을 보장합니다.</p>
+  </li>
+</ol>
 
-<h3 id="xml">XML</h3>
+<h3 id="트랜잭션과-영속성-컨텍스트의-상호작용">트랜잭션과 영속성 컨텍스트의 상호작용</h3>
+<p>트랜잭션과 영속성 컨텍스트는 서로 긴밀하게 연결되어 있습니다</p>
 
-<p>Example from [W3C]</p>
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;part</span> <span class="na">number=</span><span class="s">"1976"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;name&gt;</span>Windscreen Wiper<span class="nt">&lt;/name&gt;</span>
-  <span class="nt">&lt;description&gt;</span>The Windscreen wiper
-    automatically removes rain
-    from your windscreen, if it
-    should happen to splash there.
-    It has a rubber <span class="nt">&lt;ref</span> <span class="na">part=</span><span class="s">"1977"</span><span class="nt">&gt;</span>blade<span class="nt">&lt;/ref&gt;</span>
-    which can be ordered separately
-    if you need to replace it.
-  <span class="nt">&lt;/description&gt;</span>
-<span class="nt">&lt;/part&gt;</span>
-</code></pre></div></div>
+<ol>
+  <li>
+    <p>트랜잭션 범위: 트랜잭션은 데이터베이스 작업을 논리적 단위로 묶어주며, 트랜잭션 내에서 영속성 컨텍스트는 엔티티의 상태 변경을 추적합니다. 
+트랜잭션 커밋 시 영속성 컨텍스트는 데이터베이스에 변경 사항을 반영하고, 롤백 시 변경 사항을 취소합니다.</p>
+  </li>
+  <li>
+    <p>트랜잭션의 격리 수준: 트랜잭션 격리 수준(Transaction Isolation Level)은 여러 트랜잭션이 동시에 실행될 때의 동작을 제어합니다. 
+높은 격리 수준일수록 동시성 문제를 줄일 수 있지만, 성능 저하가 발생할 수 있습니다.</p>
+  </li>
+  <li>
+    <p>플러시(Flushing): 영속성 컨텍스트의 변경 사항을 데이터베이스에 동기화하는 작업을 플러시라고 합니다. 
+일반적으로 트랜잭션 커밋 시 자동으로 플러시가 발생합니다.</p>
+  </li>
+</ol>
+
+<p>결론적으로 영속성 컨텍스트는 엔티티의 생명주기를 관리하고, 트랜잭션은 데이터베이스 작업을 단위로 묶어 원자적인 실행을 보장합니다. 
+이 두 개념을 잘 이해하고 활용함으로써 데이터베이스 작업의 일관성과 동시성을 유지할 수 있습니다.</p>
+
+<h3 id="트랜잭션의-활용">트랜잭션의 활용</h3>
+<ul>
+  <li>
+    <p>데이터베이스 상태 변경 
+예를 들어, 사용자가 새로운 주문을 생성할 때, 주문 내역을 데이터베이스에 반영하는 작업은 하나의 트랜잭션으로 묶입니다.
+이 경우 주문 생성, 결제 정보 저장, 재고 조정 등 여러 개의 데이터베이스 작업이 하나의 원자적인 작업 단위로 묶이게 됩니다.</p>
+  </li>
+  <li>
+    <p>예외 처리와 롤백 
+트랜잭션은 예외 상황이 발생했을 때 데이터베이스 상태를 롤백하여 이전 상태로 복원하는 데 사용됩니다. 
+예를 들어, 주문 생성 중 결제 과정에서 오류가 발생하면, 주문과 관련된 모든 변경 사항을 취소하고 이전 상태로 돌아가게 됩니다.</p>
+  </li>
+  <li>
+    <p>동시성 제어 
+트랜잭션은 동시에 여러 사용자가 동일한 데이터에 접근할 때 발생할 수 있는 문제를 방지합니다. 
+여러 사용자가 동시에 주문을 생성하려고 할 때, 트랜잭션을 이용하여 충돌을 방지하고 일관성 있는 데이터 처리를 보장할 수 있습니다.</p>
+  </li>
+  <li>
+    <p>복잡한 비즈니스 로직 처리 
+복잡한 비즈니스 로직을 처리할 때도 트랜잭션을 활용할 수 있습니다. 
+여러 개의 서비스 호출이나 데이터 조작 작업을 하나의 트랜잭션으로 묶어서 실행하면, 데이터 일관성을 유지하면서 원자적으로 처리할 수 있습니다.</p>
+  </li>
+  <li>
+    <p>권한 관리 및 보안 
+트랜잭션을 이용하여 데이터베이스 접근 권한을 관리할 수 있습니다. 
+트랜잭션을 시작할 때 권한을 확인하고, 트랜잭션이 종료될 때 권한을 제거하는 등의 작업을 통해 보안을 강화할 수 있습니다.</p>
+  </li>
+</ul>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[트랜잭션?]]></summary></entry><entry><title type="html">Transactional과 Proxy</title><link href="http://localhost:4000/spring/2024/07/17/transactional-proxy.html" rel="alternate" type="text/html" title="Transactional과 Proxy" /><published>2024-07-17T00:00:00+09:00</published><updated>2024-07-17T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/17/transactional-proxy</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/17/transactional-proxy.html"><![CDATA[<p>좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다.
+개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다.</p>
+
+<h1 id="트랜잭션">트랜잭션?</h1>
+
+<p>일련의 작업들을 하나로 묶어서 처리하는 단위.
+트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소됩니다.
+데이터의 일관성과 결성을 유지하는 중요한 개념입니다.</p>
+
+<p>트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.</p>
+
+<p>콘서트 티켓 예매를 예로 들어보자</p>
+
+<h3 id="상품을-구매하려면-어떻게-해야할까">상품을 구매하려면 어떻게 해야할까?</h3>
+<ol>
+  <li>상품의 재고를 확인한 후 장바구니에 추가합니다.</li>
+  <li>상품을 결제합니다.</li>
+  <li>결제가 성공하면 주문을 생성하고 재고를 업데이트합니다.</li>
+</ol>
+
+<h3 id="이-과정에서-트랜잭션을-사용하지-않는다고-하면-어떤-문제가-발생할까">이 과정에서 트랜잭션을 사용하지 않는다고 하면 어떤 문제가 발생할까?</h3>
+<p>재고가 부족한 상황에서 동시에 여러 사용자가 같은 상품을 구매하려고 하면 재고가 음수가 될 수 있습니다.
+또한 결제가 성공했지만 주문 생성이 실패하거나 재고 업데이트가 실패하면 데이터의 일관성이 깨질 수 있습니다.
+그리고 결제에는 성공했지만 재고가 부족한 상황에서 주문생성에 실패하면, 사용자는 돈을 지불했지만 주문이 완료되지 않을 수 있습니다.</p>
+
+<p>상품 구매 시스템에서 트랜잭션을 사용하면 여러 단계의 구매 과정을 하나의 단위로 묶어서 처리할 수 있습니다.
+모든 단계가 성공적으로 완료됙거나, 도중에 실패하는 경우 모든 변경 사항이 롤백되어 데이터의 무결성과 일관성을 보장할 수 있습니다.
+스프링에서는 @Transactional 어노테이션을 사용하여 트랜잭션을 관리할 수 있습니다.</p>
 
 <h3 id="java">Java</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
 
-<p>java example</p>
+    <span class="c1">// 코드 생략</span>
+    
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">orderProcess</span><span class="o">(</span><span class="nc">Long</span> <span class="n">productId</span><span class="o">,</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">,</span> <span class="nc">PaymentInfo</span> <span class="n">paymentInfo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="n">productRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">productId</span><span class="o">).</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RuntimeException</span><span class="o">(</span><span class="s">"Product not found"</span><span class="o">));</span>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+        <span class="c1">// 재고 확인</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getStock</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">quantity</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"Not enough stock"</span><span class="o">);</span>
+        <span class="o">}</span>
 
-<span class="nd">@Example</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Demo</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">CONSTANT</span> <span class="o">=</span> <span class="s">"String"</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="nc">Object</span> <span class="n">o</span><span class="o">;</span>
-  <span class="cm">/**
-   * Creates a new demo.
-   * @param o The object to demonstrate.
-   */</span>
-  <span class="kd">public</span> <span class="nf">Demo</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">o</span> <span class="o">=</span> <span class="n">o</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">o</span> <span class="o">:</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
-    <span class="nc">String</span> <span class="n">s</span> <span class="o">=</span> <span class="no">CONSTANT</span> <span class="o">+</span> <span class="s">"Other example of text"</span><span class="o">;</span>
-    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">123</span> <span class="o">-</span> <span class="mi">33</span> <span class="o">%</span> <span class="mi">11</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    <span class="nc">Demo</span> <span class="n">demo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Demo</span><span class="o">();</span>
-    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">demo</span><span class="o">.</span><span class="na">o</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
-  <span class="o">}</span>
+        <span class="c1">// 결제 처리</span>
+        <span class="n">paymentService</span><span class="o">.</span><span class="na">processPayment</span><span class="o">(</span><span class="n">paymentInfo</span><span class="o">);</span>
+
+        <span class="c1">// 재고 감소</span>
+        <span class="n">product</span><span class="o">.</span><span class="na">setStock</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getStock</span><span class="o">()</span> <span class="o">-</span> <span class="n">quantity</span><span class="o">);</span>
+        <span class="n">productRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+
+        <span class="c1">// 주문 생성</span>
+        <span class="nc">Order</span> <span class="n">order</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Order</span><span class="o">();</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setProduct</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setQuantity</span><span class="o">(</span><span class="n">quantity</span><span class="o">);</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setTotalPrice</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()</span> <span class="o">*</span> <span class="n">quantity</span><span class="o">);</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>클래스나 메서드에 붙여 해당 범위 내 메서드가 트랜잭션이 되도록 보장합니다.
+직접 객체를 생성할 필요없이 선언만으로 관리가 가능합니다.</p>
+
+<h3 id="transactional은-어떻게-동작할까">@Transactional은 어떻게 동작할까?</h3>
+<p>메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
+예외가 발생하면 트랜잭션이 롤백됩니다.</p>
+
+<ol>
+  <li>
+    <p>스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감쌉니다. <br />
+이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 처리합니다.</p>
+  </li>
+  <li>
+    <p>프록시는 메서드 호출 전에 트랜잭션을 시작합니다. 이 과정에서 트랜잭션 매니저가 트랜잭션 경계를 설정합니다.</p>
+  </li>
+  <li>
+    <p>실제 메서드가 실행됩니다.</p>
+  </li>
+  <li>
+    <p>메서드가 정상적으로 종료되면 트랜잭션이 커밋되고, 예외가 발생하면 트랜잭션이 롤백됩니다.</p>
+  </li>
+</ol>
+
+<p>그러면 프록시란 무엇일까?</p>
+
+<h2 id="proxy">Proxy</h2>
+<p>프록시는 다른 객체의 대리자로서 동작하는 객체로 실제 객체를 감싸서 부가 기능을 제공합니다. 스프링은 주로 AOP를 통해 트랜잭션 관리를 위해 프록시를 사용합니다.</p>
+
+<h3 id="프록시의-역할">프록시의 역할</h3>
+<p>프록시는 실제 객체의 호출 전후에 부가 기능을 추가할 수 있습니다. 예를 들어, 트랜잭션 시작과 종료, 예외 발생 시 롤백 등을 처리합니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MyService</span> <span class="o">{</span>
+        <span class="kt">void</span> <span class="nf">performTransaction</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Service</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyServiceImpl</span> <span class="kd">implements</span> <span class="nc">MyService</span> <span class="o">{</span>
+        <span class="nd">@Transactional</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performTransaction</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// 트랜잭션 내에서 수행할 작업</span>
+         <span class="o">}</span>
+    <span class="o">}</span>
+
+       <span class="c1">// 프록시 객체 생성 및 사용</span>
+    <span class="nc">MyService</span> <span class="n">myService</span> <span class="o">=</span> <span class="o">(</span><span class="nc">MyService</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">"myService"</span><span class="o">);</span>
+    <span class="n">myService</span><span class="o">.</span><span class="na">performTransaction</span><span class="o">();</span>
+</code></pre></div></div>
+<p>프록시 객체는 실제 MyServiceImpl 객체를 감싸서 트랜잭션 관리를 추가합니다. 클라이언트는 프록시 객체를 통해 트랜잭션이 적용된 메서드를 호출합니다.</p>
+
+<p>###프록시 생성 방식</p>
+<ul>
+  <li>
+    <p>인터페이스 기반 프록시: 기본적으로 스프링은 JDK 동적 프록시를 사용하여 인터페이스를 구현하는 프록시 객체를 생성합니다.</p>
+  </li>
+  <li>
+    <p>클래스 기반 프록시 (CGLIB): 만약 빈이 인터페이스를 구현하지 않았다면, 스프링은 CGLIB를 사용하여 클래스 기반 프록시를 생성합니다.</p>
+  </li>
+</ul>
+
+<h3 id="트랜잭션-경계-설정">트랜잭션 경계 설정</h3>
+<ul>
+  <li>트랜잭션 시작: 프록시는 메서드 실행 전에 PlatformTransactionManager를 사용하여 트랜잭션을 시작합니다.</li>
+  <li>트랜잭션 커밋: 메서드가 정상적으로 완료되면 TransactionManager는 트랜잭션을 커밋합니다.</li>
+  <li>트랜잭션 롤백: 메서드 실행 중에 체크드 예외 이외의 예외(런타임 예외, 오류)가 발생하면 트랜잭션이 롤백됩니다.</li>
+</ul>
+
+<h3 id="트랜잭션-속성">트랜잭션 속성</h3>
+<p>@Transactional 어노테이션은 다양한 속성을 통해 트랜잭션의 동작 방식을 조정할 수 있습니다.</p>
+<ul>
+  <li>propagation: 트랜잭션 전파 방식 (예: REQUIRED, REQUIRES_NEW 등)</li>
+  <li>isolation: 트랜잭션 격리 수준 (예: READ_COMMITTED, SERIALIZABLE 등)</li>
+  <li>timeout: 트랜잭션이 완료되어야 하는 최대 시간</li>
+  <li>readOnly: 읽기 전용 트랜잭션 여부</li>
+  <li>rollbackFor: 롤백할 예외 타입</li>
+  <li>noRollbackFor: 롤백하지 않을 예외 타입</li>
+</ul>
+
+<p>프록시는 @Transactional이 적용된 메서드 호출을 가로채서 트랜잭션 관련 처리를 수행합니다. 이를 통해 개발자는 트랜잭션 관리 로직을 직접 작성하지 않아도 됩니다.
+프록시는 다음과 같은 방식으로 트랜잭션을 처리합니다.</p>
+
+<ol>
+  <li>메서드 호출 가로채기: 클라이언트가 @Transactional이 적용된 메서드를 호출할 때, 프록시가 이 호출을 가로챕니다.</li>
+  <li>트랜잭션 시작: 프록시는 PlatformTransactionManager를 사용하여 트랜잭션을 시작합니다.</li>
+  <li>메서드 실행: 실제 메서드를 실행합니다.</li>
+  <li>트랜잭션 커밋/롤백: 메서드 실행이 성공하면 트랜잭션을 커밋하고, 예외가 발생하면 트랜잭션을 롤백합니다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+    
+ <span class="nd">@Autowired</span>
+ <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+
+ <span class="nd">@Transactional</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">// 트랜잭션 시작</span>
+     <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+     <span class="c1">// 추가 로직</span>
+     <span class="c1">// 트랜잭션 커밋</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>위의 OrderService 클래스에서 placeOrder 메서드는 @Transactional 애노테이션을 사용하여 트랜잭션 경계를 정의하고 있습니다.<br />
+스프링은 이 클래스의 프록시를 생성하여 placeOrder 메서드 호출을 가로채고 트랜잭션을 관리합니다.</p>
+
+<h3 id="프록시가-트랜잭션을-처리하는-과정">프록시가 트랜잭션을 처리하는 과정</h3>
+<ol>
+  <li>프록시 생성: 스프링이 애플리케이션 컨텍스트를 초기화할 때, OrderService 빈에 대한 프록시를 생성합니다.</li>
+  <li>메서드 호출 가로채기: 클라이언트가 placeOrder 메서드를 호출하면 프록시가 이 호출을 가로챕니다.</li>
+  <li>트랜잭션 시작: 프록시는 TransactionManager를 사용하여 트랜잭션을 시작합니다.</li>
+  <li>실제 메서드 실행: 프록시는 실제 placeOrder 메서드를 호출합니다.</li>
+  <li>트랜잭션 커밋/롤백: 메서드가 정상적으로 종료되면 프록시는 트랜잭션을 커밋하고, 예외가 발생하면 트랜잭션을 롤백합니다.</li>
+</ol>
+
+<h3 id="트랜잭션이-하는-일을-프록시가-대신하는-이유">트랜잭션이 하는 일을 프록시가 대신하는 이유</h3>
+<ol>
+  <li>일관성 유지: 트랜잭션은 데이터베이스의 일관성과 무결성을 유지하는 데 중요한 역할을 합니다. 프록시를 사용하면 이러한 트랜잭션 관리 로직을 쉽게 적용할 수 있습니다.</li>
+  <li>코드 간결화: 트랜잭션 관리를 코드에서 직접 구현하지 않아도 되므로 코드가 간결해집니다.</li>
+  <li>중복 방지: 동일한 트랜잭션 관리 로직을 여러 곳에서 반복해서 작성할 필요가 없습니다.</li>
+  <li>AOP 지원: 프록시는 스프링 AOP(Aspect-Oriented Programming)를 사용하여 트랜잭션 관리와 같은 횡단 관심사를 쉽게 구현할 수 있게 해줍니다.</li>
+</ol>
+
+<p>프록시는 트랜잭션을 투명하게 처리하여 개발자가 비즈니스 로직에만 집중할 수 있게 해줍니다.</p>
+
+<p>프록시 없이 트랜잭션을 관리하려면, 트랜잭션 시작, 커밋, 롤백을 수동으로 처리해야 합니다. 이것은 상당히 번거롭고 오류가 발생하기 쉬운 작업입니다.</p>
+
+<h4 id="트랜잭션-관리-직접-구현">트랜잭션 관리 직접 구현</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+    
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">PlatformTransactionManager</span> <span class="n">transactionManager</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">TransactionStatus</span> <span class="n">status</span> <span class="o">=</span> <span class="n">transactionManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">(</span><span class="k">new</span> <span class="nc">DefaultTransactionDefinition</span><span class="o">());</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// 트랜잭션 시작</span>
+            <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+            <span class="c1">// 추가 비즈니스 로직 수행</span>
+            
+            <span class="c1">// 트랜잭션 커밋</span>
+            <span class="n">transactionManager</span><span class="o">.</span><span class="na">commit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 예외 발생 시 트랜잭션 롤백</span>
+            <span class="n">transactionManager</span><span class="o">.</span><span class="na">rollback</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+            <span class="k">throw</span> <span class="n">ex</span><span class="o">;</span>  <span class="c1">// 예외 재발생</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="javascript">Javascript</h3>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
- * Does a thing
- */</span>
-<span class="kd">function</span> <span class="nf">helloWorld</span><span class="p">(</span><span class="nx">param1</span><span class="p">,</span> <span class="nx">param2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">example</span> <span class="o">=</span> <span class="s2">`hello </span><span class="p">${</span><span class="nx">param1</span><span class="p">}</span><span class="s2">`</span>
-    <span class="kd">var</span> <span class="nx">something</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">value</span><span class="dl">"</span><span class="p">,</span>
-        <span class="na">number</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">};</span>
-
-    <span class="c1">// Do something</span>
-    <span class="k">if </span><span class="p">(</span><span class="mf">2.0</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello, world!</span><span class="dl">'</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// TODO comment</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h3 id="json">JSON</h3>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"animals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"tiger"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tiger"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"images"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"🐯"</span><span class="p">,</span><span class="w"> </span><span class="s2">"🐅"</span><span class="p">,</span><span class="w"> </span><span class="s2">"⻁"</span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"turtle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"🐢"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"unicorn"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"doesExist"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"🦄"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="python">Python</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
-
-
-<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">param_one</span><span class="o">=</span><span class="sh">""</span><span class="p">,</span> <span class="n">param_two</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sh">'''</span><span class="s">A docstring</span><span class="sh">'''</span>
-    <span class="k">if</span> <span class="n">param_one</span> <span class="o">&gt;</span> <span class="n">param_two</span><span class="p">:</span>  <span class="c1"># interesting
-</span>        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Greater</span><span class="sh">"</span><span class="p">)</span>
-    <span class="nf">return </span><span class="p">(</span><span class="n">param_two</span> <span class="o">-</span> <span class="n">param_one</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mb">0b10</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
-
-
-<span class="k">class</span> <span class="nc">SomeClass</span><span class="p">:</span>
-    <span class="sh">"""</span><span class="s"> dunno what I am doing </span><span class="sh">"""</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-</code></pre></div></div>
-
-<h3 id="yaml">YAML</h3>
-
-<p>You can also render some yaml, like this <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
-
-<p>```yml</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[Let’s demo some code snippet, with some mermaid diagrams. Because if you put some code in your blog, you would at least make it: Searchable Good-looking]]></summary></entry><entry><title type="html">Dark Mode</title><link href="http://localhost:4000/demo/2021/04/27/dark-mode.html" rel="alternate" type="text/html" title="Dark Mode" /><published>2021-04-27T00:00:00+09:00</published><updated>2021-04-27T00:00:00+09:00</updated><id>http://localhost:4000/demo/2021/04/27/dark-mode</id><content type="html" xml:base="http://localhost:4000/demo/2021/04/27/dark-mode.html"><![CDATA[<p>More colors with less light. Click the <strong>half-moon</strong> most top-right button to turn the lights ON/OFF.
-Here is a bit of everything, so you can check how the theme look, have fun! 👌</p>
-
-<h1 id="headers">Headers</h1>
-<h2 id="level-2">Level 2</h2>
-<h3 id="level-3">Level 3</h3>
-<h4 id="level-4">Level 4</h4>
-<h5 id="level-5">Level 5</h5>
-<h6 id="level-6">Level 6</h6>
-
-<h1 id="headers-with-links"><a href="http://localhost">Headers with links</a></h1>
-<h2 id="level-2-1"><a href="http://localhost">Level 2</a></h2>
-<h3 id="level-3-1"><a href="http://localhost">Level 3</a></h3>
-<h4 id="level-4-1"><a href="http://localhost">Level 4</a></h4>
-<h5 id="level-5-1"><a href="http://localhost">Level 5</a></h5>
-<h6 id="level-6-1"><a href="http://localhost">Level 6</a></h6>
-
-<h2 id="code-highlight">Code highlight</h2>
-<p>Mode specific code highlighting themes. <a href="https://kramdown.gettalong.org/">Kramdown</a> which is responsible for the color highlighting may be more limited than your IDE.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
-</span><span class="sh">"""</span><span class="s">
-Test file for syntax
-</span><span class="sh">"""</span>
-<span class="c1"># TODO: Use dark mode
-</span><span class="kn">from</span> <span class="n">sys</span> <span class="kn">import</span> <span class="n">os</span>
-
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">):</span> 
-    <span class="k">try</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
-    <span class="k">except</span> <span class="nb">NameError</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Variable bar is not defined</span><span class="sh">"</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span> 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-        <span class="nf">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">octal</span> <span class="o">=</span> <span class="sh">'</span><span class="se">\04</span><span class="sh">'</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">Example </span><span class="se">\t\n</span><span class="sh">"""</span>
-    
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">exit</span><span class="se">\u1111\xFF</span><span class="sh">'</span><span class="p">)</span>
-        <span class="k">pass</span>
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
-        <span class="nf">assert </span><span class="p">(</span><span class="mf">1.0</span> <span class="ow">and</span> <span class="il">2L</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="p">{</span> <span class="sh">"</span><span class="s">example</span><span class="sh">"</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,),</span> <span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">raw</span><span class="sh">'</span><span class="p">,</span> <span class="sa">u</span><span class="sh">'</span><span class="s">unicode</span><span class="sh">'</span><span class="p">)]}</span>
-</code></pre></div></div>
-
-<h2 id="tables">Tables</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>hex</th>
-      <th>dec</th>
-      <th>oct</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>A</td>
-      <td>10</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>F</td>
-      <td>16</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>F5</td>
-      <td>21</td>
-      <td>25</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="katex">KaTeX</h2>
-
-<p>Some KaTeX diagrams to check in dark mode:</p>
-
-\[\begin{CD}
-A @&gt;a&gt;&gt; B \\
-@VbVV @AAcA \\
-C @= D
-\end{CD}\]
-
-\[\utilde{AB}\]
-
-<h2 id="mermaid">Mermaid</h2>
-
-<div class="mermaid">
-flowchart TB
-    c1--&gt;a2
-    subgraph one
-    a1--&gt;a2
-    end
-    subgraph two
-    b1--&gt;b2
-    end
-    subgraph three
-    c1--&gt;c2
-    end
-</div>]]></content><author><name></name></author><category term="Demo" /><category term="Katex" /><category term="Mermaid" /><category term="Markdown" /><summary type="html"><![CDATA[More colors with less light. Click the half-moon most top-right button to turn the lights ON/OFF. Here is a bit of everything, so you can check how the theme look, have fun! 👌]]></summary></entry><entry><title type="html">Customize the Favicon</title><link href="http://localhost:4000/blogging/tutorial/2019/08/11/customize-the-favicon.html" rel="alternate" type="text/html" title="Customize the Favicon" /><published>2019-08-11T01:34:00+09:00</published><updated>2019-08-11T01:34:00+09:00</updated><id>http://localhost:4000/blogging/tutorial/2019/08/11/customize-the-favicon</id><content type="html" xml:base="http://localhost:4000/blogging/tutorial/2019/08/11/customize-the-favicon.html"><![CDATA[<p>The <a href="https://www.favicon-generator.org/about/">favicons</a> of <a href="https://github.com/cotes2020/jekyll-theme-chirpy/"><strong>Chirpy</strong></a> are placed in the directory <code class="language-plaintext filepath highlighter-rouge">assets/img/favicons/</code>. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.</p>
-
-<h2 id="generate-the-favicon">Generate the favicon</h2>
-
-<p>Prepare a square image (PNG, JPG, or SVG) with a size of 512x512 or more, and then go to the online tool <a href="https://realfavicongenerator.net/"><strong>Real Favicon Generator</strong></a> and click the button <kbd>Select your Favicon image</kbd> to upload your image file.</p>
-
-<p>In the next step, the webpage will show all usage scenarios. You can keep the default options, scroll to the bottom of the page, and click the button <kbd>Generate your Favicons and HTML code</kbd> to generate the favicon.</p>
-
-<h2 id="download--replace">Download &amp; Replace</h2>
-
-<p>Download the generated package, unzip and delete the following two from the extracted files:</p>
-
-<ul>
-  <li><code class="language-plaintext filepath highlighter-rouge">browserconfig.xml</code></li>
-  <li><code class="language-plaintext filepath highlighter-rouge">site.webmanifest</code></li>
-</ul>
-
-<p>And then copy the remaining image files (<code class="language-plaintext filepath highlighter-rouge">.PNG</code> and <code class="language-plaintext filepath highlighter-rouge">.ICO</code>) to cover the original files in the directory <code class="language-plaintext filepath highlighter-rouge">assets/img/favicons/</code> of your Jekyll site. If your Jekyll site doesn’t have this directory yet, just create one.</p>
-
-<p>The following table will help you understand the changes to the favicon files:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>File(s)</th>
-      <th style="text-align: center">From Online Tool</th>
-      <th style="text-align: center">From Chirpy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">*.PNG</code></td>
-      <td style="text-align: center">✓</td>
-      <td style="text-align: center">✗</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">*.ICO</code></td>
-      <td style="text-align: center">✓</td>
-      <td style="text-align: center">✗</td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- markdownlint-disable-next-line -->
-<blockquote class="prompt-info">
-  <p>✓ means keep, ✗ means delete.</p>
-</blockquote>
-
-<p>The next time you build the site, the favicon will be replaced with a customized edition.</p>]]></content><author><name>cotes</name></author><category term="Blogging" /><category term="Tutorial" /><category term="favicon" /><summary type="html"><![CDATA[The favicons of Chirpy are placed in the directory assets/img/favicons/. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.]]></summary></entry><entry><title type="html">Getting Started</title><link href="http://localhost:4000/blogging/tutorial/2019/08/09/getting-started.html" rel="alternate" type="text/html" title="Getting Started" /><published>2019-08-09T21:55:00+09:00</published><updated>2019-08-09T21:55:00+09:00</updated><id>http://localhost:4000/blogging/tutorial/2019/08/09/getting-started</id><content type="html" xml:base="http://localhost:4000/blogging/tutorial/2019/08/09/getting-started.html"><![CDATA[<h2 id="prerequisites">Prerequisites</h2>
-
-<p>Follow the instructions in the <a href="https://jekyllrb.com/docs/installation/">Jekyll Docs</a> to complete the installation of the basic environment. <a href="https://git-scm.com/">Git</a> also needs to be installed.</p>
-
-<h2 id="installation">Installation</h2>
-
-<h3 id="creating-a-new-site">Creating a New Site</h3>
-
-<p>There are two ways to create a new repository for this theme:</p>
-
-<ul>
-  <li><a href="#option-1-using-the-chirpy-starter"><strong>Using the Chirpy Starter</strong></a> — Easy to upgrade, isolates irrelevant project files so you can focus on writing.</li>
-  <li><a href="#option-2-github-fork"><strong>GitHub Fork</strong></a> — Convenient for custom development, but difficult to upgrade. Unless you are familiar with Jekyll and are determined to tweak or contribute to this project, this approach is not recommended.</li>
-</ul>
-
-<h4 id="option-1-using-the-chirpy-starter">Option 1. Using the Chirpy Starter</h4>
-
-<p>Sign in to GitHub and browse to <a href="https://github.com/cotes2020/chirpy-starter"><strong>Chirpy Starter</strong></a>, click the button <kbd>Use this template</kbd> &gt; <kbd>Create a new repository</kbd>, and name the new repository <code class="language-plaintext highlighter-rouge">USERNAME.github.io</code>, where <code class="language-plaintext highlighter-rouge">USERNAME</code> represents your GitHub username.</p>
-
-<h4 id="option-2-github-fork">Option 2. GitHub Fork</h4>
-
-<p>Sign in to GitHub to <a href="https://github.com/cotes2020/jekyll-theme-chirpy/fork">fork <strong>Chirpy</strong></a>, and then rename it to <code class="language-plaintext highlighter-rouge">USERNAME.github.io</code> (<code class="language-plaintext highlighter-rouge">USERNAME</code> means your username).</p>
-
-<p>Next, clone the repository to your local machine, make sure it has <a href="https://nodejs.org/">Node.js</a> installed, then go to the root directory of the repo and run the following command:</p>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>bash tools/init
-</code></pre></div></div>
-
-<blockquote class="prompt-info">
-  <p>If you don’t want to deploy your site on GitHub Pages, append option <code class="language-plaintext highlighter-rouge">--no-gh</code> at the end of the above command.</p>
-</blockquote>
-
-<p>The above command will:</p>
-
+<h3 id="프록시-없이-트랜잭션-관리의-문제점">프록시 없이 트랜잭션 관리의 문제점</h3>
 <ol>
-  <li>Check out the code to the <a href="https://github.com/cotes2020/jekyll-theme-chirpy/tags">latest tag</a> (to ensure the stability of your site: as the code for the default branch is under development).</li>
-  <li>Remove non-essential sample files and take care of GitHub-related files.</li>
-  <li>Build CSS/JS assets files and then make them tracked by Git.</li>
-  <li>Automatically create a new commit to save the changes above.</li>
+  <li>복잡성 증가: 트랜잭션을 시작하고, 커밋하거나 롤백하는 코드가 모든 트랜잭션 메서드에 반복적으로 작성되어야 합니다.</li>
+  <li>오류 가능성: 트랜잭션 시작, 커밋, 롤백 로직을 수동으로 관리하다 보면 실수로 빠뜨리거나 잘못 구현할 가능성이 높습니다.</li>
+  <li>비즈니스 로직과 트랜잭션 로직의 혼합: 비즈니스 로직과 트랜잭션 관리 로직이 같은 메서드에 섞여 있어 코드가 지저분해지고 유지보수가 어려워집니다.</li>
+  <li>재사용성 부족: 트랜잭션 관리 로직을 재사용하기 어렵고, 모든 트랜잭션이 필요한 메서드에서 중복 코드가 발생합니다.</li>
 </ol>
 
-<h3 id="installing-dependencies">Installing Dependencies</h3>
+<h3 id="프록시를-사용할-때의-장점">프록시를 사용할 때의 장점</h3>
+<ol>
+  <li>코드 간결성: 트랜잭션 관리 로직을 각 메서드에 작성할 필요 없이 @Transactional 애노테이션을 사용하여 트랜잭션 경계를 지정할 수 있습니다.</li>
+  <li>오류 감소: 스프링이 트랜잭션 관리를 대신 처리하므로, 개발자가 실수로 트랜잭션 관리 로직을 잘못 구현할 가능성이 줄어듭니다.</li>
+  <li>비즈니스 로직 집중: 트랜잭션 관리 로직이 분리되어 비즈니스 로직에 집중할 수 있습니다.</li>
+  <li>재사용성 향상: 트랜잭션 관리 로직을 재사용할 수 있고, 코드 중복이 줄어듭니다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
 
-<p>Before running local server for the first time, go to the root directory of your site and run:</p>
+ <span class="nd">@Autowired</span>
+ <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
 
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>bundle
-</code></pre></div></div>
-
-<h2 id="usage">Usage</h2>
-
-<h3 id="configuration">Configuration</h3>
-
-<p>Update the variables of <code class="language-plaintext filepath highlighter-rouge">_config.yml</code> as needed. Some of them are typical options:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">url</code></li>
-  <li><code class="language-plaintext highlighter-rouge">avatar</code></li>
-  <li><code class="language-plaintext highlighter-rouge">timezone</code></li>
-  <li><code class="language-plaintext highlighter-rouge">lang</code></li>
-</ul>
-
-<h3 id="social-contact-options">Social Contact Options</h3>
-
-<p>Social contact options are displayed at the bottom of the sidebar. You can turn on/off the specified contacts in file <code class="language-plaintext filepath highlighter-rouge">_data/contact.yml</code>.</p>
-
-<h3 id="customizing-stylesheet">Customizing Stylesheet</h3>
-
-<p>If you need to customize the stylesheet, copy the theme’s <code class="language-plaintext filepath highlighter-rouge">assets/css/jekyll-theme-chirpy.scss</code> to the same path on your Jekyll site, and then add the custom style at the end of it.</p>
-
-<p>Starting with version <code class="language-plaintext highlighter-rouge">6.2.0</code>, if you want to overwrite the SASS variables defined in <code class="language-plaintext filepath highlighter-rouge">_sass/addon/variables.scss</code>, copy the main sass file <code class="language-plaintext filepath highlighter-rouge">_sass/main.scss</code> into the <code class="language-plaintext filepath highlighter-rouge">_sass</code> directory in your site’s source, then create a new file <code class="language-plaintext filepath highlighter-rouge">_sass/variables-hook.scss</code> and assign new value.</p>
-
-<h3 id="customing-static-assets">Customing Static Assets</h3>
-
-<p>Static assets configuration was introduced in version <code class="language-plaintext highlighter-rouge">5.1.0</code>. The CDN of the static assets is defined by file <code class="language-plaintext filepath highlighter-rouge">_data/origin/cors.yml</code>, and you can replace some of them according to the network conditions in the region where your website is published.</p>
-
-<p>Also, if you’d like to self-host the static assets, please refer to the <a href="https://github.com/cotes2020/chirpy-static-assets#readme"><em>chirpy-static-assets</em></a>.</p>
-
-<h3 id="running-local-server">Running Local Server</h3>
-
-<p>You may want to preview the site contents before publishing, so just run it by:</p>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>bundle <span class="nb">exec </span>jekyll s
-</code></pre></div></div>
-
-<p>After a few seconds, the local service will be published at <em><a href="http://127.0.0.1:4000">http://127.0.0.1:4000</a></em>.</p>
-
-<h2 id="deployment">Deployment</h2>
-
-<p>Before the deployment begins, check out the file <code class="language-plaintext filepath highlighter-rouge">_config.yml</code> and make sure the <code class="language-plaintext highlighter-rouge">url</code> is configured correctly. Furthermore, if you prefer the <a href="https://help.github.com/en/github/working-with-github-pages/about-github-pages#types-of-github-pages-sites"><strong>project site</strong></a> and don’t use a custom domain, or you want to visit your website with a base URL on a web server other than <strong>GitHub Pages</strong>, remember to change the <code class="language-plaintext highlighter-rouge">baseurl</code> to your project name that starts with a slash, e.g, <code class="language-plaintext highlighter-rouge">/project-name</code>.</p>
-
-<p>Now you can choose <em>ONE</em> of the following methods to deploy your Jekyll site.</p>
-
-<h3 id="deploy-by-using-github-actions">Deploy by Using GitHub Actions</h3>
-
-<p>There are a few things to get ready for.</p>
-
-<ul>
-  <li>If you’re on the GitHub Free plan, keep your site repository public.</li>
-  <li>
-    <p>If you have committed <code class="language-plaintext filepath highlighter-rouge">Gemfile.lock</code> to the repository, and your local machine is not running Linux, go to the root of your site and update the platform list of the lock-file:</p>
-
-    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>bundle lock <span class="nt">--add-platform</span> x86_64-linux
+ <span class="nd">@Transactional</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+     <span class="c1">// 추가 비즈니스 로직 수행</span>
+ <span class="o">}</span>
+<span class="o">}</span> 
 </code></pre></div>    </div>
   </li>
-</ul>
+</ol>
 
-<p>Next, configure the <em>Pages</em> service.</p>
+<p>스프링이 프록시를 통해 트랜잭션 시작, 커밋, 롤백을 자동으로 처리하므로 개발자는 비즈니스 로직에만 집중할 수 있습니다.</p>
 
+<p>@Transactional 애노테이션을 이용하면 스프링 프레임워크가 프록시를 통해 트랜잭션 관리를 대신해 줍니다. 
+이를 이해하기 위해서는 스프링의 AOP (Aspect-Oriented Programming) 개념과 프록시 패턴을 이해하는 것이 중요합니다.</p>
+
+<h3 id="transactional과-프록시의-관계">@Transactional과 프록시의 관계</h3>
 <ol>
   <li>
-    <p>Browse to your repository on GitHub. Select the tab <em>Settings</em>, then click <em>Pages</em> in the left navigation bar. Then, in the <strong>Source</strong> section (under <em>Build and deployment</em>), select <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow"><strong>GitHub Actions</strong></a> from the dropdown menu.<br />
-<img src="pages-source-light.png" alt="Build source" class="light border normal" w="375" h="140" />
-<img src="pages-source-dark.png" alt="Build source" class="dark normal" w="375" h="140" /></p>
+    <p>AOP와 프록시 패턴: 스프링은 AOP를 이용하여 @Transactional 애노테이션을 적용할 때 프록시 패턴을 사용합니다. <br />
+AOP는 관점 지향 프로그래밍을 의미하며, 코드의 특정 관점에서의 공통된 기능을 분리하여 관리하는 기술입니다.</p>
   </li>
   <li>
-    <p>Push any commits to GitHub to trigger the <em>Actions</em> workflow. In the <em>Actions</em> tab of your repository, you should see the workflow <em>Build and Deploy</em> running. Once the build is complete and successful, the site will be deployed automatically.</p>
+    <p>프록시의 역할: @Transactional 애노테이션이 붙은 메서드가 호출될 때, 스프링 프레임워크는 그 메서드를 호출하기 전후에 추가적인 작업을 수행하기 위해 프록시 객체를 생성합니다. <br />
+이 프록시 객체는 원본 객체(서비스 클래스)를 감싸며, 트랜잭션 관리와 같은 공통된 기능을 제공합니다.</p>
+  </li>
+  <li>
+    <p>트랜잭션 관리: @Transactional 애노테이션이 붙은 메서드에서는 트랜잭션을 시작하고, 메서드 실행을 감싸는 프록시가 트랜잭션을 커밋 또는 롤백합니다. <br />
+이 과정에서 데이터베이스 연산의 성공 또는 실패에 따라 트랜잭션을 적절하게 처리합니다.</p>
+  </li>
+  <li>
+    <p>간편한 설정: 개발자는 @Transactional 애노테이션을 사용하여 간편하게 트랜잭션 경계를 정의할 수 있습니다. <br />
+이는 개발자가 직접 트랜잭션을 시작하고, 커밋 또는 롤백하는 코드를 작성하지 않아도 되게 만듭니다.</p>
   </li>
 </ol>
 
-<p>At this point, you can go to the URL indicated by GitHub to access your site.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
 
-<h3 id="manually-build-and-deploy">Manually Build and Deploy</h3>
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
 
-<p>On self-hosted servers, you cannot enjoy the convenience of <strong>GitHub Actions</strong>. Therefore, you should build the site on your local machine and then upload the site files to the server.</p>
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 비즈니스 로직 수행</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+        <span class="c1">// 추가적인 데이터베이스 작업 등</span>
+    <span class="o">}</span>
 
-<p>Go to the root of the source project, and build your site as follows:</p>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nv">JEKYLL_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>jekyll b
+    <span class="c1">// 다른 트랜잭션 메서드</span>
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cancelOrder</span><span class="o">(</span><span class="nc">Order</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">order</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="nc">OrderStatus</span><span class="o">.</span><span class="na">CANCELED</span><span class="o">);</span>
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+        <span class="c1">// 추가적인 로직 수행</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
-<p>Unless you specified the output path, the generated site files will be placed in folder <code class="language-plaintext filepath highlighter-rouge">_site</code> of the project’s root directory. Now you should upload those files to the target server.</p>]]></content><author><name>cotes</name></author><category term="Blogging" /><category term="Tutorial" /><category term="getting started" /><summary type="html"><![CDATA[Get started with Chirpy basics in this comprehensive overview. You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.]]></summary></entry><entry><title type="html">Sample post</title><link href="http://localhost:4000/2019/06/30/sample-post.html" rel="alternate" type="text/html" title="Sample post" /><published>2019-06-30T00:00:00+09:00</published><updated>2019-06-30T00:00:00+09:00</updated><id>http://localhost:4000/2019/06/30/sample-post</id><content type="html" xml:base="http://localhost:4000/2019/06/30/sample-post.html"><![CDATA[<p>Consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. 
-Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. 
-<!--more-->
-Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem.</p>
+<p>이 예시에서 @Transactional 애노테이션이 붙은 placeOrder()와 cancelOrder() 메서드는 스프링 프록시가 관리하는 트랜잭션 범위에서 실행됩니다. <br />
+메서드 내의 모든 데이터베이스 연산은 하나의 트랜잭션으로 묶이며, 이 트랜잭션은 메서드 실행 완료 후 자동으로 커밋 또는 롤백됩니다.</p>
 
+<p>따라서 @Transactional을 이용하면 개발자는 트랜잭션 관리에 대한 복잡한 코드를 작성하지 않아도 되며, 스프링 프록시가 이를 대신 처리하여 코드의 간결성과 유지보수성을 높여줍니다.</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다. 개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다.]]></summary></entry><entry><title type="html">JWT</title><link href="http://localhost:4000/spring/2024/07/02/spring-jwt.html" rel="alternate" type="text/html" title="JWT" /><published>2024-07-02T00:00:00+09:00</published><updated>2024-07-02T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/02/spring-jwt</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/02/spring-jwt.html"><![CDATA[<p>프로젝트 중에 JWT를 사용하여서
+잘 몰라서.. 공부하고자</p>
+
+<h2 id="이전에는">이전에는?</h2>
+<p>JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었습니다.</p>
+
+<p>세션의 Stateful 로 상태를 유지하는 것이 특징입니다.
+세션 기반 인증은 사용자의 정보를 서버에 저장하고, 클라이언트는 세션ID를 통해
+인증 상태를 유지하는 방식입니다.</p>
+
+<p>세션은 서버 메모리나 데이터베이스에 저장되어야하기 때문에 서버 측에서 상태를 유지해야합니다.
+매 요청맏마 서버와 통신해야하기 때문에 부하가 초래됩니다.</p>
+
+<p>이러한 문제로 등장한 것이 JWT로 Stateless 인 것이 특징입니다.</p>
+
+<h2 id="jwt">JWT</h2>
+<p>JSON Web Token의 약자로 정보를 JSON 형태로 클라이언트에 저장하고 서버는 해당 토큰을 검증하여
+인증을 처리하는 방식입니다.</p>
+
+<p>토큰 안에 미리 인증에 필요한 정보를 넣어두며 매 요청마다 서버와 통신할 필요가 없습니다.
+이로 인해 서버 부하와 같은 문제를 해결할 수 있습니다.</p>
+
+<h2 id="구조">구조</h2>
+<p>헤더, 페이로드, 서명 세 부분으로 구성됩니다.
+헤더 부분은 알고리즘 방식과 토큰의 타입을 지합니다. 서명 생성을 위해 어떤 알고리즘을 사용할지 식별하는 부분입니다.
+페이로드는 클레임이라고 불리는 정보 조각을 포함합니다.
+클레임은 토큰에 추가할 정보를 의미하며 사용자 ID, 권한 정보등이 포함될 수 있습니다.
+하지만 디코딩을 통해 들어있는 정보를 확이할 수 있기 때문에 민감한 정보는 포함하지 않는 것이 좋습니다.</p>
+
+<p>서명은 토큰을 인코딩하거나 유효성 검증을 위해서 사용되는 부분으로,
+헤더와 페이로드를 합친 후 비밀키를 사용하여 생성합니다.</p>
+
+<p>서버는 클라이언트로부터 받은 토큰을 검증하기 위해 서명 부분을 해싱알고리즘과 비밀키로 다시 생성하고
+이를 클라이언트가 전달한 서명과 비교합니다.
+일치라면 인증이 유요한 것으로 판단합니다.</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[프로젝트 중에 JWT를 사용하여서 잘 몰라서.. 공부하고자]]></summary></entry><entry><title type="html">영속성 컨텍스</title><link href="http://localhost:4000/jpa/2024/07/01/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8.html" rel="alternate" type="text/html" title="영속성 컨텍스" /><published>2024-07-01T00:00:00+09:00</published><updated>2024-07-01T00:00:00+09:00</updated><id>http://localhost:4000/jpa/2024/07/01/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8</id><content type="html" xml:base="http://localhost:4000/jpa/2024/07/01/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8.html"><![CDATA[<h2 id="영속성-컨텍스트">영속성 컨텍스트</h2>
+<p>JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.</p>
+
+<p>하나의 영속성 컨텍스트는 트랜잭션 단위로 관리되며, 엔티티의 상태를 추적하고 엔티티를 데이터베이스와 동기화합니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserService</span> <span class="o">{</span>
+    
+    <span class="nd">@PersistenceContext</span>
+    <span class="kd">private</span> <span class="nc">EntityManager</span> <span class="n">em</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveUser</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 엔티티를 영속성 컨텍스트에 저장</span>
+        <span class="n">em</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="nc">User</span> <span class="nf">findUser</span><span class="o">(</span><span class="nc">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 1차 캐시에서 엔티티를 조회 (데이터베이스 조회 필요 없음)em.find(User.class, user.getId()) 는 JPA 에서 제공하는 메서드로 데이터베이스에 접근하여</span>
+      <span class="k">return</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+      <span class="n">지정된</span> <span class="n">엔티티</span> <span class="n">클래스와</span> <span class="n">키를</span> <span class="n">기반으로</span> <span class="n">엔티티를</span> <span class="n">조회합니다</span><span class="o">.</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateUser</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 엔티티의 상태 변경 (Dirty Checking)</span>
+      <span class="nc">User</span> <span class="n">managedUser</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+      <span class="n">managedUser</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+      <span class="n">managedUser</span><span class="o">.</span><span class="na">setEmail</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getEmail</span><span class="o">());</span>
+
+      <span class="c1">// 트랜잭션이 커밋될 때 데이터베이스에 자동으로 반영됨이로써 반복적으로 조죄할 때 데이터베이스에 대한 추가적인 조회를 피할 수 있으며 성능이 향상됩니다.</span>
+    <span class="o">}</span>    
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="nc">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 1캐시는 영속성 컨텍스트의 생명주기에 의존하기 때문에 트랜잭션이 종료되면 1차 캐시도 함께 종료됩니다. </span>
+        <span class="c1">// 엔티티를 영속성 컨텍스트에서 제거</span>
+        <span class="c1">// 이후에 같은 엔티티를 조회할 경 다시 데이터베이스에서 조회해야 합니다.</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+        <span class="n">em</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+        <span class="c1">// 트랜잭션이 커밋될 때 데이터베이스에서 삭제됨</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="1차-캐시">1차 캐시</h4>
+<p>영속성 컨텍스트의 일부로 JVM 메모리에 위치합니다. 따라서 데이터베이스에 접근하는 것보다 훨씬 빠른 접근이 가능합니다다.
+엔티티의 식별자를 키로 사용하여 엔티티를 저장합니다. 이 식별자를 사용하여 빠르게 엔티티를 조회할 수 있습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="nc">User</span> <span class="nf">findUser</span><span class="o">(</span><span class="nc">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 1차 캐시에서 엔티티를 조회 (데이터베이스 조회 필요 없음)</span>
+        <span class="k">return</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>em.find(User.class, user.getId()) 메서드는 데이터베이스에서 엔티티를 조회하고 이 엔티티를 영속성 컨텍스트에 저장합니다.
+이때 저장된 엔티티는 1차 캐시에 저장됩니다.
+이후 동일한 엔티티를 다시 조회하는 경우 영속성 컨텍스트에서 먼저 조회하여 데이터베이스에 접근하지 않고 1차 캐시에 저장된 엔티티를 반환합니다.</p>
+
+<p>1차 캐시를 통해 동일한 엔티티를 반복적으로 조회할 때 데이터베이스에 대한 추가적인 조회를 피할 수 있습니다
+영속성 컨텍스트는 트랜잭션 범위 내에서 관리되기 때문 동일한 엔티티에 대해 일관된 상태를 유지할 수 있습니다.</p>
+
+<p>하지만 컨텍스트의 생명주기에 의존하기 때문에 트랜잭션이 종료되면 1차 캐시도 함께 종료됩니다.
+따라섯 이후에 같은 엔티티를 조회할 때는 다시 데이터베이스에서 조회해야 합니다.</p>
+
+<p>1차 캐시는 멤모리에 저장되기 때문에 많은 수의 엔티티를 동시에 처리하 할 때 메모리 사용에 주의해야 합니다.</p>
+
+<h4 id="지연-로딩">지연 로딩</h4>
+<p>연관된 엔티티나 컬렉션을 실제로 사용할 때까지 데이터베이스에서 로딩하지 않고 필요한 시점에 로딩하는 기능입니다.</p>
+
+<p>지연로딩은 FetchType.LAZY로 설정하며, 실제 엔티티가 필요한 시점에 데이터베이스에서 조회합니다.</p>
+
+<p>반면에 즉시로딩(FetchType.EAGER)은 엔티티를 조회할 때 연관된 엔티티들을 즉시 한번에 조회합니다. 이는 성능 저하를 초래할 수 있으므로 주의해서 사용해야 합니다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Entity
+@Table(name = "orders")
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
+    private Long id;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+}
+</code></pre></div></div>
+<p>단순한 관계나 적은 데이터 양을 다룰 때는 즉시로딩을 사용하는 것이 좋습니다.
+대규모 데이터를 다루거나 성능 최적화가 필요한 경우에는 지연로딩을 고려해야 합니다.
+기본적으로는 지연로딩을 사용하고, 성능 문제나 데이터 접근 패턴에 따라 필요할 때 즉시로딩으로 변경하는 것이 바람직합니다.</p>
+
+<h4 id="변경-감지">변경 감지</h4>
+<p>트랜잭션 내에서 엔티티의 상태 변경을 감지하여 자동으로 데이터베이스와 동기화합니다.</p>
+
+<p>트랜잭션 내에서 엔티티의 수정이 이루어져야 변경 감지가 동작합니다. 트랜잭션이 커밋될 때 변경 사항이 데이터베이스에 반영됩니다.
+트랜잭션이 커밋되기 전까지는 데이터베이스에 변경 사항이 반영되지 않습니다.</p>
+<pre><code class="language-java{">    @PersistenceContext
+    private EntityManager entityManager;
+
+    public void updateProduct(Long productId, String newName, double newPrice) {
+        // 엔티티 조회
+        Product product = entityManager.find(Product.class, productId);
+
+        // 엔티티 수정
+        product.setName(newName);
+        product.setPrice(newPrice);
+
+        // 변경 감지가 발생하여 자동으로 데이터베이스에 반영됨
+    }
+}
+</code></pre>
+<p>별도의 save 메서드 호출이 필요하지 않습니다.</p>
+
+<h4 id="트랜잭션-범위">트랜잭션 범위</h4>
+<p>영속성 컨텍스트는 트랜잭션 범위 내에서 엔티티를 관리하므로, 트랜잭션이 커밋되거나 롤백되기 전까
+엔티티의 변경 사항을 추적하고 커밋할 때 최종적으로 데이터베이스에 반영합니다.</p>]]></content><author><name></name></author><category term="JPA" /><summary type="html"><![CDATA[영속성 컨텍스트 JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.]]></summary></entry><entry><title type="html">JPA란</title><link href="http://localhost:4000/jpa/2024/07/01/jpa-jpa.html" rel="alternate" type="text/html" title="JPA란" /><published>2024-07-01T00:00:00+09:00</published><updated>2024-07-01T00:00:00+09:00</updated><id>http://localhost:4000/jpa/2024/07/01/jpa-jpa</id><content type="html" xml:base="http://localhost:4000/jpa/2024/07/01/jpa-jpa.html"><![CDATA[<h2 id="jpa란">JPA란</h2>
+<p>자바 애플리케이션에서 관계형 데이터베이스를 관리하고 조작할 수 있도록 도와주는 표준 API 입니다.
+자바 객체를 데이터베이스 테이블에 매핑하여 객체지향 프로그래밍과 관계형 데이터베이스 간의 불일치를 해결합니다.</p>
+
+<p>JPA를 사용하면 SQL쿼리를 직접 작성하지 않고도 데이터베이스 작업을 수행할 수 있습니다.</p>
+
+<h3 id="등장-배경">등장 배경??</h3>
+<p>JPA 가 등장하기 전에는 객체지향 프로그래밍 언어와 관계형 데이터베이스 간의 매핑을 직접 구현했습니다.</p>
+
+<p>주로 JDBC를 이용하여 데이터베이스와 연결하여 쿼리를 실행하고 결과를 가져왔습니다.
+Connection 으로 데이터베이스를 연결을 설정하고 관리하였습니다. 개발자는 쿼리를 직접 작성하여 데이터베이스에 보낸 후
+반환된 결과를 받아 자바 객체로 매핑하는 작업을 수동을 해주어야 했습니다.
+추가적으로 SQL 실행 중 발생할 수 있는 예외를 처리해야합니다.</p>
+
+<p>SQL을 사용하여 데이터베이스와 상호작용해야 했으며, 반복적인 코드작성이 일어났습니다.
+쿼리를 직접 다루기 때문에 발생할 수 있는 오류가 많고 유지보수가 어렵다는 문제가 있습니다.</p>
+
+<p>객체 지향 언어의 클래스와 객체를 관계형 데이터베이스의 테이블과 매핑하는 과정에서 일관성을 유지하기 어려웠습니다.</p>
+
+<p>따라서 이러한 문제를 해결하기 위해 나온 것이 ORM 입니다.</p>
+
+<h2 id="orm-프레임워크">ORM 프레임워크</h2>
+<p>객체와 데이터베이스 매핑 자동화</p>
 <ul>
-  <li>Consectetur adipiscing elit</li>
-  <li>Donec a diam lectus</li>
-  <li>Sed sit amet ipsum mauris</li>
+  <li>ORM 프레임워크는 객체와 데이터베이스 간의 매핑을 자동으로 처리해줍니다.</li>
 </ul>
 
-<p>Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.</p>
-
-<p>Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula <em>semper consectetur sagittis</em>, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum.</p>
-
-<div class="row">
-    
-    <div style="flex: 100.0%">
-        <img class="single" src="/assets/img/pexels/travel.jpeg" alt="travel.jpeg" />
-    </div>
-    
-</div>
-
-<p>Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.</p>
-
-<blockquote>
-  <p>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque</p>
-</blockquote>
-
-<p>Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt.</p>
-
-\[\Theta \ne \Gamma\]
-
-<p>Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-
-      <p><span class="cit-authors">John Smith</span>, <span class="cit-title">A Title About Citations</span> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name></name></author><category term="A Tag" /><category term="Katex" /><summary type="html"><![CDATA[Consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.]]></summary></entry><entry><title type="html">Color Post</title><link href="http://localhost:4000/example/2019/05/18/color-post.html" rel="alternate" type="text/html" title="Color Post" /><published>2019-05-18T00:00:00+09:00</published><updated>2019-05-18T00:00:00+09:00</updated><id>http://localhost:4000/example/2019/05/18/color-post</id><content type="html" xml:base="http://localhost:4000/example/2019/05/18/color-post.html"><![CDATA[<h1 id="what-a-colorful-post">What a colorful post!</h1>
-
-<p>This is an idea that came from <a href="https://github.com/xukimseven/HardCandy-Jekyll">xukimseven/HardCandy-Jekyll</a> 
-looking at this cheerful and colorful theme, I wanted to enable something similar for Type-on-Strap.</p>
-
-<p>You can go fork and star <em>HardCandy-Jekyll</em> too! 😉</p>
-
-<!--more-->
-
-<h2 id="how-does-it-work">How does it work?</h2>
-
-<p>Basically you need to add just one thing, the color:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="na">title</span><span class="pi">:</span> <span class="s">Color Post</span>
-<span class="na">color</span><span class="pi">:</span> <span class="s">brown</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<p>It can either be a html color like <code class="language-plaintext highlighter-rouge">brown</code> (which look like red to me). Or with the rgb:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="na">title</span><span class="pi">:</span> <span class="s">Color Post</span>
-<span class="na">color</span><span class="pi">:</span> <span class="s">rgb(165,42,42)</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<p>The background used is <code class="language-plaintext highlighter-rouge">lineart.png</code> from <a href="https://github.com/xukimseven">xukimseven</a> you can edit it in the config file. 
-If you want another one, put it in <code class="language-plaintext highlighter-rouge">/assets/img</code> as well.</p>
-
-<blockquote>
-  <p>⚠️ It’s a bit hacking the css in the <code class="language-plaintext highlighter-rouge">post.html</code></p>
-</blockquote>]]></content><author><name>Sylhare</name></author><category term="Example" /><category term="Test" /><category term="Color" /><summary type="html"><![CDATA[What a colorful post! This is an idea that came from xukimseven/HardCandy-Jekyll looking at this cheerful and colorful theme, I wanted to enable something similar for Type-on-Strap. You can go fork and star HardCandy-Jekyll too! 😉]]></summary></entry><entry><title type="html">Feature images</title><link href="http://localhost:4000/example/2018/10/29/feature-images.html" rel="alternate" type="text/html" title="Feature images" /><published>2018-10-29T00:00:00+09:00</published><updated>2018-10-29T00:00:00+09:00</updated><id>http://localhost:4000/example/2018/10/29/feature-images</id><content type="html" xml:base="http://localhost:4000/example/2018/10/29/feature-images.html"><![CDATA[<p>Hopefully you will find enough information about how to set images in your blog here.
-This is an example of a post which includes a feature image specified in the front matter of the post. 
-The feature image spans the full-width of the page, and is shown with the title on permalink pages:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">feature-img</span><span class="pi">:</span> <span class="s2">"</span><span class="s">assets/img/feature-img/desk-messy.jpeg"</span>
-<span class="na">thumbnail</span><span class="pi">:</span> <span class="s2">"</span><span class="s">assets/img/thumbnails/feature-img/desk-messy.jpeg"</span> 
-</code></pre></div></div>
-
-<p>You can also use a thumbnail, a smaller version of the same image to improve loading of the page.
-The thumbnail will also be used when you share your article on other platform (linkedin, whatsapp, facebook, …).</p>
-
-<blockquote>
-  <ul>
-    <li>And now it is working</li>
-  </ul>
-</blockquote>
-
-<p>You can also add images aligned in your post using the <code class="language-plaintext highlighter-rouge">aligner</code> include.
-Make sure to separate all of the image path from in a string separated with <code class="language-plaintext highlighter-rouge">,</code>.
-It by default look into <code class="language-plaintext highlighter-rouge">assets/img/</code> so give the path from there, example:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">{</span><span class="sx">% include </span><span class="n">aligner</span><span class="p">.</span><span class="nf">html</span> <span class="n">images</span><span class="o">=</span><span class="s2">"pexels/book-glass.jpeg,triangle.png"</span> <span class="o">%</span><span class="p">}</span></code></pre></figure>
-
-<div class="row">
-    
-    <div class="column">
-        <img src="/assets/img/pexels/book-glass.jpeg" alt="book-glass.jpeg" />
-    </div>
-    
-    <div class="column">
-        <img src="/assets/img/feature-img/desk-messy.jpeg" alt="desk-messy.jpeg" />
-    </div>
-    
-</div>
-
-<p>Here you have two images side by side, but you can set more and set the amount per columns 
-(by specifying the number of columns or let it be automatic using <code class="language-plaintext highlighter-rouge">"auto"</code>):</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">{</span><span class="sx">% include </span><span class="n">aligner</span><span class="p">.</span><span class="nf">html</span> <span class="n">images</span><span class="o">=</span><span class="s2">"portfolio/cabin.png,portfolio/cake.png,portfolio/circus.png"</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span> <span class="o">%</span><span class="p">}</span></code></pre></figure>
-
-<div class="row">
-    
-    <div style="flex: 33.333333333333336%">
-        <img src="/assets/img/portfolio/cabin.png" alt="cabin.png" />
-    </div>
-    
-    <div style="flex: 33.333333333333336%">
-        <img src="/assets/img/portfolio/cake.png" alt="cake.png" />
-    </div>
-    
-    <div style="flex: 33.333333333333336%">
-        <img src="/assets/img/portfolio/circus.png" alt="circus.png" />
-    </div>
-    
-</div>
-
-<p>it also works with only one images, it is made to display it smaller than normally.
-However you can just use the Markdown way of doing it to get the image normal sized and centered.</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Markdown way (bigger)</span>
-<span class="o">!</span><span class="p">[</span><span class="no">Travel</span><span class="p">]({{</span> <span class="s2">"/assets/img/pexels/computer.jpeg"</span> <span class="o">|</span> <span class="n">relative_url</span><span class="p">}})</span>
-<span class="c1"># Aligner with only One (50% of width)</span>
-<span class="p">{</span><span class="sx">% include </span><span class="n">aligner</span><span class="p">.</span><span class="nf">html</span> <span class="n">images</span><span class="o">=</span><span class="s2">"pexels/computer.jpeg"</span> <span class="o">%</span><span class="p">}</span></code></pre></figure>
-
-<div class="row">
-    
-    <div class="column">
-        <img class="single" src="/assets/img/pexels/computer.jpeg" alt="computer.jpeg" />
-    </div>
-    
-</div>]]></content><author><name></name></author><category term="Example" /><category term="Test" /><category term="Image" /><summary type="html"><![CDATA[Hopefully you will find enough information about how to set images in your blog here. This is an example of a post which includes a feature image specified in the front matter of the post. The feature image spans the full-width of the page, and is shown with the title on permalink pages:]]></summary></entry><entry><title type="html">Bootstrap</title><link href="http://localhost:4000/demo/2017/09/17/Use-Bootstrap.html" rel="alternate" type="text/html" title="Bootstrap" /><published>2017-09-17T00:00:00+09:00</published><updated>2017-09-17T00:00:00+09:00</updated><id>http://localhost:4000/demo/2017/09/17/Use-Bootstrap</id><content type="html" xml:base="http://localhost:4000/demo/2017/09/17/Use-Bootstrap.html"><![CDATA[<p>This theme is compatible with Bootstrap if you choose to use it in your pages or posts.
-Here is a little demo with a code snippet, look at the source to see how the HTML and markdown get tangled.</p>
-
-<h2 id="use-bootstrap">Use bootstrap</h2>
-
-<p>Add some custom Bootstrap in the custom layout!</p>
-
-<p><img src="https://startbootstrap.com/assets/img/sb-logo.svg" alt="startbootstrap" width="500" /></p>
-
-<h3 id="snippet-example">Snippet example</h3>
-
-<p>If you are new to Bootstrap you can  always check the <a href="https://getbootstrap.com/docs/4.1/getting-started/introduction/">documentation</a>.<br />
-Here is an example from <a href="https://startbootstrap.com/snippets/portfolio-two-column">startbootstrap.com</a>.</p>
-
-<!-- Page Content -->
-<div class="container">
-
-  <div class="row">
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="" /></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Project One</a>
-          </h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="" /></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Project Two</a>
-          </h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit aliquam aperiam nulla perferendis dolor nobis numquam, rem expedita, aliquid optio, alias illum eaque. Non magni, voluptates quae, necessitatibus unde temporibus.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="" /></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Project Three</a>
-          </h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="" /></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Project Four</a>
-          </h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit aliquam aperiam nulla perferendis dolor nobis numquam, rem expedita, aliquid optio, alias illum eaque. Non magni, voluptates quae, necessitatibus unde temporibus.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="" /></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Project Five</a>
-          </h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 mb-4">
-      <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt="" /></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Project Six</a>
-          </h4>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit aliquam aperiam nulla perferendis dolor nobis numquam, rem expedita, aliquid optio, alias illum eaque. Non magni, voluptates quae, necessitatibus unde temporibus.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- /.row -->
-
-</div>
-<!-- /.container -->
-
-<h3 id="mix-it-with-markdown">Mix it with Markdown</h3>
-
-<p>All the above was custom HTML with Bootstrap.
-You can also mix it up with some markdown.</p>
-
-<p>You can use the bootstrap’s build in javascript API to control your event.
-Here is a code snippet for the <a href="https://getbootstrap.com/docs/4.0/getting-started/javascript/">documentation</a>:</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">#myModal</span><span class="dl">'</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">show.bs.modal</span><span class="dl">'</span><span class="p">,</span> <span class="nf">function </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="k">return</span> <span class="nx">e</span><span class="p">.</span><span class="nf">preventDefault</span><span class="p">()</span> <span class="c1">// stops modal from being shown</span>
-<span class="p">})</span>
-</code></pre></div></div>
-
-<p>That’s just for demo though, you would need to properly integrate your javascript in your page.
-Usually you would put any custom javascript script in the <em>assets</em> folder under js and reference it in your page from there.</p>
-
-<p>So try it out using the <code class="language-plaintext highlighter-rouge">bootstrap: true</code> flag! 😉</p>]]></content><author><name></name></author><category term="Demo" /><category term="Test" /><summary type="html"><![CDATA[This theme is compatible with Bootstrap if you choose to use it in your pages or posts. Here is a little demo with a code snippet, look at the source to see how the HTML and markdown get tangled.]]></summary></entry><entry><title type="html">Mermaid Chart</title><link href="http://localhost:4000/2016/12/03/Mermaid.html" rel="alternate" type="text/html" title="Mermaid Chart" /><published>2016-12-03T00:00:00+09:00</published><updated>2016-12-03T00:00:00+09:00</updated><id>http://localhost:4000/2016/12/03/Mermaid</id><content type="html" xml:base="http://localhost:4000/2016/12/03/Mermaid.html"><![CDATA[<h2 id="mermaid">Mermaid</h2>
-
-<p>Diagrams with mermaid, make sure it is enabled in the <code class="language-plaintext highlighter-rouge">_config.yml</code>.
-Here is a simple example:</p>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- To generate a diagram --&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mermaid"</span><span class="nt">&gt;</span>
-sequenceDiagram
-    Alice-&gt;&gt;John: Hello John, how are you?
-    John--&gt;&gt;Alice: Great!
-<span class="nt">&lt;/div&gt;</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>💡 Now render also work with the GitHub markdown highlight.</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-markdown" data-lang="markdown"><span class="p">```</span><span class="nl">mermaid
-</span><span class="sb">sequenceDiagram
-    Alice-&gt;&gt;John: Hello John, how are you?
-    John--&gt;&gt;Alice: Great!</span>
-<span class="p">```</span></code></pre></figure>
-
-<p>That will be rendered into this:</p>
-
-<div class="row">
-    
-    <div class="column">
-        <img class="single" src="/assets/img/mermaid-example.png" alt="mermaid-example.png" />
-    </div>
-    
-</div>
-
-<p>You can also go with more complex features and diagrams from the <a href="https://mermaid-js.github.io/mermaid/">documentation</a>,
-and try it out with the <a href="https://mermaid.live/">live editor</a>.</p>
-
-<h3 id="sequencediagram">SequenceDiagram</h3>
-
-<div class="mermaid">
-sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice-&gt;&gt;John: Hello John, how are you?
-    loop Healthcheck
-        John-&gt;&gt;John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts prevail!
-    John--&gt;&gt;Alice: Great!
-    John-&gt;&gt;Bob: How about you?
-    Bob--&gt;&gt;John: Jolly good!
-</div>
-
-<h3 id="flow">Flow</h3>
-
-<pre><code class="language-mermaid">flowchart TD
-    A[Christmas] --&gt;|Get money| B(Go shopping)
-    B --&gt; C{Let me think}
-    C --&gt;|One| D[Laptop]
-    D ~~~ E
-    C --&gt;|Two| E[iPhone]
-    C --&gt;|Three| F[fa:fa-car Car]
-    %% Grinch
-</code></pre>
-
-<h3 id="class">Class</h3>
-
-<pre><code class="language-mermaid">classDiagram
-    Animal &lt;|-- Duck
-    Animal &lt;|-- Fish
-    Animal &lt;|-- Zebra
-    Animal : +int age
-    Animal : +String gender
-    Animal: +isMammal()
-    Animal: +mate()
-    class Duck{
-      +String beakColor
-      +swim()
-      +quack()
-    }
-    class Fish{
-      -int sizeInFeet
-      -canEat()
-    }
-    class Zebra{
-      +bool is_wild
-      +run()
-    }
-</code></pre>
-
-<h3 id="state">State</h3>
-
-<pre><code class="language-mermaid">stateDiagram-v2
-    [*] --&gt; Still
-    Still --&gt; [*]
-    Still --&gt; Moving
-    Moving --&gt; Still
-    Moving --&gt; Crash
-    Crash --&gt; [*]
-</code></pre>
-
-<h3 id="er">ER</h3>
-
-<pre><code class="language-mermaid">erDiagram
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : has
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER ||--o{ INVOICE : "liable for"
-    DELIVERY-ADDRESS ||--o{ ORDER : receives
-    INVOICE ||--|{ ORDER : covers
-    ORDER ||--|{ ORDER-ITEM : includes
-    PRODUCT-CATEGORY ||--|{ PRODUCT : contains
-    PRODUCT ||--o{ ORDER-ITEM : "ordered in"
-</code></pre>
-
-<h3 id="gantt">Gantt</h3>
-
-<pre><code class="language-mermaid">gantt
-    title A Gantt Diagram
-    dateFormat  YYYY-MM-DD
-    section Section
-    A task           :a1, 2014-01-01, 30d
-    Another task     :after a1  , 20d
-    section Another
-    Task in sec      :2014-01-12  , 12d
-    another task      : 24d
-</code></pre>
-
-<h3 id="user-journey">User Journey</h3>
-
-<pre><code class="language-mermaid">journey
-    title My working day
-    section Go to work
-      Make tea: 5: Me
-      Go upstairs: 3: Me
-      Do work: 1: Me, Cat
-    section Go home
-      Go downstairs: 5: Me
-      Sit down: 3: Me
-</code></pre>
-
-<h3 id="git">Git</h3>
-
-<pre><code class="language-mermaid">gitGraph
-    commit
-    commit
-    branch develop
-    checkout develop
-    commit
-    commit
-    checkout main
-    merge develop
-    commit
-    commit
-</code></pre>
-
-<h3 id="pie">Pie</h3>
-
-<pre><code class="language-mermaid">pie title Pets adopted by volunteers
-    "Dogs" : 386
-    "Cats" : 85
-    "Rats" : 15
-</code></pre>
-
-<h3 id="mindmap">Mindmap</h3>
-
-<pre><code class="language-mermaid">mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectivness&lt;br/&gt;and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-</code></pre>
-
-<h3 id="quadrantchart">QuadrantChart</h3>
-
-<pre><code class="language-mermaid">quadrantChart
-    title Reach and engagement of campaigns
-    x-axis Low Reach --&gt; High Reach
-    y-axis Low Engagement --&gt; High Engagement
-    quadrant-1 We should expand
-    quadrant-2 Need to promote
-    quadrant-3 Re-evaluate
-    quadrant-4 May be improved
-    Campaign A: [0.3, 0.6]
-    Campaign B: [0.45, 0.23]
-    Campaign C: [0.57, 0.69]
-    Campaign D: [0.78, 0.34]
-    Campaign E: [0.40, 0.34]
-    Campaign F: [0.35, 0.78]
-</code></pre>
-
-<h3 id="xychart">XYChart</h3>
-
-<pre><code class="language-mermaid">    xychart-beta
-    title "Sales Revenue"
-    x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
-    y-axis "Revenue (in $)" 4000 --&gt; 11000
-    bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
-    line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
-</code></pre>]]></content><author><name></name></author><category term="Mermaid" /><summary type="html"><![CDATA[Mermaid]]></summary></entry><entry><title type="html">Markdown and HTML</title><link href="http://localhost:4000/syntax/2014/11/28/markdown-and-html.html" rel="alternate" type="text/html" title="Markdown and HTML" /><published>2014-11-28T00:00:00+09:00</published><updated>2014-11-28T00:00:00+09:00</updated><id>http://localhost:4000/syntax/2014/11/28/markdown-and-html</id><content type="html" xml:base="http://localhost:4000/syntax/2014/11/28/markdown-and-html.html"><![CDATA[<p>Jekyll supports the use of <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> with inline HTML tags which makes it easier to quickly write posts with Jekyll, without having to worry too much about text formatting. A sample of the formatting follows.</p>
-
-<h2 id="table-of-content">Table of content</h2>
-
-<!-- To be placed at the beginning of the post, it is where the table of content will be generated -->
+<p>CRUD 작업의 객체지향적 처리</p>
 <ul>
-  <li>TOC</li>
-  <li>You need to put this at the beginning of the page where you want the table of content to be displayed</li>
+  <li>CRUD(Create, Read, Update, Delete) 작업을 객체지향적으로 처리할 수 있습니다.</li>
 </ul>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* TOC
-{:toc}
-</code></pre></div></div>
-
-<p>It will then render the markdown and html titles (lines that begins with <code class="language-plaintext highlighter-rouge">#</code> or using the <code class="language-plaintext highlighter-rouge">&lt;h1&gt;&lt;/h1&gt;</code> tages)</p>
-
-<h2 id="title">Title</h2>
-
-<h3 id="subtitle">Subtitle</h3>
-
-<p>Tables have also been extended from Markdown:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>First Header</th>
-      <th>Second Header</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Content Cell</td>
-      <td>Content Cell</td>
-    </tr>
-    <tr>
-      <td>Content Cell</td>
-      <td>Content Cell</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Here’s an example of an image, which is included using Markdown:</p>
-
-<p><img src="/assets/img/pexels/book-glass.jpeg" alt="Image of a glass on a book" /></p>
-
-<p>This is another example of list:</p>
-
+<p>표준화된 인터페이스 제공</p>
 <ul>
-  <li>list of things
-    <ol>
-      <li>Sub list</li>
-      <li>of Other things</li>
-      <li>with numbers</li>
-    </ol>
-  </li>
-  <li>And many more
+  <li>JPA와 같은 ORM 프레임워크는 표준화된 인터페이스를 제공하여, 다양한 데이터베이스와도 쉽게 연동할 수 있습니다.</li>
+</ul>
+
+<p>성능 최적화 및 편의성 제공</p>
+<ul>
+  <li>내부적으로 캐싱, 지연로딩 등의 기법을 사용하여 성능을 최적화하고, 개발자가 데이터베이스와의 상호작용을 편리하게 처리할 수 있습니다.</li>
+</ul>
+
+<p>###
+JPA는 개발자가 객체지향적으로 데이터를 다루면서 이것을 관계형 데이터베이스에 저장하고 조회할 수 있도록 도와줍니다.
+객체와 테이블 간의 매핑 규칙을 정의하고 이를 바탕으로 JPA 구현체가 SQL을 생성하여 데이터베이스와 상호작용합니다.</p>
+
+<p>ORM을 통해 객체와 데이터베이스 간의 매핑을 자동화하기 때문에 개발자는 객체지향적인 코드를 집중적으로 작성할 수 있습니다.
+데이터베이스 스키마의 변경이 발생해도 JPA가 자동으로 SQL을 생성하여 매핑을 처리해주기 때문에 유지보수가 편리합니다.</p>
+
+<h2 id="개념">개념</h2>
+<ol>
+  <li>엔티티
     <ul>
-      <li>Sub sub list
-        <ul>
-          <li>can go on …
-            <ul>
-              <li>and on …
-                <ul>
-                  <li>and on !</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>That’s it.</li>
+      <li>영속성을 가진 객체</li>
+      <li>데이터베이스 테이블에 매핑되는 자바 클래스로 각 인스턴스는 테이블의 행을 나타냅니다.</li>
     </ul>
   </li>
+  <li>엔티티 매니저
+    <ul>
+      <li>엔티티의 생명주기를 관리하고 데이터베이스와 상호작용합니다.</li>
+      <li>엔티티를 저장, 삭제, 조회하는 등의 작업을 수행합니다.</li>
+    </ul>
+  </li>
+  <li>영속성 컨텍스트
+    <ul>
+      <li>엔티티 객체를 관리하는 메모리상의 공간입니다.</li>
+      <li>데이터베이스와의 상호작용을 중재하는 역할을 합니다.</li>
+    </ul>
+  </li>
+  <li>JPQL
+    <ul>
+      <li>엔티티 객체를 대상으로 쿼리를 작성합니다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="영속성persistence이란">영속성(Persistence)이란?</h5>
+<blockquote>
+  <p>데이터를 일시적인 저장소가 아닌 영구적인 저장소에 저장하는 것을 의미합니다.
+영속성을 통해 프로그램이 종료되더라도 데이터가 손실되지 않고 유지될 수 있으며 시스템의 오류나 충돌이 발생했을 때
+데이터를 복구할 수 있습니다.
+여러 프로그램이나 사용자가 동일한 데이터를 사용할 수 있으며 트랜잭션을 통해 데이터의 일관성을 유지할 수 있습니다.
+ex) 
+데이터를 데이터베이스에 저장하여 프로그램이 종료되더라도 데이터가 유지되도록 합니다.
+데이터를 파일에 저장하여 프로그램이 종료되더라도 데이터가 파일에 남아있도록 합니다.</p>
+</blockquote>
+
+<p>JPA에서의 “영속성”은 엔티티 객체의 생명 주기 중 하나로, 엔티티 객체가 영속성
+컨텍스트에 의해 관리되는 상태를 말합니다.
+엔티티 객체를 영속성 컨텍스트에 저장하고 이를 통해 데이터베이스와의 지속적인 동기화를 관리합니다.</p>
+
+<p>자바에서는 JPA를 사용하여 영속성을 관리할 수 있습니다.
+이를 통해 객체를 데이터베이스 테이블에 매핑하고 CRUD 작업을 쉽게 수행할 수 있습니다.</p>
+
+<h5 id="영속성-컨텍스트">영속성 컨텍스트</h5>
+<p>엔티티 매니저가 관리하는 엔티티 객체들의 집합입니다.
+영속성 컨텍스트는 엔티티 객체를 캐시로 관리하여 데이터베이스와의 상호작용을 최적화하고 객체 상태의 변경을
+추적합니다.</p>
+
+<p>엔티티 객체를 메모리에 저장하고 관리하며 이를 통해 엔티티 객체가 데이터베이스와 동기화됩니다.
+엔티티 객체를 메모리에 캐싱하여, 동일한 트랜잭션 내에서 반복적인 데이터베이스 접근을 줄입니다. (1차 캐시)
+엔티티의 상태 변화를 감지하여 트랜잭션이 커밋될 때 변경된 내용을 데이터베이스에 반영합니다.딩 (변경감지)
+필요한 시점에 데이터베이스에서 데이터를 로드하는 기능을 제공합니다. (지연로딩)</p>
+
+<h6 id="엔티티-객체의-생명-주기">엔티티 객체의 생명 주기</h6>
+<ul>
+  <li>
+    <p>비영속 (Transient)
+엔티티 객체가 영속성 컨텍스트에 의해 관릳되지 않은 상태입니다.
+데이터베이스와 연관이 없습니다.</p>
+  </li>
+  <li>
+    <p>영속 (Persistent)
+엔티티 객체가 영속성 컨텍스트에 의해 관리되는 상태입니다.
+엔티티 매니저를 통해 데이터베이스에 저장됩니다.</p>
+  </li>
+  <li>
+    <p>준영속 (Detached)
+한 번 영속상태 였지만 현재는 영속성 컨텍스트에 의해 관리되지 않는 상태입니다.
+영속성 컨텍스트가 닫히거나 detch() 메서드를 호출하여 엔티티가 분리될 때 발생합니다.</p>
+  </li>
+  <li>
+    <p>삭제 (Removed)
+엔티티 객체가 영속성 컨텍스트에 의해 삭제된 상태입니다.
+데이터베이스에서 해당 엔티티가 삭제됩니다.</p>
+  </li>
 </ul>
 
-<h3 id="other-subtitle">Other subtitle</h3>
+<h2 id="주요-어노테이션">주요 어노테이션</h2>
+<ol>
+  <li>@Entity : 클래스가 엔티티임을 선언합니다.</li>
+  <li>@Table : 엔티티와 매핑되는 데이터베이스 테이블을 지정합니다.</li>
+  <li>@Id : 엔티티의 기본키를 지정합니다.</li>
+  <li>@GeneratedValue : 기본키 값을 자동으로 생성하는 전략을 지정합니다.</li>
+  <li>@Column : 엔티티 필드와 매핑되는 데이터베이스 컬럼을 지정합니다.</li>
+</ol>
 
-<p>Highlighting for code in Jekyll is done using Base16 or Rouge. This theme makes use of Rouge by default.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user"</span><span class="o">)</span>
+<span class="nd">@NoArgsConstructor</span><span class="o">(</span><span class="n">access</span> <span class="o">=</span> <span class="nc">AccessLevel</span><span class="o">.</span><span class="na">PROTECTED</span><span class="o">)</span>
+<span class="nd">@Getter</span> <span class="nd">@Setter</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span><span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user_id"</span><span class="o">,</span> <span class="n">updatable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// count to ten</span>
-<span class="k">for </span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-<span class="p">}</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
 
-<span class="c1">// count to twenty</span>
-<span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">while </span><span class="p">(</span><span class="nx">j</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">j</span><span class="o">++</span><span class="p">;</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="nx">j</span><span class="p">);</span>
-<span class="p">}</span></code></pre></figure>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">password</span><span class="o">;</span>
 
-<h3 id="math">Math</h3>
-
-<p>Type on Strap uses KaTeX to display maths. Equations such as \(S_n = a \times \frac{1-r^n}{1-r}\) can be displayed inline.</p>
-
-<p>Alternatively, they can be shown on a new line:</p>
-
-\[f(x) = \int \frac{2x^2+4x+6}{x-2}\]
-
-<p>And in your markdown file:</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$$ f(x) = <span class="se">\i</span>nt <span class="se">\f</span>rac{2x^2+4x+6}{x-2} $$
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">phone</span><span class="o">;</span>
+    
+<span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="expandable-content">Expandable content</h3>
+<p>JPA는 자동으로 엔티티와 데이터베이스 테이블 간의 매핑을 처리해주기때문에 개발자는 별도의 SQL 쿼리를 작성할 필요가 없습니다.</p>]]></content><author><name></name></author><category term="JPA" /><summary type="html"><![CDATA[JPA란 자바 애플리케이션에서 관계형 데이터베이스를 관리하고 조작할 수 있도록 도와주는 표준 API 입니다. 자바 객체를 데이터베이스 테이블에 매핑하여 객체지향 프로그래밍과 관계형 데이터베이스 간의 불일치를 해결합니다.]]></summary></entry><entry><title type="html">Blocking vs Non-Blocking</title><link href="http://localhost:4000/java/2024/07/01/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9.html" rel="alternate" type="text/html" title="Blocking vs Non-Blocking" /><published>2024-07-01T00:00:00+09:00</published><updated>2024-07-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/07/01/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9</id><content type="html" xml:base="http://localhost:4000/java/2024/07/01/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9.html"><![CDATA[<h2 id="blocking-vs-non-blocking">Blocking vs Non-Blocking</h2>
+<p>Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식</p>
 
-<p>Click on the expandable content to display it:</p>
+<p>Non-Blocking IO는 작업이 완료되지 않더라도 대기하지 않고 다른 작업을 처리하는 방식</p>
 
-<details>
-    <summary>Click here!</summary>
-    Now you see me
-</details>
+<h2 id="blocking-io에서의-문제점">Blocking IO에서의 문제점</h2>
+<p>입출력 작업이 완료될때 까지 다른 스레드가 대기하여야한다. 따라서 멀티 스레드 환경에서 대기시간이 오래걸릴수있다. 
+많은 클라이언트의 요청을 동시에 처리할 수 없으며 블록상태가 발생할 수 있습니다.</p>
 
-<p>And in your markdown file:</p>
+<h2 id="non-blocking-io에서의-장단점">Non-Blocking IO에서의 장단점</h2>
+<p>작업이 완료될 때까지 기다리지 않고 해당 작업을 수행하는 동안 다른 작업을 수행할 수 있는 방식입니다.
+요청한 작업이 완료되면, 결과를 처리할 수 있도록 콜백함수 등을 통해 알림을 받습니다.
+병렬적으로 여러 작업을 처리할 수 있는 장점이 있습니다.</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;details&gt;</span>
-    <span class="nt">&lt;summary&gt;</span>Click here!<span class="nt">&lt;/summary&gt;</span>
-    Now you see me
-<span class="nt">&lt;/details&gt;</span>
-</code></pre></div></div>]]></content><author><name>Rohan Chandra</name></author><category term="Syntax" /><category term="Katex" /><category term="Markdown" /><summary type="html"><![CDATA[Jekyll supports the use of Markdown with inline HTML tags which makes it easier to quickly write posts with Jekyll, without having to worry too much about text formatting. A sample of the formatting follows.]]></summary></entry></feed>
+<p>대기시간이 최소화되어 시스템이 더 효율적을 자원을 이용할 수 있으며 여러 작업을 동시에 처리하기 때문에 응답성이 향상됩니다.
+비교적 적은 스레드로 많은 요청을 처리할 수 있어 스케일링에 유리합니다.
+IO 작업이 많이 발생하는 환경에 효과적입니다.</p>
+
+<p>하지만 비동기 프로그래밍으로 동기적 프로그래밍보다 복잡하며 콜백 지옥과 같은 문제가 발생할 수 있습니다.
+또한 이벤트를 기반으로 동작하기 때문에 실행 흐름을 추적하거나 디버깅이 어렵습니다.</p>
+
+<p>비동기 작업이 많아질수록 메모리 사용량이 증가할 수 있습니다.</p>
+
+<p>주로 다수의 클라이언트 요청을 비동기로 처리할 때 사용됩니다. 또한 웹 서버에서 여러 요청을 동시에 처리하고
+IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하는데 유용하게 사용됩니다.
+대규모 데이터베이스나 파일 처리에서 비동기 IO는 시스템의 처리량을 향상 시키는데 기여할 수 있습니다.</p>
+
+<p>구현방법에는 
+가장 기본적인 방법으로 자바스크립트에서 콜백함수를 사용하거나 promise 를 사용하는 방법이 있습니다.
+또한 자바의 NIO 와 같은 라이브러리를 사용하여 블로킹 IO 를 비동기적으로 처리할 수 있습니다.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Blocking vs Non-Blocking Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식]]></summary></entry><entry><title type="html">Db Index</title><link href="http://localhost:4000/2024/06/27/db-index.html" rel="alternate" type="text/html" title="Db Index" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-06-27T00:00:00+09:00</updated><id>http://localhost:4000/2024/06/27/db-index</id><content type="html" xml:base="http://localhost:4000/2024/06/27/db-index.html"><![CDATA[<hr />
+<p>layout: post
+title: index와 B-tree, Hash인덱스
+categories: DB
+–</p>
+
+<h2 id="인덱스란">인덱스란</h2>
+<blockquote>
+  <p>데이터베이스 테이블에서 데이터를 빠르게 검색할 수 있도록 도와주는 데이터 구조</p>
+</blockquote>
+
+<p>인덱스는 테이블 내의 1개 또는 여러 개의 컬럼을 이용하여 생성할 수 있습니다. 인덱스는
+데이터베이스의 테이블과 별도로 저장되며, 인덱스를 저장하기 위한 추가적인 저장공간이 필요합니다.</p>
+
+<p>테이블의 특정 컬럼에 대해서 인덱스를 생성하면, 해당 컬럼의 데이터를 정렬한 후 별도의 메모리 공간에 데이터의 물리적 주소와 함께 저장됩니다.</p>
+
+<ul>
+  <li>키 값 : 인덱스가 참조하는 컬럼 값</li>
+  <li>포인터/ 참조 : 실제 데이터가 저장된 테이블의 행을 가리키는 포인터</li>
+</ul>
+
+<p>해당 컬럼의 값을 키로 사용하기 때문에 테이블 전체를 스캔하지 않고 원하는 데이터를 찾을 수 있습니다.</p>
+
+<p>이는 검색속도를 향상시킵니다 <strong>정렬된 상태로 저장이 되기 때문에</strong> 정렬된 데이터에 빠르게 접근할 수 있습니다.</p>
+
+<h2 id="장점">장점</h2>
+<p>인덱스를 이용하면 특정 키 값을 빠르게 검색할 수 있습니다. 이는 인덱스가 정렬된 상태이기 때문입니다.
+정렬된 데이터 구조이기 때문에 비트리 인덱스와 같은 알고리즘을 사용하여 데이터를 빠르게 찾을 수 있습니다.
+인덱스를 사용하면 전체 테이블을 스캔하지 않고 원하는 데이터를 찾을 수 있습니다. 따라서 더 빠른 응답시간을 제공할 수 있습니다.</p>
+
+<p>정렬되지 않은 데이터의 경우 특정 키 값을 찾기 위해 데이터를 순차적으로 스캔해야 하기 때문에 선형 검색을 수행해야 합니다.
+따라서 데이터가 많아질수록 검색 속도가 느려질 수 있습니다.</p>
+
+<h2 id="단점">단점</h2>
+<p>인덱스는 추가적인 저장공간을 필요로 하기 때문에 데이터베이스의 크기가 증가할 수 있습니다.
+또한 데이터의 삽입, 삭제, 수정시 인덱스도 리밸런싱되어야 하기 때문에 오버헤드가 발생할 수 있습니다.</p>
+
+<p>키를 기준으로 검색하는 경우 빠른 속도를 기대할 수 있으나 다른 컬럼을 기준으로 검색하는 경우 해당 컬럼이 인덱스로 지정되지 않은 경우
+성능 저하가 발생할 수 있습니다. 
+따러서 자주 사용되는 검색 조건에 대해 적절한 인덱스를 생성하고 관리하는 것이 중요합니다.</p>
+
+<h2 id="언제-사용해야-할까">언제 사용해야 할까?</h2>
+<p>특정 컬럼이 자주 검색 조건으로 사용될 때 인덱스를 생성하는 것이 효율적입니다.
+예로 주문 번호, 날짜, 사용자 ID 등 검색이 빈번한 컬럼은 인덱스를 통해 검색 성능을 향상시킬 수 있습니다.</p>
+
+<p>정렬과 같은 그룹화 작업이 자주 일어나는 컬럼에 사용하는 것도 쿼리의 성능을 향상시킬 수 있습니다.
+조인 연산에 사용되는 컬럼에 인덱스를 생성하거나, 범위 검색이나 부분 일치 검색을 수행할 때 사용할 수 있습니다.</p>
+
+<p>하지만 너무 많은 인덱스를 생성하는 것은 성능 저하를 일으킬 수 있기때문에 자주 사용되는 검색 조건 등 꼭 필요한 인덱스만 생성하는 것이 좋습니다.</p>
+
+<h2 id="인덱스의-구조">인덱스의 구조</h2>
+
+<h4 id="b-tree-인덱스">B-tree 인덱스</h4>
+<p>Balanced tree의 약자로 균형잡힌 트리 구조입니다. 모든 리프노드가 동일한 깊이에 위치합니다.
+노드의 삽입 및 삭제 시 특정 규칙에 맞게 재정렬 되어 밸런스를 유지하는 트리입니다.
+각 노드는 여러 키와 포인터를 가지고 있으며 키는 정렬된 상태로 저장됩니다.</p>
+
+<p>검색시 루트 노드부터 시작하여 비교를 통해 적절한 리프노드에 도달합니다.</p>
+
+<h4 id="해시-인덱스">해시 인덱스</h4>
+<p>해시 함수를 사용하여 키 값을 해시코드로 변환하고 이를 기반으로 데이터를 저장하고 검색하는 구조입니다.
+키와 값의 구조로 되어있기 때문에 해시 인덱스의는 탐색 시간이 O(1) 로 탐색 시간이 빠릅니다.</p>
+
+<p>정확하게 일치하는 검색에 대해서는 빠르지만 범위를 검색하는 경우에는 적합하지 않습니다.</p>
+
+<p>해시 인덱스는 데이터가 해시코드에 따라 분산되어 있습니다. 그래서 데이터를 정렬된 순서로 접근하는 것이 어렵습니다.
+데이터들이 정렬되어 있지 않기 때문에 특정 기준보다 크거나 작은 값, 부등호 연에 대해 검색이 적합하지 않습니다.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[layout: post title: index와 B-tree, Hash인덱스 categories: DB –]]></summary></entry><entry><title type="html">Configuration어노테이션</title><link href="http://localhost:4000/annotation/2024/06/27/annotation-configuration.html" rel="alternate" type="text/html" title="Configuration어노테이션" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-06-27T00:00:00+09:00</updated><id>http://localhost:4000/annotation/2024/06/27/annotation-configuration</id><content type="html" xml:base="http://localhost:4000/annotation/2024/06/27/annotation-configuration.html"><![CDATA[<h2 id="configuration">@Configuration</h2>
+<blockquote>
+  <p>설정 클랫스를 정의할 때 사용합니다.</p>
+</blockquote>
+
+<p>해당 클래스가 스프링 Bean 구성 클래스임을 나타내며, 스프링 컨테이너에 의해 빈으로 관리됩니다.</p>]]></content><author><name></name></author><category term="annotation" /><summary type="html"><![CDATA[@Configuration 설정 클랫스를 정의할 때 사용합니다.]]></summary></entry><entry><title type="html">어노테이션 RequiredArgsConstructor, AllArgsConstructor</title><link href="http://localhost:4000/spring/2024/06/27/annotation-allargsconstructor-requiredargsconstructor.html" rel="alternate" type="text/html" title="어노테이션 RequiredArgsConstructor, AllArgsConstructor" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-06-27T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/06/27/annotation-allargsconstructor-requiredargsconstructor</id><content type="html" xml:base="http://localhost:4000/spring/2024/06/27/annotation-allargsconstructor-requiredargsconstructor.html"><![CDATA[<p>프로젝트 진행 중 계속해서 의존성 주입 문제가 생겼다.</p>
+
+<p>도대체 뭘까..</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SmsSenderService</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">SmsCertification</span> <span class="n">smsCertification</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${coolsms.apikey}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">apiKey</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${coolsms.apisecret}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">apiSecret</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${coolsms.fromnumber}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">fromNumber</span><span class="o">;</span>
+    
+    <span class="c1">// 코드 생략</span>
+<span class="o">}</span>
+
+
+</code></pre></div></div>
+
+<p>@RequiredArgsConstructor 와 @AllArgsConstructor 를 알아보자</p>
+
+<p>둘 다 Lombok 에서 제공하는 어노테이션으로 코드를 간결하게 작성할 수 있도록 도와주는 역할을 합니다.</p>
+
+<h2 id="requiredargsconstructor">@RequiredArgsConstructor</h2>
+<p>클래스의 final로 선언된 필드나 @NonNull 로 표시된 필드를 기반으로 생성자를 생성합니다.
+생성자는 이러한 필드들을 매개변수로 받아 초기화합니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>  <span class="c1">// final로 선언</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+    
+    
+    <span class="cm">/* 아래와 같은 생성자가 자동으로 생성됩니다.
+    public User(String name, int age) {
+      this.name = name;
+      this.age = age;
+    }
+     */</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<ul>
+  <li>즉, 초기화되지 않은 final 필드의 생성자를 생성합니다.</li>
+</ul>
+
+<h2 id="allargsconstructor">@AllArgsConstructor</h2>
+<p>모든 필드를 기반으로 생성자를 생성합니다.
+final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변수로 받는 생성자를 생성합니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+    
+    <span class="cm">/* 아래와 같은 생성자가 자동으로 생성됩니다.
+    public User(String name, int age) {
+      this.name = name;
+      this.age = age;
+    }
+     */</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="value-와-requiredargsconstructor">@Value 와 @RequiredArgsConstructor?</h2>
+<p>@Value 이 뭘까?</p>
+
+<p>final 로 선언한 필드에 @Value를 사용하면?
+스프링이 빈을 생성할 때 해당 필드를 초기화할 수 없기 때문에 에러가 발생합니다.
+@Value 을 사용할 때는 생성자 인젝션을 사용하지 않기 때문에 @RequiredArgsConstructor 를 사용하여
+생성자를 자동을 생성할 수 없습니다.</p>
+
+<h2 id="value-와-allargsconstructor">@Value 와 @AllArgsConstructor?</h2>
+<p>스프링은 빈을 초기화 할 때 @Value 어노테이션을 사용하여 외부 프로퍼티 파일에서 값을 주입할 수 있습니다.
+이것은 생성자 인젝션을 지원하지 않습니다.
+따라서 @AllArgsConstructor을 사용할 때는 스프링이 @Value 어노테이션을 통해 초기화할 수 없는 필드에 대해서는 생성자를 자동으로 생성하지 않습니다. 
+이로 인해 apiKey, apiSecret, fromNumber 필드는 @Value 어노테이션을 통해 초기화할 수 없어서 에러가 발생합니다.</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[프로젝트 진행 중 계속해서 의존성 주입 문제가 생겼다.]]></summary></entry></feed>

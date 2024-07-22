@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.4.9
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  
+  <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=5"> <!-- Theme Mode--> <script> const darkBtn = "Dark"; const lightBtn = "Light"; const isAutoTheme = false; const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; if (isAutoTheme) { document.documentElement.setAttribute('data-theme', sessionStorage.getItem('theme') ?? preferredTheme); } else { document.documentElement.setAttribute('data-theme', "light"); } </script> <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)--> <script defer src="/assets/js/main.min.js"></script> <!-- CSS --> <link rel="stylesheet" href="/assets/css/main.css"> <!--Favicon--> <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"> <!-- KaTeX 0.16.9 --> <script defer src="/assets/js/vendor/katex.min.js"></script> <script defer src="/assets/js/vendor/katex.auto-render.min.js" onload="renderMathInElement(document.body);"></script> <!-- Mermaid 10.8.0 --> <script defer src="/assets/js/vendor/mermaid.min.js"></script> <!-- Simple Jekyll Search 1.10.0 --> <script src="/assets/js/vendor/simple-jekyll-search.min.js" type="text/javascript"></script> <!-- Google Analytics / Cookie Consent --> <script> const cookieName = 'cookie-notice-dismissed-http://localhost:4000'; const isCookieConsent = 'false'; const analyticsName = ''; const analyticsNameGA4 = ''; </script> <!-- seo tags --> <meta property="og:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta property="og:type" content="website" /> <!-- Begin Jekyll SEO tag v2.8.0 --> <title>ArrayList와 LinkedList | Winnie’s Blog</title> <meta name="generator" content="Jekyll v4.3.3" /> <meta property="og:title" content="ArrayList와 LinkedList" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="Array 배열은 동일한 타입의 데이터들이 순차적으로 메모리에 저장되는 자료구조입니다. 인덱스를 통한 직접 접근이 가능하기 때문에 탐색 속도가 빠르다는 장점이 있습니다. 하지만 크기가 고정되어 있으며 동적으로 변경할 수 없다는 단점이 있습니다. 변경이 필요한 경우 배열을 새로 생성한 후 기존의 요소들을 복사하여야 합니다." /> <meta property="og:description" content="Array 배열은 동일한 타입의 데이터들이 순차적으로 메모리에 저장되는 자료구조입니다. 인덱스를 통한 직접 접근이 가능하기 때문에 탐색 속도가 빠르다는 장점이 있습니다. 하지만 크기가 고정되어 있으며 동적으로 변경할 수 없다는 단점이 있습니다. 변경이 필요한 경우 배열을 새로 생성한 후 기존의 요소들을 복사하여야 합니다." /> <link rel="canonical" href="http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html" /> <meta property="og:url" content="http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html" /> <meta property="og:site_name" content="Winnie’s Blog" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2024-06-10T00:00:00+09:00" /> <meta name="twitter:card" content="summary" /> <meta property="twitter:title" content="ArrayList와 LinkedList" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-06-10T00:00:00+09:00","datePublished":"2024-06-10T00:00:00+09:00","description":"Array 배열은 동일한 타입의 데이터들이 순차적으로 메모리에 저장되는 자료구조입니다. 인덱스를 통한 직접 접근이 가능하기 때문에 탐색 속도가 빠르다는 장점이 있습니다. 하지만 크기가 고정되어 있으며 동적으로 변경할 수 없다는 단점이 있습니다. 변경이 필요한 경우 배열을 새로 생성한 후 기존의 요소들을 복사하여야 합니다.","headline":"ArrayList와 LinkedList","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html"},"url":"http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html"}</script> <!-- End Jekyll SEO tag --> <!-- RSS --> <link rel="alternate" type="application/atom+xml" title="Winnie's Blog" href="http://localhost:4000/feed.xml"/> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Winnie&apos;s Blog" /> <!-- Twitter Cards --> <meta name="twitter:title" content="ArrayList와 LinkedList"> <meta name="twitter:description" content="Array배열은 동일한 타입의 데이터들이 순차적으로 메모리에 저장되는 자료구조입니다.인덱스를 통한 직접 접근이 가능하기 때문에 탐색 속도가 빠르다는 장점이 있습니다.하지만 크기가 고정되어 있으며 동적으로 변경할 수 없다는 단점이 있습니다.변경이 필요한 경우 배열을 새로 생성한 후 ..."> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta name="twitter:image:alt" content="ArrayList와 LinkedList"> </head>
+  <body>
+    
+    <header class="site-header"> <!-- Logo and title --> <div class="branding"> <a href="/"> <img alt="logo img" class="avatar" src="/assets/img/cat.png" loading="lazy"/> </a> <a class="site-title" aria-label="Winnie's Blog" href="/"> Winnie's Blog </a> </div> <!-- Toggle menu --> <nav class="clear"> <a aria-label="pull" id="pull" class="toggle" href="#"> <i class="fas fa-bars fa-lg"></i> </a> <!-- Menu --> <ul class="hide"> <li class="separator"> | </li> <li> <a class="clear" aria-label="Categories" title="Categories" href="/categories/"> <span class="navbar-label ">Categories</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Github" title="Github" href="https://github.com/byunyourim"> <span class="navbar-label ">Github</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Works" title="Works" href="/portfolio/"> <span class="navbar-label ">Works</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Tags" title="Tags" href="/tags/"> <i class="navbar-icon fas fa-tags" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Tags</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Search" title="Search" href="/search/"> <i class="navbar-icon fas fa-search" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Search</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Blog Archive" title="Blog Archive" href="/archive/"> <i class="navbar-icon fas fa-archive" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Blog Archive</span> </a> </li> </ul> </nav> </header>
+    <div class="content">
+      <article >
+    <header id="main" style="">
+        <div class="title-padder">
+            
+                <h1 id="ArrayList%EC%99%80+LinkedList" class="title">ArrayList와 LinkedList</h1>
+                
+
+
+<div class="post-info">
+    <p class="meta">
+      
+      
+      June 10, 2024
+    </p></div>
+
+            
+        </div>
+    </header>
+
+    <section class="post-content">
+    
+            <h2 id="array">Array</h2>
+<p>배열은 동일한 타입의 데이터들이 순차적으로 메모리에 저장되는 자료구조입니다.
+인덱스를 통한 직접 접근이 가능하기 때문에 탐색 속도가 빠르다는 장점이 있습니다.
+하지만 크기가 고정되어 있으며 동적으로 변경할 수 없다는 단점이 있습니다.
+변경이 필요한 경우 배열을 새로 생성한 후 기존의 요소들을 복사하여야 합니다.</p>
+
+<h2 id="arraylist">ArrayList</h2>
+<p>동적 배열 기반의 리스트 자료구조입니다. 내부적으로 배열을 사용하여 요소를 저장하며
+요소의 추가나 삭제에 의해 크기가 동적으로 조정됩니다.</p>
+
+<p>ArrayList는 생성할 때 초기 용량을 설정할 수 있으며 기본으로 10 으로 설정됩니다.
+내부 배열의 용량이 초과되면 ArrayList 는 자동으로 배열의 크기를 증가시킵니다.</p>
+
+<p>이 과정에서  더 큰 새로운 배열을 생성하고, 기존 배열의 요소를 새로운 배열로 복사합니다.
+(새로운 배열의 크기는 기존 배열 크기의 1.5 또는 2 배)</p>
+
+<p>초기 용량을 적절히 설정하면 배열의 크기를 동적으로 늘리는 작업을 줄일 수 있습니다.
+배열을 늘리는 작업은 새로운 배열을 생성하고 기존 배열의 요소를 복사해야하기 때문에 비용이 많이 듭니다.</p>
+
+<p>너무 크게 설정하면 메모리 공간을 낭비하게 되며
+너무 작게 설정하게 되면 크기 조정 작업이 빈번하게 발생하여 오버헤드가 발생할 수 있습니다.</p>
+
+<p>배열을 기반으로 하기 때문에 인덱스를 통한 직접 접근이 가능합니다.</p>
+
+<h2 id="linkedlist">LinkedList</h2>
+<p>양방향 연결리스트 기반의 자료구조입니다. 
+노드로 구성이 되며 배열에 비해 삽입 삭제가 유연합니다.
+각 노드는 데이터 요소와 두 개의 참조(이전 노드, 다음 노드를 가리키는 포인터)로 이루어져 있습니다. 
+이러한 노드들이 서로 연결되어 있어서 양방향 연결 리스트(doubly linked list) 구조를 형성합니다.</p>
+
+<h2 id="arraylist와-linkedlist의-요소-추가-및-삭제-성능-차이">ArrayList와 LinkedList의 요소 추가 및 삭제 성능 차이</h2>
+<p>ArrayList는 요소를 끝에 추가하는 작업이 빈번한 경우에 유리합니다.
+요소를 중간에 추가하거나 삭제하는 경우 비효율적일 수 있습니다.</p>
+
+<p>LinkedList는 요소를 중간에 추가하거나 삭제하는 작업이 빈번한 경우에 유리합니다.
+하지만 인덱스를 기반으로 요소에 접근하는 작업에는 비효율적입니다.
+특정 인덱스의 요소에 접근하려면 처음부터 해당 인덱스까지 찾아가야합니다.</p>
+
+<p>##ArrayList와 LinkedList의 탐색 속도
+ArrayList 는 인덱스를 기반으로 요소에 직접 접근하기 때문에 요소에 대한 빠른 접근이 가능합니다.
+따라서 요소를 탐색하는데 있어 O(1)의 시간이 소요됩니다.</p>
+
+<p>LinkedList 특정 인덱스의 요소에 접근하기 위해서는 처음부터 해당 인덱스까지 찾아가야 합니다. 
+따라서 요소를 탐색하는 데에는 평균적으로 O(n/2)의 시간이 소요됩니다. 
+최악의 경우 O(n)의 시간이 소요될 수 있습니다.</p>
+
+<p>따라서 요소의 탐색이 빈번한 경우에는 ArrayList를 사용하는 것이 효율적이며
+요소의 추가 및 삭제가 자주 일어나는 경우에는 LinkedList를 사용하는 것이 효율적일 수 있습니다.</p>
+
+
+    
+    </section>
+
+    <!-- Social media shares -->
+    
+
+<div class="share-buttons">
+    <ul class="share-buttons">
+        <li class="meta">Share</li>
+              
+        <li>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html&title=ArrayList%EC%99%80+LinkedList%20%7C%20Winnie%27s+Blog&summary=&source=http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html"
+               target="_blank" title=" LinkedIn">
+                <i class="fab fa-linkedin fa-2x" aria-hidden="true"></i>
+                <span class="sr-only">Share on LinkedIn</span>
+            </a>
+        </li>
+          
+        <li>
+            <a href="mailto:?subject=ArrayList와 LinkedList%20%7C%20Winnie's Blog&body=http://localhost:4000/alogrithm/2024/06/10/algorithm-arrayList.html"
+               target="_blank" title="">
+                <i class="fas fa-envelope-square fa-2x" aria-hidden="true"></i>
+                <span class="sr-only">Email</span></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+    <!-- Tag list -->
+    
+    
+
+
+  <div class="tag-list"></div>
+
+
+
+</article>
+
+
+
+
+<!-- To change color of links in the page --> <style> header#main { background-size: cover; background-repeat: no-repeat; background-position: center; } </style> <!-- Post navigation --> <div id="post-nav"> <div id="previous-post"> <a alt="JDBC구현" href="/java/2024/06/10/java-JDBC-%EA%B5%AC%ED%98%84.html"> <p>Previous post</p> JDBC구현 </a> </div> <div id="next-post"> <a alt="Dark Mode" href="/demo/2021/04/27/dark-mode.html"> <p>Next post</p> Dark Mode </a> </div> </div> <!--Utterances--> <!-- Cusdis --> <!-- Disqus -->
+
+<script src="https://utteranc.es/client.js"
+        repo="byunyourim/comments"
+        issue-term="pathname"
+        label="comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+    </div>
+    
+    <footer class="site-footer"> <p class="text"> Powered by <a href='https://jekyllrb.com/'>Jekyll</a> with <a href='https://github.com/sylhare/Type-on-Strap'>Type on Strap</a></p> <div class="footer-icons"> <ul> <!-- Social icons from Font Awesome, if enabled --> <li> <a feed.xml href="/feed.xml" title="Follow RSS feed" target="_blank"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fas fa-rss fa-stack-1x fa-inverse"></i> </span> </a> </li> <li> <a href="https://github.com/sylhare" title="Follow on Github" target="_blank" rel="noopener"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fab fa-github fa-stack-1x fa-inverse"></i> </span> </a> </li> </ul> </div> <script type="module"> mermaid.initialize({ startOnLoad: false, theme: "default" }); mermaid.run({ nodes: [...document.querySelectorAll('.language-mermaid'), ...document.querySelectorAll('.mermaid')] }); </script> </footer>
+  </body>
+</html>
