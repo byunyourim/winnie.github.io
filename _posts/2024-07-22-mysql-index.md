@@ -34,16 +34,16 @@ LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
 
 ### '=' 으로 완전일치 검색하는 경우
    인덱스를 사용하여 검색하는 것을 확인할 수 있다.
-![img.png](https://github.com/user-attachments/assets/5793a69e-48b4-4d3d-8044-9afbd22840b8)  
+![img1.png](https://github.com/user-attachments/assets/5793a69e-48b4-4d3d-8044-9afbd22840b8)  
 <br/>
 
 ### LIKE를 이용해서 검색하는 경우
   % 으로 시작하는 문자열을 검색하는 경우 인덱스를 사용하지 않는 것을 확인할 수 있다.
-![img.png](https://github.com/user-attachments/assets/1695099b-8f1e-4c03-b339-764eb26ddc7e)  
+![img2.png](https://github.com/user-attachments/assets/1695099b-8f1e-4c03-b339-764eb26ddc7e)  
 <br/>
   
 - %가 위에 있는 문자열을 검색하는 경우 인덱스를 사용하는 것을 확인할 수 있다.
-![img.png](https://github.com/user-attachments/assets/3884a4ad-1f26-49d8-a27c-63dbbf8bc682)    
+![img3.png](https://github.com/user-attachments/assets/3884a4ad-1f26-49d8-a27c-63dbbf8bc682)    
 <br/>  
 <br/>  
 
@@ -53,7 +53,7 @@ LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
 ##### 이제 속도 측면에서 확인해보자 
 
 ### '='을 사용한 경우
-![img_1.png](https://github.com/user-attachments/assets/d44d1cbe-f203-42de-9621-5a6aad4fecee)
+![img_4.png](https://github.com/user-attachments/assets/d44d1cbe-f203-42de-9621-5a6aad4fecee)
 <br/>  
 <br/>
 
@@ -61,11 +61,11 @@ LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
 
 ### LIKE을 사용한 경우
 - %를 시작 부분에서 사용하는 경우
-![img_1.png](https://github.com/user-attachments/assets/5c493e49-75e5-4574-a4f4-dd8889a46733  
+![img_5.png](https://github.com/user-attachments/assets/5c493e49-75e5-4574-a4f4-dd8889a46733) 
 <br/>  
   
 - %를 마지막 부분에서 사용하는 경우
-![img_1.png](https://github.com/user-attachments/assets/7fd3b0fc-179f-455b-8c5a-5f21e8cacfe8)
+![img_6.png](https://github.com/user-attachments/assets/7fd3b0fc-179f-455b-8c5a-5f21e8cacfe8)
   
 
 
