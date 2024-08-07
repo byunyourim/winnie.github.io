@@ -13,12 +13,11 @@
         {% endif %}
         <span>
           <header>
-            <h1>
+            <h2>
               <a aria-label="{{ post.title }}" class="post-link" href="{{ post.url | relative_url }}">
-                {{ post.title }}
+                [{{ post.categories }}]&nbsp;{{ post.title }}
               </a>
-            </h1>
-            {% include blog/post_info.liquid author=post.author date=post.date %}
+            </h2>
           </header>
           {% if site.excerpt or site.theme_settings.excerpt %}
               <div class="excerpt">
@@ -29,6 +28,7 @@
                   {% endif %}
               </div>
           {% endif %}
+            <p>{% include blog/post_info.liquid categories=post.categories author=post.author date=post.date %}</p>
       </span>
     </div>
     {% endfor %}

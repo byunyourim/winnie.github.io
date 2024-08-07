@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  color: var(--text);
+  color: rgba(50, 49, 49, 0.88);
   font-family: $font-family-main;
   font-size: $font-size;
   word-wrap: break-word;
@@ -59,6 +59,15 @@ h3 {
 h4 {
   font-size: 1.15em;
 }
+
+p {
+  font-size: 0.85em;
+}
+
+li{
+  font-size: 0.9em;
+}
+
 
 iframe,
 img,
@@ -102,6 +111,7 @@ summary {
     font-size: 0.8em;
   }
 
+
   iframe,
   img,
   embed,
@@ -132,9 +142,8 @@ summary {
     font-size: 0.95em;
   }
   li li * {
-    font-size: 1em;
+    font-size: 0.8em;
   }
-
   table {
     overflow-x: scroll;
   }
@@ -188,8 +197,8 @@ ul,
 dl,
 details,
 .math-display {
-  line-height: 1.5;
-  margin-bottom: 1em;
+  line-height: 1.9;
+  margin-bottom: 1.1em;
 }
 
 // Lists within lists
