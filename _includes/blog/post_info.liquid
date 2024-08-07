@@ -1,3 +1,4 @@
+{% assign author = site.data.authors[include.author] %}
 {% assign date = include.date | default: "today" | date: site.data.language.str_date_format | default: '%B %-d, %Y' %}
 {% assign categories = include.categories | default: '' %}
 
@@ -12,3 +13,4 @@
         </p>
         {%- if author.url -%}</a>{%- endif -%}
 </div>
+

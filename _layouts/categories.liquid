@@ -7,13 +7,18 @@ layout: page
         <section class="bg"></section>
         <ul class="category-clouds">
             {% for category in site.categories %}
-                <a href="#{{ category | first | cgi_escape }}" class="category-anchor">
-                    <li>
-                        {{ category | first }} 
-                        <!-- {{ category | last | size | times: 100 | divided_by: site.tags.size | plus: 50 | divided_by: 100.0 }} -->
+                <li>
+                    <a href="#{{ category | first | cgi_escape }}" class="category-anchor">
+                        {{ category | first }}
+                        <!-- Example calculation for visualization -->
+                        <!-- {% if site.tags.size > 0 %}
+                            {{ category | last | size | times: 100 | divided_by: site.tags.size | plus: 50 | divided_by: 100.0 }}
+                        {% else %}
+                            0
+                        {% endif %} -->
                         <!-- <span class="category-number">{{ category | last | size }}</span> -->
-                    </li>
-                </a>
+                    </a>
+                </li>
             {% endfor %}
         </ul>
         <div class="category-groups">
@@ -23,7 +28,7 @@ layout: page
                     <h4 id="{{ group }}" class="title">
                         {{ group }}
                         {% if page.showCounts %}
-                            ({{site.categories[group].size}})
+                            ({{ site.categories[group].size }})
                         {% endif %}
                     </h4>
                     <div class="items">
@@ -41,3 +46,4 @@ layout: page
         </div>
     </div>
 </div>
+
