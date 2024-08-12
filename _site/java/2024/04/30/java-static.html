@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.4.9
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  
+  <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=5"> <!-- Theme Mode--> <script> const darkBtn = "Dark"; const lightBtn = "Light"; const isAutoTheme = false; const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; if (isAutoTheme) { document.documentElement.setAttribute('data-theme', sessionStorage.getItem('theme') ?? preferredTheme); } else { document.documentElement.setAttribute('data-theme', "light"); } </script> <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)--> <script defer src="/assets/js/main.min.js"></script> <!-- CSS --> <link rel="stylesheet" href="/assets/css/main.css"> <!--Favicon--> <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"> <!-- KaTeX 0.16.9 --> <script defer src="/assets/js/vendor/katex.min.js"></script> <script defer src="/assets/js/vendor/katex.auto-render.min.js" onload="renderMathInElement(document.body);"></script> <!-- Mermaid 10.8.0 --> <script defer src="/assets/js/vendor/mermaid.min.js"></script> <!-- Simple Jekyll Search 1.10.0 --> <script src="/assets/js/vendor/simple-jekyll-search.min.js" type="text/javascript"></script> <!-- Google Analytics / Cookie Consent --> <script> const cookieName = 'cookie-notice-dismissed-http://localhost:4000'; const isCookieConsent = 'false'; const analyticsName = ''; const analyticsNameGA4 = ''; </script> <!-- seo tags --> <meta property="og:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta property="og:type" content="website" /> <!-- Begin Jekyll SEO tag v2.8.0 --> <title>static 키워드 | Winnie’s Blog</title> <meta name="generator" content="Jekyll v4.3.3" /> <meta property="og:title" content="static 키워드" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="정적 변수란? 프로그램의 시작과 동시에 메모리에 로드되어 모든 인스턴스가 공유하는 변수" /> <meta property="og:description" content="정적 변수란? 프로그램의 시작과 동시에 메모리에 로드되어 모든 인스턴스가 공유하는 변수" /> <link rel="canonical" href="http://localhost:4000/java/2024/04/30/java-static.html" /> <meta property="og:url" content="http://localhost:4000/java/2024/04/30/java-static.html" /> <meta property="og:site_name" content="Winnie’s Blog" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2024-04-30T00:00:00+09:00" /> <meta name="twitter:card" content="summary" /> <meta property="twitter:title" content="static 키워드" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-04-30T00:00:00+09:00","datePublished":"2024-04-30T00:00:00+09:00","description":"정적 변수란? 프로그램의 시작과 동시에 메모리에 로드되어 모든 인스턴스가 공유하는 변수","headline":"static 키워드","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/java/2024/04/30/java-static.html"},"url":"http://localhost:4000/java/2024/04/30/java-static.html"}</script> <!-- End Jekyll SEO tag --> <!-- RSS --> <link rel="alternate" type="application/atom+xml" title="Winnie's Blog" href="http://localhost:4000/feed.xml"/> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Winnie&apos;s Blog" /> <!-- Twitter Cards --> <meta name="twitter:title" content="static 키워드"> <meta name="twitter:description" content="정적 변수란?프로그램의 시작과 동시에 메모리에 로드되어 모든 인스턴스가 공유하는 변수모든 객체마다 존재하는 인스턴스 변수와는 다르게 정적 변수는 클래스 당 하나만 존재합니다.따라섯 해당 클래스의 모든 객체들이 공유합니다.클래스에 종속되어 있으며 객체의 생성과 무관하게 클래스가 로드..."> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta name="twitter:image:alt" content="static 키워드"> </head>
+  <body>
+    
+    <header class="site-header"> <!-- Logo and title --> <div class="branding"> <a href="/"> <img alt="logo img" class="avatar" src="/assets/img/cat.png" loading="lazy"/> </a> <a class="site-title" aria-label="Winnie's Blog" href="/"> Winnie's Blog </a> </div> <!-- Toggle menu --> <nav class="clear"> <a aria-label="pull" id="pull" class="toggle" href="#"> <i class="fas fa-bars fa-lg"></i> </a> <!-- Menu --> <ul class="hide"> <li class="separator"> | </li> <li> <a class="clear" aria-label="Categories" title="Categories" href="/categories/"> <span class="navbar-label ">Categories</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Github" title="Github" href="https://github.com/byunyourim"> <span class="navbar-label ">Github</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Works" title="Works" href="/portfolio/"> <span class="navbar-label ">Works</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Search" title="Search" href="/search/"> <i class="navbar-icon fas fa-search" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Search</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Tags" title="Tags" href="/tags/"> <i class="navbar-icon fas fa-tags" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Tags</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Blog Archive" title="Blog Archive" href="/archive/"> <i class="navbar-icon fas fa-archive" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Blog Archive</span> </a> </li> </ul> </nav> </header>
+    <div class="content">
+      <article >
+    <header id="main" style="">
+        <div class="title-padder">
+            
+                <h1 id="static+%ED%82%A4%EC%9B%8C%EB%93%9C" class="title">static 키워드</h1>
+                
+
+
+
+<div class="post-info">
+        <p class="meta">
+        <p class="category">&nbsp;</p>&nbsp;&nbsp;<p class="empty">&nbsp;
+             2024.04.30&nbsp;</p>
+        </p></div>
+
+
+            
+        </div>
+    </header>
+
+    <section class="post-content">
+    
+            <h1 id="정적-변수란">정적 변수란?</h1>
+<p><span style="background-color: #D0E4FC"><strong>프로그램의 시작과 동시에 메모리에 로드되어 모든 인스턴스가 공유하는 변수</strong></span></p>
+
+<p>모든 객체마다 존재하는 인스턴스 변수와는 다르게 정적 변수는 클래스 당 하나만 존재합니다.<br />
+따라섯 해당 클래스의 모든 객체들이 공유합니다.</p>
+
+<p>클래스에 종속되어 있으며 객체의 생성과 무관하게 클래스가 로드될 때 메로리에 할당됩니다.</p>
+
+<p>인스턴스 변수는 객체마다 개별적인 값을 갖지만 정적 변수는 모든 객체가 동일한 값을 공유합니다.</p>
+
+<p>주로 클래스 메서드(static 메서드)에서 사용됩니다.</p>
+
+<p><br /></p>
+
+<h1 id="정적-메서드">정적 메서드?</h1>
+<p><span style="background-color: #D0E4FC"><strong>클래스 수준에서 호출할 수 있는 메서드</strong></span></p>
+
+<p>해당 클래스의 모든 객체들에 의해서 공유되는 메서드로, 객체를 생성하지 않고 클래스 이름으로 직접 호출합니다.</p>
+
+<p>또한 정적 메서드는 정적 변수만 사용할 수 있습니다.<br />
+정적 메서드는 특정 객체에 속해있지 않기 때문에 this 키워드를 사용할 수 없습니다.</p>
+
+<p>정적 메서드는 오버라이딩 되지 않으며 따라서 메서드 호출은 컴파일 시간에 결정 됩니다.</p>
+
+<p>일반적으로 Math 함수와 같이 유틸리티 함수나 독립적인 작업을 수행하는 메서드에서 사용됩니다.</p>
+
+<p><br /></p>
+
+<h3 id="static-과-메모리-낭비">static 과 메모리 낭비?</h3>
+<p>static 변수와 메소드는 클래스에 속하기 때문에 클래스가 메모리에 로드될 때 초기화 되며, 프로그램이 종료될 때까지 유지됩니다.<br />
+이러한 특징 때문에 메모리 사용량이 적고 어디서나 접근할 수 있어 유용합니다.</p>
+
+<p>하지만 프로그램 실행 중에 메모리에 상주하기 때문에 큰 객체를 저장하는 경우, 사용되지 않을 때에도 메모리를 차지하게 되어 메모리 낭비가 발생할 수 있습니다.</p>
+
+<p><br /></p>
+
+<h3 id="static-키워드를-사용할-때-주의-사항">static 키워드를 사용할 때 주의 사항</h3>
+<p>static 변수를 사용하여 전역 상태를 관리하는 경우 해당 변수에 접근하여 변경하는 것이 매우 간단합니다.
+이것은 코드의 복잡성을 증가시키고 예측하지 못한 결과를 가져올 수 있습니다.</p>
+
+<p>여러 스레드에서 공유될 수 있기 때문에 동시성 문제가 발생할 수 있기 때문에, 스레드간의 동기화를 보장하기 위한
+추가적인 처리가 필요합니다.</p>
+
+<p>전역에서 사용하기 때문에 다른 클래스들이 참조하고 변경할 수 있어 코드의 의존성이 증가하고 클래스 간의 결합도를 높일 수 있습니다.</p>
+
+<p>또한 static 변수를 사용하면 외부에서 의존성을 주입할 수 없기 때문에 테스트에서 예상대로 동작하지
+않을 수 있습니다. 그래서 가능한 의존성 주입을 통해 테스트가 가능한 코드를 작성하는 것이 좋습니다.</p>
+
+<p><br /></p>
+
+<h3 id="static-변수를-사용할-때-발생할-수-있는-동시성-문제를-해결하기-위한-방법">static 변수를 사용할 때 발생할 수 있는 동시성 문제를 해결하기 위한 방법</h3>
+<p>동시성을 해결하기 위한 방법은 <strong>동기화와 불변성</strong>이 있습니다.</p>
+
+<p>동기화는 여러 스레드가 동시에 static 변수를 읽고 쓰는 것을 방지하기 위해 사용합니다.</p>
+
+<p>synchronized 키워드를 사용하여 임계영역을 설정하는 방법이 있습니다.</p>
+
+<p>이렇게 되면 한 번에 하나의 스레드만 임계 영역에 접근할 수 있게 됩니다.<br />
+하지만 성능 저하가 발생할 수 있으므로 필요한 경우에만 사용해야 합니다.</p>
+
+<p>불변성은 static 변수를 변경할 수 없도록 만드는 방법ㄷ입니다. 변수를 <strong>final로 선언</strong>하고 불변 객체를 할당합니다.<br />
+이렇게 하면 동시에 여러 스레드가 변수를 읽을 수는 있지만 변경할 수는 없게됩니다.<br />
+스레드의 안정성을 보장하며 코드를 이해하기 쉽게 만들어줍니다.</p>
+
+<blockquote>
+  <h4 id="final">final</h4>
+  <p><strong>변경이 더 이상 불가능하게 하는 키워드</strong>로 변수, 메서드, 클래스에 사용<br />
+<strong>메서드의 경우</strong> : 재정의 불가<br />
+<strong>클래스의 경우</strong> : 상속 불가<br />
+<strong>변수의 경우</strong> : 한 번 값을 할당한 후 값 변경 불가</p>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="static-변수의-사용을-최소화하는-방법">static 변수의 사용을 최소화하는 방법?</h3>
+<p>의존성 주입을 통하여 외부에서 필요한 객체를 주입 받도록 설계할 수 있습니다.<br />
+이를 통해 클래스 간의 결합도를 낮추고 유연한 테스트 가능한 코드를 작성할 수 있습니다.</p>
+
+<p>또한 하나의 인스턴스를 생성하여 사용하는 싱글톤 패턴을 사용하는 방법이 있습니다.<br />
+이것을 통해 static 변수 사용을 최소화하고 필요한 경우에만 인스턴스를 생성하여 메모리를 절약할 수 있습니다.</p>
+
+<p>그리고 스프링과 같은 의존성 주입 프레임워크를 사용하여 의존 관계를 관리하고 필요한 객체를 주입 받는 방법이 있습니다.</p>
+
+    
+    </section>
+
+    <!-- Social media shares -->
+    
+
+<div class="share-buttons">
+    <ul class="share-buttons">
+        <li class="meta">Share</li>
+              
+        <li>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/java/2024/04/30/java-static.html&title=static+%ED%82%A4%EC%9B%8C%EB%93%9C%20%7C%20Winnie%27s+Blog&summary=&source=http://localhost:4000/java/2024/04/30/java-static.html"
+               target="_blank" title=" LinkedIn">
+                <i class="fab fa-linkedin fa-2x" aria-hidden="true"></i>
+                <span class="sr-only">Share on LinkedIn</span>
+            </a>
+        </li>
+          
+        <li>
+            <a href="mailto:?subject=static 키워드%20%7C%20Winnie's Blog&body=http://localhost:4000/java/2024/04/30/java-static.html"
+               target="_blank" title="">
+                <i class="fas fa-envelope-square fa-2x" aria-hidden="true"></i>
+                <span class="sr-only">Email</span></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+    <!-- Tag list -->
+    
+    
+
+
+  <div class="tag-list"></div>
+
+
+
+</article>
+
+
+
+
+<!-- To change color of links in the page --> <style> header#main { background-size: cover; background-repeat: no-repeat; background-position: center; } </style> <!-- Post navigation --> <div id="post-nav"> <div id="previous-post"> <a alt="equals()와 hashCode()" href="/java/2024/05/02/java-equal-hashcode.html"> <p>Previous post</p> equals()와 hashCode() </a> </div> <div id="next-post"> <a alt="TCP/ UDP" href="/network/2024/04/29/network-tcp-udp.html"> <p>Next post</p> TCP/ UDP </a> </div> </div> <!--Utterances--> <!-- Cusdis --> <!-- Disqus -->
+
+<script src="https://utteranc.es/client.js"
+        repo="byunyourim/comments"
+        issue-term="pathname"
+        label="comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+    </div>
+    
+    <footer class="site-footer"> <p class="text"> Powered by <a href='https://jekyllrb.com/'>Jekyll</a> with <a href='https://github.com/sylhare/Type-on-Strap'>Type on Strap</a></p> <div class="footer-icons"> <ul> <!-- Social icons from Font Awesome, if enabled --> <li> <a feed.xml href="/feed.xml" title="Follow RSS feed" target="_blank"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fas fa-rss fa-stack-1x fa-inverse"></i> </span> </a> </li> <li> <a href="https://github.com/sylhare" title="Follow on Github" target="_blank" rel="noopener"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fab fa-github fa-stack-1x fa-inverse"></i> </span> </a> </li> </ul> </div> <script type="module"> mermaid.initialize({ startOnLoad: false, theme: "default" }); mermaid.run({ nodes: [...document.querySelectorAll('.language-mermaid'), ...document.querySelectorAll('.mermaid')] }); </script> </footer>
+  </body>
+</html>

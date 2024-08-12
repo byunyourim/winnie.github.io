@@ -1,4 +1,225 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-07T21:41:34+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Redis란?</title><link href="http://localhost:4000/db/2024/08/06/redis.html" rel="alternate" type="text/html" title="Redis란?" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/redis</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/redis.html"><![CDATA[<p><img src="https://github.com/user-attachments/assets/d8ce2343-8f9b-44b8-a9e5-2530f8fa6606" alt="redis.png" /></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-12T18:40:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Blocking IO와 Non-Blocking IO , 동기와 비동기</title><link href="http://localhost:4000/java/2024/08/12/java-blocking.html" rel="alternate" type="text/html" title="Blocking IO와 Non-Blocking IO , 동기와 비동기" /><published>2024-08-12T00:00:00+09:00</published><updated>2024-08-12T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/12/java-blocking</id><content type="html" xml:base="http://localhost:4000/java/2024/08/12/java-blocking.html"><![CDATA[<h1 id="blocking">Blocking</h1>
+<p><img src="https://github.com/user-attachments/assets/1864c95d-e345-43ed-8604-100e30379bfe" alt="blocking.png" />
+현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, <strong>그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태</strong></p>
+
+<p>제어권이 호출된 함수에게 넘어가서, 함수가 작업을 끝낼때까지 제어권을 유지합니다.<br />
+따라서 호출한 함수는 호출된 함수가 끝나기 전까지 다른 작업을 하지 못하고 대기합니다.</p>
+
+<ul>
+  <li>파일을 읽거나 쓰는 작업에서 파일 읽기/쓰기가 완료될 때까지 스레드가 대기하는 경우</li>
+  <li>네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우</li>
+</ul>
+
+<h4 id="문제">문제</h4>
+<p>입출력 작업이 완료될때 까지 다른 스레드가 대기해야하기 때문에, 멀티 스레드 환경에서 대기 시간이 오래 걸릴 수 있습니다. 
+많은 클라이언트의 요청을 동시에 처리할 수 없으며 블록 상태가 발생할 수 있습니다.</p>
+
+<p><br /></p>
+
+<h1 id="non-blocking">Non-Blocking</h1>
+<p><img src="https://github.com/user-attachments/assets/4fa1e260-068b-4e24-9c73-cd6c4c14baff" alt="non_blocking.png" />
+작업이 즉시 처리되거나, 처리할 수 없는 경우에도 스레드가 <strong>대기하지 않고 다른 작업을 계속할 수 있는 상태</strong></p>
+
+<p>제어권이 호출된 함수에게 넘어갔다가, 즉시 호출한 함수로 돌아옵니다.
+호출된 함수가 완료되지 않았지만, 제어권을 바로 반환하기 때문에 호출한 함수는 다른 작업을 계속할 수 있습니다.</p>
+
+<p>A 함수가 B 함수를 호출했을 때, B 함수는 바로 A 함수에게 제어권을 돌려주고, A 함수는 B 함수가 끝날 때까지 기다리지 않고 다른 작업을 할 수 있게 됩니다.</p>
+
+<ul>
+  <li>파일이나 네트워크 요청을 보내고, 응답이 준비될 때까지 기다리지 않고 바로 다음 작업을 수행하는 경우</li>
+  <li>작업이 완료될 때까지 대기하지 않고, 작업 큐에 넣어 두고 다른 작업을 수행하는 경우</li>
+</ul>
+
+<h4 id="문제-1">문제</h4>
+<p>복잡하며, 콜백 지옥과 같은 문제가 발생할 수 있고, 이벤트를 기반으로 동작하기 때문에 실행 흐름을 추적하거나 디버깅이 어렵습니다.
+비동기 작업이 많아질수록 메모리 사용량이 증가할 수 있습니다.</p>
+
+<p>주로 다수의 클라이언트 요청을 비동기로 처리할 때 사용되며, 웹 서버에서 여러 요청을 동시에 처리하고
+IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하는데 유용하게 사용됩니다.
+대규모 데이터베이스나 파일 처리에서 비동기 IO는 시스템의 처리량을 향상 시키는데 기여할 수 있습니다.</p>
+
+<p>구현 방법에는 자바스크립트에서 콜백함수를 사용하거나 promise 를 사용하는 방법이 있습니다.
+또한 자바의 NIO 와 같은 라이브러리를 사용하여 블로킹 IO 를 비동기적으로 처리할 수 있습니다.</p>
+
+<p><br /></p>
+
+<h1 id="동기">동기</h1>
+
+<p><img src="https://github.com/user-attachments/assets/f8be4407-6199-400c-8a7c-8ca2415beb8a" alt="sync.png" />
+작업의 완료를 기다리는 방식으로, <strong>순차적으로 실행</strong>되며 한 작업이 끝나야 다음 작업이 시작될 수 있습니다.</p>
+
+<p>작업의 순서가 보장되며, 코드의 실행 순서가 예측 가능합니다.</p>
+
+<p><br /></p>
+
+<h1 id="비동기">비동기</h1>
+<p><img src="https://github.com/user-attachments/assets/4e618758-a40c-4aef-87f6-f71af4d6f1d2" alt="async.png" />
+작업의 완료를 기다리지 않는 방식입니다.</p>
+
+<p>작업들이 <strong>병렬로 실행</strong>될 수 있으며, 어떤 작업이 끝날 때까지 기다리지 않고 다른 작업을 수행합니다.
+작업 완료는 나중에 별도로 처리되며, 작업이 완료되면 그에 대한 콜백을 받거나, 나중에 결과를 확인합니다.</p>
+
+<p><br /></p>
+
+<blockquote>
+  <h4 id="blocking-와-non-blocking">Blocking 와 Non-Blocking</h4>
+  <p>함수 호출 후 제어권의 반환 시점</p>
+
+  <h4 id="동기-와-비동기">동기 와 비동기</h4>
+  <p>작업 완료 시점에 대한 처리 방식</p>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="promise">Promise?</h3>
+<p>비동기 작업의 결과를 나중에 처리할 수 있는 객체로, 작업의 성공(fulfilled) 또는 실패(rejected)를 다룹니다.
+비동기 코드를 더 읽기 쉽게 작성하고 에러 처리를 간편하게 할 수 있습니다.
+코드가 복잡해질 수 있고 디버깅이 어려워질 수 있습니다. 또한 비동기 작업을 작업을 과ㅏㄴ리하기 위해 메모리를 추가로 소비하기 때문에 많은 
+Promise 객체가 생성될 경우 메모리 사용량이 증가합니다.</p>
+
+<p>따라서 모든 비동기에 에러 처리를 해야하며, Promise.all()을 사용할 때, 하나의 Promise라도 실패하면 전체가 실패로 간주되므로, 개별적으로 에러 처리를 할 필요가 있습니다.
+Promise 내부에서 또 다른 Promise를 반환하는 경우, 코드가 복잡해질 수 있기 때문 async/await를 사용하는 것이 더 적합할 수 있습니다.</p>
+
+<h3 id="nio-new-io">NIO (New I/O)</h3>
+<p>자바의 비동기 IO를 지원하는 API로, 네트워크와 파일 작업을 효율적으로 처리할 수 있게 합니다.
+Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관리할 수 있습니다.</p>
+
+<p><br />
+<br /></p>
+
+<p><br />
+<br /></p>
+
+<h1 id="이벤트-통지-방식">이벤트 통지 방식</h1>
+<p><img src="https://github.com/user-attachments/assets/c97d033c-e0dc-4825-8e1c-7e5df74b594e" alt="event.png" /></p>
+
+<h3 id="sync-blocking-io">Sync Blocking I/O</h3>
+<p>입력 요청 등 제어권과 처리 결과를 동시에 반환</p>
+
+<ol>
+  <li>호출</li>
+  <li>블로킹</li>
+  <li>처리</li>
+</ol>
+
+<p>구현이 간단하고 직관적이며, 스레드가 직적 I/O 작업을 기다리기 때문에 비동기 처리가 필요없습니다.</p>
+
+<h3 id="sync-non-blocking-io">Sync Non-Blocking I/O</h3>
+<p>자신의 작업을 하면서 결과가 반환됐는지 확인하는 방식</p>
+
+<p>반환됐을 경우 바로 처리합니다.</p>
+
+<ol>
+  <li>호출: 스레드가 I/O 작업을 요청합니다. 요청이 즉시 완료되지 않더라도 스레드는 다른 작업을 계속 진행합니다.</li>
+  <li>작업 상태 확인: I/O 작업의 상태를 주기적으로 확인하거나, 결과를 체크합니다.</li>
+  <li>처리: 작업이 완료되면 결과를 처리합니다. 이 과정은 동기적으로 이루어집니다.</li>
+</ol>
+
+<p>스레드가 다른 작업을 계속 수행할 수 있으므로 자원 효율성이 좋으며, 높은 I/O 성능을 요구하는 어플리케이션에서 효과적입니다.</p>
+
+<h3 id="async-blocking-io">Async Blocking I/O</h3>
+<p>비동기적으로 I/O 요청을 시작하고, I/O 작업의 완료를 기다리는 블로킹 방식</p>
+
+<ol>
+  <li>비동기 I/O 요청: I/O 작업을 비동기적으로 시작합니다. 요청을 보내고 제어권을 즉시 반환받습니다.</li>
+  <li>블로킹 대기: I/O 작업의 결과를 기다리는 동안, 스레드가 블로킹되며 대기합니다.</li>
+  <li>결과 처리: I/O 작업이 완료되면, 블로킹된 스레드가 결과를 처리합니다. 이 과정에서 비동기적 요소가 작용할 수 있습니다.</li>
+</ol>
+
+<p>비동기 I/O 요청을 통해 자원의 사용 효율성을 높일 수 있으며, 스레드의 효율성을 높일 수 있습니다.</p>
+
+<p>스레드가 블로킹되는 동안 다른 작업을 수행할 수 없기 때문에 자원의 활용도가 떨어질 수 있으며,
+비동기 요청과 블로킹 대기 사이의 복잡성을 관리하기 어려울 수 있습니다.</p>
+
+<h3 id="async-non-blocking-io">Async Non-Blocking I/O</h3>
+<p>I/O 작업의 완료를 기다리지 않고 다른 작업을 동시에 처리할 수 있는 접근 방식</p>
+
+<p>작업 요청 이후 자신의 작업은 그대로 진행. 결과가 반환되어도 바로 처리하는게 아니라 자기 작업이 끝난 이후에 콜백을 통해 추가 작업</p>
+
+<ol>
+  <li>I/O 요청: 스레드는 I/O 작업을 요청하고 즉시 제어권을 반환받습니다. 스레드는 I/O 작업의 완료를 기다리지 않습니다.</li>
+  <li>작업 완료 대기: I/O 작업은 비동기적으로 처리되며, 완료 시 콜백 함수나 Future/Promise 객체를 통해 결과를 받습니다.</li>
+  <li>결과 처리: I/O 작업이 완료되면, 콜백 함수나 Future/Promise 객체를 통해 결과를 비동기적으로 처리합니다.</li>
+</ol>
+
+<p>I/O 작업이 완료될 때까지 스레드가 대기하지 않으므로, 자원 활용도가 높고, 많은 I/O 작업을 동시에 처리할 수 있어 성능이 향상됩니다.
+응답 시간이 짧고, 높은 처리량을 달성할 수 있습니다.</p>
+
+<p>비동기 코드의 복잡성이 증가할 수 있습니다.
+콜백 지옥(callback hell)이나 상태 관리의 복잡함이 발생할 수 있습니다.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Blocking 현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, 그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태 제어권이 호출된 함수에게 넘어가서, 함수가 작업을 끝낼때까지 제어권을 유지합니다. 따라서 호출한 함수는 호출된 함수가 끝나기 전까지 다른 작업을 하지 못하고 대기합니다. 파일을 읽거나 쓰는 작업에서 파일 읽기/쓰기가 완료될 때까지 스레드가 대기하는 경우 네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우]]></summary></entry><entry><title type="html">CI/CD</title><link href="http://localhost:4000/db/2024/08/06/CI-CD.html" rel="alternate" type="text/html" title="CI/CD" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/CI-CD</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/CI-CD.html"><![CDATA[<p>CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
+소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.</p>
+
+<p><img src="https://github.com/user-attachments/assets/3ade87c6-121c-477b-9dc0-925548ba6ed5" alt="CICDprocess.png" /></p>
+
+<p><br /></p>
+
+<h2 id="ci-continuous-integration-란">CI (Continuous Integration) 란?</h2>
+<p>지속적인 통합이라는 의미로 개발자들이 각자의 작업을 자주 병합하여 통합하는 프로세스 입니다.
+병합할 때마다 자동화된 빌드와 테스트가 실행됩니다.</p>
+
+<p>개발자들이 작업한 코드를 자주 메인 브랜치에 병합하거나, 각 코드 변경이 올바르게 작동하는지 확인할 때 사용합니다.</p>
+
+<p>정기적인 통합을 통해 버그를 조기에 발견한고 수정할 수 있으며, 통합 빈도가 높아지면 통합의 복잡성과 충돌이 줄어듭니다.</p>
+
+<p><br /></p>
+
+<h2 id="cd-continuous-delivery-deployment-란">CD (Continuous Delivery/ Deployment) 란?</h2>
+<h4 id="continuous-delivery">Continuous Delivery</h4>
+
+<p><strong>지속적인 배포</strong>는 코드가 변경될 때마다 자동으로 프로덕션 환경에 배포하는 프로세스입니다.
+모든 변경 사항이 자동으로 배포되며, 개발자의 개입 없이 자동화된 테스트를 통과하면 바로 배포됩니다.</p>
+
+<p>배포를 자동화하여 변경 사항이 가능한 빨리 사용자에겍 전달되도록 하는 것입니다.</p>
+
+<p>빈번하게 배포가 이루어지는 상황이나, 자동화된 테스트를 통과하면 바로 배포할 수 있는 경우 사용합니다.
+변경 사항이 프로덕션 환경에 빠르게 반영되기 때문에 사용자의 피드백을 필요로하고 신속하게 반영해야 하는 경우 사용합니다.</p>
+
+<p>모든 변경 사항이 자동으로 배포되기 때문에 엄격한 자동화된 테스트와 모니터링이 필요합니다.</p>
+
+<h5 id="시나리오">시나리오</h5>
+<blockquote>
+  <ol>
+    <li>코드 커밋</li>
+    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
+    <li>테스트 통과시 자동으로 프로덕션 환경에 배포</li>
+  </ol>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>지속적 전달</strong> 은 CI 단계에서 통합된 코드를 언제든 프로덕션 환경에 배포될 수 있도록 준비하는 프로세스입니다.
+코드 변경 사항은 자동화된 테스트를 통과하고, 프로덕션 환경에 배포되기 전에 수동 검토 또는 승인 단계를 거칩니다.
+따라서 배포 시점에 대한 제어가 가능합니다.</p>
+
+<p>항상 배포 가능 상태를 유지하여, 필요한 경우 즉시 배포할 수 있어야 합니다.</p>
+
+<p>자동화된 테스트를 통과한 후 프로덕션에 배포할 준비가 되어있지만, 최종 배포는 수동으로 이루어질 수 있습니다.</p>
+
+<h5 id="시나리오-1">시나리오</h5>
+<blockquote>
+  <ol>
+    <li>코드 커밋</li>
+    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
+    <li>테스트 통과시 배포 가능한 상태로 준비</li>
+    <li>배포 담당자나 승인자가 최종 검토 후 배포 승인</li>
+    <li>프로덕션 환경에 배포</li>
+  </ol>
+</blockquote>
+
+<p>통합과 배포 시간을 줄임으로서 효율성을 높일 수 있으며 코드의 품질을 높이고 안정성을 유지할 수 있습니다.</p>
+
+<p><br /></p>
+<h2 id="ci-cd-종류">CI/ CD 종류</h2>
+<ul>
+  <li>Jenkins : 오픈 소스 자동화 서버로, 다양한 플러그인을 통해 CI/CD 파이프라인 구축 가능</li>
+  <li>CircleCI : 클라우드 기반 CI/CD 서비스</li>
+  <li>TravisCI : 오픈 소스 프로젝트에 많이 사용되는 클라우드 기반 CI 서비스</li>
+  <li>GitLab CI : GitLab에 내장된 CI/CD 도구로, GitLab 프로젝트와 통합하여 사용</li>
+  <li>AWS CodePipeline : AWS 서비스와 통합된 CI/CD 서비스, AWS 환경에서의 배포를 자동화</li>
+</ul>
+
+<p>위의 도구들은 코드의 변경 사항을 감지하고, 자동으로 빌드 및 테스트를 수행합니다.
+성공적으로 테스트를 통과한 코드를 프로덕션 환경에 배포하는 과정을 지원합니다.</p>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여 소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.]]></summary></entry><entry><title type="html">Redis란?</title><link href="http://localhost:4000/db/2024/08/06/redis.html" rel="alternate" type="text/html" title="Redis란?" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/redis</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/redis.html"><![CDATA[<p><img src="https://github.com/user-attachments/assets/d8ce2343-8f9b-44b8-a9e5-2530f8fa6606" alt="redis.png" /></p>
 
 <h2 id="redis-remote-dictionary-server-란">Redis (Remote dictionary server) 란?</h2>
 
@@ -77,80 +298,35 @@ Lua 스크립팅 : Lua 스크립트를 사용하여 서버 측에서 복잡한 �
       <li>정렬된 집합을 사용하여 순위 시스템을 구현하고, 순위 기반의 데이터를 관리합니다.</li>
     </ul>
   </li>
-</ol>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">CI/CD</title><link href="http://localhost:4000/db/2024/08/06/CI-CD.html" rel="alternate" type="text/html" title="CI/CD" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/CI-CD</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/CI-CD.html"><![CDATA[<p>CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
-소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.</p>
+</ol>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">SQL Injection</title><link href="http://localhost:4000/db/2024/08/01/java-sqlinjection.html" rel="alternate" type="text/html" title="SQL Injection" /><published>2024-08-01T00:00:00+09:00</published><updated>2024-08-01T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/01/java-sqlinjection</id><content type="html" xml:base="http://localhost:4000/db/2024/08/01/java-sqlinjection.html"><![CDATA[<p>전송 계층에서 사용하는 두 가지 주요 프로토콜</p>
 
-<p><img src="https://github.com/user-attachments/assets/3ade87c6-121c-477b-9dc0-925548ba6ed5" alt="CICDprocess.png" /></p>
+<h1 id="sql-injection">SQL Injection</h1>
+<p><span style="background-color:#D0E4FC"><strong>공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격</strong></span></p>
 
-<p><br /></p>
+<p>이 공격을 통해 데이터를 유출하거나, 데이터를 조작할 수 있습니다.</p>
 
-<h2 id="ci-continuous-integration-란">CI (Continuous Integration) 란?</h2>
-<p>지속적인 통합이라는 의미로 개발자들이 각자의 작업을 자주 병합하여 통합하는 프로세스 입니다.
-병합할 때마다 자동화된 빌드와 테스트가 실행됩니다.</p>
+<h3 id="과정">과정</h3>
+<p>공격자는 웹 사이트의 입력 필드나 url 파라미터에 sql 인젝션 취약점이 있는지 파악 후, 취약점이 확인되면 쿼리에 악의적인 sql 문을 삽입합니다.
+예를 들어 “admin; –” 와 같이 입력함으로써 쿼리를 변경합니다.
+이로써 데이터베이스가 의도치 않은 동작을 하게 만들어 사용자의 정보를 유출할 수 있습니다.</p>
 
-<p>개발자들이 작업한 코드를 자주 메인 브랜치에 병합하거나, 각 코드 변경이 올바르게 작동하는지 확인할 때 사용합니다.</p>
+<p>이러한 작업을 통해 데이터를 유출할 수 있으며, 특정 사용자의 비밀번호를 변경, 관리자 권한을 얻어 시스텡 서버를 장악할 수 있습니다.
+또한 로그인시 비밀번호 검증을 피하여 로그인이 가능합니다.</p>
 
-<p>정기적인 통합을 통해 버그를 조기에 발견한고 수정할 수 있으며, 통합 빈도가 높아지면 통합의 복잡성과 충돌이 줄어듭니다.</p>
+<h2 id="예방하려면">예방하려면?</h2>
+<p>PreparedStatement를 사용하면 드라이버가 자동으로 매개변수 값을 이스케이프 처리하여 SQL Injection 공격을 방지할 수 있습니다.</p>
 
-<p><br /></p>
+<p>Hibernate와 같은 ORM 프레임워크를 사용하여 SQL 쿼리 작성을 자동화함으로써 위험을 줄일 수 있습니다.
+모든 사용자의 입력을 검증하고 특수문자를 이스케이프 처리합니다.
+또한 데이터베이스 권한에 최소한의 권한을 부여하는 것이 좋습니다.</p>
 
-<h2 id="cd-continuous-delivery-deployment-란">CD (Continuous Delivery/ Deployment) 란?</h2>
-<h4 id="continuous-delivery">Continuous Delivery</h4>
+<p>하지만 SQL 쿼리를 동적으로 생성하는 코드에서 PreparedStatement의 파라미터 바인딩을 적절히 사용하지 않으면 여전히 취약점이 발생할 수 있습니다.
+그리고 개발자가 입력 값을 제대로 검증하지 않거나, 특히 입력 값이 코드 또는 쿼리 구조의 일부로 사용되는 경우 공격에 노출될 수 있습니다.</p>
 
-<p><strong>지속적인 배포</strong>는 코드가 변경될 때마다 자동으로 프로덕션 환경에 배포하는 프로세스입니다.
-모든 변경 사항이 자동으로 배포되며, 개발자의 개입 없이 자동화된 테스트를 통과하면 바로 배포됩니다.</p>
+<p>따라서 입력 값의 유형, 길이, 형식 등을 철저히 검증해야 하며, 모든 변수는 반드시 PreparedStatement의 파라미터로 바인딩해야 합니다.
+필요에 따라 특수 문자를 이스케이프 처리하고, 입력 값이 SQL 구조에 영향을 주지 않도록 합니다.</p>
 
-<p>배포를 자동화하여 변경 사항이 가능한 빨리 사용자에겍 전달되도록 하는 것입니다.</p>
-
-<p>빈번하게 배포가 이루어지는 상황이나, 자동화된 테스트를 통과하면 바로 배포할 수 있는 경우 사용합니다.
-변경 사항이 프로덕션 환경에 빠르게 반영되기 때문에 사용자의 피드백을 필요로하고 신속하게 반영해야 하는 경우 사용합니다.</p>
-
-<p>모든 변경 사항이 자동으로 배포되기 때문에 엄격한 자동화된 테스트와 모니터링이 필요합니다.</p>
-
-<h5 id="시나리오">시나리오</h5>
-<blockquote>
-  <ol>
-    <li>코드 커밋</li>
-    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
-    <li>테스트 통과시 자동으로 프로덕션 환경에 배포</li>
-  </ol>
-</blockquote>
-
-<p><br /></p>
-
-<p><strong>지속적 전달</strong> 은 CI 단계에서 통합된 코드를 언제든 프로덕션 환경에 배포될 수 있도록 준비하는 프로세스입니다.
-코드 변경 사항은 자동화된 테스트를 통과하고, 프로덕션 환경에 배포되기 전에 수동 검토 또는 승인 단계를 거칩니다.
-따라서 배포 시점에 대한 제어가 가능합니다.</p>
-
-<p>항상 배포 가능 상태를 유지하여, 필요한 경우 즉시 배포할 수 있어야 합니다.</p>
-
-<p>자동화된 테스트를 통과한 후 프로덕션에 배포할 준비가 되어있지만, 최종 배포는 수동으로 이루어질 수 있습니다.</p>
-
-<h5 id="시나리오-1">시나리오</h5>
-<blockquote>
-  <ol>
-    <li>코드 커밋</li>
-    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
-    <li>테스트 통과시 배포 가능한 상태로 준비</li>
-    <li>배포 담당자나 승인자가 최종 검토 후 배포 승인</li>
-    <li>프로덕션 환경에 배포</li>
-  </ol>
-</blockquote>
-
-<p>통합과 배포 시간을 줄임으로서 효율성을 높일 수 있으며 코드의 품질을 높이고 안정성을 유지할 수 있습니다.</p>
-
-<p><br /></p>
-<h2 id="ci-cd-종류">CI/ CD 종류</h2>
-<ul>
-  <li>Jenkins : 오픈 소스 자동화 서버로, 다양한 플러그인을 통해 CI/CD 파이프라인 구축 가능</li>
-  <li>CircleCI : 클라우드 기반 CI/CD 서비스</li>
-  <li>TravisCI : 오픈 소스 프로젝트에 많이 사용되는 클라우드 기반 CI 서비스</li>
-  <li>GitLab CI : GitLab에 내장된 CI/CD 도구로, GitLab 프로젝트와 통합하여 사용</li>
-  <li>AWS CodePipeline : AWS 서비스와 통합된 CI/CD 서비스, AWS 환경에서의 배포를 자동화</li>
-</ul>
-
-<p>위의 도구들은 코드의 변경 사항을 감지하고, 자동으로 빌드 및 테스트를 수행합니다.
-성공적으로 테스트를 통과한 코드를 프로덕션 환경에 배포하는 과정을 지원합니다.</p>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여 소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.]]></summary></entry><entry><title type="html">LIKE 와 full-scan</title><link href="http://localhost:4000/db/2024/07/22/mysql-index.html" rel="alternate" type="text/html" title="LIKE 와 full-scan" /><published>2024-07-22T00:00:00+09:00</published><updated>2024-07-22T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/07/22/mysql-index</id><content type="html" xml:base="http://localhost:4000/db/2024/07/22/mysql-index.html"><![CDATA[<h2 id="like">LIKE</h2>
+<p>이러한 방법을 통해 Sql injection를 예방할 수 있습니다.</p>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[전송 계층에서 사용하는 두 가지 주요 프로토콜]]></summary></entry><entry><title type="html">LIKE 와 full-scan</title><link href="http://localhost:4000/db/2024/07/22/mysql-index.html" rel="alternate" type="text/html" title="LIKE 와 full-scan" /><published>2024-07-22T00:00:00+09:00</published><updated>2024-07-22T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/07/22/mysql-index</id><content type="html" xml:base="http://localhost:4000/db/2024/07/22/mysql-index.html"><![CDATA[<h2 id="like">LIKE</h2>
 <p>LIKE 는 SQL에서 문자열 패턴 매칭을 위해서 사용합니다.
 주로 where절에서 특정 패턴과 일치하는 문자열을 검색하는데 사용할 수 있습니다.
 하지만 데이터가 많아지는 경우 문제가 생길 수 있습니다.<br />
@@ -814,189 +990,4 @@ public class Order {
 
 <h4 id="트랜잭션-범위">트랜잭션 범위</h4>
 <p>영속성 컨텍스트는 트랜잭션 범위 내에서 엔티티를 관리하므로, 트랜잭션이 커밋되거나 롤백되기 전까
-엔티티의 변경 사항을 추적하고 커밋할 때 최종적으로 데이터베이스에 반영합니다.</p>]]></content><author><name></name></author><category term="JPA" /><summary type="html"><![CDATA[영속성 컨텍스트 JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.]]></summary></entry><entry><title type="html">JPA란</title><link href="http://localhost:4000/jpa/2024/07/01/jpa-jpa.html" rel="alternate" type="text/html" title="JPA란" /><published>2024-07-01T00:00:00+09:00</published><updated>2024-07-01T00:00:00+09:00</updated><id>http://localhost:4000/jpa/2024/07/01/jpa-jpa</id><content type="html" xml:base="http://localhost:4000/jpa/2024/07/01/jpa-jpa.html"><![CDATA[<h2 id="jpa란">JPA란</h2>
-<p>자바 애플리케이션에서 관계형 데이터베이스를 관리하고 조작할 수 있도록 도와주는 표준 API 입니다.
-자바 객체를 데이터베이스 테이블에 매핑하여 객체지향 프로그래밍과 관계형 데이터베이스 간의 불일치를 해결합니다.</p>
-
-<p>JPA를 사용하면 SQL쿼리를 직접 작성하지 않고도 데이터베이스 작업을 수행할 수 있습니다.</p>
-
-<h3 id="등장-배경">등장 배경??</h3>
-<p>JPA 가 등장하기 전에는 객체지향 프로그래밍 언어와 관계형 데이터베이스 간의 매핑을 직접 구현했습니다.</p>
-
-<p>주로 JDBC를 이용하여 데이터베이스와 연결하여 쿼리를 실행하고 결과를 가져왔습니다.
-Connection 으로 데이터베이스를 연결을 설정하고 관리하였습니다. 개발자는 쿼리를 직접 작성하여 데이터베이스에 보낸 후
-반환된 결과를 받아 자바 객체로 매핑하는 작업을 수동을 해주어야 했습니다.
-추가적으로 SQL 실행 중 발생할 수 있는 예외를 처리해야합니다.</p>
-
-<p>SQL을 사용하여 데이터베이스와 상호작용해야 했으며, 반복적인 코드작성이 일어났습니다.
-쿼리를 직접 다루기 때문에 발생할 수 있는 오류가 많고 유지보수가 어렵다는 문제가 있습니다.</p>
-
-<p>객체 지향 언어의 클래스와 객체를 관계형 데이터베이스의 테이블과 매핑하는 과정에서 일관성을 유지하기 어려웠습니다.</p>
-
-<p>따라서 이러한 문제를 해결하기 위해 나온 것이 ORM 입니다.</p>
-
-<h2 id="orm-프레임워크">ORM 프레임워크</h2>
-<p>객체와 데이터베이스 매핑 자동화</p>
-<ul>
-  <li>ORM 프레임워크는 객체와 데이터베이스 간의 매핑을 자동으로 처리해줍니다.</li>
-</ul>
-
-<p>CRUD 작업의 객체지향적 처리</p>
-<ul>
-  <li>CRUD(Create, Read, Update, Delete) 작업을 객체지향적으로 처리할 수 있습니다.</li>
-</ul>
-
-<p>표준화된 인터페이스 제공</p>
-<ul>
-  <li>JPA와 같은 ORM 프레임워크는 표준화된 인터페이스를 제공하여, 다양한 데이터베이스와도 쉽게 연동할 수 있습니다.</li>
-</ul>
-
-<p>성능 최적화 및 편의성 제공</p>
-<ul>
-  <li>내부적으로 캐싱, 지연로딩 등의 기법을 사용하여 성능을 최적화하고, 개발자가 데이터베이스와의 상호작용을 편리하게 처리할 수 있습니다.</li>
-</ul>
-
-<p>###
-JPA는 개발자가 객체지향적으로 데이터를 다루면서 이것을 관계형 데이터베이스에 저장하고 조회할 수 있도록 도와줍니다.
-객체와 테이블 간의 매핑 규칙을 정의하고 이를 바탕으로 JPA 구현체가 SQL을 생성하여 데이터베이스와 상호작용합니다.</p>
-
-<p>ORM을 통해 객체와 데이터베이스 간의 매핑을 자동화하기 때문에 개발자는 객체지향적인 코드를 집중적으로 작성할 수 있습니다.
-데이터베이스 스키마의 변경이 발생해도 JPA가 자동으로 SQL을 생성하여 매핑을 처리해주기 때문에 유지보수가 편리합니다.</p>
-
-<h2 id="개념">개념</h2>
-<ol>
-  <li>엔티티
-    <ul>
-      <li>영속성을 가진 객체</li>
-      <li>데이터베이스 테이블에 매핑되는 자바 클래스로 각 인스턴스는 테이블의 행을 나타냅니다.</li>
-    </ul>
-  </li>
-  <li>엔티티 매니저
-    <ul>
-      <li>엔티티의 생명주기를 관리하고 데이터베이스와 상호작용합니다.</li>
-      <li>엔티티를 저장, 삭제, 조회하는 등의 작업을 수행합니다.</li>
-    </ul>
-  </li>
-  <li>영속성 컨텍스트
-    <ul>
-      <li>엔티티 객체를 관리하는 메모리상의 공간입니다.</li>
-      <li>데이터베이스와의 상호작용을 중재하는 역할을 합니다.</li>
-    </ul>
-  </li>
-  <li>JPQL
-    <ul>
-      <li>엔티티 객체를 대상으로 쿼리를 작성합니다.</li>
-    </ul>
-  </li>
-</ol>
-
-<h5 id="영속성persistence이란">영속성(Persistence)이란?</h5>
-<blockquote>
-  <p>데이터를 일시적인 저장소가 아닌 영구적인 저장소에 저장하는 것을 의미합니다.
-영속성을 통해 프로그램이 종료되더라도 데이터가 손실되지 않고 유지될 수 있으며 시스템의 오류나 충돌이 발생했을 때
-데이터를 복구할 수 있습니다.
-여러 프로그램이나 사용자가 동일한 데이터를 사용할 수 있으며 트랜잭션을 통해 데이터의 일관성을 유지할 수 있습니다.
-ex) 
-데이터를 데이터베이스에 저장하여 프로그램이 종료되더라도 데이터가 유지되도록 합니다.
-데이터를 파일에 저장하여 프로그램이 종료되더라도 데이터가 파일에 남아있도록 합니다.</p>
-</blockquote>
-
-<p>JPA에서의 “영속성”은 엔티티 객체의 생명 주기 중 하나로, 엔티티 객체가 영속성
-컨텍스트에 의해 관리되는 상태를 말합니다.
-엔티티 객체를 영속성 컨텍스트에 저장하고 이를 통해 데이터베이스와의 지속적인 동기화를 관리합니다.</p>
-
-<p>자바에서는 JPA를 사용하여 영속성을 관리할 수 있습니다.
-이를 통해 객체를 데이터베이스 테이블에 매핑하고 CRUD 작업을 쉽게 수행할 수 있습니다.</p>
-
-<h5 id="영속성-컨텍스트">영속성 컨텍스트</h5>
-<p>엔티티 매니저가 관리하는 엔티티 객체들의 집합입니다.
-영속성 컨텍스트는 엔티티 객체를 캐시로 관리하여 데이터베이스와의 상호작용을 최적화하고 객체 상태의 변경을
-추적합니다.</p>
-
-<p>엔티티 객체를 메모리에 저장하고 관리하며 이를 통해 엔티티 객체가 데이터베이스와 동기화됩니다.
-엔티티 객체를 메모리에 캐싱하여, 동일한 트랜잭션 내에서 반복적인 데이터베이스 접근을 줄입니다. (1차 캐시)
-엔티티의 상태 변화를 감지하여 트랜잭션이 커밋될 때 변경된 내용을 데이터베이스에 반영합니다.딩 (변경감지)
-필요한 시점에 데이터베이스에서 데이터를 로드하는 기능을 제공합니다. (지연로딩)</p>
-
-<h6 id="엔티티-객체의-생명-주기">엔티티 객체의 생명 주기</h6>
-<ul>
-  <li>
-    <p>비영속 (Transient)
-엔티티 객체가 영속성 컨텍스트에 의해 관릳되지 않은 상태입니다.
-데이터베이스와 연관이 없습니다.</p>
-  </li>
-  <li>
-    <p>영속 (Persistent)
-엔티티 객체가 영속성 컨텍스트에 의해 관리되는 상태입니다.
-엔티티 매니저를 통해 데이터베이스에 저장됩니다.</p>
-  </li>
-  <li>
-    <p>준영속 (Detached)
-한 번 영속상태 였지만 현재는 영속성 컨텍스트에 의해 관리되지 않는 상태입니다.
-영속성 컨텍스트가 닫히거나 detch() 메서드를 호출하여 엔티티가 분리될 때 발생합니다.</p>
-  </li>
-  <li>
-    <p>삭제 (Removed)
-엔티티 객체가 영속성 컨텍스트에 의해 삭제된 상태입니다.
-데이터베이스에서 해당 엔티티가 삭제됩니다.</p>
-  </li>
-</ul>
-
-<h2 id="주요-어노테이션">주요 어노테이션</h2>
-<ol>
-  <li>@Entity : 클래스가 엔티티임을 선언합니다.</li>
-  <li>@Table : 엔티티와 매핑되는 데이터베이스 테이블을 지정합니다.</li>
-  <li>@Id : 엔티티의 기본키를 지정합니다.</li>
-  <li>@GeneratedValue : 기본키 값을 자동으로 생성하는 전략을 지정합니다.</li>
-  <li>@Column : 엔티티 필드와 매핑되는 데이터베이스 컬럼을 지정합니다.</li>
-</ol>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user"</span><span class="o">)</span>
-<span class="nd">@NoArgsConstructor</span><span class="o">(</span><span class="n">access</span> <span class="o">=</span> <span class="nc">AccessLevel</span><span class="o">.</span><span class="na">PROTECTED</span><span class="o">)</span>
-<span class="nd">@Getter</span> <span class="nd">@Setter</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span><span class="o">{</span>
-    <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user_id"</span><span class="o">,</span> <span class="n">updatable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">password</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">phone</span><span class="o">;</span>
-    
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>JPA는 자동으로 엔티티와 데이터베이스 테이블 간의 매핑을 처리해주기때문에 개발자는 별도의 SQL 쿼리를 작성할 필요가 없습니다.</p>]]></content><author><name></name></author><category term="JPA" /><summary type="html"><![CDATA[JPA란 자바 애플리케이션에서 관계형 데이터베이스를 관리하고 조작할 수 있도록 도와주는 표준 API 입니다. 자바 객체를 데이터베이스 테이블에 매핑하여 객체지향 프로그래밍과 관계형 데이터베이스 간의 불일치를 해결합니다.]]></summary></entry><entry><title type="html">Blocking vs Non-Blocking</title><link href="http://localhost:4000/java/2024/07/01/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9.html" rel="alternate" type="text/html" title="Blocking vs Non-Blocking" /><published>2024-07-01T00:00:00+09:00</published><updated>2024-07-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/07/01/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9</id><content type="html" xml:base="http://localhost:4000/java/2024/07/01/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9.html"><![CDATA[<h2 id="blocking-vs-non-blocking">Blocking vs Non-Blocking</h2>
-<p>Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식</p>
-
-<p>Non-Blocking IO는 작업이 완료되지 않더라도 대기하지 않고 다른 작업을 처리하는 방식</p>
-
-<h2 id="blocking-io에서의-문제점">Blocking IO에서의 문제점</h2>
-<p>입출력 작업이 완료될때 까지 다른 스레드가 대기하여야한다. 따라서 멀티 스레드 환경에서 대기시간이 오래걸릴수있다. 
-많은 클라이언트의 요청을 동시에 처리할 수 없으며 블록상태가 발생할 수 있습니다.</p>
-
-<h2 id="non-blocking-io에서의-장단점">Non-Blocking IO에서의 장단점</h2>
-<p>작업이 완료될 때까지 기다리지 않고 해당 작업을 수행하는 동안 다른 작업을 수행할 수 있는 방식입니다.
-요청한 작업이 완료되면, 결과를 처리할 수 있도록 콜백함수 등을 통해 알림을 받습니다.
-병렬적으로 여러 작업을 처리할 수 있는 장점이 있습니다.</p>
-
-<p>대기시간이 최소화되어 시스템이 더 효율적을 자원을 이용할 수 있으며 여러 작업을 동시에 처리하기 때문에 응답성이 향상됩니다.
-비교적 적은 스레드로 많은 요청을 처리할 수 있어 스케일링에 유리합니다.
-IO 작업이 많이 발생하는 환경에 효과적입니다.</p>
-
-<p>하지만 비동기 프로그래밍으로 동기적 프로그래밍보다 복잡하며 콜백 지옥과 같은 문제가 발생할 수 있습니다.
-또한 이벤트를 기반으로 동작하기 때문에 실행 흐름을 추적하거나 디버깅이 어렵습니다.</p>
-
-<p>비동기 작업이 많아질수록 메모리 사용량이 증가할 수 있습니다.</p>
-
-<p>주로 다수의 클라이언트 요청을 비동기로 처리할 때 사용됩니다. 또한 웹 서버에서 여러 요청을 동시에 처리하고
-IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하는데 유용하게 사용됩니다.
-대규모 데이터베이스나 파일 처리에서 비동기 IO는 시스템의 처리량을 향상 시키는데 기여할 수 있습니다.</p>
-
-<p>구현방법에는 
-가장 기본적인 방법으로 자바스크립트에서 콜백함수를 사용하거나 promise 를 사용하는 방법이 있습니다.
-또한 자바의 NIO 와 같은 라이브러리를 사용하여 블로킹 IO 를 비동기적으로 처리할 수 있습니다.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Blocking vs Non-Blocking Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식]]></summary></entry></feed>
+엔티티의 변경 사항을 추적하고 커밋할 때 최종적으로 데이터베이스에 반영합니다.</p>]]></content><author><name></name></author><category term="JPA" /><summary type="html"><![CDATA[영속성 컨텍스트 JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.]]></summary></entry></feed>
