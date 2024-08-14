@@ -1,4 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-12T18:40:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">Blocking IO와 Non-Blocking IO , 동기와 비동기</title><link href="http://localhost:4000/java/2024/08/12/java-blocking.html" rel="alternate" type="text/html" title="Blocking IO와 Non-Blocking IO , 동기와 비동기" /><published>2024-08-12T00:00:00+09:00</published><updated>2024-08-12T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/12/java-blocking</id><content type="html" xml:base="http://localhost:4000/java/2024/08/12/java-blocking.html"><![CDATA[<h1 id="blocking">Blocking</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-14T14:35:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">NIO</title><link href="http://localhost:4000/java/2024/08/14/java-NIO.html" rel="alternate" type="text/html" title="NIO" /><published>2024-08-14T00:00:00+09:00</published><updated>2024-08-14T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/14/java-NIO</id><content type="html" xml:base="http://localhost:4000/java/2024/08/14/java-NIO.html"><![CDATA[<p>Java NIO 는 JDK 1.4 에 적용된 패키지로 기존의 Java I/O 느린 단점을 보완</p>
+
+<p><img src="https://github.com/user-attachments/assets/88f0cd4c-4989-4155-a8de-3ac6f32bbb53" alt="IO.png" /></p>
+
+<h1 id="java-io">Java IO</h1>
+<ol>
+  <li>파일의 경로와 이름 등의 메타 데이터를 포함한 InputStream, OutputStream 객체 생성</li>
+  <li>InputStream 및 OutputStream 객체를 사용하여 read(), write() 등의 메서드 호출<br />
+이 메서드들은 JVM을 통해 해당 플랫폼의 운영체제와 상호 작용한다.</li>
+  <li>JVM은 운영 체제의 파일 시스템 API를 사용하여 파일에 대한 실제 읽기 및 쓰기 작업을 한다. 
+이 때, 운영 체제는 해당 파일을 찾아 디스크에서 읽기 작업을 수행하거나, 쓰기 작업을 수행하여 디스크에 데이터를 저장한다.</li>
+  <li>운영 체제는 파일로부터 읽은 데이터를 커널의 버퍼에 저장한 뒤 JVM의 사용자 공간 버퍼로 복사하거나, 사용자 공간 버퍼의 데이터를 파일 시스템으로 전달한다.
+이 과정에서 대체로 Thread 를 block 시킨다.</li>
+</ol>
+
+<p><br /></p>
+
+<h1 id="java-io-와-nio">Java IO 와 NIO</h1>
+<h3 id="io">IO</h3>
+<ul>
+  <li><strong>동기 방식, 블로킹 방식, 단방향 전송, 스트림</strong></li>
+  <li>입력 스트림과 출력 스트림이 구분되어 있으며 별도로 생성해야 한다.</li>
+  <li>버퍼를 사용하지 않으며 1바이트씩 읽고 출력하기 때문에 속도가 느리다.</li>
+  <li>BufferdInputStream, BufferedOutputStream, BufferedReader, BufferedWriter와 같은 보조 스트림을 별도로 제공하여 버퍼 기능을 지원한다.</li>
+  <li>스트림으로부터 입력된 전체 데이터를 별도로 저장하지 않으면, 입력 데이터의 위치를 이동하면서 자유롭게 이용할 수 없다.</li>
+  <li>블로킹을 빠져나오려면 스트림을 닫아야 한다.</li>
+  <li>연결 클라이언트 수가 적고 전송되는 데이터가 대용량이며 순차적으로 처리될 필요가 있는 경우 사용</li>
+</ul>
+
+<h3 id="nio">NIO</h3>
+<ul>
+  <li><strong>채널, 스트림, 동기, 비동기, 블로킹, 넌블로킹, 양방향, 버퍼</strong></li>
+  <li>하나의 채널로 데이터를 읽고 쓰기가 가능한 양방향 전송</li>
+  <li>버퍼를 사용해서 입출력 성능이 좋으며 버퍼에 저장하기 때문에 버퍼 내에서 데이터 위치를 이동해가며 필요한 부분을 읽고 쓸 수 있다.</li>
+  <li>interrupt를 사용해 블로킹을 빠져나올 수 있다.</li>
+  <li>연결 클라이언트 수가 많고 전송되는 데이터 용량이 적으며, 입출력 작업 처리가 빨리 끝나는 경우 사용</li>
+</ul>
+
+<p><img src="https://github.com/user-attachments/assets/7d83ad17-5621-4f21-82e9-103de76a5aeb" alt="nio_process.pno" />
+<br /></p>
+
+<p><img src="https://github.com/user-attachments/assets/6b87720f-d5c0-4c1d-b540-de5bc09a2003" alt="nio.png" /></p>
+
+<h3 id="selector">Selector</h3>
+<p>여러 채널을 동시에 감시하여 데이터가 읽거나 쓸 준비가 되어있는지 확인</p>
+
+<p>여러 채널에서 발생하는 I/O 이벤트를 동시에 처리할 수 있게 하여 단일 스레드로 여러 I/O 연산을 처리한다.
+이를 통해 하나의 스레드가 여러 I/O 작업을 비동기로 처리할 수 있다.</p>
+
+<h3 id="channel">Channel</h3>
+<p>파일이나 소켓과 같은 I/O 대상과 연결되어 있는, 데이터가 읽고 쓰이는 통로<br />
+실제 데이터 전송을 담당하며 파일, 네트워크 소켓 등 다양한 데이터 소스와 연결되고, 데이터는 채널을 통해 읽거나 쓸 수 있다. 
+실제로 read, write 를 수행하는 주체이다.</p>
+
+<h3 id="buffer">Buffer</h3>
+<p>채널에서 읽거나 쓴 데이터를 임시로 저장하는 메모리 블록
+NIO의 모든 데이터는 버퍼를 통해 처리되며, 채널과 버퍼 간 데이터 이동이 발생한다. 
+채널과 상호작용하여 데이터를 저장하는 메모리 블록을 데이터는 채널에서 버퍼로 읽히거나, 버퍼에서 채널로 쓰인다.</p>
+
+<p>Selector는 여러 Channel을 등록하여 감시한다.
+데이터가 준비된 채널이 있으면 셀렉터가 이것을 확인하고 해당 채널에 관련된 버퍼를 통해 데이터를 처리한다.
+이를 통해서 하나의 스레드가 여러 I/O 작업을 처리합니다.</p>
+
+<p><br /></p>
+
+<p>Blocking은 채널에서 데이터가 준비될 때까지 스레드가 대기한다. 
+Non-blocking 의 경우 채널에서 데이터가 준비되지 않은 경우 블로킹 되지 않고 다른 작업을 수행하고, 데이터가 준비되면 나중에 다시 확인한다.</p>
+
+<p>Non-blocking 구현하기 위해서는 configureBlocking(false)를 사용하여 non-blocking 모드로 설정한다. 
+그러면 채널의 I/O 작업이 블로킹되지 않고 반환한다.</p>
+
+<p>즉 데이터가 준비되지 않은 경우 read(), write() 호출이 블로킹 되지 않고 -1, 0을 반환하여 바로 다른 작업을 할 수 있다.</p>
+
+<p>Selector의 select() 메서드를 호출해서 준비된 채널을 확인 한다.
+채널이 준비될때까지 블로킹되거나, 준비된 채널이 없으면 반환됩니다.</p>
+
+<p>준비된 채널을 얻으면 해당 채널을 통해서 read(), write() 통해 데이터를 읽거나 사용할 수 있다.</p>
+
+<p>select()가 반환한 값 중 0은 준비된 채널이 없음을 의미하며, 양수가 나오는 경우 준비된 채널의 수를 의미한다.</p>
+
+<h3 id="selectedkeys">selectedKeys()</h3>
+<p>selectedKeys() 메서드 호출을 통해 준비된 채널의 집합을 얻을 수 있으며, 
+각 selectedKey를 확인해 준비된 작업을 수행할 수 있다.</p>
+
+<p>작업 완료 후 selectionKey를 selectedKeys에서 제거하여 다음 select() 호출에서 중복으로 처리되지 않도록 한다.</p>
+
+<blockquote>
+  <p><strong>interest set</strong><br />
+ SelectionKey에서 감시하고 싶은 채널의 I/O 읽기 또는 쓰기 이벤트를 감시하도록 설정</p>
+
+  <p><strong>ready set</strong><br />
+Selector가 select() 또는 selectNow()로 감지한 채널의 현재 상태
+Selector가 현재 준비된 I/O 작업을 가진 채널의 SelectionKey 객체들을 가지고 있으며 이 값은 select(), selectNow() 호출을 통해 받은 채널의 수와 동일하.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="select-와-selectnow">select() 와 selectNow()</h3>
+<p>두 메서드의 차이는 블로킹 여부와 대기시간에 있다.</p>
+
+<h4 id="select">select()</h4>
+<p>select()는 채널이 준비될 때까지 블로킹된다. 지정된 시간 동안 대기하며, 준비된 채널의 수를 반환한다.
+준비된 채널이 없는 경우 스레드를 대기 상태로 두어 준비된 채널이 있을때까지 기다린다.</p>
+
+<h4 id="selectnow">selectNow()</h4>
+<p>블로킹 없이 현재 준비된 채널의 상태를 실시간으로 확인하는 메서드로 비동기로 채널 상태를 검사할 때 유용하다.
+스레드를 대기시키지 않고 빠르게 상태를 확인할 수 있지만 호출이 빈번하게 일어나느 경우 CPU 사용률이 증가할 수 있다.
+준비된 채널이 없으면 즉시 반환되며, 대기하지 않는다.</p>
+
+<p>select()에서 블로킹을 피하기 위한 대안으로 타임아웃을 설정하여 지정된 시간동안만 대기하거나, selectNow()를 사용할 수 있다.
+또는 여러 개의 selector()을 사용하면 여러 개의 채널을 동시에 관리할 수 있.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Java NIO 는 JDK 1.4 에 적용된 패키지로 기존의 Java I/O 느린 단점을 보완]]></summary></entry><entry><title type="html">Blocking IO와 Non-Blocking IO , 동기와 비동기</title><link href="http://localhost:4000/java/2024/08/12/java-blocking.html" rel="alternate" type="text/html" title="Blocking IO와 Non-Blocking IO , 동기와 비동기" /><published>2024-08-12T00:00:00+09:00</published><updated>2024-08-12T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/12/java-blocking</id><content type="html" xml:base="http://localhost:4000/java/2024/08/12/java-blocking.html"><![CDATA[<h1 id="blocking">Blocking</h1>
 <p><img src="https://github.com/user-attachments/assets/1864c95d-e345-43ed-8604-100e30379bfe" alt="blocking.png" />
 현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, <strong>그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태</strong></p>
 
@@ -26,7 +136,9 @@
 <p>A 함수가 B 함수를 호출했을 때, B 함수는 바로 A 함수에게 제어권을 돌려주고, A 함수는 B 함수가 끝날 때까지 기다리지 않고 다른 작업을 할 수 있게 됩니다.</p>
 
 <ul>
-  <li>파일이나 네트워크 요청을 보내고, 응답이 준비될 때까지 기다리지 않고 바로 다음 작업을 수행하는 경우</li>
+  <li>
+    <h6 id="파일이나-네트워크-요청을-보내고-응답이-준비될-때까지-기다리지-않고-바로-다음-작업을-수행하는-경우">파일이나 네트워크 요청을 보내고, 응답이 준비될 때까지 기다리지 않고 바로 다음 작업을 수행하는 경우</h6>
+  </li>
   <li>작업이 완료될 때까지 대기하지 않고, 작업 큐에 넣어 두고 다른 작업을 수행하는 경우</li>
 </ul>
 
@@ -146,80 +258,351 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
 응답 시간이 짧고, 높은 처리량을 달성할 수 있습니다.</p>
 
 <p>비동기 코드의 복잡성이 증가할 수 있습니다.
-콜백 지옥(callback hell)이나 상태 관리의 복잡함이 발생할 수 있습니다.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Blocking 현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, 그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태 제어권이 호출된 함수에게 넘어가서, 함수가 작업을 끝낼때까지 제어권을 유지합니다. 따라서 호출한 함수는 호출된 함수가 끝나기 전까지 다른 작업을 하지 못하고 대기합니다. 파일을 읽거나 쓰는 작업에서 파일 읽기/쓰기가 완료될 때까지 스레드가 대기하는 경우 네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우]]></summary></entry><entry><title type="html">CI/CD</title><link href="http://localhost:4000/db/2024/08/06/CI-CD.html" rel="alternate" type="text/html" title="CI/CD" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/CI-CD</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/CI-CD.html"><![CDATA[<p>CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
-소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.</p>
+콜백 지옥(callback hell)이나 상태 관리의 복잡함이 발생할 수 있습니다.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Blocking 현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, 그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태 제어권이 호출된 함수에게 넘어가서, 함수가 작업을 끝낼때까지 제어권을 유지합니다. 따라서 호출한 함수는 호출된 함수가 끝나기 전까지 다른 작업을 하지 못하고 대기합니다. 파일을 읽거나 쓰는 작업에서 파일 읽기/쓰기가 완료될 때까지 스레드가 대기하는 경우 네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우]]></summary></entry><entry><title type="html">JVM 내부 동작 원리</title><link href="http://localhost:4000/java/2024/08/12/jvm.html" rel="alternate" type="text/html" title="JVM 내부 동작 원리" /><published>2024-08-12T00:00:00+09:00</published><updated>2024-08-12T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/12/jvm</id><content type="html" xml:base="http://localhost:4000/java/2024/08/12/jvm.html"><![CDATA[<p><img src="https://github.com/user-attachments/assets/f87e0921-47a3-4170-a951-abdb68ffbb6d" alt="jdk.png" /></p>
+<h3 id="jdk-java-development-kit">JDK (Java Development Kit)</h3>
+<p>소프트웨어 개발 도구</p>
 
-<p><img src="https://github.com/user-attachments/assets/3ade87c6-121c-477b-9dc0-925548ba6ed5" alt="CICDprocess.png" /></p>
-
-<p><br /></p>
-
-<h2 id="ci-continuous-integration-란">CI (Continuous Integration) 란?</h2>
-<p>지속적인 통합이라는 의미로 개발자들이 각자의 작업을 자주 병합하여 통합하는 프로세스 입니다.
-병합할 때마다 자동화된 빌드와 테스트가 실행됩니다.</p>
-
-<p>개발자들이 작업한 코드를 자주 메인 브랜치에 병합하거나, 각 코드 변경이 올바르게 작동하는지 확인할 때 사용합니다.</p>
-
-<p>정기적인 통합을 통해 버그를 조기에 발견한고 수정할 수 있으며, 통합 빈도가 높아지면 통합의 복잡성과 충돌이 줄어듭니다.</p>
-
-<p><br /></p>
-
-<h2 id="cd-continuous-delivery-deployment-란">CD (Continuous Delivery/ Deployment) 란?</h2>
-<h4 id="continuous-delivery">Continuous Delivery</h4>
-
-<p><strong>지속적인 배포</strong>는 코드가 변경될 때마다 자동으로 프로덕션 환경에 배포하는 프로세스입니다.
-모든 변경 사항이 자동으로 배포되며, 개발자의 개입 없이 자동화된 테스트를 통과하면 바로 배포됩니다.</p>
-
-<p>배포를 자동화하여 변경 사항이 가능한 빨리 사용자에겍 전달되도록 하는 것입니다.</p>
-
-<p>빈번하게 배포가 이루어지는 상황이나, 자동화된 테스트를 통과하면 바로 배포할 수 있는 경우 사용합니다.
-변경 사항이 프로덕션 환경에 빠르게 반영되기 때문에 사용자의 피드백을 필요로하고 신속하게 반영해야 하는 경우 사용합니다.</p>
-
-<p>모든 변경 사항이 자동으로 배포되기 때문에 엄격한 자동화된 테스트와 모니터링이 필요합니다.</p>
-
-<h5 id="시나리오">시나리오</h5>
-<blockquote>
-  <ol>
-    <li>코드 커밋</li>
-    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
-    <li>테스트 통과시 자동으로 프로덕션 환경에 배포</li>
-  </ol>
-</blockquote>
-
-<p><br /></p>
-
-<p><strong>지속적 전달</strong> 은 CI 단계에서 통합된 코드를 언제든 프로덕션 환경에 배포될 수 있도록 준비하는 프로세스입니다.
-코드 변경 사항은 자동화된 테스트를 통과하고, 프로덕션 환경에 배포되기 전에 수동 검토 또는 승인 단계를 거칩니다.
-따라서 배포 시점에 대한 제어가 가능합니다.</p>
-
-<p>항상 배포 가능 상태를 유지하여, 필요한 경우 즉시 배포할 수 있어야 합니다.</p>
-
-<p>자동화된 테스트를 통과한 후 프로덕션에 배포할 준비가 되어있지만, 최종 배포는 수동으로 이루어질 수 있습니다.</p>
-
-<h5 id="시나리오-1">시나리오</h5>
-<blockquote>
-  <ol>
-    <li>코드 커밋</li>
-    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
-    <li>테스트 통과시 배포 가능한 상태로 준비</li>
-    <li>배포 담당자나 승인자가 최종 검토 후 배포 승인</li>
-    <li>프로덕션 환경에 배포</li>
-  </ol>
-</blockquote>
-
-<p>통합과 배포 시간을 줄임으로서 효율성을 높일 수 있으며 코드의 품질을 높이고 안정성을 유지할 수 있습니다.</p>
-
-<p><br /></p>
-<h2 id="ci-cd-종류">CI/ CD 종류</h2>
+<h3 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h3>
+<p>소프트웨어 번들로 자바 클래스와 라이브러리, 그 외 필수적인 컴포넌트</p>
 <ul>
-  <li>Jenkins : 오픈 소스 자동화 서버로, 다양한 플러그인을 통해 CI/CD 파이프라인 구축 가능</li>
-  <li>CircleCI : 클라우드 기반 CI/CD 서비스</li>
-  <li>TravisCI : 오픈 소스 프로젝트에 많이 사용되는 클라우드 기반 CI 서비스</li>
-  <li>GitLab CI : GitLab에 내장된 CI/CD 도구로, GitLab 프로젝트와 통합하여 사용</li>
-  <li>AWS CodePipeline : AWS 서비스와 통합된 CI/CD 서비스, AWS 환경에서의 배포를 자동화</li>
+  <li>(=운영체제)</li>
 </ul>
 
-<p>위의 도구들은 코드의 변경 사항을 감지하고, 자동으로 빌드 및 테스트를 수행합니다.
-성공적으로 테스트를 통과한 코드를 프로덕션 환경에 배포하는 과정을 지원합니다.</p>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여 소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.]]></summary></entry><entry><title type="html">Redis란?</title><link href="http://localhost:4000/db/2024/08/06/redis.html" rel="alternate" type="text/html" title="Redis란?" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/redis</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/redis.html"><![CDATA[<p><img src="https://github.com/user-attachments/assets/d8ce2343-8f9b-44b8-a9e5-2530f8fa6606" alt="redis.png" /></p>
+<p>JDK 를 설치하면 JRE도 같이 설치됨 (JDK = JRE + a)</p>
+
+<h3 id="jvm-javaa-virtual-machine">JVM (Javaa Virtual Machine)</h3>
+<ul>
+  <li>
+    <p>Write once, Run everyWhere</p>
+  </li>
+  <li>
+    <p>컴파일된 바이트 코드를 실행하고 실행에 필요한 환경을 제공</p>
+  </li>
+  <li>
+    <p>자바를 실행하기 위한 가상 컴퓨터로 자바와 운영체제 사이에서 중계자 역할을 하며 자바가 운영체제에 구애받지 않고 프로그램을 실행할 수 있도록 도와주는 역할</p>
+  </li>
+</ul>
+
+<blockquote>
+  <h5 id="특징">특징</h5>
+  <ul>
+    <li>
+      <p>컴파일된 바이트 코드를 기계어로 변환</p>
+    </li>
+    <li>
+      <p>스택 기반의 가상 머신</p>
+    </li>
+    <li>
+      <p>메모리 관리와 GC 수행</p>
+    </li>
+  </ul>
+</blockquote>
+
+<p>예로 C는 바로 기계어로 컴파일 하므로 HW 기종에 맞게 각각 컴파일 되어야 한다.</p>
+
+<p>자바 프로그램은 중간 단계 언어( *.class )로 컴파일 하여 JVM만 각 OS에 설치되어 있다면 HW 기종에 관계 없이 한 번만 컴파일 하면 된다.</p>
+
+<blockquote>
+  <h4 id="바이너리-코드-바이트-코드-기계어">바이너리 코드/ 바이트 코드/ 기계어</h4>
+  <p>컴퓨터가 바로 인식할 수 있는 “바이너리 코드”가 아닌 “바이트 코드”로 변환</p>
+
+  <p><strong>바이너리 코드</strong></p>
+  <ul>
+    <li>컴퓨터가 인식할 수 있는 0과 1로 구성된 이진코드</li>
+  </ul>
+
+  <p><strong>바이트 코드</strong></p>
+  <ul>
+    <li>JVM 이 이해할 수 있는 코드</li>
+    <li>고급 언어로 작성된 소스 코드를 가상 머신이 이해할 수 있는 중간 코드로 컴파일하여 어떤 플랫폼에도 종속되지 않고 독립적으로 실행 될 수 있는 가상머신용 기계어 코드</li>
+    <li>바이트 코드는 다시 실시간 번역기 또는 JIT(Just-in-time)컴파일러에 의해 네이티브 코드로 변환</li>
+  </ul>
+
+  <p><strong>기계어</strong></p>
+  <ul>
+    <li>CPU가 직접 해독할 수 있고 실행할 수 있는 바이너리 코드</li>
+    <li>
+      <p>모든 이진 코드가 기계어인 것은 아니다. (바이너리코드 != 기계어)</p>
+    </li>
+    <li>기계어는 특정 언어가 아니다.</li>
+    <li>CPU 제조사에서 CPU를 만들 때 CPU에서 사용하는 명령어 집합을 공개하는데, 이것을 기계어라 부른다.</li>
+    <li>CPU가 변경되면 기계어가 달라진다. (같은 동작을 하는 명령어지만 완전히 다른 0과 1이 나열될 수도 있다.)</li>
+  </ul>
+
+  <p>즉, 소스 파일(<em>.java)은 컴파일된 자바 클래스 파일(</em>.clss)을 이해 중간단계 언어(바이트 코드)로 컴파일 되고, JVM이 이러한 컴파일된 자바 클래스파일(*class)을 OS에 맞는 기계어로 변환(인터프리터와 JIT 컴파일러를 통해)하여 실행되는 것이다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="java-실행-방식">Java 실행 방식</h2>
+<p><img src="https://github.com/user-attachments/assets/055a1d07-4329-4f1f-8fff-59548609b68f" alt="compile.png" /></p>
+
+<p><strong>JVM</strong> 은 java 클래스 파일을 <strong>class loader</strong> 를 통해 로드하고 클래스 파일들은 <strong>execution engine</strong>를 통해 해석된다
+이때 JVM이 컴파일을 마친 .class 파일을 읽어서 운영체제에서 실행시킨다. 더 정확히 말하면 JVM의 Class Loader가 동적 로딩을 통해 필요한 클래스들을 로딩 및 링크하여 Runtime Data Area에 적재한다. 그리고 Runtime Data Area에 로딩된 바이트 코드는 Excution Engine을 통해 실행된다.</p>
+
+<p>이렇게 해석된 프로그램은 <strong>runtime data area</strong>에 배치되어 수행이 이루어진다</p>
+
+<p>이 과정에서 JVM은 필요에 따라 <strong>garbage collection</strong> 등의 작업을 수행한다.</p>
+
+<ol>
+  <li>
+    <p>자바 컴파일러가 자바 소스 파일을 바이트 코드(.class) 파일로 컴파일 한다</p>
+  </li>
+  <li>
+    <p>JVM 은 Class Loader를 통해 클래스 파일을
+메모리(Runtime Data Area의 메서드 영역)에 로드한다</p>
+
+    <ul>
+      <li>Class Loader : 프로그램을 수행하기 위해 OS로부터 할당받은 메모리 영역</li>
+    </ul>
+  </li>
+  <li>
+    <p>JVM 은 클래스 파일을 검증하여 자바 언어 명세에 따라 유효한지 확인한다
+이를 통해 잘못된 클래스 파일이 실행되는 것을 방지한다</p>
+  </li>
+  <li>
+    <p>JVM 은 클래스의 메모리를 할당하고, 클래스 변수를 기본 값으로 초기화 한다
+이 단계에서 정적 변수 및 정적 메서드가 준비된다</p>
+  </li>
+  <li>
+    <p>JVM 은 execution engine 통해 클래스 파일을 해석하여 기계어로 변환하고 실행
+이 과정에서 JIT 컴파일러 사용
+JIT 컴파일러는 프로그램을 실행 하는 동안 반복되는 코드 블록을 식별하고 이를 네이티브
+기계 코드로 컴파일하여 실행 속도를 향상시킨다</p>
+
+    <ul>
+      <li>execution engine : Loading 된 클래스의 바이트코드를 해석 (바이트-&gt;바이너리)</li>
+    </ul>
+  </li>
+  <li>
+    <p>JVM 은 더 이상 필요하지 않은 객체를 감지하고 메모리에서 해제하는 GC을 수행
+자동으로 수행되며 개발자가 명시적으로 메모리 관리를 수행할 필요가 없다</p>
+  </li>
+  <li>
+    <p>프로그램이 종료되거나 JVM 이 종료될 때, JVM 은 사용한 리소스를 해제하고 종료</p>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h1 id="jvm-구성요소">JVM 구성요소</h1>
+<p><img src="https://github.com/user-attachments/assets/6a10be91-d22a-4322-ab3e-a5c303bc4965" alt="jvm.png" /></p>
+
+<p>JVM은 크게 아래과 같이 구성되어 있다.</p>
+
+<ul>
+  <li><strong>Class Loader</strong></li>
+  <li><strong>Runtime Data Area</strong>
+    <ul>
+      <li>PC register</li>
+      <li>Stack Area</li>
+      <li>Native Method Stack</li>
+      <li>Heap Area</li>
+      <li>Method Area</li>
+    </ul>
+  </li>
+  <li><strong>Execution Engine</strong>
+    <ul>
+      <li>Interpreter</li>
+      <li>JIT Compiler</li>
+      <li>Garbage Collector</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="class-loader-system">Class Loader System</h3>
+<p><img src="https://github.com/user-attachments/assets/a78d1ccb-31d2-446a-96e0-9ff63eb3c960" alt="classloader.png" />
+자바 클래스 파일(.class)을 실행 시점(Runtime)에 읽어 메모리(Runtime Data Area)에 로드하고 실행하기 위해 사용하는 메커니</p>
+
+<p>자바 프로그램의 실행 중 필요한 클래스를 동적으로 로드하고, 연결하고 초기화하는 역할을 한다.
+자바의 클래스들은 한 번에 모든 클래스가 메모리에 올라가지않으며, 필요할때 메모리에 올라간다.</p>
+
+<p>로딩 -&gt; 링크 -&gt; 초기화의 순서를 거친다</p>
+
+<h4 id="로딩">로딩</h4>
+<p>클래스 로더가 클래스 파일을 찾아 메모리에 로드한다.<br />
+이때 클래스 로더는 .class 파일을 바이너리 형식으로 읽어, JVM의 메모리 영역인 메서드 영역에 저장한다.</p>
+
+<p>로딩이 끝나면 해당 클래스 타입의 Class 객체를 생성하여 Heap 영역에 저장한다.
+클래스, 인터페이스 , ENUM, 변수, 메소드 정보들을 저장한다. 
+한번에 메모리에 모두 로드하지 않고, 필요한 경우 동적으로 메모리에 로드한다</p>
+
+<h5 id="bootstrap-class-loader">Bootstrap Class Loader</h5>
+<p>JVM의 핵식 클래스 로더로 rt.jar와 같은 핵심 자바 API를 로드한다.
+네이티브 코드로 구현되어 있으며, Java로 접근할 수 없고 가장 높은 우선순위를 갖는다.</p>
+
+<h5 id="extension-class-loader">Extension Class Loader</h5>
+<p>lib/ext 디렉터리나 java.ext.dirs 시스템 속성에 지정된 위치에서 확장 클래스들을 로드한다.
+부트스트랩 클래스 로더 다음의 계층에 위치하며, 사용자 정의 클래스 로더보다 우선적으로 사용한다.</p>
+
+<h5 id="application-class-loader">Application Class Loader</h5>
+<p>애플리케이션 클래스패스(classpath)에 지정된 클래스, 애플리케이션에서 작성한 클래스와 라이브러리를 로드한다.</p>
+
+<p>자바 응용 프로그램의 기본 클래스 로더로, 대부분의 사용자 클래스와 라이브러리를 로드하는데 사용된다.</p>
+
+<h4 id="링크">링크</h4>
+<p>로드된 클래스 파일을 JVM이 사용할 수 있도록 준비하는 단</p>
+
+<ul>
+  <li>Verify -&gt; Prepare -&gt; Resolve</li>
+</ul>
+
+<h5 id="verification">Verification</h5>
+<p>.class 파일 형식이 유효한지 검사한다. 로드된 클래스가 자바 언어 명세에 부한한지 확인한다.
+유효하지 않은 경우 런타입에러(java.lang.VerifyError)가 발생 한다.</p>
+
+<h5 id="preparation">Preparation</h5>
+<p>클래스 변수(static 변수)와 같은 메모리를 할당하고 초기화한다.</p>
+
+<h5 id="resolution">Resolution</h5>
+<p>클래스의 심볼릭 메모리 레퍼런스를 메모리 영역에 존재하는 실제 메모리 주소로 변경한다.</p>
+
+<blockquote>
+  <h5 id="심볼릭-메모리-레퍼런스">심볼릭 메모리 레퍼런스</h5>
+  <p>클래스의 특정 메모리 주소를 참조 관계로 구성한 것이 아닌 참조 대상의 이름만 갖는 것<br />
+즉, 실제 메모리 주소가 아니라 이름만 갖는다.</p>
+</blockquote>
+
+<h4 id="initialization">Initialization</h4>
+<p>클래스 변수의 초기화 코드가 실행된다. static 초기화 블록이 실행되며, 변수가 초기화된다.<br />
+링크의 prepare 단계에서 확보한 메모리 영역에 클래스 변수들 (= static 변수)를 적절한 값으로 초기화한다.</p>
+
+<h4 id="using">Using</h4>
+<p>초기화된 클래스는 이제 JVM에서 사용될 준비가 되어 있으며, 인스턴스 생성이나 메서드 호출과 같은 작업이 가능하다.</p>
+
+<h4 id="unloading">Unloading</h4>
+<p>클래스 로더가 클래스를 메모리에서 제거한다.
+JVM이 필요하지 않은 클래스를 GC를 통해 언로드한다.</p>
+
+<p><br /></p>
+
+<h3 id="runtime-data-area">Runtime Data Area</h3>
+<p><img src="https://github.com/user-attachments/assets/80920538-c003-49ff-ba3a-e68d9f3c9a5f" alt="runtimedata.png" /></p>
+
+<p>JVM이 프로세스로 수행되기 위해 OS로 부터 할당받는 메모리 영역</p>
+
+<p>데이터 저장, 스레드 관리, 메서드 실행, 객체 관리 등 수행</p>
+
+<p>프로그램 실행시, 메서듣 호출에 딷라 스택 프레임이 생성되고, 메서드 호출이 완료되면 해당 스택 프레임이 제거됩니다..
+객체는 힙에 동적으로 생성되며, 가비지 컬렉션을 통해 메모리를 관리합니다.</p>
+
+<p>클래스는 처음 참조될 때 메서드 영역에 로드되며, 이후 해당 클래스 정보는 메서드 영역에서 재사용됩니다.
+JVM은 런타임 데이터 영역을 효율적으로 관리하기 위해 가비지 컬렉터를 사용하여 힙 메모리를 정리하고, 필요하지 않은 객체를 제거합니닫.</p>
+
+<h4 id="method-area">Method Area</h4>
+<ul>
+  <li>JVM이 시작될 때 생성되며, 모든 스레드가 공유하는 영역</li>
+  <li>여기에 스태틱 영역(정적 변수들이 저장되는 공간)이 포함됨</li>
+  <li>클래스정보, 변수정보, Method, static 변수, 상수풀 등이 저장되는 영역</li>
+  <li>GC의 대상</li>
+</ul>
+
+<h4 id="heap-area">Heap Area</h4>
+<ul>
+  <li>모든 스레드에 공유</li>
+  <li>new 명령어로 생성된 인스턴스와 객체가 저장되는 구역</li>
+  <li>GC의 대상</li>
+</ul>
+
+<blockquote>
+  <p><strong>Young Generation</strong>
+객체가 처음 할당되는 영역
+객체가 생성되고, 살아남은 객체는 Survivor 영역으로 이동</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Old Generation</strong>
+Young Generation을 거쳐 오래 살아남은 객체들이 할당되는 영역
+메모리에서 생존 기간이 긴 객체들이 이곳에 저장된다.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Permanent Generation (PermGen, JDK 8 이전)</strong>
+클래스 메타데이터, 상수, 메서드, 클래스 정보 등 저장</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Metaspace (JDK 8 이후)</strong>
+메타 데이터를 저장하는 공간
+메서드 영역과 유사한 역할이나 네이티브 메모리 영역에서 관리</p>
+</blockquote>
+
+<p>힙은 JVM에서 가장 큰 메모리 영역이며, 모든 스레드가 공유한다.<br />
+GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체를 제거한다.</p>
+
+<h4 id="pc-register">PC Register</h4>
+<ul>
+  <li><strong>각 스레드마다 하나씩 생성</strong></li>
+  <li>현재 실행 중인 JVM 명령어의 주소를 가리킴(포인터 역할로 메서드가 호출될 때마다 갱신)</li>
+  <li>자바 바이트코드의 각 명령어는 PC 레지스터에 의해 추적되며, JVM이 다음에 실행할 명령어를 결정하는데 사용한다.</li>
+  <li>JVM 은 스택 기반의 가상 머신으로 CPU에 직접 접근하지 않고 Stack에서 주소를 가져온다</li>
+</ul>
+
+<p>일반적으로 프로그램의 실행은 CPU에서 명령어를 수행하는 과정으로 이루어진다. CPU는 컴퓨터의 연산을 실행하고 제어하는 가장 중요한 일을 맡고 있다. 이 CPU가 연산을 수행하는 동안 필요한 정보를 CPU 내의 기억장치를 이용해 기억하는데 이를 PC register라고 한다.
+하지만 자바는 OS 입장에서 단순히 하나의 프로세스이기때문에 JVM을 사용한다. 그래서 CPU에 직접 연산을 수행하는 것이 아닌 현재 작업하는 내용을 CPU에게 연산으로 제공해야하며, 이때 필요한 공간으로 PC register 라는 메모리 영역을 만든 것이다. 
+따라서 JVM은 스택프레임에 있는 Operand라는 스택 영역에서 명령어를 뽑아서 PC regtster에 저장한 후 CPU에게 명령을 전달한다.</p>
+
+<h4 id="stack-area">Stack Area</h4>
+<ul>
+  <li><strong>각 스레드마다 하나씩 생성</strong></li>
+  <li>호출된 메소드의 파라미터, 지역 변수, 리턴 값 및 연산 값 등이 저장되는 영역</li>
+  <li>메소드가 호출될때마다 스택 프레임이라 불리는 블럭이 하나씩 생성되고 메서드 실행이 종료되면 삭제된다.</li>
+  <li>스택 오버플로우 발생시 JVM은 해당 스레드에 대해 예외를 발생시킨다.</li>
+  <li>LIFO</li>
+</ul>
+
+<blockquote>
+  <h5 id="구성요소">구성요소</h5>
+  <p><strong>스택 프레임</strong>
+각 메서드 호출마다 스택 프레임이 생성되며, 메서드 실행이 끝나면 제거된다.<br />
+각 스택 프레임은 메서드 호출에 대한 정보를 담는다.</p>
+
+  <p><strong>지역 변수 배열</strong>
+메서드에서 선언된 지역 변수와 매개 변수 저장</p>
+
+  <p><strong>오퍼랜드 스택</strong>
+메서드 실행 중에 연산에 필요한 값을 저장하는 공간</p>
+
+  <p><strong>프레임 데이터</strong>
+메서드의 실행 상태 저장(메서드 호출자, 리턴 주소 등)</p>
+</blockquote>
+
+<h4 id="native-method-stack">Native Method Stack</h4>
+<ul>
+  <li><strong>각 스레드마다 하나씩 생성</strong></li>
+  <li>Java 이외의 언어에 제공되는 메소드의 정보가 저장되는 공간</li>
+  <li>Java Native Interface 를 통해 바이트 코드로 저장</li>
+  <li>Kernel 이 자체적으로 Stack 을 잡아 독자적으로 프로그램을 실행시키는 영역</li>
+  <li>JNI 표준 규약 제공</li>
+</ul>
+
+<p>자바는 멀티 스레드 환경으로 모든 스레드는 힙 스택 영역을 공유한다.</p>
+
+<p><br /></p>
+
+<h3 id="execution-engine">Execution Engine</h3>
+<p><img src="https://github.com/user-attachments/assets/e242ebf2-7234-47bb-8afd-6e06f7961c4f" alt="engine.png" /></p>
+
+<p>클래스로더를 통해 Runtime Data Area에 적재된 자바 바이트 코드를 명령어 단위로 읽어서 실행하는 역할을 한다.<br />
+즉, 메모리에 할당된 바이트 코드를 실행한다.</p>
+
+<h4 id="1-인터프리터">1. 인터프리터</h4>
+<p>자바 컴파일러로 변환된 자바 바이트 코드를 컴퓨터가 이해할 수 있는 Native Code로 변환하는 작업.<br />
+한 줄씩 순차적으로 컴파일 하여 Native로 변환하는 작업을 하는데, 매번 컴파일을 할 때 비효율적이다.
+중복된 바이트 코드에 대해서는 JIT 컴파일러를 사용한다.</p>
+
+<h4 id="2-jit-compiler-just-in-time">2. JIT Compiler (Just-In-Time)</h4>
+<p>인터프리터의 단점을 개선하기 위해 등장<br />
+인터프리터가 반복되는 코드를 발견하면 JIT 컴파일러로 반복되는 코드를 모두 Native Code로 변환한다.
+그 후 이것을 캐싱하고 동일한 부분이 호출되면 캐싱한 코드를 가져온다.<br />
+따라서 한 번 바꾼 Native Code는 인터프리터가 더 이상 컴파일하지 않아도 된다.</p>
+
+<p>즉, 자바 바이트코드에서 Native Code로 바꾸는 과정을 JIT에서 수행하는 것이다.</p>
+
+<h4 id="3-garbage-collections">3. Garbage Collections</h4>
+<p>JVM 상에서 더 이상 참조되지않는 객체를 메모리에서 해제시켜주는 장치</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[JDK (Java Development Kit) 소프트웨어 개발 도구]]></summary></entry><entry><title type="html">Redis란?</title><link href="http://localhost:4000/db/2024/08/06/redis.html" rel="alternate" type="text/html" title="Redis란?" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/redis</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/redis.html"><![CDATA[<p><img src="https://github.com/user-attachments/assets/d8ce2343-8f9b-44b8-a9e5-2530f8fa6606" alt="redis.png" /></p>
 
 <h2 id="redis-remote-dictionary-server-란">Redis (Remote dictionary server) 란?</h2>
 
@@ -298,7 +681,80 @@ Lua 스크립팅 : Lua 스크립트를 사용하여 서버 측에서 복잡한 �
       <li>정렬된 집합을 사용하여 순위 시스템을 구현하고, 순위 기반의 데이터를 관리합니다.</li>
     </ul>
   </li>
-</ol>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">SQL Injection</title><link href="http://localhost:4000/db/2024/08/01/java-sqlinjection.html" rel="alternate" type="text/html" title="SQL Injection" /><published>2024-08-01T00:00:00+09:00</published><updated>2024-08-01T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/01/java-sqlinjection</id><content type="html" xml:base="http://localhost:4000/db/2024/08/01/java-sqlinjection.html"><![CDATA[<p>전송 계층에서 사용하는 두 가지 주요 프로토콜</p>
+</ol>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">CI/CD</title><link href="http://localhost:4000/db/2024/08/06/CI-CD.html" rel="alternate" type="text/html" title="CI/CD" /><published>2024-08-06T00:00:00+09:00</published><updated>2024-08-06T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/06/CI-CD</id><content type="html" xml:base="http://localhost:4000/db/2024/08/06/CI-CD.html"><![CDATA[<p>CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
+소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.</p>
+
+<p><img src="https://github.com/user-attachments/assets/3ade87c6-121c-477b-9dc0-925548ba6ed5" alt="CICDprocess.png" /></p>
+
+<p><br /></p>
+
+<h2 id="ci-continuous-integration-란">CI (Continuous Integration) 란?</h2>
+<p>지속적인 통합이라는 의미로 개발자들이 각자의 작업을 자주 병합하여 통합하는 프로세스 입니다.
+병합할 때마다 자동화된 빌드와 테스트가 실행됩니다.</p>
+
+<p>개발자들이 작업한 코드를 자주 메인 브랜치에 병합하거나, 각 코드 변경이 올바르게 작동하는지 확인할 때 사용합니다.</p>
+
+<p>정기적인 통합을 통해 버그를 조기에 발견한고 수정할 수 있으며, 통합 빈도가 높아지면 통합의 복잡성과 충돌이 줄어듭니다.</p>
+
+<p><br /></p>
+
+<h2 id="cd-continuous-delivery-deployment-란">CD (Continuous Delivery/ Deployment) 란?</h2>
+<h4 id="continuous-delivery">Continuous Delivery</h4>
+
+<p><strong>지속적인 배포</strong>는 코드가 변경될 때마다 자동으로 프로덕션 환경에 배포하는 프로세스입니다.
+모든 변경 사항이 자동으로 배포되며, 개발자의 개입 없이 자동화된 테스트를 통과하면 바로 배포됩니다.</p>
+
+<p>배포를 자동화하여 변경 사항이 가능한 빨리 사용자에겍 전달되도록 하는 것입니다.</p>
+
+<p>빈번하게 배포가 이루어지는 상황이나, 자동화된 테스트를 통과하면 바로 배포할 수 있는 경우 사용합니다.
+변경 사항이 프로덕션 환경에 빠르게 반영되기 때문에 사용자의 피드백을 필요로하고 신속하게 반영해야 하는 경우 사용합니다.</p>
+
+<p>모든 변경 사항이 자동으로 배포되기 때문에 엄격한 자동화된 테스트와 모니터링이 필요합니다.</p>
+
+<h5 id="시나리오">시나리오</h5>
+<blockquote>
+  <ol>
+    <li>코드 커밋</li>
+    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
+    <li>테스트 통과시 자동으로 프로덕션 환경에 배포</li>
+  </ol>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>지속적 전달</strong> 은 CI 단계에서 통합된 코드를 언제든 프로덕션 환경에 배포될 수 있도록 준비하는 프로세스입니다.
+코드 변경 사항은 자동화된 테스트를 통과하고, 프로덕션 환경에 배포되기 전에 수동 검토 또는 승인 단계를 거칩니다.
+따라서 배포 시점에 대한 제어가 가능합니다.</p>
+
+<p>항상 배포 가능 상태를 유지하여, 필요한 경우 즉시 배포할 수 있어야 합니다.</p>
+
+<p>자동화된 테스트를 통과한 후 프로덕션에 배포할 준비가 되어있지만, 최종 배포는 수동으로 이루어질 수 있습니다.</p>
+
+<h5 id="시나리오-1">시나리오</h5>
+<blockquote>
+  <ol>
+    <li>코드 커밋</li>
+    <li>CI 서버가 코드를 빌드하고 자동화된 테스트 실행</li>
+    <li>테스트 통과시 배포 가능한 상태로 준비</li>
+    <li>배포 담당자나 승인자가 최종 검토 후 배포 승인</li>
+    <li>프로덕션 환경에 배포</li>
+  </ol>
+</blockquote>
+
+<p>통합과 배포 시간을 줄임으로서 효율성을 높일 수 있으며 코드의 품질을 높이고 안정성을 유지할 수 있습니다.</p>
+
+<p><br /></p>
+<h2 id="ci-cd-종류">CI/ CD 종류</h2>
+<ul>
+  <li>Jenkins : 오픈 소스 자동화 서버로, 다양한 플러그인을 통해 CI/CD 파이프라인 구축 가능</li>
+  <li>CircleCI : 클라우드 기반 CI/CD 서비스</li>
+  <li>TravisCI : 오픈 소스 프로젝트에 많이 사용되는 클라우드 기반 CI 서비스</li>
+  <li>GitLab CI : GitLab에 내장된 CI/CD 도구로, GitLab 프로젝트와 통합하여 사용</li>
+  <li>AWS CodePipeline : AWS 서비스와 통합된 CI/CD 서비스, AWS 환경에서의 배포를 자동화</li>
+</ul>
+
+<p>위의 도구들은 코드의 변경 사항을 감지하고, 자동으로 빌드 및 테스트를 수행합니다.
+성공적으로 테스트를 통과한 코드를 프로덕션 환경에 배포하는 과정을 지원합니다.</p>]]></content><author><name></name></author><category term="DB" /><summary type="html"><![CDATA[CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여 소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.]]></summary></entry><entry><title type="html">SQL Injection</title><link href="http://localhost:4000/db/2024/08/01/java-sqlinjection.html" rel="alternate" type="text/html" title="SQL Injection" /><published>2024-08-01T00:00:00+09:00</published><updated>2024-08-01T00:00:00+09:00</updated><id>http://localhost:4000/db/2024/08/01/java-sqlinjection</id><content type="html" xml:base="http://localhost:4000/db/2024/08/01/java-sqlinjection.html"><![CDATA[<p>전송 계층에서 사용하는 두 가지 주요 프로토콜</p>
 
 <h1 id="sql-injection">SQL Injection</h1>
 <p><span style="background-color:#D0E4FC"><strong>공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격</strong></span></p>
@@ -844,150 +1300,4 @@ AOP는 관점 지향 프로그래밍을 의미하며, 코드의 특정 관점에
 트랜잭션을 이용하여 데이터베이스 접근 권한을 관리할 수 있습니다. 
 트랜잭션을 시작할 때 권한을 확인하고, 트랜잭션이 종료될 때 권한을 제거하는 등의 작업을 통해 보안을 강화할 수 있습니다.</p>
   </li>
-</ul>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[트랜잭션?]]></summary></entry><entry><title type="html">JWT</title><link href="http://localhost:4000/spring/2024/07/02/spring-jwt.html" rel="alternate" type="text/html" title="JWT" /><published>2024-07-02T00:00:00+09:00</published><updated>2024-07-02T00:00:00+09:00</updated><id>http://localhost:4000/spring/2024/07/02/spring-jwt</id><content type="html" xml:base="http://localhost:4000/spring/2024/07/02/spring-jwt.html"><![CDATA[<p>프로젝트 중에 JWT를 사용하여서
-잘 몰라서.. 공부하고자</p>
-
-<h2 id="이전에는">이전에는?</h2>
-<p>JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었습니다.</p>
-
-<p>세션의 Stateful 로 상태를 유지하는 것이 특징입니다.
-세션 기반 인증은 사용자의 정보를 서버에 저장하고, 클라이언트는 세션ID를 통해
-인증 상태를 유지하는 방식입니다.</p>
-
-<p>세션은 서버 메모리나 데이터베이스에 저장되어야하기 때문에 서버 측에서 상태를 유지해야합니다.
-매 요청맏마 서버와 통신해야하기 때문에 부하가 초래됩니다.</p>
-
-<p>이러한 문제로 등장한 것이 JWT로 Stateless 인 것이 특징입니다.</p>
-
-<h2 id="jwt">JWT</h2>
-<p>JSON Web Token의 약자로 정보를 JSON 형태로 클라이언트에 저장하고 서버는 해당 토큰을 검증하여
-인증을 처리하는 방식입니다.</p>
-
-<p>토큰 안에 미리 인증에 필요한 정보를 넣어두며 매 요청마다 서버와 통신할 필요가 없습니다.
-이로 인해 서버 부하와 같은 문제를 해결할 수 있습니다.</p>
-
-<h2 id="구조">구조</h2>
-<p>헤더, 페이로드, 서명 세 부분으로 구성됩니다.
-헤더 부분은 알고리즘 방식과 토큰의 타입을 지합니다. 서명 생성을 위해 어떤 알고리즘을 사용할지 식별하는 부분입니다.
-페이로드는 클레임이라고 불리는 정보 조각을 포함합니다.
-클레임은 토큰에 추가할 정보를 의미하며 사용자 ID, 권한 정보등이 포함될 수 있습니다.
-하지만 디코딩을 통해 들어있는 정보를 확이할 수 있기 때문에 민감한 정보는 포함하지 않는 것이 좋습니다.</p>
-
-<p>서명은 토큰을 인코딩하거나 유효성 검증을 위해서 사용되는 부분으로,
-헤더와 페이로드를 합친 후 비밀키를 사용하여 생성합니다.</p>
-
-<p>서버는 클라이언트로부터 받은 토큰을 검증하기 위해 서명 부분을 해싱알고리즘과 비밀키로 다시 생성하고
-이를 클라이언트가 전달한 서명과 비교합니다.
-일치라면 인증이 유요한 것으로 판단합니다.</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[프로젝트 중에 JWT를 사용하여서 잘 몰라서.. 공부하고자]]></summary></entry><entry><title type="html">영속성 컨텍스</title><link href="http://localhost:4000/jpa/2024/07/01/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8.html" rel="alternate" type="text/html" title="영속성 컨텍스" /><published>2024-07-01T00:00:00+09:00</published><updated>2024-07-01T00:00:00+09:00</updated><id>http://localhost:4000/jpa/2024/07/01/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8</id><content type="html" xml:base="http://localhost:4000/jpa/2024/07/01/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8.html"><![CDATA[<h2 id="영속성-컨텍스트">영속성 컨텍스트</h2>
-<p>JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.</p>
-
-<p>하나의 영속성 컨텍스트는 트랜잭션 단위로 관리되며, 엔티티의 상태를 추적하고 엔티티를 데이터베이스와 동기화합니다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
-<span class="nd">@Transactional</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserService</span> <span class="o">{</span>
-    
-    <span class="nd">@PersistenceContext</span>
-    <span class="kd">private</span> <span class="nc">EntityManager</span> <span class="n">em</span><span class="o">;</span>
-    
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveUser</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// 엔티티를 영속성 컨텍스트에 저장</span>
-        <span class="n">em</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
-    <span class="o">}</span>
-    
-    <span class="kd">public</span> <span class="nc">User</span> <span class="nf">findUser</span><span class="o">(</span><span class="nc">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
-      <span class="c1">// 1차 캐시에서 엔티티를 조회 (데이터베이스 조회 필요 없음)em.find(User.class, user.getId()) 는 JPA 에서 제공하는 메서드로 데이터베이스에 접근하여</span>
-      <span class="k">return</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
-      <span class="n">지정된</span> <span class="n">엔티티</span> <span class="n">클래스와</span> <span class="n">키를</span> <span class="n">기반으로</span> <span class="n">엔티티를</span> <span class="n">조회합니다</span><span class="o">.</span>
-    <span class="o">}</span>
-    
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateUser</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
-      <span class="c1">// 엔티티의 상태 변경 (Dirty Checking)</span>
-      <span class="nc">User</span> <span class="n">managedUser</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
-      <span class="n">managedUser</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
-      <span class="n">managedUser</span><span class="o">.</span><span class="na">setEmail</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getEmail</span><span class="o">());</span>
-
-      <span class="c1">// 트랜잭션이 커밋될 때 데이터베이스에 자동으로 반영됨이로써 반복적으로 조죄할 때 데이터베이스에 대한 추가적인 조회를 피할 수 있으며 성능이 향상됩니다.</span>
-    <span class="o">}</span>    
-    
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="nc">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// 1캐시는 영속성 컨텍스트의 생명주기에 의존하기 때문에 트랜잭션이 종료되면 1차 캐시도 함께 종료됩니다. </span>
-        <span class="c1">// 엔티티를 영속성 컨텍스트에서 제거</span>
-        <span class="c1">// 이후에 같은 엔티티를 조회할 경 다시 데이터베이스에서 조회해야 합니다.</span>
-        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
-        <span class="n">em</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
-        <span class="c1">// 트랜잭션이 커밋될 때 데이터베이스에서 삭제됨</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h4 id="1차-캐시">1차 캐시</h4>
-<p>영속성 컨텍스트의 일부로 JVM 메모리에 위치합니다. 따라서 데이터베이스에 접근하는 것보다 훨씬 빠른 접근이 가능합니다다.
-엔티티의 식별자를 키로 사용하여 엔티티를 저장합니다. 이 식별자를 사용하여 빠르게 엔티티를 조회할 수 있습니다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="nc">User</span> <span class="nf">findUser</span><span class="o">(</span><span class="nc">Long</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// 1차 캐시에서 엔티티를 조회 (데이터베이스 조회 필요 없음)</span>
-        <span class="k">return</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div></div>
-<p>em.find(User.class, user.getId()) 메서드는 데이터베이스에서 엔티티를 조회하고 이 엔티티를 영속성 컨텍스트에 저장합니다.
-이때 저장된 엔티티는 1차 캐시에 저장됩니다.
-이후 동일한 엔티티를 다시 조회하는 경우 영속성 컨텍스트에서 먼저 조회하여 데이터베이스에 접근하지 않고 1차 캐시에 저장된 엔티티를 반환합니다.</p>
-
-<p>1차 캐시를 통해 동일한 엔티티를 반복적으로 조회할 때 데이터베이스에 대한 추가적인 조회를 피할 수 있습니다
-영속성 컨텍스트는 트랜잭션 범위 내에서 관리되기 때문 동일한 엔티티에 대해 일관된 상태를 유지할 수 있습니다.</p>
-
-<p>하지만 컨텍스트의 생명주기에 의존하기 때문에 트랜잭션이 종료되면 1차 캐시도 함께 종료됩니다.
-따라섯 이후에 같은 엔티티를 조회할 때는 다시 데이터베이스에서 조회해야 합니다.</p>
-
-<p>1차 캐시는 멤모리에 저장되기 때문에 많은 수의 엔티티를 동시에 처리하 할 때 메모리 사용에 주의해야 합니다.</p>
-
-<h4 id="지연-로딩">지연 로딩</h4>
-<p>연관된 엔티티나 컬렉션을 실제로 사용할 때까지 데이터베이스에서 로딩하지 않고 필요한 시점에 로딩하는 기능입니다.</p>
-
-<p>지연로딩은 FetchType.LAZY로 설정하며, 실제 엔티티가 필요한 시점에 데이터베이스에서 조회합니다.</p>
-
-<p>반면에 즉시로딩(FetchType.EAGER)은 엔티티를 조회할 때 연관된 엔티티들을 즉시 한번에 조회합니다. 이는 성능 저하를 초래할 수 있으므로 주의해서 사용해야 합니다.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Entity
-@Table(name = "orders")
-public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Long id;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-}
-</code></pre></div></div>
-<p>단순한 관계나 적은 데이터 양을 다룰 때는 즉시로딩을 사용하는 것이 좋습니다.
-대규모 데이터를 다루거나 성능 최적화가 필요한 경우에는 지연로딩을 고려해야 합니다.
-기본적으로는 지연로딩을 사용하고, 성능 문제나 데이터 접근 패턴에 따라 필요할 때 즉시로딩으로 변경하는 것이 바람직합니다.</p>
-
-<h4 id="변경-감지">변경 감지</h4>
-<p>트랜잭션 내에서 엔티티의 상태 변경을 감지하여 자동으로 데이터베이스와 동기화합니다.</p>
-
-<p>트랜잭션 내에서 엔티티의 수정이 이루어져야 변경 감지가 동작합니다. 트랜잭션이 커밋될 때 변경 사항이 데이터베이스에 반영됩니다.
-트랜잭션이 커밋되기 전까지는 데이터베이스에 변경 사항이 반영되지 않습니다.</p>
-<pre><code class="language-java{">    @PersistenceContext
-    private EntityManager entityManager;
-
-    public void updateProduct(Long productId, String newName, double newPrice) {
-        // 엔티티 조회
-        Product product = entityManager.find(Product.class, productId);
-
-        // 엔티티 수정
-        product.setName(newName);
-        product.setPrice(newPrice);
-
-        // 변경 감지가 발생하여 자동으로 데이터베이스에 반영됨
-    }
-}
-</code></pre>
-<p>별도의 save 메서드 호출이 필요하지 않습니다.</p>
-
-<h4 id="트랜잭션-범위">트랜잭션 범위</h4>
-<p>영속성 컨텍스트는 트랜잭션 범위 내에서 엔티티를 관리하므로, 트랜잭션이 커밋되거나 롤백되기 전까
-엔티티의 변경 사항을 추적하고 커밋할 때 최종적으로 데이터베이스에 반영합니다.</p>]]></content><author><name></name></author><category term="JPA" /><summary type="html"><![CDATA[영속성 컨텍스트 JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[트랜잭션?]]></summary></entry></feed>

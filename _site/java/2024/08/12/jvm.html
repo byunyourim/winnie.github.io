@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.4.9
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  
+  <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=5"> <!-- Theme Mode--> <script> const darkBtn = "Dark"; const lightBtn = "Light"; const isAutoTheme = false; const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; if (isAutoTheme) { document.documentElement.setAttribute('data-theme', sessionStorage.getItem('theme') ?? preferredTheme); } else { document.documentElement.setAttribute('data-theme', "light"); } </script> <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)--> <script defer src="/assets/js/main.min.js"></script> <!-- CSS --> <link rel="stylesheet" href="/assets/css/main.css"> <!--Favicon--> <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon"> <!-- KaTeX 0.16.9 --> <script defer src="/assets/js/vendor/katex.min.js"></script> <script defer src="/assets/js/vendor/katex.auto-render.min.js" onload="renderMathInElement(document.body);"></script> <!-- Mermaid 10.8.0 --> <script defer src="/assets/js/vendor/mermaid.min.js"></script> <!-- Simple Jekyll Search 1.10.0 --> <script src="/assets/js/vendor/simple-jekyll-search.min.js" type="text/javascript"></script> <!-- Google Analytics / Cookie Consent --> <script> const cookieName = 'cookie-notice-dismissed-http://localhost:4000'; const isCookieConsent = 'false'; const analyticsName = ''; const analyticsNameGA4 = ''; </script> <!-- seo tags --> <meta property="og:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta property="og:type" content="website" /> <!-- Begin Jekyll SEO tag v2.8.0 --> <title>JVM 내부 동작 원리 | Winnie’s Blog</title> <meta name="generator" content="Jekyll v4.3.3" /> <meta property="og:title" content="JVM 내부 동작 원리" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="JDK (Java Development Kit) 소프트웨어 개발 도구" /> <meta property="og:description" content="JDK (Java Development Kit) 소프트웨어 개발 도구" /> <link rel="canonical" href="http://localhost:4000/java/2024/08/12/jvm.html" /> <meta property="og:url" content="http://localhost:4000/java/2024/08/12/jvm.html" /> <meta property="og:site_name" content="Winnie’s Blog" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2024-08-12T00:00:00+09:00" /> <meta name="twitter:card" content="summary" /> <meta property="twitter:title" content="JVM 내부 동작 원리" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-08-12T00:00:00+09:00","datePublished":"2024-08-12T00:00:00+09:00","description":"JDK (Java Development Kit) 소프트웨어 개발 도구","headline":"JVM 내부 동작 원리","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/java/2024/08/12/jvm.html"},"url":"http://localhost:4000/java/2024/08/12/jvm.html"}</script> <!-- End Jekyll SEO tag --> <!-- RSS --> <link rel="alternate" type="application/atom+xml" title="Winnie's Blog" href="http://localhost:4000/feed.xml"/> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Winnie&apos;s Blog" /> <!-- Twitter Cards --> <meta name="twitter:title" content="JVM 내부 동작 원리"> <meta name="twitter:description" content="JDK (Java Development Kit)소프트웨어 개발 도구JRE (Java Runtime Environment)소프트웨어 번들로 자바 클래스와 라이브러리, 그 외 필수적인 컴포넌트 (=운영체제)JDK 를 설치하면 JRE도 같이 설치됨 (JDK = JRE + a)JVM (..."> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="http://localhost:4000/assets/img/header/straw2.jpeg"> <meta name="twitter:image:alt" content="JVM 내부 동작 원리"> </head>
+  <body>
+    
+    <header class="site-header"> <!-- Logo and title --> <div class="branding"> <a href="/"> <img alt="logo img" class="avatar" src="/assets/img/cat.png" loading="lazy"/> </a> <a class="site-title" aria-label="Winnie's Blog" href="/"> Winnie's Blog </a> </div> <!-- Toggle menu --> <nav class="clear"> <a aria-label="pull" id="pull" class="toggle" href="#"> <i class="fas fa-bars fa-lg"></i> </a> <!-- Menu --> <ul class="hide"> <li class="separator"> | </li> <li> <a class="clear" aria-label="Categories" title="Categories" href="/categories/"> <span class="navbar-label ">Categories</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Github" title="Github" href="https://github.com/byunyourim"> <span class="navbar-label ">Github</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Works" title="Works" href="/portfolio/"> <span class="navbar-label ">Works</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Search" title="Search" href="/search/"> <i class="navbar-icon fas fa-search" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Search</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Tags" title="Tags" href="/tags/"> <i class="navbar-icon fas fa-tags" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Tags</span> </a> </li> <li class="separator"> | </li> <li> <a class="clear" aria-label="Blog Archive" title="Blog Archive" href="/archive/"> <i class="navbar-icon fas fa-archive" aria-hidden="true"></i> <span class="navbar-label navbar-label-with-icon">Blog Archive</span> </a> </li> </ul> </nav> </header>
+    <div class="content">
+      <article >
+    <header id="main" style="">
+        <div class="title-padder">
+            
+                <h1 id="JVM+%EB%82%B4%EB%B6%80+%EB%8F%99%EC%9E%91+%EC%9B%90%EB%A6%AC" class="title">JVM 내부 동작 원리</h1>
+                
+
+
+
+<div class="post-info">
+        <p class="meta">
+        <p class="category">&nbsp;</p>&nbsp;&nbsp;<p class="empty">&nbsp;
+             2024.08.12&nbsp;</p>
+        </p></div>
+
+
+            
+        </div>
+    </header>
+
+    <section class="post-content">
+    
+            <p><img src="https://github.com/user-attachments/assets/f87e0921-47a3-4170-a951-abdb68ffbb6d" alt="jdk.png" /></p>
+<h3 id="jdk-java-development-kit">JDK (Java Development Kit)</h3>
+<p>소프트웨어 개발 도구</p>
+
+<h3 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h3>
+<p>소프트웨어 번들로 자바 클래스와 라이브러리, 그 외 필수적인 컴포넌트</p>
+<ul>
+  <li>(=운영체제)</li>
+</ul>
+
+<p>JDK 를 설치하면 JRE도 같이 설치됨 (JDK = JRE + a)</p>
+
+<h3 id="jvm-javaa-virtual-machine">JVM (Javaa Virtual Machine)</h3>
+<ul>
+  <li>
+    <p>Write once, Run everyWhere</p>
+  </li>
+  <li>
+    <p>컴파일된 바이트 코드를 실행하고 실행에 필요한 환경을 제공</p>
+  </li>
+  <li>
+    <p>자바를 실행하기 위한 가상 컴퓨터로 자바와 운영체제 사이에서 중계자 역할을 하며 자바가 운영체제에 구애받지 않고 프로그램을 실행할 수 있도록 도와주는 역할</p>
+  </li>
+</ul>
+
+<blockquote>
+  <h5 id="특징">특징</h5>
+  <ul>
+    <li>
+      <p>컴파일된 바이트 코드를 기계어로 변환</p>
+    </li>
+    <li>
+      <p>스택 기반의 가상 머신</p>
+    </li>
+    <li>
+      <p>메모리 관리와 GC 수행</p>
+    </li>
+  </ul>
+</blockquote>
+
+<p>예로 C는 바로 기계어로 컴파일 하므로 HW 기종에 맞게 각각 컴파일 되어야 한다.</p>
+
+<p>자바 프로그램은 중간 단계 언어( *.class )로 컴파일 하여 JVM만 각 OS에 설치되어 있다면 HW 기종에 관계 없이 한 번만 컴파일 하면 된다.</p>
+
+<blockquote>
+  <h4 id="바이너리-코드-바이트-코드-기계어">바이너리 코드/ 바이트 코드/ 기계어</h4>
+  <p>컴퓨터가 바로 인식할 수 있는 “바이너리 코드”가 아닌 “바이트 코드”로 변환</p>
+
+  <p><strong>바이너리 코드</strong></p>
+  <ul>
+    <li>컴퓨터가 인식할 수 있는 0과 1로 구성된 이진코드</li>
+  </ul>
+
+  <p><strong>바이트 코드</strong></p>
+  <ul>
+    <li>JVM 이 이해할 수 있는 코드</li>
+    <li>고급 언어로 작성된 소스 코드를 가상 머신이 이해할 수 있는 중간 코드로 컴파일하여 어떤 플랫폼에도 종속되지 않고 독립적으로 실행 될 수 있는 가상머신용 기계어 코드</li>
+    <li>바이트 코드는 다시 실시간 번역기 또는 JIT(Just-in-time)컴파일러에 의해 네이티브 코드로 변환</li>
+  </ul>
+
+  <p><strong>기계어</strong></p>
+  <ul>
+    <li>CPU가 직접 해독할 수 있고 실행할 수 있는 바이너리 코드</li>
+    <li>
+      <p>모든 이진 코드가 기계어인 것은 아니다. (바이너리코드 != 기계어)</p>
+    </li>
+    <li>기계어는 특정 언어가 아니다.</li>
+    <li>CPU 제조사에서 CPU를 만들 때 CPU에서 사용하는 명령어 집합을 공개하는데, 이것을 기계어라 부른다.</li>
+    <li>CPU가 변경되면 기계어가 달라진다. (같은 동작을 하는 명령어지만 완전히 다른 0과 1이 나열될 수도 있다.)</li>
+  </ul>
+
+  <p>즉, 소스 파일(<em>.java)은 컴파일된 자바 클래스 파일(</em>.clss)을 이해 중간단계 언어(바이트 코드)로 컴파일 되고, JVM이 이러한 컴파일된 자바 클래스파일(*class)을 OS에 맞는 기계어로 변환(인터프리터와 JIT 컴파일러를 통해)하여 실행되는 것이다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="java-실행-방식">Java 실행 방식</h2>
+<p><img src="https://github.com/user-attachments/assets/055a1d07-4329-4f1f-8fff-59548609b68f" alt="compile.png" /></p>
+
+<p><strong>JVM</strong> 은 java 클래스 파일을 <strong>class loader</strong> 를 통해 로드하고 클래스 파일들은 <strong>execution engine</strong>를 통해 해석된다
+이때 JVM이 컴파일을 마친 .class 파일을 읽어서 운영체제에서 실행시킨다. 더 정확히 말하면 JVM의 Class Loader가 동적 로딩을 통해 필요한 클래스들을 로딩 및 링크하여 Runtime Data Area에 적재한다. 그리고 Runtime Data Area에 로딩된 바이트 코드는 Excution Engine을 통해 실행된다.</p>
+
+<p>이렇게 해석된 프로그램은 <strong>runtime data area</strong>에 배치되어 수행이 이루어진다</p>
+
+<p>이 과정에서 JVM은 필요에 따라 <strong>garbage collection</strong> 등의 작업을 수행한다.</p>
+
+<ol>
+  <li>
+    <p>자바 컴파일러가 자바 소스 파일을 바이트 코드(.class) 파일로 컴파일 한다</p>
+  </li>
+  <li>
+    <p>JVM 은 Class Loader를 통해 클래스 파일을
+메모리(Runtime Data Area의 메서드 영역)에 로드한다</p>
+
+    <ul>
+      <li>Class Loader : 프로그램을 수행하기 위해 OS로부터 할당받은 메모리 영역</li>
+    </ul>
+  </li>
+  <li>
+    <p>JVM 은 클래스 파일을 검증하여 자바 언어 명세에 따라 유효한지 확인한다
+이를 통해 잘못된 클래스 파일이 실행되는 것을 방지한다</p>
+  </li>
+  <li>
+    <p>JVM 은 클래스의 메모리를 할당하고, 클래스 변수를 기본 값으로 초기화 한다
+이 단계에서 정적 변수 및 정적 메서드가 준비된다</p>
+  </li>
+  <li>
+    <p>JVM 은 execution engine 통해 클래스 파일을 해석하여 기계어로 변환하고 실행
+이 과정에서 JIT 컴파일러 사용
+JIT 컴파일러는 프로그램을 실행 하는 동안 반복되는 코드 블록을 식별하고 이를 네이티브
+기계 코드로 컴파일하여 실행 속도를 향상시킨다</p>
+
+    <ul>
+      <li>execution engine : Loading 된 클래스의 바이트코드를 해석 (바이트-&gt;바이너리)</li>
+    </ul>
+  </li>
+  <li>
+    <p>JVM 은 더 이상 필요하지 않은 객체를 감지하고 메모리에서 해제하는 GC을 수행
+자동으로 수행되며 개발자가 명시적으로 메모리 관리를 수행할 필요가 없다</p>
+  </li>
+  <li>
+    <p>프로그램이 종료되거나 JVM 이 종료될 때, JVM 은 사용한 리소스를 해제하고 종료</p>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h1 id="jvm-구성요소">JVM 구성요소</h1>
+<p><img src="https://github.com/user-attachments/assets/6a10be91-d22a-4322-ab3e-a5c303bc4965" alt="jvm.png" /></p>
+
+<p>JVM은 크게 아래과 같이 구성되어 있다.</p>
+
+<ul>
+  <li><strong>Class Loader</strong></li>
+  <li><strong>Runtime Data Area</strong>
+    <ul>
+      <li>PC register</li>
+      <li>Stack Area</li>
+      <li>Native Method Stack</li>
+      <li>Heap Area</li>
+      <li>Method Area</li>
+    </ul>
+  </li>
+  <li><strong>Execution Engine</strong>
+    <ul>
+      <li>Interpreter</li>
+      <li>JIT Compiler</li>
+      <li>Garbage Collector</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="class-loader-system">Class Loader System</h3>
+<p><img src="https://github.com/user-attachments/assets/a78d1ccb-31d2-446a-96e0-9ff63eb3c960" alt="classloader.png" />
+자바 클래스 파일(.class)을 실행 시점(Runtime)에 읽어 메모리(Runtime Data Area)에 로드하고 실행하기 위해 사용하는 메커니</p>
+
+<p>자바 프로그램의 실행 중 필요한 클래스를 동적으로 로드하고, 연결하고 초기화하는 역할을 한다.
+자바의 클래스들은 한 번에 모든 클래스가 메모리에 올라가지않으며, 필요할때 메모리에 올라간다.</p>
+
+<p>로딩 -&gt; 링크 -&gt; 초기화의 순서를 거친다</p>
+
+<h4 id="로딩">로딩</h4>
+<p>클래스 로더가 클래스 파일을 찾아 메모리에 로드한다.<br />
+이때 클래스 로더는 .class 파일을 바이너리 형식으로 읽어, JVM의 메모리 영역인 메서드 영역에 저장한다.</p>
+
+<p>로딩이 끝나면 해당 클래스 타입의 Class 객체를 생성하여 Heap 영역에 저장한다.
+클래스, 인터페이스 , ENUM, 변수, 메소드 정보들을 저장한다. 
+한번에 메모리에 모두 로드하지 않고, 필요한 경우 동적으로 메모리에 로드한다</p>
+
+<h5 id="bootstrap-class-loader">Bootstrap Class Loader</h5>
+<p>JVM의 핵식 클래스 로더로 rt.jar와 같은 핵심 자바 API를 로드한다.
+네이티브 코드로 구현되어 있으며, Java로 접근할 수 없고 가장 높은 우선순위를 갖는다.</p>
+
+<h5 id="extension-class-loader">Extension Class Loader</h5>
+<p>lib/ext 디렉터리나 java.ext.dirs 시스템 속성에 지정된 위치에서 확장 클래스들을 로드한다.
+부트스트랩 클래스 로더 다음의 계층에 위치하며, 사용자 정의 클래스 로더보다 우선적으로 사용한다.</p>
+
+<h5 id="application-class-loader">Application Class Loader</h5>
+<p>애플리케이션 클래스패스(classpath)에 지정된 클래스, 애플리케이션에서 작성한 클래스와 라이브러리를 로드한다.</p>
+
+<p>자바 응용 프로그램의 기본 클래스 로더로, 대부분의 사용자 클래스와 라이브러리를 로드하는데 사용된다.</p>
+
+<h4 id="링크">링크</h4>
+<p>로드된 클래스 파일을 JVM이 사용할 수 있도록 준비하는 단</p>
+
+<ul>
+  <li>Verify -&gt; Prepare -&gt; Resolve</li>
+</ul>
+
+<h5 id="verification">Verification</h5>
+<p>.class 파일 형식이 유효한지 검사한다. 로드된 클래스가 자바 언어 명세에 부한한지 확인한다.
+유효하지 않은 경우 런타입에러(java.lang.VerifyError)가 발생 한다.</p>
+
+<h5 id="preparation">Preparation</h5>
+<p>클래스 변수(static 변수)와 같은 메모리를 할당하고 초기화한다.</p>
+
+<h5 id="resolution">Resolution</h5>
+<p>클래스의 심볼릭 메모리 레퍼런스를 메모리 영역에 존재하는 실제 메모리 주소로 변경한다.</p>
+
+<blockquote>
+  <h5 id="심볼릭-메모리-레퍼런스">심볼릭 메모리 레퍼런스</h5>
+  <p>클래스의 특정 메모리 주소를 참조 관계로 구성한 것이 아닌 참조 대상의 이름만 갖는 것<br />
+즉, 실제 메모리 주소가 아니라 이름만 갖는다.</p>
+</blockquote>
+
+<h4 id="initialization">Initialization</h4>
+<p>클래스 변수의 초기화 코드가 실행된다. static 초기화 블록이 실행되며, 변수가 초기화된다.<br />
+링크의 prepare 단계에서 확보한 메모리 영역에 클래스 변수들 (= static 변수)를 적절한 값으로 초기화한다.</p>
+
+<h4 id="using">Using</h4>
+<p>초기화된 클래스는 이제 JVM에서 사용될 준비가 되어 있으며, 인스턴스 생성이나 메서드 호출과 같은 작업이 가능하다.</p>
+
+<h4 id="unloading">Unloading</h4>
+<p>클래스 로더가 클래스를 메모리에서 제거한다.
+JVM이 필요하지 않은 클래스를 GC를 통해 언로드한다.</p>
+
+<p><br /></p>
+
+<h3 id="runtime-data-area">Runtime Data Area</h3>
+<p><img src="https://github.com/user-attachments/assets/80920538-c003-49ff-ba3a-e68d9f3c9a5f" alt="runtimedata.png" /></p>
+
+<p>JVM이 프로세스로 수행되기 위해 OS로 부터 할당받는 메모리 영역</p>
+
+<p>데이터 저장, 스레드 관리, 메서드 실행, 객체 관리 등 수행</p>
+
+<p>프로그램 실행시, 메서듣 호출에 딷라 스택 프레임이 생성되고, 메서드 호출이 완료되면 해당 스택 프레임이 제거됩니다..
+객체는 힙에 동적으로 생성되며, 가비지 컬렉션을 통해 메모리를 관리합니다.</p>
+
+<p>클래스는 처음 참조될 때 메서드 영역에 로드되며, 이후 해당 클래스 정보는 메서드 영역에서 재사용됩니다.
+JVM은 런타임 데이터 영역을 효율적으로 관리하기 위해 가비지 컬렉터를 사용하여 힙 메모리를 정리하고, 필요하지 않은 객체를 제거합니닫.</p>
+
+<h4 id="method-area">Method Area</h4>
+<ul>
+  <li>JVM이 시작될 때 생성되며, 모든 스레드가 공유하는 영역</li>
+  <li>여기에 스태틱 영역(정적 변수들이 저장되는 공간)이 포함됨</li>
+  <li>클래스정보, 변수정보, Method, static 변수, 상수풀 등이 저장되는 영역</li>
+  <li>GC의 대상</li>
+</ul>
+
+<h4 id="heap-area">Heap Area</h4>
+<ul>
+  <li>모든 스레드에 공유</li>
+  <li>new 명령어로 생성된 인스턴스와 객체가 저장되는 구역</li>
+  <li>GC의 대상</li>
+</ul>
+
+<blockquote>
+  <p><strong>Young Generation</strong>
+객체가 처음 할당되는 영역
+객체가 생성되고, 살아남은 객체는 Survivor 영역으로 이동</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Old Generation</strong>
+Young Generation을 거쳐 오래 살아남은 객체들이 할당되는 영역
+메모리에서 생존 기간이 긴 객체들이 이곳에 저장된다.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Permanent Generation (PermGen, JDK 8 이전)</strong>
+클래스 메타데이터, 상수, 메서드, 클래스 정보 등 저장</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Metaspace (JDK 8 이후)</strong>
+메타 데이터를 저장하는 공간
+메서드 영역과 유사한 역할이나 네이티브 메모리 영역에서 관리</p>
+</blockquote>
+
+<p>힙은 JVM에서 가장 큰 메모리 영역이며, 모든 스레드가 공유한다.<br />
+GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체를 제거한다.</p>
+
+<h4 id="pc-register">PC Register</h4>
+<ul>
+  <li><strong>각 스레드마다 하나씩 생성</strong></li>
+  <li>현재 실행 중인 JVM 명령어의 주소를 가리킴(포인터 역할로 메서드가 호출될 때마다 갱신)</li>
+  <li>자바 바이트코드의 각 명령어는 PC 레지스터에 의해 추적되며, JVM이 다음에 실행할 명령어를 결정하는데 사용한다.</li>
+  <li>JVM 은 스택 기반의 가상 머신으로 CPU에 직접 접근하지 않고 Stack에서 주소를 가져온다</li>
+</ul>
+
+<p>일반적으로 프로그램의 실행은 CPU에서 명령어를 수행하는 과정으로 이루어진다. CPU는 컴퓨터의 연산을 실행하고 제어하는 가장 중요한 일을 맡고 있다. 이 CPU가 연산을 수행하는 동안 필요한 정보를 CPU 내의 기억장치를 이용해 기억하는데 이를 PC register라고 한다.
+하지만 자바는 OS 입장에서 단순히 하나의 프로세스이기때문에 JVM을 사용한다. 그래서 CPU에 직접 연산을 수행하는 것이 아닌 현재 작업하는 내용을 CPU에게 연산으로 제공해야하며, 이때 필요한 공간으로 PC register 라는 메모리 영역을 만든 것이다. 
+따라서 JVM은 스택프레임에 있는 Operand라는 스택 영역에서 명령어를 뽑아서 PC regtster에 저장한 후 CPU에게 명령을 전달한다.</p>
+
+<h4 id="stack-area">Stack Area</h4>
+<ul>
+  <li><strong>각 스레드마다 하나씩 생성</strong></li>
+  <li>호출된 메소드의 파라미터, 지역 변수, 리턴 값 및 연산 값 등이 저장되는 영역</li>
+  <li>메소드가 호출될때마다 스택 프레임이라 불리는 블럭이 하나씩 생성되고 메서드 실행이 종료되면 삭제된다.</li>
+  <li>스택 오버플로우 발생시 JVM은 해당 스레드에 대해 예외를 발생시킨다.</li>
+  <li>LIFO</li>
+</ul>
+
+<blockquote>
+  <h5 id="구성요소">구성요소</h5>
+  <p><strong>스택 프레임</strong>
+각 메서드 호출마다 스택 프레임이 생성되며, 메서드 실행이 끝나면 제거된다.<br />
+각 스택 프레임은 메서드 호출에 대한 정보를 담는다.</p>
+
+  <p><strong>지역 변수 배열</strong>
+메서드에서 선언된 지역 변수와 매개 변수 저장</p>
+
+  <p><strong>오퍼랜드 스택</strong>
+메서드 실행 중에 연산에 필요한 값을 저장하는 공간</p>
+
+  <p><strong>프레임 데이터</strong>
+메서드의 실행 상태 저장(메서드 호출자, 리턴 주소 등)</p>
+</blockquote>
+
+<h4 id="native-method-stack">Native Method Stack</h4>
+<ul>
+  <li><strong>각 스레드마다 하나씩 생성</strong></li>
+  <li>Java 이외의 언어에 제공되는 메소드의 정보가 저장되는 공간</li>
+  <li>Java Native Interface 를 통해 바이트 코드로 저장</li>
+  <li>Kernel 이 자체적으로 Stack 을 잡아 독자적으로 프로그램을 실행시키는 영역</li>
+  <li>JNI 표준 규약 제공</li>
+</ul>
+
+<p>자바는 멀티 스레드 환경으로 모든 스레드는 힙 스택 영역을 공유한다.</p>
+
+<p><br /></p>
+
+<h3 id="execution-engine">Execution Engine</h3>
+<p><img src="https://github.com/user-attachments/assets/e242ebf2-7234-47bb-8afd-6e06f7961c4f" alt="engine.png" /></p>
+
+<p>클래스로더를 통해 Runtime Data Area에 적재된 자바 바이트 코드를 명령어 단위로 읽어서 실행하는 역할을 한다.<br />
+즉, 메모리에 할당된 바이트 코드를 실행한다.</p>
+
+<h4 id="1-인터프리터">1. 인터프리터</h4>
+<p>자바 컴파일러로 변환된 자바 바이트 코드를 컴퓨터가 이해할 수 있는 Native Code로 변환하는 작업.<br />
+한 줄씩 순차적으로 컴파일 하여 Native로 변환하는 작업을 하는데, 매번 컴파일을 할 때 비효율적이다.
+중복된 바이트 코드에 대해서는 JIT 컴파일러를 사용한다.</p>
+
+<h4 id="2-jit-compiler-just-in-time">2. JIT Compiler (Just-In-Time)</h4>
+<p>인터프리터의 단점을 개선하기 위해 등장<br />
+인터프리터가 반복되는 코드를 발견하면 JIT 컴파일러로 반복되는 코드를 모두 Native Code로 변환한다.
+그 후 이것을 캐싱하고 동일한 부분이 호출되면 캐싱한 코드를 가져온다.<br />
+따라서 한 번 바꾼 Native Code는 인터프리터가 더 이상 컴파일하지 않아도 된다.</p>
+
+<p>즉, 자바 바이트코드에서 Native Code로 바꾸는 과정을 JIT에서 수행하는 것이다.</p>
+
+<h4 id="3-garbage-collections">3. Garbage Collections</h4>
+<p>JVM 상에서 더 이상 참조되지않는 객체를 메모리에서 해제시켜주는 장치</p>
+
+
+    
+    </section>
+
+    <!-- Social media shares -->
+    
+
+
+    <!-- Tag list -->
+    
+    
+
+
+  <div class="tag-list"></div>
+
+
+
+</article>
+
+
+
+
+<!-- To change color of links in the page --> <style> header#main { background-size: cover; background-repeat: no-repeat; background-position: center; } </style> <!-- Post navigation --> <div id="post-nav"> <div id="previous-post"> <a alt="NIO" href="/java/2024/08/14/java-NIO.html"> <p>Previous post</p> NIO </a> </div> <div id="next-post"> <a alt="Blocking IO와 Non-Blocking IO , 동기와 비동기" href="/java/2024/08/12/java-blocking.html"> <p>Next post</p> Blocking IO와 Non-Blocking IO , 동기와 비동기 </a> </div> </div> <!--Utterances--> <!-- Cusdis --> <!-- Disqus -->
+
+<script src="https://utteranc.es/client.js"
+        repo="byunyourim/comments"
+        issue-term="pathname"
+        label="comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+    </div>
+    
+    <footer class="site-footer"> <p class="text"> Powered by <a href='https://jekyllrb.com/'>Jekyll</a> with <a href='https://github.com/sylhare/Type-on-Strap'>Type on Strap</a></p> <div class="footer-icons"> <ul> <!-- Social icons from Font Awesome, if enabled --> <li> <a feed.xml href="/feed.xml" title="Follow RSS feed" target="_blank"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fas fa-rss fa-stack-1x fa-inverse"></i> </span> </a> </li> <li> <a href="https://github.com/sylhare" title="Follow on Github" target="_blank" rel="noopener"> <span class="fa-stack fa-lg"> <i class="fas fa-circle fa-stack-2x"></i> <i class="fab fa-github fa-stack-1x fa-inverse"></i> </span> </a> </li> </ul> </div> <script type="module"> mermaid.initialize({ startOnLoad: false, theme: "default" }); mermaid.run({ nodes: [...document.querySelectorAll('.language-mermaid'), ...document.querySelectorAll('.mermaid')] }); </script> </footer>
+  </body>
+</html>

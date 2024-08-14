@@ -5,9 +5,9 @@ feed:
 
 # For the share button options at the bottom of the articles
 share:
-  email: true
+  email: false
   facebook: false
-  linkedin: true
+  linkedin: false
   pinterest: false
   pocket:
   reddit: false
