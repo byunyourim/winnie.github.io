@@ -3,16 +3,12 @@ layout: post
 title: NCP(Naver Cloud Platform)를 이용하여 서버 구축
 feature-img: "assets/img/portfolio/ncp_logo2.jpg"
 img: "assets/img/portfolio/npc_logo1.png"
-date: 2024-08-13
+date: 2024-08-15
 ---
 
 Naver에서 제공하는 서비스를 이용하여 서버를 구축하였다.
 
 f-lab을 통해 Naver의 클라우드 서버 금액에 대한 지원을 받아 Naver를 채택하게 되었습니다.
-
-
-## 시스템 아키텍처
-![kbo.png](https://github.com/user-attachments/assets/97bf612b-e1a1-4eab-b288-526aa8764f6b)
 
 
 
