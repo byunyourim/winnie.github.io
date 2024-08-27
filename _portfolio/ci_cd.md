@@ -1,6 +1,6 @@
 ---
 layout: post
-title: NCP(Naver Cloud Platform)를 이용하여 서버 구축
+title: CI/CD Github Action
 feature-img: "assets/img/portfolio/ncp_logo2.jpg"
 img: "assets/img/portfolio/npc_logo1.png"
 date: 2024-08-15
