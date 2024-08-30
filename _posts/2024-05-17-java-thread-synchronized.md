@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Thread 구현 동기화
+title: Thread 구현 동기화와 Lock
 categories: Java
 ---
 
