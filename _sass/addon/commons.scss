@@ -692,6 +692,7 @@ $btn-mb: 0.5rem;
   background: var(--sidebar-bg);
   border-right: 1px solid var(--sidebar-border-color);
 
+
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -713,15 +714,17 @@ $btn-mb: 0.5rem;
 
   #avatar {
     display: block;
-    width: 7rem;
-    height: 7rem;
+    width: 11rem;
+    height: 11rem;
     overflow: hidden;
     box-shadow: var(--avatar-border-color) 0 0 0 2px;
     transform: translateZ(0); /* fixed the zoom in Safari */
 
     img {
       transition: transform 0.5s;
-
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
       &:hover {
         transform: scale(1.2);
       }
@@ -729,27 +732,25 @@ $btn-mb: 0.5rem;
   }
 
   .profile-wrapper {
-    @include mt-mb(2.5rem);
-    @extend %clickable-transition;
 
-    padding-left: 2.5rem;
+    padding-left: 10rem;
     padding-right: 1.25rem;
-    width: 100%;
+    width: 150%;
   }
 
   .site-title {
-    @extend %clickable-transition;
     @extend %sidebar-link-hover;
 
     font-family: inherit;
-    font-weight: 900;
-    font-size: 1.75rem;
+    font-weight: 1000;
+    font-size: 1.5rem;
     line-height: 1.2;
     letter-spacing: 0.25px;
     margin-top: 1.25rem;
     margin-bottom: 0.5rem;
     width: fit-content;
-    color: var(--site-title-color);
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
   }
 
   .site-subtitle {
@@ -761,6 +762,8 @@ $btn-mb: 0.5rem;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    text-align: center;
+    padding-bottom: 30px;
   }
 
   ul {
@@ -1239,8 +1242,8 @@ search {
   }
 
   #avatar {
-    width: 5rem;
-    height: 5rem;
+    width: 20rem;
+    height: 20rem;
   }
 }
 
@@ -1511,6 +1514,8 @@ search {
 
   #sidebar {
     width: $sidebar-width-large;
+
+    align-items: center;
 
     .profile-wrapper {
       margin-top: 3.5rem;
