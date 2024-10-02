@@ -9,33 +9,37 @@ theme: jekyll-theme-chirpy
 lang: en
 
 # Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
-timezone: Asia/Shanghai
+timezone:
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: winnie's Tech Blog # the main title
+title: Chirpy # the main title
 
-tagline: Why? 생각하자 # it will display as the subtitle
+tagline: A text-focused Jekyll theme # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  생각하라, 질문하라, 공부하
+  A minimal, responsive and feature-rich Jekyll theme for technical writing.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://imwinnie.com"
+url: "https://byunyourim.github.io"
 
 github:
-  username: byunyourim # change to your GitHub username
+  username: github_username # change to your GitHub username
+
+twitter:
+  username: twitter_username # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: winnie
-  email: byourim@gmail.com # change to your email address
+  name: your_full_name
+  email: example@domain.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://github.com/byunyourim # change to your GitHub homepage
+    - https://twitter.com/username # change to your Twitter homepage
+    - https://github.com/username # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
@@ -91,10 +95,10 @@ theme_mode: # [light | dark]
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-cdn: "https://chirpy-img.netlify.app"
+cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: "/assets/img/chunbae.png"
+avatar:
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -141,7 +145,7 @@ pwa:
     # Usually its value is the `baseurl` of another website that
     # shares the same domain name as the current website.
     deny_paths:
-      # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
+    # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
 paginate: 10
 
@@ -212,9 +216,10 @@ exclude:
   - package*.json
 
 jekyll-archives:
-  enabled: [categories]
+  enabled: [categories, tags]
   layouts:
     category: category
+    tag: tag
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
