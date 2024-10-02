@@ -1,4 +1,155 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-09-12T16:47:22+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">HashMap 의 구조</title><link href="http://localhost:4000/algorithm/2024/09/12/Algorithm.html" rel="alternate" type="text/html" title="HashMap 의 구조" /><published>2024-09-12T00:00:00+09:00</published><updated>2024-09-12T00:00:00+09:00</updated><id>http://localhost:4000/algorithm/2024/09/12/Algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/2024/09/12/Algorithm.html"><![CDATA[<p><strong>키-값</strong>의 쌍으로 데이터를 저장하는 자료구조</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-09-17T21:50:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Winnie’s Blog</title><subtitle>A website with blog posts and pages</subtitle><entry><title type="html">LRU(Least Recently Used)Cache 알고리즘</title><link href="http://localhost:4000/algorithm/2024/09/13/algorithm-lru.html" rel="alternate" type="text/html" title="LRU(Least Recently Used)Cache 알고리즘" /><published>2024-09-13T00:00:00+09:00</published><updated>2024-09-13T00:00:00+09:00</updated><id>http://localhost:4000/algorithm/2024/09/13/algorithm-lru</id><content type="html" xml:base="http://localhost:4000/algorithm/2024/09/13/algorithm-lru.html"><![CDATA[<p>캐시는 데이터나 값을 미리 복사해 놓는 임시 저장소를 말한다.
+데이터를 접근하는 시간이 오래 걸리는 경우나 값을 다시 계산하는 시간을 절약하고 싶은 경우 사용한다.
+캐시에 데이터를 미리 복사해 놓으면 계산이나 접근 없이 더 빠른 속도로 데이터에 접근이 가능하다.</p>
+
+<p><br /></p>
+
+<p>LRU (Least Recently Used)
+<strong>가장 최근에 사용되지 않은 데이터를 제거하는 방식</strong></p>
+
+<p>빠른 접근과, 업데이터가 가능하지만 많ㄱ은 공간을 차지한다는 단점이 있다.</p>
+
+<p>새로운 데이터가 캐시에 저장될 때, 캐시에 있는 데이터에 접근할 때마다 해당 데이터를
+<strong>가장 최근에 사용된 데이터</strong>로 표시하고 가장 오래 전에 사용된 데이터를 제거한다.
+따라서 가장 최근에 사용된 데이터를 캐시에 보존한다.</p>
+
+<p>이중 연결 리스트나 해시 맵과 같은 자료 구조를 사용하여 구현할 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="구현">구현</h3>
+<p><img src="https://github.com/user-attachments/assets/863a880f-3ede-4108-8446-4b1e659fd9c4" alt="lru.png" /></p>
+
+<h2 id="구현-1">구현</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LRUCache</span> <span class="o">{</span>
+
+    <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">prev</span><span class="o">,</span> <span class="n">next</span><span class="o">;</span>
+        <span class="nc">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Node</span><span class="o">&gt;</span> <span class="n">cache</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">capacity</span><span class="o">,</span> <span class="n">size</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="n">head</span><span class="o">,</span> <span class="n">tail</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">LRUCache</span><span class="o">(</span><span class="kt">int</span> <span class="n">capacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">capacity</span> <span class="o">=</span> <span class="n">capacity</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+
+        <span class="k">this</span><span class="o">.</span><span class="na">head</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tail</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="n">head</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+        <span class="n">tail</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+
+        <span class="n">moveToHead</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">moveToHead</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">removeNode</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="n">addToHead</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">removeNode</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">addToHead</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+
+        <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+        <span class="n">head</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+            <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">newNode</span><span class="o">);</span>
+            <span class="n">addToHead</span><span class="o">(</span><span class="n">newNode</span><span class="o">);</span>
+            <span class="n">size</span><span class="o">++;</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">capacity</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">Node</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">removeTail</span><span class="o">();</span>
+                <span class="n">cache</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">tail</span><span class="o">.</span><span class="na">key</span><span class="o">);</span>
+                <span class="n">size</span><span class="o">--;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+            <span class="n">moveToHead</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Node</span> <span class="nf">removeTail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">res</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="n">removeNode</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="Algorithm" /><summary type="html"><![CDATA[캐시는 데이터나 값을 미리 복사해 놓는 임시 저장소를 말한다. 데이터를 접근하는 시간이 오래 걸리는 경우나 값을 다시 계산하는 시간을 절약하고 싶은 경우 사용한다. 캐시에 데이터를 미리 복사해 놓으면 계산이나 접근 없이 더 빠른 속도로 데이터에 접근이 가능하다.]]></summary></entry><entry><title type="html">Backtracking</title><link href="http://localhost:4000/algorithm/2024/09/13/algorithm-backtrack.html" rel="alternate" type="text/html" title="Backtracking" /><published>2024-09-13T00:00:00+09:00</published><updated>2024-09-13T00:00:00+09:00</updated><id>http://localhost:4000/algorithm/2024/09/13/algorithm-backtrack</id><content type="html" xml:base="http://localhost:4000/algorithm/2024/09/13/algorithm-backtrack.html"><![CDATA[<p><strong>가능한 모든 경우의 수를 탐색하는</strong> 알고리즘 기법</p>
+
+<p>모든 가능한 경우의 수 중에서 특정 조건을 만족하는 경우만 탐색한다. 조건을 만족하지 않으면 이전 단계로 돌아가
+다른 해를 탐색한다.
+불필요한 경로를 빨리 제거할 수 있어, 효율적이다.</p>
+
+<p><br />
+<img src="https://github.com/user-attachments/assets/b756e965-1c06-4de9-9a58-311184ed0136" alt="backtracking.png" /></p>
+
+<ul>
+  <li>해를 부분적으로 구성해 나가면서, 해당 해가 유망하지 않은 경우 탐색을 중단하고 이전 단계로 돌아간다.</li>
+  <li>각 단계에서 선택을 하고, 그 선택에 따라 다시 문제를 재귀적으로 탐색한다.</li>
+  <li>Pruning 가지치기</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="동작">동작</h3>
+<ol>
+  <li>가능한 해를 하나씩 만들며 조건을 만족하는지 확인한다.</li>
+  <li>각 단계에서 유망성을 확인한다.</li>
+  <li>유효하지 않으면 해당 경로의 탐색을 중단하고 이전 단계로 돌아간다.</li>
+  <li>유효한 해인 경우 결과에 추가한다.</li>
+  <li>위의 과정을 반복하여 가능한 모든 경오를 탐색한다.</li>
+</ol>
+
+<p><br /></p>
+
+<h2 id="구현-예시">구현 예시</h2>
+<p>숫자 n이 주어졌을 때, n개의 쌍으로 된 모든 유효한 괄호 조합을 리턴하는 함수 구현</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution_BackTracking</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">backtracking</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">backtrack</span><span class="o">(</span><span class="n">res</span><span class="o">,</span> <span class="s">""</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">backtrack</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span><span class="o">,</span> <span class="nc">String</span> <span class="n">currentStr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">openCnt</span><span class="o">,</span> <span class="kt">int</span> <span class="n">closeCnt</span><span class="o">,</span> <span class="kt">int</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">currentStr</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="n">max</span><span class="o">*</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">currentStr</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">openCnt</span> <span class="o">&lt;</span> <span class="n">max</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">backtrack</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">currentStr</span> <span class="o">+</span> <span class="s">"("</span><span class="o">,</span> <span class="n">openCnt</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">closeCnt</span><span class="o">,</span> <span class="n">max</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">closeCnt</span> <span class="o">&lt;</span> <span class="n">openCnt</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">backtrack</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">currentStr</span> <span class="o">+</span> <span class="s">")"</span><span class="o">,</span> <span class="n">openCnt</span><span class="o">,</span> <span class="n">closeCnt</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">max</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="Algorithm" /><summary type="html"><![CDATA[가능한 모든 경우의 수를 탐색하는 알고리즘 기법 모든 가능한 경우의 수 중에서 특정 조건을 만족하는 경우만 탐색한다. 조건을 만족하지 않으면 이전 단계로 돌아가 다른 해를 탐색한다. 불필요한 경로를 빨리 제거할 수 있어, 효율적이다.]]></summary></entry><entry><title type="html">HashMap 의 구조</title><link href="http://localhost:4000/algorithm/2024/09/12/Algorithm-hashmap.html" rel="alternate" type="text/html" title="HashMap 의 구조" /><published>2024-09-12T00:00:00+09:00</published><updated>2024-09-12T00:00:00+09:00</updated><id>http://localhost:4000/algorithm/2024/09/12/Algorithm-hashmap</id><content type="html" xml:base="http://localhost:4000/algorithm/2024/09/12/Algorithm-hashmap.html"><![CDATA[<p><strong>키-값</strong>의 쌍으로 데이터를 저장하는 자료구조</p>
 
 <p>각 키를 해시 함수로 변환하여 배열의 인덱스에 저장하여 데이터 추가, 검색, 삭제 등의 작업을 수행한다.
 키의 중복을 허용하지 않으며, 하나의 키에 하나의 값이 매핑된다.</p>
@@ -316,7 +467,459 @@ Engine 객체가 어떤 클래스인지 신경 쓰지 않아도 되고, 외부�
 의존성 주입을 사용하면 테스트 시, 실제 객체 대신 Mock객체나 Stub 객체를 주입하여 단위 테스트가 더 용이해진다.
 객체의 생성과 사용을 분리하여, 코드의 유연성과 재사용성을 높일 수 있다.</p>
 
-<p>스프링 프레임워크는 의존성  활용한 프레임 워크로</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[객체지향 프로그래밍에서 객체 간의 의존성을 외부에서 주입하여 객체 간의 결합도를 낮추고, 코드의 재사용성과 유연성을 높이는 설계 패턴]]></summary></entry><entry><title type="html">Supplier 인터페이스와 LRU</title><link href="http://localhost:4000/java/2024/09/01/java-supplier-lru.html" rel="alternate" type="text/html" title="Supplier 인터페이스와 LRU" /><published>2024-09-01T00:00:00+09:00</published><updated>2024-09-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/09/01/java-supplier-lru</id><content type="html" xml:base="http://localhost:4000/java/2024/09/01/java-supplier-lru.html"><![CDATA[<h3 id="supplier-인터페이스">Supplier 인터페이스</h3>
+<p>스프링 프레임워크는 의존성  활용한 프레임 워크로</p>]]></content><author><name></name></author><category term="Spring" /><summary type="html"><![CDATA[객체지향 프로그래밍에서 객체 간의 의존성을 외부에서 주입하여 객체 간의 결합도를 낮추고, 코드의 재사용성과 유연성을 높이는 설계 패턴]]></summary></entry><entry><title type="html">Stream API</title><link href="http://localhost:4000/java/2024/09/01/java-stream_api.html" rel="alternate" type="text/html" title="Stream API" /><published>2024-09-01T00:00:00+09:00</published><updated>2024-09-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/09/01/java-stream_api</id><content type="html" xml:base="http://localhost:4000/java/2024/09/01/java-stream_api.html"><![CDATA[<h2 id="stream-api">Stream API</h2>
+<p><strong>데이터 처리를 간결하고 효율적으로 할 수 있도록 도와주는 API</strong></p>
+
+<p>Java8 부터 도입되어 컬렉션의 데이터를 함수형으로 처리할 수 있도록 해준다.
+데이터 소스 (컬렉션, 배열, I/O 채널 등)에서 파이프라인 방식으로 연속적인 연산을 수행할 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="특징">특징</h3>
+<h4 id="1-불변성">1. 불변성</h4>
+<p>스트림은 기존의 데이터를 변경하지 않고, 새로운 스트림을 생성하여 작업을 수행한다.</p>
+
+<h4 id="2-지연-연산-lazy-evaluation">2. 지연 연산 Lazy Evaluation</h4>
+<p>스트림에는 중간 연산과 최종 연산이 있는데, 최종 연산이 호출될 때까지 중간 연산이 실제로 수행되지 않는 것을 말한다.
+지연 연산으로 불필요한 계산이 줄어들어 성능이 최적화 될 수 있다.</p>
+
+<h4 id="3-파이프라이닝-pipelining">3. 파이프라이닝 Pipelining</h4>
+<p>여러 중간 연산을 연결하여 하나의 파이프라인을 구성할 수 있다.
+파이프라인은 한 번의 최종 연산을 통해 처리 될 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">fruits</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">,</span> <span class="s">"orange"</span><span class="o">);</span>
+
+<span class="nc">Listt</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">fruits</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                             <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">)</span>
+                             <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">)</span>
+                             <span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+                             <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h4 id="4-함수형-프로그래밍-지원">4. 함수형 프로그래밍 지원</h4>
+<p>함수형 인터페이스와 람다 표현식을 활용하여 함수형 프로그래밍을 지원하며, 이를 통해 코드를 간결하게 할 수 있다.</p>
+
+<h4 id="5-다양한-데이터-소스-지원">5. 다양한 데이터 소스 지원</h4>
+<p>Collection 인터페이스를 구현한 클래스뿐 아니라 배열, 파일 등 다양한 데이터를 사용할 수 있다.</p>
+
+<h4 id="6-유형-스트림-지원">6. 유형 스트림 지원</h4>
+<p>기본형 타입을 위한 스트림을 별도로 제공하여 박싱 비용을 줄일 수 있다.</p>
+
+<p><br /><br /></p>
+
+<h2 id="lazy-evaluation">Lazy Evaluation</h2>
+<p>Java Stream API에서 중간 연산이 최종 연산이 호출될 때까지 실제로 수행되지 않는 것을 말한다.</p>
+
+<h3 id="구현-방식">구현 방식</h3>
+<h4 id="1-스트림을-생성한다">1. 스트림을 생성한다.</h4>
+<p>스트림은 데이터의 요소들의 연속적인 데이터 흐름으로 스트림을 생성하면, 데이터를 일관된 방식으로 처리할 수 있는 파이프 라인을 만들 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">);</span>
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameStream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span> <span class="c1">// 스트림 생성</span>
+        
+<span class="nc">String</span><span class="o">[]</span> <span class="n">nameArray</span> <span class="o">=</span> <span class="o">{</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">};</span>
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameStream</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">nameArray</span><span class="o">);</span> <span class="c1">// 스트림 생성</span>
+        
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameStream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">);</span> <span class="c1">// 스트림 생성</span>
+</code></pre></div></div>
+
+<h4 id="2-중간-연산을-정의한다">2. 중간 연산을 정의한다.</h4>
+<p>중간 연산(filtter, map, sorted)이 스트림에 연결된다. 각 중간 연산은
+   스트림을 변환하는 새로운 스트림을 반화하며, 실제 데이터는 처리되지 않는다.
+   중간 연산은 다음 연산을 위한 연산 체인을 설정한다.</p>
+
+<h4 id="3-최종-연산을-호출한다">3. 최종 연산을 호출한다.</h4>
+<p>최종 연산(collect, forEach, reduce)이 호출되면 스트림의 데이터가 실제로 처리된다.<br />
+   이때 스트림의 중간 연산이 실행된다.</p>
+
+<p><br /></p>
+
+<h4 id="장점">장점</h4>
+<ul>
+  <li>
+    <p>스트림은 필요한 데이터만 처리하기 때문에 성능을 향상시킨다.</p>
+  </li>
+  <li>
+    <p>중간 연산이 지연되어 필요한 시점에 처리되기 때문에 메모리 사용이 줄어든다.</p>
+  </li>
+  <li>
+    <p>여러 중간 연산이 연결된 경우, 하나의 파이프라인에서 순차적으로 처리되기 때문에 불필요한 중간 결과가 생성되지 않는다.
+모든 연산이 최종 연산이 호출될 때 한 번에 처리된다.</p>
+  </li>
+</ul>
+
+<h4 id="단점">단점</h4>
+<ul>
+  <li>
+    <p>지연 평가로 중간 연산이 언제 실행될지 모르기 때문에 디버깅이 복잡해질 수 있다.</p>
+  </li>
+  <li>
+    <p>오류가 발생할 경우, 실제 실행 시점에서 오류가 발생하기 때문에 중간 연산에서 발생한 문제를 추적하기 어렵다.</p>
+  </li>
+</ul>
+
+<p><br /><br /></p>
+
+<h4 id="스트림은-데이터를-변경하지-않는다-왜">스트림은 데이터를 변경하지 않는다? 왜?</h4>
+<p>스트림은 연산 과정에서 원본 데이터를 복사하는 것이 아닌, 참조된 데이터를 바탕으로 필요한 연산을 수행하여 새로운 데이터를 생성한다.</p>
+
+<p>한 번 사용된 이후 재사용할 수 없는 일회성 객체이며, 이를 통해 원본 데이터의 불변성을 유지할 수 있다.</p>
+
+<p>또한 참조 변수에 저장하지 않고 곧바로 연산을 수행할 수 있다. 즉, 스트림 객체를 별도로 저장하지 않고 사용하는 것이 가능하다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">,</span> <span class="s">"coke"</span><span class="o">);</span>
+
+<span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>          <span class="c1">// 스트림 생성</span>
+     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"a"</span><span class="o">))</span>   <span class="c1">// 중간연산 </span>
+     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">)</span>   <span class="c1">// 중간연산 </span>
+     <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>          <span class="c1">// 최종연산</span>
+</code></pre></div></div>
+<p>위 코드에서는 names.stream()으로 스트림을 생성한 후, 이를 Stream<String> stream = names.stream(); 같은 참조 변수에 할당하지 않고 
+바로 연산(filter, forEach)을 수행한다.</String></p>
+
+<p>한 번 사용하면 다시 사용할 수 없는 일회성 객체로, 최종 연산이 수행되면 더 이상 해당 스트림을 사용할 수 없다.
+만약 동일한 연산을 다시 수행하려면 names.stream()으로 새로 스트림을 생성해야 한다.</p>
+
+<p>스트림의 파이프라인은 최종 연산이 호출될 때 한 번에 실행되고 그 후에 스트림은 종료된다.
+다시 사용하려고 하면 IllegalStateException이 발생한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"A"</span><span class="o">));</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span> <span class="c1">// 최종 연산</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span> <span class="c1">// IllegalStateException 발생</span>
+</code></pre></div></div>
+
+<p><br /><br /><br /></p>
+
+<h2 id="stateful--statefuless">Stateful &amp; Statefuless</h2>
+
+<h4 id="stateful-연산-stateful-operations">Stateful 연산 (Stateful Operations)</h4>
+
+<p>Stateful Stream 은 스트림의 중간 연산 중 이전 단계의 결과를 바탕으로 현재 연산을 수행하는 것을 말한다.<br />
+전체 스트림의 상태를 추적하기 때문에 성능이 떨어질 수 있다.
+sorted(), distinct() 가 있으며, 전체 데이터의 상태를 고려해야 하기 때문에 연산 중 일시적으로 전체 데이터를 저장하거나 처리해야 한다.</p>
+
+<p>연산을 수행할 때 스트림의 요소들 간의 상태나 순서를 유지하거나 추적해야 하는 연산<br />
+연산은 스트릠의 모든 요소를 고려하여 상태를 유지하거나 변경할 필요가 깅ㅅ다.
+상태를 추적해야 하기 때문에 메모리 사용량이 증가하고 성능이 저하될 수 있다.
+요소 간의 관계를 고려하거나, 스트림 전체를 정렬, 필터링해야 할 때 사용한다.</p>
+
+<ul>
+  <li>
+    <p>sorted 
+스트림의 모든 요소를 정렬하기 위해 전체 스트림을 고려한다. 요소를 정렬하려면 전체 데이터를 메모리에
+로드하고 정렬해야 하기 때문에 상태를 유지한다.</p>
+  </li>
+  <li>
+    <p>distinct
+중복을 제거하기 위해 스트림의 모든 요소를 기억하고 비교해야 하기 때문에 상태를 유지한다.</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="stateless-연산-stateless-operations">Stateless 연산 (Stateless Operations)</h4>
+<p>연산을 수행할 때 스트림의 요소 간의 상태를 유지하지 않고, 각 요소를 독립적으로 처리하는 연산<br />
+요소 간의 관계를 고려하지 않는다.</p>
+
+<p>연산은 각 요소를 독립적으로 처리하며, 이전 또는 다른 요소의 상태에 의존하지 안흔다.
+상태를 유지하지 않기 때문에 메모리 사용량이 적고 성능이 좋으며, 각 요소를 독립적으로 처리하여 결과를 생성한다.</p>
+
+<ul>
+  <li>
+    <p>filter()
+각 요소를 개별적으로 검사하여 조건에 맞는 요소만 남기며, 다른 요소의 상태나 관계를 고려하지 않는다.</p>
+  </li>
+  <li>
+    <p>map()
+각 요소를 다른 형태로 변환하며, 이 과정에서 요소 간이 관계를 고려하지 않는다.</p>
+  </li>
+</ul>
+
+<p><br /><br /><br /></p>
+
+<h2 id="중간-연산과-최종-연산">중간 연산과 최종 연산</h2>
+
+<p><br /></p>
+
+<h3 id="중간-연산">중간 연산</h3>
+<p>스트림 파이프라인에서 스트림을 변환하거나 필터링한다.
+스트림을 변경하지 않고 새로운 스트림을 반환하며, 지연 평가를 통해 최종 연산이 호출될 때까지 실제로 수행되지 않는다.
+연속해서 호출할 수 있으며, 스트림 파이프라인을 구성할 수 있다.</p>
+<ul>
+  <li>filter(Predicate<T>) : 조건에 맞는 요소만 필터링하여 새로운 스트림 반환
+</T>    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">filteredStream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">streaam</span><span class="o">()</span>
+                                   <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"j"</span><span class="o">));</span>
+</code></pre></div>    </div>
+  </li>
+  <li>map(Function&lt;T, R&gt;) : 각 요소를 다른 형태로 변환하여 새로운 스트림 반환
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">upperCaseStream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                                    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>sorted(Comparator<T>) : 스트릠의 요소를 정렬하여 새로운 스트림 반환
+</T>    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">sortedStream</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="최종-연산">최종 연산</h3>
+<p>스트림 파이프라인의 결과를 생성한다.
+스트림의 요소를 실제로 처리하여 결과를 반환하며, 스트림이 종료되고 더 이상 사용할 수 없다. 최종 연산이 호출되면, 중간 연산이 실행된다.</p>
+
+<h5 id="--foreachconsumer-t-">- forEach(Consumer&lt; T &gt;)</h5>
+<p>스트림의 각 요소에 대해 주어진 작업 수행</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
+
+<span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h5 id="--collectcollectort-a-r">- collect(Collector&lt;T, A, R&gt;)</h5>
+<p>스트림의 요소를 수집하여 컬렉션 또는 다른 형태의 결과 생성</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">collectedNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h5 id="--reducebinaryoperator">- reduce(BinaryOperator<T>)</T></h5>
+<p>스트림의 요소를 하나로 결합하여 단일 결과 생성</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+<span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="nl">Integer:</span><span class="o">:</span><span class="n">sum</span><span class="o">);</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Stream API 데이터 처리를 간결하고 효율적으로 할 수 있도록 도와주는 API]]></summary></entry><entry><title type="html">Lambda 와 함수형 인터페이스</title><link href="http://localhost:4000/java/2024/09/01/java-lamda.html" rel="alternate" type="text/html" title="Lambda 와 함수형 인터페이스" /><published>2024-09-01T00:00:00+09:00</published><updated>2024-09-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/09/01/java-lamda</id><content type="html" xml:base="http://localhost:4000/java/2024/09/01/java-lamda.html"><![CDATA[<p><br /></p>
+
+<p>람다 표현식은 <strong>자바의 메서드 하나의 식으로 간결하게 표현한 것</strong> 이다.</p>
+
+<p><br /></p>
+
+<p>이전에는 자바에서 메서드를 표현하려면 클래스를 정의해야 했다. 하지만 자바 8 부터 람다식을 통해 메서드의 이름과 반환값을 
+생략할 수 있고, 이를 변수에 넣어 코드를 간결하게 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">add</span> <span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span> 
+<span class="o">}</span>
+
+
+<span class="c1">// 이는 아래와 같이 변경할 수 있다.</span>
+<span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p><strong>(매개변수) -&gt; {함수 본문}</strong> 의 형태로,</p>
+
+<p>매개 변수가 없는 경우 () 를 사용하고, 매개 변수가 하나 인 경우 괄호를 생략할 수 있으며, 
+함수의 본문이 하나인 경우 중괄호와 return을 생략할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 매개변수가 없고, 표현식이 하나</span>
+<span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hello"</span><span class="o">):</span>
+
+<span class="c1">// 매개 변수가 하나</span>
+<span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">;</span>
+
+<span class="c1">// 매개변수가 여러 개이고, 본문이 여러 줄</span>
+<span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /><br /><br /></p>
+
+<h2 id="람다-표현식의-특징">람다 표현식의 특징</h2>
+
+<h3 id="1-간결하다">1. 간결하다</h3>
+<p>람다 표현식을 사용하면 코드가 간결해진다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 익명 클래스로 Runnable 구현</span>
+<span class="nc">Runnable</span> <span class="n">r1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Runnable</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello, World!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+
+<span class="c1">// 람다 표현식으로 Runnable 구현</span>
+<span class="nc">Runnable</span> <span class="n">r2</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello, World!"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="2-익명성">2. 익명성</h3>
+<p>람다 표현식은 익명함수로, 함수의 이름을 정의하지 않고 사용할 수 있다.</p>
+
+<blockquote>
+  <h5 id="익명-함수란">익명 함수란?</h5>
+  <p>이름이 없는 함수로, 익명 함수는 모두 일급 객체이다.
+일급 객체인 함수는 변수처럼 사용이 가능하며, 매개변수로 전달이 가능하다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="3-타입-추론">3. 타입 추론</h3>
+<p>람다 표현식에서는 컴파일러가 타입을 추론할 수 있기 때문에, 매개변수의 타입을 명시적으로 지정하지 않아도 된다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 타입 명시</span>
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stringLength1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+
+<span class="c1">// 타입 추론</span>
+<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stringLength2</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="4-클로저-지원">4. 클로저 지원</h3>
+<p>자신이 선언된 스코프의 변수에 접근할 수 있다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LambdaExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>  
+        <span class="nc">Runnable</span> <span class="n">r</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+
+        <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>  <span class="c1">// 출력: 10</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="5-고차-함수-지원">5. 고차 함수 지원</h3>
+<p>람다 표현식은 고차 함수를 지원한다. 
+고차 함수는 다른 함수를 매개변수로 받거나, 함수를 반환하는 함수이다.</p>
+
+<p>람다식을 이용하면, 고차 함수를 쉽게 정의하고 사용할 수 잇따.</p>
+
+<p>람다 표현식을 사용하여 코드를 더 간결하게 할 수 있다. filter 메서드를 이용해 조건을 나타내는 람다 표현식을 매개변수로 받아 필터링을 쉽게 구현할 수 있다.</p>
+
+<p>또한 이런 filter 메서드는 여러 상황에서 재사용할 수 있다. 조건만 다르게 해서 재사용할 수 있기 때문에, 코드의 중복이 줄고 유지보수가 쉽다.</p>
+
+<p>컬렌션의 필터링, 매핑, 집계 등 여러 작업을 람다를 이용해서 간결하게 처리할 수 있으며, 재사용성을 높인다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.function.Function</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LambdaExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">add</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">add</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="mi">3</span><span class="o">));</span>  <span class="c1">// 출력: 5</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="6-병렬-처리-가능">6. 병렬 처리 가능</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LambdaExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">);</span>
+
+        <span class="c1">// 병렬 처리</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">parallelStream</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="7-함수형-인터페이스-구현">7. 함수형 인터페이스 구현</h3>
+<p>함수형 인터페이스는 하나의 추상 메서드를 갖는 인터페이스이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FunctionalInterfaceExample</span> <span class="o">{</span>
+
+   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+      <span class="nc">MyFunctionInterface</span> <span class="n">add</span> <span class="o">=</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">add</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">));</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 함수형 인터페이스 정의</span>
+<span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">MyFunctionInterface</span> <span class="o">{</span>
+   <span class="kt">int</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="인터페이스에-추상-메서드가-여러-개라면">인터페이스에 추상 메서드가 여러 개라면?</h3>
+<p>함수형 인터페이스는 추상 메서드를 하나만 갖는 인터페이스이다. 이 추상 메서드는 람다표현식을 사용하여 구현할 수 있다.</p>
+
+<p>추상 메서드가 여러 개인 인터페이스의 경우 함수형 인터페이스가 아니기 때문에 람다 표현식으로 구현할 수 없다.<br />
+만약 여러 개의 메서드가 필요한 경우에는 각각의 메서드를 분리하여 함수형 인터페이스로 만들어야 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionInterface</span>
+<span class="kd">interface</span> <span class="nc">FunctionInterface</span> <span class="o">{</span>
+   <span class="kt">void</span> <span class="nf">execute</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">FunctionInterface</span> <span class="n">function</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">Systemout</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hello"</span><span class="o">);</span>
+      <span class="n">function</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="8-기존-인터페이스와-호환">8. 기존 인터페이스와 호환</h2>
+
+<p>자바에서 제공하는 함수형 인터페이스에는 <strong>Runnable, Function, Predicate, Consumer, Supplier, Callable</strong> 등이 있다.</p>
+
+<p><br /></p>
+
+<h3 id="️-runnable">◾️ Runnable</h3>
+<p>스레드를 실행하기 위한 함수형 인터페이스</p>
+
+<h3 id="️-functiont-r">◾️ Function&lt;T, R&gt;</h3>
+<ul>
+  <li>T타입의 매개변수를 입력 받아, R 타입으로 반환하는 함수형 인터페이스</li>
+  <li><strong>R apply (T t)</strong>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">lengthFunction</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">lengthFunction</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">);</span>
+</code></pre></div>    </div>
+    <p>입력을 받아서 출력으로 변환하며, 주로 변환 작업에 사용된다.</p>
+  </li>
+</ul>
+
+<h3 id="️-predicate-t-">◾️ Predicate&lt; T &gt;</h3>
+<ul>
+  <li>T타입의 매개변수를 입력 받아, 조건 검사 후 boolean 값을 반환하는 함수형 인터페이스</li>
+  <li><strong>boolean test(T t)</strong>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">isEmpty</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">();</span>
+<span class="kt">boolean</span> <span class="n">result</span> <span class="o">=</span> <span class="n">isEmpty</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="s">""</span><span class="o">);</span> <span class="c1">// true</span>
+</code></pre></div>    </div>
+    <p>입력값에 대해 boolean 값을 반환하며, 조건 검증에 사용한다.</p>
+  </li>
+</ul>
+
+<h3 id="️-consumer-t-">◾️ Consumer&lt; T &gt;</h3>
+<ul>
+  <li>T타입의 입력을 받아 동작을 수행한 후, 결과를 반환하지 않는 함수형 인터페이스이다.</li>
+  <li><strong>void accept(T t)</strong>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Consumer</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+<span class="n">print</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="s">"Hello, World!"</span><span class="o">);</span>
+</code></pre></div>    </div>
+    <p>입력을 받아서 동작을 수행하며, 결과를 반환하지 않는다.</p>
+  </li>
+</ul>
+
+<h3 id="️-supplier-t-">◾️ Supplier&lt; T &gt;</h3>
+<ul>
+  <li>매개변수 없이 T타입의 값을 반환하는 함수형 인터페이스로 객체를 생성하거나 값을 제공한다.</li>
+  <li><strong>T get()</strong>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">randomSupplier</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
+<span class="kt">int</span> <span class="n">randomValue</span> <span class="o">=</span> <span class="n">randomSupplier</span><span class="o">.</span><span class="na">get</span><span class="o">();</span> <span class="c1">// 임의의 정수 반환</span>
+</code></pre></div>    </div>
+    <p>매개 변수를 받지 않고, 값을 생성하거나 제공한다.</p>
+  </li>
+</ul>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Supplier 인터페이스와 LRU</title><link href="http://localhost:4000/java/2024/09/01/java-supplier-lru.html" rel="alternate" type="text/html" title="Supplier 인터페이스와 LRU" /><published>2024-09-01T00:00:00+09:00</published><updated>2024-09-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/09/01/java-supplier-lru</id><content type="html" xml:base="http://localhost:4000/java/2024/09/01/java-supplier-lru.html"><![CDATA[<h3 id="supplier-인터페이스">Supplier 인터페이스</h3>
 <p>입력 매개변수 없이 출력을 생성하는 인터페이스<br />
 <img src="https://github.com/user-attachments/assets/14423fc5-3bc1-46b8-872e-915bfcb54732" alt="supplier.png" /></p>
 
@@ -558,459 +1161,7 @@ LinkedHashMap의 생성자에서 accessOrder 파라미터를 true로 설정하�
   <li>추가적인 최적화 기법
 사용 패턴 분석: 캐시 사용 패턴을 분석하여 LRU 외에 다른 캐싱 전략이 더 적합한지 평가할 수 있습니다. 예를 들어, 자주 사용되는 데이터는 캐시에 오래 남도록 하는 전략을 추가할 수 있습니다.
 다중 레벨 캐싱: 메모리와 디스크 또는 네트워크 캐시를 조합한 다중 레벨 캐싱을 고려할 수 있습니다. 메모리에 여유가 없을 때 디스크 기반 캐시를 사용하여 적중률을 높일 수 있습니다.</li>
-</ol>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Supplier 인터페이스 입력 매개변수 없이 출력을 생성하는 인터페이스]]></summary></entry><entry><title type="html">Lambda 와 함수형 인터페이스</title><link href="http://localhost:4000/java/2024/09/01/java-lamda.html" rel="alternate" type="text/html" title="Lambda 와 함수형 인터페이스" /><published>2024-09-01T00:00:00+09:00</published><updated>2024-09-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/09/01/java-lamda</id><content type="html" xml:base="http://localhost:4000/java/2024/09/01/java-lamda.html"><![CDATA[<p><br /></p>
-
-<p>람다 표현식은 <strong>자바의 메서드 하나의 식으로 간결하게 표현한 것</strong> 이다.</p>
-
-<p><br /></p>
-
-<p>이전에는 자바에서 메서드를 표현하려면 클래스를 정의해야 했다. 하지만 자바 8 부터 람다식을 통해 메서드의 이름과 반환값을 
-생략할 수 있고, 이를 변수에 넣어 코드를 간결하게 한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">add</span> <span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span> 
-<span class="o">}</span>
-
-
-<span class="c1">// 이는 아래와 같이 변경할 수 있다.</span>
-<span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<p><strong>(매개변수) -&gt; {함수 본문}</strong> 의 형태로,</p>
-
-<p>매개 변수가 없는 경우 () 를 사용하고, 매개 변수가 하나 인 경우 괄호를 생략할 수 있으며, 
-함수의 본문이 하나인 경우 중괄호와 return을 생략할 수 있다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 매개변수가 없고, 표현식이 하나</span>
-<span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hello"</span><span class="o">):</span>
-
-<span class="c1">// 매개 변수가 하나</span>
-<span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">;</span>
-
-<span class="c1">// 매개변수가 여러 개이고, 본문이 여러 줄</span>
-<span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>
-    <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /><br /><br /></p>
-
-<h2 id="람다-표현식의-특징">람다 표현식의 특징</h2>
-
-<h3 id="1-간결하다">1. 간결하다</h3>
-<p>람다 표현식을 사용하면 코드가 간결해진다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 익명 클래스로 Runnable 구현</span>
-<span class="nc">Runnable</span> <span class="n">r1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Runnable</span><span class="o">()</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello, World!"</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">};</span>
-
-<span class="c1">// 람다 표현식으로 Runnable 구현</span>
-<span class="nc">Runnable</span> <span class="n">r2</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello, World!"</span><span class="o">);</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h3 id="2-익명성">2. 익명성</h3>
-<p>람다 표현식은 익명함수로, 함수의 이름을 정의하지 않고 사용할 수 있다.</p>
-
-<blockquote>
-  <h5 id="익명-함수란">익명 함수란?</h5>
-  <p>이름이 없는 함수로, 익명 함수는 모두 일급 객체이다.
-일급 객체인 함수는 변수처럼 사용이 가능하며, 매개변수로 전달이 가능하다.</p>
-</blockquote>
-
-<p><br /></p>
-
-<h3 id="3-타입-추론">3. 타입 추론</h3>
-<p>람다 표현식에서는 컴파일러가 타입을 추론할 수 있기 때문에, 매개변수의 타입을 명시적으로 지정하지 않아도 된다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 타입 명시</span>
-<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stringLength1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
-
-<span class="c1">// 타입 추론</span>
-<span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stringLength2</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h3 id="4-클로저-지원">4. 클로저 지원</h3>
-<p>자신이 선언된 스코프의 변수에 접근할 수 있다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LambdaExample</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>  
-        <span class="nc">Runnable</span> <span class="n">r</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
-
-        <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>  <span class="c1">// 출력: 10</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h3 id="5-고차-함수-지원">5. 고차 함수 지원</h3>
-<p>람다 표현식은 고차 함수를 지원한다. 
-고차 함수는 다른 함수를 매개변수로 받거나, 함수를 반환하는 함수이다.</p>
-
-<p>람다식을 이용하면, 고차 함수를 쉽게 정의하고 사용할 수 잇따.</p>
-
-<p>람다 표현식을 사용하여 코드를 더 간결하게 할 수 있다. filter 메서드를 이용해 조건을 나타내는 람다 표현식을 매개변수로 받아 필터링을 쉽게 구현할 수 있다.</p>
-
-<p>또한 이런 filter 메서드는 여러 상황에서 재사용할 수 있다. 조건만 다르게 해서 재사용할 수 있기 때문에, 코드의 중복이 줄고 유지보수가 쉽다.</p>
-
-<p>컬렌션의 필터링, 매핑, 집계 등 여러 작업을 람다를 이용해서 간결하게 처리할 수 있으며, 재사용성을 높인다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.function.Function</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LambdaExample</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;&gt;</span> <span class="n">add</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span>
-
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">add</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="na">apply</span><span class="o">(</span><span class="mi">3</span><span class="o">));</span>  <span class="c1">// 출력: 5</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h3 id="6-병렬-처리-가능">6. 병렬 처리 가능</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LambdaExample</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">);</span>
-
-        <span class="c1">// 병렬 처리</span>
-        <span class="n">list</span><span class="o">.</span><span class="na">parallelStream</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h3 id="7-함수형-인터페이스-구현">7. 함수형 인터페이스 구현</h3>
-<p>함수형 인터페이스는 하나의 추상 메서드를 갖는 인터페이스이다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FunctionalInterfaceExample</span> <span class="o">{</span>
-
-   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-
-      <span class="nc">MyFunctionInterface</span> <span class="n">add</span> <span class="o">=</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span>
-      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">add</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">));</span>
-   <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">// 함수형 인터페이스 정의</span>
-<span class="nd">@FunctionalInterface</span>
-<span class="kd">interface</span> <span class="nc">MyFunctionInterface</span> <span class="o">{</span>
-   <span class="kt">int</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h3 id="인터페이스에-추상-메서드가-여러-개라면">인터페이스에 추상 메서드가 여러 개라면?</h3>
-<p>함수형 인터페이스는 추상 메서드를 하나만 갖는 인터페이스이다. 이 추상 메서드는 람다표현식을 사용하여 구현할 수 있다.</p>
-
-<p>추상 메서드가 여러 개인 인터페이스의 경우 함수형 인터페이스가 아니기 때문에 람다 표현식으로 구현할 수 없다.<br />
-만약 여러 개의 메서드가 필요한 경우에는 각각의 메서드를 분리하여 함수형 인터페이스로 만들어야 한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionInterface</span>
-<span class="kd">interface</span> <span class="nc">FunctionInterface</span> <span class="o">{</span>
-   <span class="kt">void</span> <span class="nf">execute</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
-   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-      <span class="nc">FunctionInterface</span> <span class="n">function</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">Systemout</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hello"</span><span class="o">);</span>
-      <span class="n">function</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
-   <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /></p>
-
-<h2 id="8-기존-인터페이스와-호환">8. 기존 인터페이스와 호환</h2>
-
-<p>자바에서 제공하는 함수형 인터페이스에는 <strong>Runnable, Function, Predicate, Consumer, Supplier, Callable</strong> 등이 있다.</p>
-
-<p><br /></p>
-
-<h3 id="️-runnable">◾️ Runnable</h3>
-<p>스레드를 실행하기 위한 함수형 인터페이스</p>
-
-<h3 id="️-functiont-r">◾️ Function&lt;T, R&gt;</h3>
-<ul>
-  <li>T타입의 매개변수를 입력 받아, R 타입으로 반환하는 함수형 인터페이스</li>
-  <li><strong>R apply (T t)</strong>
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Function</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">lengthFunction</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">lengthFunction</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">);</span>
-</code></pre></div>    </div>
-    <p>입력을 받아서 출력으로 변환하며, 주로 변환 작업에 사용된다.</p>
-  </li>
-</ul>
-
-<h3 id="️-predicate-t-">◾️ Predicate&lt; T &gt;</h3>
-<ul>
-  <li>T타입의 매개변수를 입력 받아, 조건 검사 후 boolean 값을 반환하는 함수형 인터페이스</li>
-  <li><strong>boolean test(T t)</strong>
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">isEmpty</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">();</span>
-<span class="kt">boolean</span> <span class="n">result</span> <span class="o">=</span> <span class="n">isEmpty</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="s">""</span><span class="o">);</span> <span class="c1">// true</span>
-</code></pre></div>    </div>
-    <p>입력값에 대해 boolean 값을 반환하며, 조건 검증에 사용한다.</p>
-  </li>
-</ul>
-
-<h3 id="️-consumer-t-">◾️ Consumer&lt; T &gt;</h3>
-<ul>
-  <li>T타입의 입력을 받아 동작을 수행한 후, 결과를 반환하지 않는 함수형 인터페이스이다.</li>
-  <li><strong>void accept(T t)</strong>
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Consumer</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-<span class="n">print</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="s">"Hello, World!"</span><span class="o">);</span>
-</code></pre></div>    </div>
-    <p>입력을 받아서 동작을 수행하며, 결과를 반환하지 않는다.</p>
-  </li>
-</ul>
-
-<h3 id="️-supplier-t-">◾️ Supplier&lt; T &gt;</h3>
-<ul>
-  <li>매개변수 없이 T타입의 값을 반환하는 함수형 인터페이스로 객체를 생성하거나 값을 제공한다.</li>
-  <li><strong>T get()</strong>
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">randomSupplier</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
-<span class="kt">int</span> <span class="n">randomValue</span> <span class="o">=</span> <span class="n">randomSupplier</span><span class="o">.</span><span class="na">get</span><span class="o">();</span> <span class="c1">// 임의의 정수 반환</span>
-</code></pre></div>    </div>
-    <p>매개 변수를 받지 않고, 값을 생성하거나 제공한다.</p>
-  </li>
-</ul>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Stream API</title><link href="http://localhost:4000/java/2024/09/01/java-stream_api.html" rel="alternate" type="text/html" title="Stream API" /><published>2024-09-01T00:00:00+09:00</published><updated>2024-09-01T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/09/01/java-stream_api</id><content type="html" xml:base="http://localhost:4000/java/2024/09/01/java-stream_api.html"><![CDATA[<h2 id="stream-api">Stream API</h2>
-<p><strong>데이터 처리를 간결하고 효율적으로 할 수 있도록 도와주는 API</strong></p>
-
-<p>Java8 부터 도입되어 컬렉션의 데이터를 함수형으로 처리할 수 있도록 해준다.
-데이터 소스 (컬렉션, 배열, I/O 채널 등)에서 파이프라인 방식으로 연속적인 연산을 수행할 수 있다.</p>
-
-<p><br /></p>
-
-<h3 id="특징">특징</h3>
-<h4 id="1-불변성">1. 불변성</h4>
-<p>스트림은 기존의 데이터를 변경하지 않고, 새로운 스트림을 생성하여 작업을 수행한다.</p>
-
-<h4 id="2-지연-연산-lazy-evaluation">2. 지연 연산 Lazy Evaluation</h4>
-<p>스트림에는 중간 연산과 최종 연산이 있는데, 최종 연산이 호출될 때까지 중간 연산이 실제로 수행되지 않는 것을 말한다.
-지연 연산으로 불필요한 계산이 줄어들어 성능이 최적화 될 수 있다.</p>
-
-<h4 id="3-파이프라이닝-pipelining">3. 파이프라이닝 Pipelining</h4>
-<p>여러 중간 연산을 연결하여 하나의 파이프라인을 구성할 수 있다.
-파이프라인은 한 번의 최종 연산을 통해 처리 될 수 있다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">fruits</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">,</span> <span class="s">"orange"</span><span class="o">);</span>
-
-<span class="nc">Listt</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">fruits</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-                             <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="o">)</span>
-                             <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">)</span>
-                             <span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
-                             <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
-</code></pre></div></div>
-
-<h4 id="4-함수형-프로그래밍-지원">4. 함수형 프로그래밍 지원</h4>
-<p>함수형 인터페이스와 람다 표현식을 활용하여 함수형 프로그래밍을 지원하며, 이를 통해 코드를 간결하게 할 수 있다.</p>
-
-<h4 id="5-다양한-데이터-소스-지원">5. 다양한 데이터 소스 지원</h4>
-<p>Collection 인터페이스를 구현한 클래스뿐 아니라 배열, 파일 등 다양한 데이터를 사용할 수 있다.</p>
-
-<h4 id="6-유형-스트림-지원">6. 유형 스트림 지원</h4>
-<p>기본형 타입을 위한 스트림을 별도로 제공하여 박싱 비용을 줄일 수 있다.</p>
-
-<p><br /><br /></p>
-
-<h2 id="lazy-evaluation">Lazy Evaluation</h2>
-<p>Java Stream API에서 중간 연산이 최종 연산이 호출될 때까지 실제로 수행되지 않는 것을 말한다.</p>
-
-<h3 id="구현-방식">구현 방식</h3>
-<h4 id="1-스트림을-생성한다">1. 스트림을 생성한다.</h4>
-<p>스트림은 데이터의 요소들의 연속적인 데이터 흐름으로 스트림을 생성하면, 데이터를 일관된 방식으로 처리할 수 있는 파이프 라인을 만들 수 있다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">);</span>
-<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameStream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span> <span class="c1">// 스트림 생성</span>
-        
-<span class="nc">String</span><span class="o">[]</span> <span class="n">nameArray</span> <span class="o">=</span> <span class="o">{</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">};</span>
-<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameStream</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">nameArray</span><span class="o">);</span> <span class="c1">// 스트림 생성</span>
-        
-<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">nameStream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">);</span> <span class="c1">// 스트림 생성</span>
-</code></pre></div></div>
-
-<h4 id="2-중간-연산을-정의한다">2. 중간 연산을 정의한다.</h4>
-<p>중간 연산(filtter, map, sorted)이 스트림에 연결된다. 각 중간 연산은
-   스트림을 변환하는 새로운 스트림을 반화하며, 실제 데이터는 처리되지 않는다.
-   중간 연산은 다음 연산을 위한 연산 체인을 설정한다.</p>
-
-<h4 id="3-최종-연산을-호출한다">3. 최종 연산을 호출한다.</h4>
-<p>최종 연산(collect, forEach, reduce)이 호출되면 스트림의 데이터가 실제로 처리된다.<br />
-   이때 스트림의 중간 연산이 실행된다.</p>
-
-<p><br /></p>
-
-<h4 id="장점">장점</h4>
-<ul>
-  <li>
-    <p>스트림은 필요한 데이터만 처리하기 때문에 성능을 향상시킨다.</p>
-  </li>
-  <li>
-    <p>중간 연산이 지연되어 필요한 시점에 처리되기 때문에 메모리 사용이 줄어든다.</p>
-  </li>
-  <li>
-    <p>여러 중간 연산이 연결된 경우, 하나의 파이프라인에서 순차적으로 처리되기 때문에 불필요한 중간 결과가 생성되지 않는다.
-모든 연산이 최종 연산이 호출될 때 한 번에 처리된다.</p>
-  </li>
-</ul>
-
-<h4 id="단점">단점</h4>
-<ul>
-  <li>
-    <p>지연 평가로 중간 연산이 언제 실행될지 모르기 때문에 디버깅이 복잡해질 수 있다.</p>
-  </li>
-  <li>
-    <p>오류가 발생할 경우, 실제 실행 시점에서 오류가 발생하기 때문에 중간 연산에서 발생한 문제를 추적하기 어렵다.</p>
-  </li>
-</ul>
-
-<p><br /><br /></p>
-
-<h4 id="스트림은-데이터를-변경하지-않는다-왜">스트림은 데이터를 변경하지 않는다? 왜?</h4>
-<p>스트림은 연산 과정에서 원본 데이터를 복사하는 것이 아닌, 참조된 데이터를 바탕으로 필요한 연산을 수행하여 새로운 데이터를 생성한다.</p>
-
-<p>한 번 사용된 이후 재사용할 수 없는 일회성 객체이며, 이를 통해 원본 데이터의 불변성을 유지할 수 있다.</p>
-
-<p>또한 참조 변수에 저장하지 않고 곧바로 연산을 수행할 수 있다. 즉, 스트림 객체를 별도로 저장하지 않고 사용하는 것이 가능하다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">,</span> <span class="s">"coke"</span><span class="o">);</span>
-
-<span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>          <span class="c1">// 스트림 생성</span>
-     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"a"</span><span class="o">))</span>   <span class="c1">// 중간연산 </span>
-     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">)</span>   <span class="c1">// 중간연산 </span>
-     <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>          <span class="c1">// 최종연산</span>
-</code></pre></div></div>
-<p>위 코드에서는 names.stream()으로 스트림을 생성한 후, 이를 Stream<String> stream = names.stream(); 같은 참조 변수에 할당하지 않고 
-바로 연산(filter, forEach)을 수행한다.</String></p>
-
-<p>한 번 사용하면 다시 사용할 수 없는 일회성 객체로, 최종 연산이 수행되면 더 이상 해당 스트림을 사용할 수 없다.
-만약 동일한 연산을 다시 수행하려면 names.stream()으로 새로 스트림을 생성해야 한다.</p>
-
-<p>스트림의 파이프라인은 최종 연산이 호출될 때 한 번에 실행되고 그 후에 스트림은 종료된다.
-다시 사용하려고 하면 IllegalStateException이 발생한다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"A"</span><span class="o">));</span>
-<span class="n">stream</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span> <span class="c1">// 최종 연산</span>
-<span class="n">stream</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span> <span class="c1">// IllegalStateException 발생</span>
-</code></pre></div></div>
-
-<p><br /><br /><br /></p>
-
-<h2 id="stateful--statefuless">Stateful &amp; Statefuless</h2>
-
-<h4 id="stateful-연산-stateful-operations">Stateful 연산 (Stateful Operations)</h4>
-
-<p>Stateful Stream 은 스트림의 중간 연산 중 이전 단계의 결과를 바탕으로 현재 연산을 수행하는 것을 말한다.<br />
-전체 스트림의 상태를 추적하기 때문에 성능이 떨어질 수 있다.
-sorted(), distinct() 가 있으며, 전체 데이터의 상태를 고려해야 하기 때문에 연산 중 일시적으로 전체 데이터를 저장하거나 처리해야 한다.</p>
-
-<p>연산을 수행할 때 스트림의 요소들 간의 상태나 순서를 유지하거나 추적해야 하는 연산<br />
-연산은 스트릠의 모든 요소를 고려하여 상태를 유지하거나 변경할 필요가 깅ㅅ다.
-상태를 추적해야 하기 때문에 메모리 사용량이 증가하고 성능이 저하될 수 있다.
-요소 간의 관계를 고려하거나, 스트림 전체를 정렬, 필터링해야 할 때 사용한다.</p>
-
-<ul>
-  <li>
-    <p>sorted 
-스트림의 모든 요소를 정렬하기 위해 전체 스트림을 고려한다. 요소를 정렬하려면 전체 데이터를 메모리에
-로드하고 정렬해야 하기 때문에 상태를 유지한다.</p>
-  </li>
-  <li>
-    <p>distinct
-중복을 제거하기 위해 스트림의 모든 요소를 기억하고 비교해야 하기 때문에 상태를 유지한다.</p>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h4 id="stateless-연산-stateless-operations">Stateless 연산 (Stateless Operations)</h4>
-<p>연산을 수행할 때 스트림의 요소 간의 상태를 유지하지 않고, 각 요소를 독립적으로 처리하는 연산<br />
-요소 간의 관계를 고려하지 않는다.</p>
-
-<p>연산은 각 요소를 독립적으로 처리하며, 이전 또는 다른 요소의 상태에 의존하지 안흔다.
-상태를 유지하지 않기 때문에 메모리 사용량이 적고 성능이 좋으며, 각 요소를 독립적으로 처리하여 결과를 생성한다.</p>
-
-<ul>
-  <li>
-    <p>filter()
-각 요소를 개별적으로 검사하여 조건에 맞는 요소만 남기며, 다른 요소의 상태나 관계를 고려하지 않는다.</p>
-  </li>
-  <li>
-    <p>map()
-각 요소를 다른 형태로 변환하며, 이 과정에서 요소 간이 관계를 고려하지 않는다.</p>
-  </li>
-</ul>
-
-<p><br /><br /><br /></p>
-
-<h2 id="중간-연산과-최종-연산">중간 연산과 최종 연산</h2>
-
-<p><br /></p>
-
-<h3 id="중간-연산">중간 연산</h3>
-<p>스트림 파이프라인에서 스트림을 변환하거나 필터링한다.
-스트림을 변경하지 않고 새로운 스트림을 반환하며, 지연 평가를 통해 최종 연산이 호출될 때까지 실제로 수행되지 않는다.
-연속해서 호출할 수 있으며, 스트림 파이프라인을 구성할 수 있다.</p>
-<ul>
-  <li>filter(Predicate<T>) : 조건에 맞는 요소만 필터링하여 새로운 스트림 반환
-</T>    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
-<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">filteredStream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">streaam</span><span class="o">()</span>
-                                   <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"j"</span><span class="o">));</span>
-</code></pre></div>    </div>
-  </li>
-  <li>map(Function&lt;T, R&gt;) : 각 요소를 다른 형태로 변환하여 새로운 스트림 반환
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
-<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">upperCaseStream</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-                                    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">);</span>
-</code></pre></div>    </div>
-  </li>
-  <li>sorted(Comparator<T>) : 스트릠의 요소를 정렬하여 새로운 스트림 반환
-</T>    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
-<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">sortedStream</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">();</span>
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h3 id="최종-연산">최종 연산</h3>
-<p>스트림 파이프라인의 결과를 생성한다.
-스트림의 요소를 실제로 처리하여 결과를 반환하며, 스트림이 종료되고 더 이상 사용할 수 없다. 최종 연산이 호출되면, 중간 연산이 실행된다.</p>
-
-<h5 id="--foreachconsumer-t-">- forEach(Consumer&lt; T &gt;)</h5>
-<p>스트림의 각 요소에 대해 주어진 작업 수행</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
-
-<span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
-</code></pre></div></div>
-
-<h5 id="--collectcollectort-a-r">- collect(Collector&lt;T, A, R&gt;)</h5>
-<p>스트림의 요소를 수집하여 컬렉션 또는 다른 형태의 결과 생성</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"amy"</span><span class="o">,</span> <span class="s">"jenny"</span><span class="o">,</span> <span class="s">"bob"</span><span class="o">,</span> <span class="s">"jun"</span><span class="o">);</span>
-
-<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">collectedNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
-</code></pre></div></div>
-
-<h5 id="--reducebinaryoperator">- reduce(BinaryOperator<T>)</T></h5>
-<p>스트림의 요소를 하나로 결합하여 단일 결과 생성</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
-<span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-        <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="nl">Integer:</span><span class="o">:</span><span class="n">sum</span><span class="o">);</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Stream API 데이터 처리를 간결하고 효율적으로 할 수 있도록 도와주는 API]]></summary></entry><entry><title type="html">Event-Driven Architecture</title><link href="http://localhost:4000/java/2024/08/29/java-event-driven.html" rel="alternate" type="text/html" title="Event-Driven Architecture" /><published>2024-08-29T00:00:00+09:00</published><updated>2024-08-29T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/29/java-event-driven</id><content type="html" xml:base="http://localhost:4000/java/2024/08/29/java-event-driven.html"><![CDATA[<p>일반적으로 API는 클라이언트가 요청한 값에 대해서 응답을 제공한다.</p>
+</ol>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Supplier 인터페이스 입력 매개변수 없이 출력을 생성하는 인터페이스]]></summary></entry><entry><title type="html">Event-Driven Architecture</title><link href="http://localhost:4000/java/2024/08/29/java-event-driven.html" rel="alternate" type="text/html" title="Event-Driven Architecture" /><published>2024-08-29T00:00:00+09:00</published><updated>2024-08-29T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/29/java-event-driven</id><content type="html" xml:base="http://localhost:4000/java/2024/08/29/java-event-driven.html"><![CDATA[<p>일반적으로 API는 클라이언트가 요청한 값에 대해서 응답을 제공한다.</p>
 
 <p>클라이언트(웹 애플리케이션, 모바일 앱, 서버)가 특정 데이터를 요청하면, API는 그 요청에 알맞은 데이터를 반환한다.</p>
 
@@ -1612,375 +1763,4 @@ oos.writeObject(myObject);
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 
-</code></pre></div></div>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Socket 소켓은 TCP/IP 기반의 네트워크 통신에서 데이터 송수신의 마지막 접점을 말한다ㅣ. 네트워크를 통해 두 컴퓨터 간의 데이터 통신을 하고, 클라이언트와 서버 간의 연결을 관리한다.]]></summary></entry><entry><title type="html">ThreadLocal</title><link href="http://localhost:4000/java/2024/08/20/java-threadlocal.html" rel="alternate" type="text/html" title="ThreadLocal" /><published>2024-08-20T00:00:00+09:00</published><updated>2024-08-20T00:00:00+09:00</updated><id>http://localhost:4000/java/2024/08/20/java-threadlocal</id><content type="html" xml:base="http://localhost:4000/java/2024/08/20/java-threadlocal.html"><![CDATA[<h1 id="threadlocal">ThreadLocal</h1>
-<p>각각의 스레드 별로 별도의 저장 공간을 제공하는 컨테이너</p>
-
-<p>각 스레드는 자신만의 별도의 데이터를 가질 수 있고, 다른 스레드와 독립적으로 데이터를 설정하고 조회할 수 있다.</p>
-
-<p>각 인스턴스는 특정 스레드에 연결되어 있는 데이터를 참조하며 다른 스레드에 영향을 주지 않는다.
-이를 통해 멀티 스레드 환경에서도 스레드 간 데이터 공유와 동기화 문제를 해결할 수 있다.</p>
-
-<p>각 요청마다 사용자 인증 정보를 threadLocal 에 저장하여 스레드 별로 관리할 수 있고, 이를 통해 여러 요청 간 사용자 정보를 명시적으로 전달하지 않고도 사용할 수 있다.</p>
-
-<p>또한 데이터베이스 트랜잭션에서 Connection 객체를 ThreadLocal에 저장하여 각 스레드가 독립적으로 데이터베이스 연결을 관리하고, 트랜잭션 내에서 데이터베이스 연결을 공유하여 스레드 간의 충돌을 방지할 수 있.
-한 번 계산된 결과를 스레드별로 캐시해서 다시 계산하지 않고 재사용할 수 있다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadLocalExample</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">ThreadLocal</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">threadLocalValue</span> <span class="o">=</span> <span class="nc">ThreadLocal</span><span class="o">.</span><span class="na">withInitial</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">);</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">Runnable</span> <span class="n">task</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-            <span class="n">threadLocalValue</span><span class="o">.</span><span class="na">set</span><span class="o">((</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">));</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Thread local value: "</span> <span class="o">+</span> <span class="n">threadLocalValue</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
-        <span class="o">};</span>
-
-        <span class="nc">Thread</span> <span class="n">thread1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
-        <span class="nc">Thread</span> <span class="n">thread2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
-        <span class="nc">Thread</span> <span class="n">thread3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
-
-        <span class="n">thread1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-        <span class="n">thread2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-        <span class="n">thread3</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">threadLocalValue</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-</code></pre></div></div>
-
-<p>하지만 메모리 누수를 유발할 수 있으며 ThreadLocal에 저장된 데이터는 스레드가 종료되어도 자동으로 해제되지 않는다. 따라서 사용이 끝난 후 remove() 메서드를 호출해서 데이터를 삭제해야 한다.</p>
-
-<p><br /></p>
-
-<h2 id="threadlocal-클래스의-initialvalue-메서드">ThreadLocal 클래스의 initialValue() 메서드</h2>
-<p>ThreadLocal 변수가 처음 사용될 때 호출하며 각 스레드 별로 별도의 초기값을 반환한다.</p>
-
-<p>각 스레드가 독립적으로 관리해야 하는 데이터의 초기값을 설정할 때 사용되며 로그인 사용자 정보, 트랜잭션 관리를 위한 초기 상태등을 초기화 한다.</p>
-
-<p><br /></p>
-
-<h2 id="스레드-재사용과-remove">스레드 재사용과 remove()</h2>
-<p>데이터를 해제하는 메서드</p>
-
-<p>스레드가 재사용되는 겨우 이전에 설정된 데이터가 존재하기 때문에 이전의 데이터와 공유될 수 있다.</p>
-
-<p>ThreadLocal 변수의 데이터는 스레드마다 독립적으로 관리되지만, 스레드 풀에서 스레드가 재사용되는 동안
-여러 스레드가 동시에 같은 변수에 접근하면 데이터의 일관성에 문제가 발생할 수 있다.</p>
-
-<p>따라서 remove()를 이용하여 이전의 데이터를 해제해 주어야 한다.
-사용하지 않는 경우 해당 스레드의 생명 주기 동안 메모리 리소스가 유지되기 때문에 메모리 누수가 발생할 수 있다.</p>
-
-<p>또한, 스레드 풀의 사용을 제한할 수 있다. 스레드 풀을 사용하지 않으면 스레드가 작업을 완료한 후 종료되기 때문에 자동으로 ThreadLocal 변수가 제거된.
-사용자 정의 스레드 팩토리를 사용하여 스레드가 종료될 때 ThreadLocal 변수를 명시적으로 제거할 수 있도록 구현하는 방법도 있습니다.다</p>
-
-<p><br /></p>
-
-<h3 id="remove">remove()</h3>
-<p>ThreadLocal의 remove() 메서드를 호출하면, 현재 스레드와 연결된 ThreadLocal 값이 ThreadLocalMap에서 제거됩니다. 이때 변수의 삭제와 관련된 중요한 포인트는 다음과 같습니다:</p>
-
-<ol>
-  <li>remove() 메서드 호출 시점
-실제 동작: remove() 메서드가 호출되면, 현재 스레드에 할당된 ThreadLocalMap에서 해당 ThreadLocal 객체에 대한 참조가 삭제됩니다. 이로 인해 해당 스레드와 연결된 ThreadLocal 값은 더 이상 접근할 수 없게 됩니다.</li>
-</ol>
-
-<p>메모리 정리: ThreadLocal에 저장된 값에 대한 참조가 사라지므로, 해당 값은 더 이상 사용되지 않으며, JVM의 Garbage Collector(GC)에 의해 수거될 수 있는 상태가 됩니다. 즉, 메모리에서 실제로 제거되는 시점은 GC가 이 객체를 수거할 때입니다.</p>
-
-<ol>
-  <li>실제 메모리에서의 삭제 시점
-GC에 의해 수거: ThreadLocalMap에서 참조가 제거되면, ThreadLocal 객체와 그 값은 다른 곳에서 참조되지 않는 한 메모리에서 수거될 수 있는 상태가 됩니다. 하지만 실제로 메모리에서 언제 삭제될지는 GC의 작동 시점에 달려 있습니다.</li>
-</ol>
-
-<p>강제 수거: 메모리 누수를 방지하기 위해, ThreadLocal.remove()를 호출한 후에는 가능한 ThreadLocal 객체가 가비지 컬렉션 대상이 되도록 강제로 참조를 해제하는 것이 좋습니다.</p>
-
-<ol>
-  <li>가비지 컬렉션과의 관계
-약한 참조(Weak Reference): ThreadLocalMap은 ThreadLocal 키를 약한 참조로 저장합니다. 이는 ThreadLocal 객체가 더 이상 강한 참조를 가지고 있지 않으면 GC에 의해 수거될 수 있음을 의미합니다. 하지만, ThreadLocal에 연결된 값은 여전히 강한 참조로 유지되기 때문에 remove()를 호출해 해당 참조를 해제하지 않으면 메모리 누수가 발생할 수 있습니다.</li>
-</ol>
-
-<p><br /></p>
-
-<h2 id="스레드-팩토리">스레드 팩토리</h2>
-<p>스레드 클래스의 run 메서드에섯 ThreadLocal.remove()를 호출하여 스레드 종료 전에 변수를 제거할 수 있다.
-ThreadFactory 인터페이스를 구현해 새로운 스레드를 생성하고 생성된 스레드에서 remove() 메서드를 호출해 자원의 누수를 방지해야한다. 
-스레드 풀은 스레드를 재사용하기 때문에 재사용 이전에 ThreadLocal 값이 남아있지 않도록, 사용후 값을 제거해주어야 한다.
-remove()메서드를 이용하여 변수를 정리하여 메모리 누수를 방지해야 한다.</p>
-
-<p><br /></p>
-
-<h2 id="set-메서드">set() 메서드?</h2>
-<p>변수를 제거한 후 해당 변수를 다시 사용하기 위해 set() 메서드를 사용해 새로운 값을 설정할 수 있다.</p>
-
-<p><br /></p>
-
-<h2 id="스레드가-종료">스레드가 종료</h2>
-<p>ThreadLocal 변수를 제거하지 않고도 스레드가 종료될 때 자동으로 제거되는 방법은 스레드가 짧은 생명주기를 갖는 경우에 실행될 수 있습니다. ㅎ</p>
-
-<p>스레드가 종료되면 스레드에 바인딩된 ThreadLocal 변수들도 함께 제거된다.</p>
-
-<p>단위테스트나 통합 테이스에서도 일반적으로 테스트가 완료되면 종료되기 때문에 제거할 필요가 없다.</p>
-
-<p><br /></p>
-
-<h2 id="threadlocalwithinitial">ThreadLocal.withInitial()</h2>
-<p>초기값을 설정하는 메서드로 변수의 초기화 로직을 간소화할 수 있다.</p>
-
-<p>모든 스레드가 동일한 초기값을 갖기 때문에 일관성을 유지할 수 있으며 초기값 설정이 변수 선언과 동시에 일어나기 때문에 코드가 가독성이 좋다.</p>
-
-<p><br /></p>
-
-<h2 id="제거한-변수를-다시-사용하려면">제거한 변수를 다시 사용하려면?</h2>
-<h3 id="1-get-또는-set-메서드를-호출하여-초기화">1. get() 또는 set() 메서드를 호출하여 초기화</h3>
-<p><strong>get() 메서드 호출</strong></p>
-
-<p>remove() 메서드가 호출된 후에 get() 메서드를 호출하면, ThreadLocal 변수는 초기화된다. 만약 ThreadLocal이 기본값 초기화 로직을 가지고 있다면, get() 메서드를 호출할 때 이 로직이 실행되어 새로운 값이 설정된다.
-만약 초기화 로직이 없다면, get() 메서드는 null을 반환한다.</p>
-
-<p><strong>set() 메서드 호출</strong></p>
-
-<p>set(T value) 메서드를 사용하여 ThreadLocal 변수에 새로운 값을 명시적으로 설정할 수 있다. 이렇게 하면 해당 스레드에 대해 새로운 값이 할당된다.</p>
-
-<p><br /></p>
-
-<h2 id="사용자-정의-스레드-팩토리">사용자 정의 스레드 팩토리</h2>
-<p>스레드 클래스의 run 메서드에섯 ThreadLocal.remove()를 호출하여 스레드 종료 전에 변수를 제거할 수 있다.</p>
-
-<p>ThreadFactory 인터페이스를 구현해 새로운 스레드를 생성하고 생성된 스레드에서 remove() 메서드를 호출해 자원의 누수를 방지해야한다.
-스레드 풀은 스레드를 재사용하기 때문에 재사용 이전에 ThreadLocal 값이 남아있지 않도록, 사용후 값을 제거해주어야 한다.
-remove()메서드를 이용하여 변수를 정리하여 메모리 누수를 방지해야 한다.</p>
-
-<p><br /></p>
-
-<p>remove() 메서드를 호출하는 것이 중요한 이유는 스레드가 종료되도 변수값이 메모리에 남아있기 때문에 제거해주어야한다… 메모리 누수가 발생하지 않도록
-다른 방법으로는 변수를 초기화하거나 제거하여  데이터가 남지않도록 하거나 beforeExecute(), afterExecute() 메서드에서 threadLocal 변수의 값을 초기화하는 방법이 있다.</p>
-
-<p><br /></p>
-
-<h3 id="beforeexecute-afterexecute">beforeExecute(), afterExecute()</h3>
-<p>beforeExecute()와 afterExecute() 메서드를 이용 스레드가 작업을 시작하고 종료할 때 ThreadLocal 변수의 상태를 관리할 수 있다. 
-주의할 점은 메서드 내부에서의 동기화 문제와, 스레드가 재사용될 때 데이터가 남지않도록 해야한다.
-또한 스레드 종료 후 변수를 제거하여 메모리 누수를 방지해야 한다.</p>
-
-<p><br /></p>
-
-<h3 id="threadpoolexecutor의-execute-submit">ThreadPoolExecutor의 execute(), submit()</h3>
-<p>execute는 Runnable 작업을 제출하고 결과를 반환하지 않는다
-submit는 Runnable 또는 Callable 작업을 제출하고 Future를 통해 결과를 얻을 수 있다.</p>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[ThreadLocal 각각의 스레드 별로 별도의 저장 공간을 제공하는 컨테이너]]></summary></entry><entry><title type="html">프로세스의 상태</title><link href="http://localhost:4000/os/2024/08/20/os-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4.html" rel="alternate" type="text/html" title="프로세스의 상태" /><published>2024-08-20T00:00:00+09:00</published><updated>2024-08-20T00:00:00+09:00</updated><id>http://localhost:4000/os/2024/08/20/os-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4</id><content type="html" xml:base="http://localhost:4000/os/2024/08/20/os-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4.html"><![CDATA[<h1 id="process">Process</h1>
-<p><strong>실행 중인 프로그램</strong></p>
-
-<p>CPU에서 명령을 수행하기 위한 데이터와 상태 정보를 포함한다.
-하나의 프로그램은 여러 개의 프로세스를 가질 수 있고, 각 프로세스는 독립적으로 실행된다.</p>
-
-<p>스택, 힙, 데이터, 코드로 구성된다.</p>
-
-<p>프로세스 문맥은 운영체제가 프로세스의 실행 상태를 추적하고 관리하기 위해 필요한 정보이디ㅏ.
-프로세스가 CPU에서 실행되다가 중단될 때, 다시 실행될 때 이전과 동일한 상태에서 시작할 수 있도록 한다.</p>
-
-<p>문맥전환은 CPU가 한 프로세스의 문맥을 저장하고 다른 프로세스의 문맥을 로드하여 실행을 전환하는 과정을 말한다.</p>
-
-<p><br /><br /><br /></p>
-
-<h1 id="process-conext">Process Conext</h1>
-<p>크게 세 가지(<strong>하드웨어 문맥, 프로세스의 주소 공간, 커널 상의 문맥</strong>)로 구성된다.</p>
-
-<p>하드웨어 문맥은 CPU 수행 상태를 나타내는 것으로 PC와 각종 레지스터에 저장하고 있는 값이다.</p>
-
-<p>프로세스의 주소 공간은 코드, 데이터, 스택으로 구성된 프로세스만의 독자적인 주소 공간이다.</p>
-
-<p>커널상의 문맥은 프로세스 관리를 위한 PCB와 Kernel stack이다.</p>
-
-<p><br /></p>
-
-<h4 id="pcb-process-control-block">PCB (Process Control Block)</h4>
-<p><img src="https://github.com/user-attachments/assets/7b7f92ac-b40c-48a7-889c-b04847a057cc" alt="pcb.png" />
-각 프로세스의 문맥을 저장하는 자료 구조로 운영체제가 각 프로세스를 관리하기 위해 사용한다.</p>
-
-<ul>
-  <li>
-    <p><strong>Process ID</strong> : PID(Process Identification Number) 주로 PID 라고 줄여서 부릅니다. : 프로세스 고유 식별 번호</p>
-  </li>
-  <li>
-    <p><strong>Process State(프로세스 상태)</strong> : 프로세스의 현재 상태(생성, 준비, 실행, 대기, 종료)를 기억 시킵니다.</p>
-  </li>
-  <li>
-    <p><strong>Program Counter(계수기)</strong> : 다음에 실행되는 명령어의 주소를 기억시킵니다.</p>
-  </li>
-  <li>
-    <p><strong>Process Priority(스케줄링 정보)</strong> : 프로세스 우선순위 등과 같은 스케줄링 관련 정보를 기억시킵니다.</p>
-  </li>
-  <li>
-    <p><strong>CPU Registers</strong> : 프로세스의 레지스터 상태를 저장하는 공간 등, CPU 내 범용 레지스터, 데이터 레지스터, 세그먼트 레지스터 등이 갖고 있는 값을 기억시킵니다.</p>
-  </li>
-  <li>
-    <p><strong>Owner(계정 정보)</strong> : CPU 사용시간의 정보(Quantum), 각종 스케줄러에 필요한 정보를 기억시킵니다.</p>
-  </li>
-  <li>
-    <p><strong>기억장치 관리 정보</strong> : 프로그램이 적재될 기억 장치의 시작 지점(베이스 레지스터), 종료 지점(한계 레지스터), 페이지 테이블 등의 정보를 기억시킵니다.</p>
-  </li>
-  <li>
-    <p><strong>입출력 정보</strong> : 프로세스 수행 시 필요한 주변 장치, 파일들의 정보를 기억시킵니다</p>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h4 id="cpu-레지스터">CPU 레지스터</h4>
-<p>프로세스가 실행 중이었던 시점의 CPU 레지스터 값들이 저장된다. 프로그램 카운터와 스택 포인터 등의 레지스터를 포함한다.</p>
-
-<p><br /></p>
-
-<h4 id="메모리-관리-정보">메모리 관리 정보</h4>
-<p>페이지 테이블, 세그먼트 테이블 등 프로세스가 사용하는 메모리 관련 정보가 포함된다.</p>
-
-<p><br /></p>
-
-<h4 id="스택">스택</h4>
-<p>함수 호출 시 전달된 인자, 복귀 주소, 지역 변수 등 저장되는 영역</p>
-
-<p><br /></p>
-
-<h4 id="io-상태-정보">I/O 상태 정보</h4>
-<p>함수 호출 시 전달되는 인자, 복귀 주소, 지역 변수 등이 저장되는 영역</p>
-
-<p><br /><br /><br /></p>
-
-<h1 id="context-switching">Context Switching</h1>
-<p>한 프로세스의 실행을 중단하고 다른 프로세스를 실행할 때 발생</p>
-<ol>
-  <li>
-    <p>현재 실행 중인 프로세스의 문맥 저장
-현재 프로세스의 CPU 레지스터 값, 프로그램 카운터, 메모리 상태를 PCB에 저장</p>
-  </li>
-  <li>
-    <p>다른 프로세스의 문맥 로드
-다음에 실행할 프로세스의 PCB에서 문맥 정보를 불러와 CPU 레지스터에 로드한다.</p>
-  </li>
-  <li>
-    <p>프로세스 실행 재개
-로드된 문맥 정보에 따라 새로운 프로세스가 실행한다.</p>
-  </li>
-</ol>
-
-<p>문맥 전환은 필수적이지만, 자주 발생하는 경우 오버헤드가 발생한다.</p>
-
-<p><br /></p>
-
-<h4 id="context-switching은-언제-발생하는지">Context Switching은 언제 발생하는지?</h4>
-<ol>
-  <li>멀티 태스킹 또는 시분할 시스템에서 할당된 시간이 종료된 경우</li>
-  <li>입출력 또는 시스템 호출</li>
-  <li>우선순위에 따른 프로세스 스케줄링</li>
-  <li>프로세스가 종료되는 경우</li>
-  <li>인터럽트 발생 시</li>
-  <li>자발적인 CPU 양도</li>
-</ol>
-
-<p><br /></p>
-
-<h4 id="프로세스와-스레드는-cont도ext-switching이-발생-차이">프로세스와 스레드는 Cont도ext Switching이 발생 차이</h4>
-<p>프로세스는 code, data, heap, stack 영역을 독립적으로 가지고 있습니다. 따라서 Context Swtiching이 발생할 때, 독립적인 메모리를 포함하여, 캐시 메모리를 비워줘야 해서 스레드에 비해 상대적으로 많은 오버헤드가 발생합니다. 
-이와 달리 스레드는 code, data, heap 영역을 공유하고 stack 영역만 독립적으로 가지고 있기 때문에, 캐시 메모리를 비우지 않아도 되고 프로세스에 비해 상대적으로 적은 오버헤드가 발생합니다.</p>
-
-<p><br /></p>
-
-<h4 id="context-switching-시-캐시-차이">Context Switching 시 캐시 차이</h4>
-<p>프로세스는 독립적인 메모리 공간을 갖는다. 서로 다른 프로세스 간 문맥 전환이 일어날 때, 이전 프로세스가 사용하던 데이터가 CPU에 남아있을 수 잇따.<br />
-그러나 새로운 프로세스의 메모리 주소 공간이 다르기 때문에 캐시 데이터는 새로운 프로세스에 대해 무효하다.</p>
-
-<p>새로운 프로세스의 데이터를 다시 캐시에 로드해야 되기 때문에, 초기에는 캐시 미스가 발생한다.<br />
-이로 인해서 CPU가 메모리에서 데이터를 다시 읽어와야 한다.</p>
-
-<p>프로세스 간의 문맥 전환 시, TLB도 무효화되기 때문에 새로운 프로세스에 맞는 주소 변환을 다시 로드해야 한다.</p>
-
-<p>스레드는 동일한 프로세스 내에서 실행되기 때문에 메모리 공간을 공유한다.<br />
-같은 프로세스 내의 스레드 간 문맥 전환시 메모리 주소 공간이 동일하기 때문에, 캐시에 저장된 데이터가 유효하다.
-따라서 캐시 미스가 덜 발생하며, 캐시의 내용을 다시 로드할 필요가 적다.</p>
-
-<p>동일한 주소 공간을 공유하기 때문에 TLB도 그대로 유효하다. 그러나 여러 스레드가 캐시를 공유하면서
-동시에 접근할 경우 캐시 경쟁이 발생할 수 있다.</p>
-
-<blockquote>
-  <p>Translation Lookaside Buffer</p>
-
-</blockquote>
-
-<h4 id="프로세스의-스레드에-대한-정보">프로세스의 스레드에 대한 정보</h4>
-<p>PCB는 프로세스의 기본 정보를 관리하는데, 각 프로세스 내의 스레드에 대한 정보를 간접적으로 관리한다.
-TCP는 스레드 제어 블록으로 스레드의 상태, 레짓스터, 스택 포인터 등을 저장하는 자료구조로, 
-프로세스의 여러 스레드를 개별적으로 관리한다.<br />
-프로세스는 공유 메모리를 통해 스레드들이 동일한 주소 공간에 접근하게 하며, 스케줄러는 TCB를 참조하여 스레드의 실행 순서를 정한다.</p>
-
-<blockquote>
-  <p>TCP (Thread Control Block)
-Thread ID
-Thread Status
-CPU 정보 (PC, Register)
-Thread Priority
-스레드의 생성을 트리거한 프로세스를 가리키는 포인터
-스레드에서 만든 스레드를 가리키는 포인터</p>
-</blockquote>
-
-<p><br /></p>
-
-<h4 id="context-switching-에서-프로세스-수행-중에-입출력-상태로-전환되어서-대기-상태로-전환-되는데-cpu를-어떻게-하는-것이-효율적인가">Context Switching 에서 프로세스 수행 중에 입출력 상태로 전환되어서 대기 상태로 전환 되는데, CPU를 어떻게 하는 것이 효율적인가?</h4>
-<p>Context Switching 에서 입출력 인터럽트가 발생하게 되면 실행 상태에 있던 프로세스는 대기 상태로 전환됩니다.
-이때, CPU 스케줄러에 의해서 해당 프로세스의 자원은 반환됩니다. 
-이후 CPU가 입출력 인터럽트의 완료를 기다리는 동안 준비 상태 큐에 있는 프로세스 중에서 스케줄링 알고리즘에 따라 실행 상태로 들어가고,
-대기 상태에 있던 프로세스는 입출력 작업이 완료되게 되면 다시 준비상태 큐로 들어갑니다.</p>
-
-<p><br /></p>
-
-<h4 id="인터럽트의-처리-순서">인터럽트의 처리 순서</h4>
-<p>CPU는 인터럽트를 우선순위에 따라서 처리한다.</p>
-
-<p><br /></p>
-
-<h4 id="pcb의-자료구조">PCB의 자료구조</h4>
-<p>PCB는 Doubly Linked List 방식으로 관리된다.
-PCB의 List Head에 PCB들이 생성될 때마다 붙으며, 
-주소 값으로 연결이 이루어져 있는 연결리스트이기 때문에 삽입 삭제가 용이합니다.</p>
-
-<p><br /></p>
-
-<h4 id="context-switching-시에-주소공간에-대한-캐시-처리가-어떻게-이루어지는지-설명해주세요">Context Switching 시에 주소공간에 대한 캐시 처리가 어떻게 이루어지는지 설명해주세요.</h4>
-<p>기존의 프로세스들을 메모리에 적재할 때, 순차적으로 적재를 하게 되면 단편화 문제가 발생하는데, 이를 방지하기 위해서 가상 메모리 기법이 생겼고, 가상 메모리 기법은 세그멘테이션과 페이징 기법으로 나눌 수 있다.
-가상 메모리 기법으로 분할 된 메모리의 페이지들은 페이지 테이블에서 관리를 하게 되는데, 메모리에 실제 주소를 참조하기 위해서는</p>
-
-<p>페이지 테이블에 한번 접근(fetch)
-페이지 테이블을 기반으로 실제 메모리로 접근 (Memory Access)
-와 같은 과정이 필요한데, 실행할 때마다 같은 table에 속한 메모리 주소를 찾고 다시 메인 메모리에 접근해야 하는 불필요한 일이 발생합니다.
-이런 메모리의 접근을 줄이기 위해서 TLB가 등장했고, TLB는 page table의 임시저장 캐시 역할을 합니다. TLB는 L3 캐시에 위치해있습니다. 이때 TLB에는 최근에 읽었던 변환될 물리 주소를 매핑해서 저장을합니다. 따라서 TLB를 활용하면 한 프로세스 내의 다른 스레드를 Context Switching 하는 경우 invalid가 발생하지 않아, 주소 공간을 참조하는데 하드웨어 적으로 이점을 볼 수 있고, 프로세스가 Context Switching을 하게 되는 경우, kernel 주소 공간을 제외한 모든 영역을 invalid 하기 때문에, 스레드와 달리 손해를 보게 됩니다.</p>
-
-<p><br /><br /><br /></p>
-
-<h1 id="process-status">Process Status</h1>
-<p><img src="https://github.com/user-attachments/assets/61b814de-ba75-4f83-bf4d-6b1203d57ac8" alt="process_status.png" /></p>
-
-<h3 id="new">New</h3>
-<p>프로세스가 생성된 상태</p>
-<h3 id="ready">Ready</h3>
-<p>프로세스가 CPU에 실행되기 위해 대기하는 상태로, CPU자원이 할당되지 않은 상태</p>
-<h3 id="running">Running</h3>
-<p>프로세스가 CPU를 할당받아 실제로 실행 중인 상태</p>
-<h3 id="waiting">Waiting</h3>
-<p>프로세스가 특정 자원이나 이벤트를 기다리는 상태</p>
-<h3 id="terminated">Terminated</h3>
-<p>프로세스가 실행이 완료되거나 종료된 상태</p>
-
-<p><br /><br /></p>
-
-<h2 id="상태-전이-동작">상태 전이 동작</h2>
-<h3 id="dispatch">Dispatch</h3>
-<p>우선순위가 높은 프로세스를 선정하여 명령어를 실행한다</p>
-<h3 id="timeout">Timeout</h3>
-<p>클럭이 인터럽트를 발생시켜 제어권을 빼앗는다.(Preemption:독점방지)</p>
-<h3 id="block">Block</h3>
-<p>프로세서가 입출력, 자원 등을 기다리기 위해 대기상태로 전환한다.</p>
-<h3 id="wake-up">Wake up</h3>
-<p>입출력이 완료되거나 자원이 할당되어 다시 실행한다.</p>
-
-<p><br /><br /><br /></p>
-
-<h1 id="scheduling">Scheduling</h1>
-<p>운영체제는 여러 프로세스가 CPU를 공유할 수 있도록 프로세스를 스케줄링한다.<br />
-스케줄러는 준비 상태의 프로세스 중 하나를 선택하여 CPU를 할당한다. 프로세스가 작업을 완료하거나 대기 상태로
-전환되면 다음 프로세스에 CPU를 할당한다.</p>]]></content><author><name></name></author><category term="OS" /><summary type="html"><![CDATA[Process 실행 중인 프로그램]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><category term="Java" /><summary type="html"><![CDATA[Socket 소켓은 TCP/IP 기반의 네트워크 통신에서 데이터 송수신의 마지막 접점을 말한다ㅣ. 네트워크를 통해 두 컴퓨터 간의 데이터 통신을 하고, 클라이언트와 서버 간의 연결을 관리한다.]]></summary></entry></feed>
