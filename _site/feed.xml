@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>winnie's Tech Blog</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하</subtitle>
-  <updated>2024-10-08T00:52:36+08:00</updated>
+  <updated>2024-10-08T07:38:18+08:00</updated>
   <author>
     <name>winnie</name>
     <uri>http://localhost:4000/</uri>
@@ -24,7 +24,7 @@
     <link href="http://localhost:4000/posts/java-gc/" rel="alternate" type="text/html" title="GC(Garbage Collection)란?" />
     <published>2024-10-05T00:00:00+08:00</published>
   
-    <updated>2024-10-05T00:00:00+08:00</updated>
+    <updated>2024-10-08T00:54:57+08:00</updated>
   
     <id>http://localhost:4000/posts/java-gc/</id>
     <content src="http://localhost:4000/posts/java-gc/" />
@@ -66,7 +66,7 @@ JVM 메모리 구조
     <link href="http://localhost:4000/posts/java-jit_compiler/" rel="alternate" type="text/html" title="JIT 컴파일러?" />
     <published>2024-10-01T00:00:00+08:00</published>
   
-    <updated>2024-10-03T00:51:05+08:00</updated>
+    <updated>2024-10-08T00:54:57+08:00</updated>
   
     <id>http://localhost:4000/posts/java-jit_compiler/</id>
     <content src="http://localhost:4000/posts/java-jit_compiler/" />
