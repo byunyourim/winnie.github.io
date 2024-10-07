@@ -799,6 +799,82 @@
   
 
   
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
 
   
   
@@ -910,9 +986,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1742 words"
+  title="1870 words"
 >
-  <em>9 min</em> read</span>
+  <em>10 min</em> read</span>
 
         </div>
       </div>
@@ -926,35 +1002,38 @@
 <p><a href="https://github.com/user-attachments/assets/ab7f139d-c285-4183-8192-3483da38d225" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/ab7f139d-c285-4183-8192-3483da38d225" alt="jdbc.png" loading="lazy"></a></p>
 
 <p>자바 애플리케이션에서 데이터베이스에 접근하기 위해 JDBC API를 이용해서 데이터베이스에 접근하고,
-JDBC API는 JDBC 드라이버를 거쳐 데이터베이스와 통신합니다.</p>
+JDBC API는 JDBC 드라이버를 거쳐 데이터베이스와 통신한다.</p>
 
 <p><br /></p>
 
 <h2 id="특징"><span class="me-2">특징</span><a href="#특징" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <ul>
   <li>
-    <p><strong>플랫폼에 독립적입니다.</strong> Java 언어가 실행될 수 있는 모든 플랫폼에서
-동일한 방식으로 데이터베이스를 접속하고 관리할 수 있습니다.</p>
+    <p><strong>플랫폼에 독립적입니다.</strong> <br />
+Java 언어가 실행될 수 있는 모든 플랫폼에서
+동일한 방식으로 데이터베이스를 접속하고 관리할 수 있다.</p>
   </li>
   <li>
-    <p>데이터베이스 연결, 쿼리 실행, 결과 처리의 과정을 통합적으로 지원하여, 접속 과정을 단순화할 수 있습니다.</p>
+    <p>데이터베이스 연결, 쿼리 실행, 결과 처리의 과정을 통합적으로 지원하여, 접속 과정을 단순화할 수 있다.</p>
   </li>
   <li>
-    <p>다양한 DBMS와 호환됩니다.</p>
+    <p>다양한 DBMS와 호환된다.</p>
   </li>
   <li>
-    <p>SQL을 사용해서 데이터베이스와 상호작용합니다.</p>
+    <p>SQL을 사용해서 데이터베이스와 상호작용한다.</p>
   </li>
   <li>
-    <p>트랜잭션을 지원하여 데이터베이스 작업의 일관성을 유지할 수 있으며 하나의 트랜잭션으로 묶어 실행하거나 롤백할 수 있습니다.</p>
+    <p>트랜잭션을 지원하여 데이터베이스 작업의 일관성을 유지할 수 있으며 하나의 트랜잭션으로 묶어 실행하거나 롤백할 수 있다.</p>
   </li>
 </ul>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="jdbc가-생긴-이유"><span class="me-2">JDBC가 생긴 이유?</span><a href="#jdbc가-생긴-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>Java 애플리케이션이 다양한 데이터베이스와 상호작용할 수 있도록 표준화된 방법을 제공하기 위해 생겨났습니다.<br />
-데이터베이스 연결, 쿼리 실행, 결과 처리 등의 과정을 통일된 API로 간편하게 처리할 수 있게 하여, 데이터베이스의 독립성과 통합된 접근 방식을 제공합니다.</p>
+<p>Java 애플리케이션이 다양한 데이터베이스와 상호작용할 수 있도록 표준화된 방법을 제공하기 위해 생겼다.</p>
+
+<p>데이터베이스 연결, 쿼리 실행, 결과 처리 등의 과정을 통일된 API로 간편하게 처리할 수 있게 하여, <br />
+데이터베이스의 독립성과 통합된 접근 방식을 제공한다.</p>
 
 <p><br /></p>
 
@@ -983,12 +1062,22 @@ JDBC API는 JDBC 드라이버를 거쳐 데이터베이스와 통신합니다.</
 <p><br /></p>
 
 <h3 id="classforname-동작-원리"><span class="me-2">Class.forName() 동작 원리</span><a href="#classforname-동작-원리" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>주로 JDBC에서 데이터베이스 드라이버를 동적으로 로드하기 위해 사용한다.<br />
+이 메서드를 통해 특정 클래스를 JVM의 클래스 로더에 로드한다.</p>
 
-<p>Class.forName() 메소드에 Driver 클래스 위치를 넘겨줄 뿐, 리턴값을 받는 등의 아무런 동작이 없다.</p>
+<p>Class.forName() 메소드에 Driver 클래스 위치를 넘겨줄 뿐, 리턴 값을 받는 등의 아무런 동작이 없다.</p>
 
-<p>Q2. 이후 DriverManager.getConnection()을 하면 해당 연결 객체를 넘겨주는 이유?</p>
+<p>Class.forName()을 호출해 드라이버 클래스를 로드하면, 해당 클래스는 자신을 DriverManager에 등록한다.<br />
+하지만, 이 시점에서 데이터베이스와의 연결은 일어나지 않는다.</p>
 
-<p>A. Class.forName()은 클래스로더를 통해 해당 데이터베이스 드라이버를 로드할 뿐, 데이터베이스와의 연결에 관해서는 아무런 동작을 하지 않는다.</p>
+<p>이후 DriverManager.getConnection()을 호출하면, 실제로 데이터베이스와의 연결을 생성한다.<br />
+getConnection() 메소드는 등록된 JDBC 드라이버들 중에서 적절한 드라이버를 찾아 데이터베이스 연결을 시도한다.</p>
+
+<p><br /></p>
+
+<h4 id="이후-drivermanagergetconnection을-하면-해당-연결-객체를-넘겨주는-이유"><span class="me-2">이후 DriverManager.getConnection()을 하면 해당 연결 객체를 넘겨주는 이유</span><a href="#이후-drivermanagergetconnection을-하면-해당-연결-객체를-넘겨주는-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>Class.forName()은 단순히 드라이버 클래스를 JVM에 로드하는 역할을 하고, <br />
+<strong>데이터베이스와의 연결을 생성하는 것은 DriverManager.getConnection()</strong> 이 합니다.</p>
 
 <p><br /></p>
 
@@ -1003,11 +1092,11 @@ JDBC API는 JDBC 드라이버를 거쳐 데이터베이스와 통신합니다.</
   <li>close() : 자원 반환은 반드시 이루어져야한다.</li>
 </ul>
 
-<p>자바라는 프로그래밍언어에서 JDBC를 사용하게되면 DBMS 벤더에 의존하지 않는 독립적인 시스템 개발을 해줄수 있게 한다.</p>
+<p>자바에서는 JDBC를 사용하게되면 DBMS 벤더에 의존하지 않는 독립적인 시스템 개발을 할 수 있다.</p>
 
-<p>이를 통해, DBMS의 종류에 따라 다르게 코딩하지 않고, 어떤 DBMS든지 동일하게 데이터베이스의 CRUD를 구현할 수 있게 된다.</p>
+<p>이를 통해, DBMS의 종류에 따라 다르게 코딩하지 않고, 어떤 DBMS든지 동일하게 데이터베이스의 CRUD를 구현할 수 있다.</p>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="커넥션-풀"><span class="me-2">커넥션 풀</span><a href="#커넥션-풀" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p>데이터 베이스를 연결하려면 네트워크 연결, 인증, 권한 확인 등
@@ -1021,38 +1110,47 @@ JDBC API는 JDBC 드라이버를 거쳐 데이터베이스와 통신합니다.</
 <p><br /></p>
 
 <h2 id="커넥션-객체를-생성하는-과정"><span class="me-2">커넥션 객체를 생성하는 과정</span><a href="#커넥션-객체를-생성하는-과정" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<ol>
-  <li>JDBC 드라이버를 메모리에 로드합니다.
-    <div class="language-java highlighter-rouge"><div class="code-header">
+<h4 id="1-jdbc-드라이버를-메모리에-로드합니다"><span class="me-2">1. JDBC 드라이버를 메모리에 로드합니다.</span><a href="#1-jdbc-드라이버를-메모리에-로드합니다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre></td><td class="rouge-code"><pre><span class="kd">class</span><span class="err">.</span><span class="nc">forName</span><span class="o">(</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">);</span>
-</pre></td></tr></tbody></table></code></div>    </div>
-  </li>
-  <li>
-    <p>데이터베이스와의 연결을 위한 URL을 정의합니다.
-```java
-String url = “jdbc:mysql://localhost:3306/database”;
-``</p>
-  </li>
-  <li>데이터베이스에 접속할 사용자 이름과 비밀번호를 설정합니다.
-    <div class="language-java highlighter-rouge"><div class="code-header">
+</pre></td><td class="rouge-code"><pre><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">);</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<p><br /></p>
+
+<h4 id="2-데이터베이스와의-연결을-위한-url을-정의합니다"><span class="me-2">2. 데이터베이스와의 연결을 위한 URL을 정의합니다.</span><a href="#2-데이터베이스와의-연결을-위한-url을-정의합니다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<div class="language-java highlighter-rouge"><div class="code-header">
+        <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:mysql://localhost:3306/database"</span><span class="o">;</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<p><br /></p>
+
+<h4 id="3-데이터베이스에-접속할-사용자-이름과-비밀번호를-설정합니다"><span class="me-2">3. 데이터베이스에 접속할 사용자 이름과 비밀번호를 설정합니다.</span><a href="#3-데이터베이스에-접속할-사용자-이름과-비밀번호를-설정합니다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+
+<div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre><span class="nc">String</span> <span class="n">user</span> <span class="o">=</span> <span class="s">"username"</span><span class="o">;</span>
 <span class="nc">String</span> <span class="n">pasasword</span> <span class="o">=</span> <span class="s">"password"</span><span class="o">;</span>
-</pre></td></tr></tbody></table></code></div>    </div>
-  </li>
-  <li>getConnection을 통해 데이터베이스와 연결을 생성하고 연결 과정에서 발생할 수 있는 예외를 처리합니다.
-    <div class="language-java highlighter-rouge"><div class="code-header">
+</pre></td></tr></tbody></table></code></div></div>
+
+<p><br /></p>
+
+<h4 id="4-getconnection을-통해-데이터베이스와-연결을-생성하고-연결-과정에서-발생할-수-있는-예외를-처리합니다"><span class="me-2">4. getConnection을 통해 데이터베이스와 연결을 생성하고 연결 과정에서 발생할 수 있는 예외를 처리합니다.</span><a href="#4-getconnection을-통해-데이터베이스와-연결을-생성하고-연결-과정에서-발생할-수-있는-예외를-처리합니다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre><span class="nc">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">user</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
-</pre></td></tr></tbody></table></code></div>    </div>
-  </li>
-  <li>연결을 사용한 후 close() 메서드 호출을 통해 연결을 종료합니다.
-    <div class="language-java highlighter-rouge"><div class="code-header">
+</pre></td></tr></tbody></table></code></div></div>
+
+<p><br /></p>
+
+<h4 id="5-연결을-사용한-후-close-메서드-호출을-통해-연결을-종료합니다"><span class="me-2">5. 연결을 사용한 후 close() 메서드 호출을 통해 연결을 종료합니다.</span><a href="#5-연결을-사용한-후-close-메서드-호출을-통해-연결을-종료합니다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
@@ -1064,39 +1162,37 @@ String url = “jdbc:mysql://localhost:3306/database”;
 8
 9
 </pre></td><td class="rouge-code"><pre><span class="k">finally</span> <span class="o">{</span>
- <span class="k">if</span> <span class="o">(</span><span class="n">connection</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-     <span class="k">try</span> <span class="o">{</span>
-         <span class="n">connection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-     <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-         <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-     <span class="o">}</span>
- <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">connection</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">connection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 <span class="o">}</span>
-</pre></td></tr></tbody></table></code></div>    </div>
-  </li>
-</ol>
+</pre></td></tr></tbody></table></code></div></div>
 
-<p>-&gt; DB에 연결할 때마다 Connection 객체를 새로 만드는 것은 비용이 많이 들며, 비효율적입니다.</p>
+<p>-&gt; DB에 연결할 때마다 Connection 객체를 새로 만드는 것은 비용이 많이 들며, 비효율적이다.</p>
 
-<p>이 문제를 해결하기 위해 커넥션 풀이 등장합니다.</p>
+<p>이 문제를 해결하기 위해 커넥션 풀이 등장</p>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="동작"><span class="me-2">동작</span><a href="#동작" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
 <p><a href="https://github.com/user-attachments/assets/c3302355-cfc2-4030-82d2-c5285b191fb1" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/c3302355-cfc2-4030-82d2-c5285b191fb1" alt="connectionpool.png" loading="lazy"></a></p>
 
-<p>프로그램이 시작하는 시점에서 연결이 미리 생성이 됩니다. 이 연겯을 풀에 저장해두고 연결이 필요할 때마다
-커넥션 풀에 미리 생성해둔 연결을 가져와서 사용합니다.</p>
+<p>프로그램이 시작하는 시점에서 연결이 미리 생성이 된다.<br />
+이 연겯을 풀에 저장해두고 연결이 필요할 때마다 커넥션 풀에 미리 생성해둔 연결을 가져와서 사용한다.</p>
 
-<p>사용이 끝난 연결은 다시 풀에 반환되어 재사용됩니다.</p>
+<p>사용이 끝난 연결은 다시 풀에 반환되어 재사용한다.</p>
 
-<p>이 과정에서 데이터베이스 연결의 생성과 소멸이 최소화되기 때문에 비용을 절감할 수 있으며 재사용하기 때문에 효율적입니다.</p>
+<p>이 과정에서 데이터베이스 연결의 생성과 소멸이 최소화되기 때문에, 비용을 절감할 수 있으며 효율적이다.</p>
 
-<p>풀의 크기가 너무 작은 경우 사용 가능한 연결이 부족해져 성능 저하가 발생할 수 있으며 반대로 풀의 크기가 너무 큰 경우
-불필요하게 많은 리소스를 소모하게 됩니다.</p>
+<p>풀의 크기가 너무 작은 경우 사용 가능한 연결이 부족해 성능 저하가 발생할 수 있으며, 반대로 풀의 크기가 너무 큰 경우
+불필요하게 많은 리소스를 소모한다.</p>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="커넥션-풀의-구현-방법"><span class="me-2">커넥션 풀의 구현 방법</span><a href="#커넥션-풀의-구현-방법" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p>커넥션  라이브러리 : Apache DBCP, C3P0, HikariCP 등이 있으며, 스프링 부트 2.3 이상에서는 기본 커넥션 풀로 HikariCP가 설정되어 있습니다.</p>
@@ -1117,13 +1213,14 @@ String url = “jdbc:mysql://localhost:3306/database”;
 <span class="nc">HikariDataSource</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HikariDataSource</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
 </pre></td></tr></tbody></table></code></div></div>
 
-<p>커넥션 풀 라이브러리를 사용하여 개발자는 데이터베이스 연결 관리의 복잡성을 줄이고 애플리케이션 성능을 향상시킬 수 있습니다.</p>
+<p>커넥션 풀 라이브러리를 사용하여 개발자는 데이터베이스 연결 관리의 복잡성을 줄이고 애플리케이션 성능을 향상시킬 수 있다.</p>
 
 <p>커넥션 풀 라이브러리는 풀의 상태를 모니터링할 수 있는 기능을 제공하며, 이를 통해 풀의 사용률, 연결 대기시간, 활성 연결 수 등 다양한
-지표를 실시간으로 확인할 수 있습니다.<br />
-또한 요구 상황과 리소스 상황에 맞춰 커넥션 풀의 설정을 조정함으로써 최적의 성능을 달성할 수 있습니다.</p>
+지표를 실시간으로 확인할 수 있다.</p>
 
-<p>단점으로는 DB에서 정보를 가지고 올 때마다 DB Connection Disconnection을 해야하고, 서버 과부하 및 속도 저하의 문제가 존재합니다.</p>
+<p>또한 요구 상황과 리소스 상황에 맞춰 커넥션 풀의 설정을 조정함으로써 최적의 성능을 달성할 수 있다.</p>
+
+<p>단점으로는 DB에서 정보를 가지고 올 때마다 DB Connection Disconnection을 해야하고, 서버 과부하 및 속도 저하의 문제가 있다.</p>
 
 
   </div>
@@ -1208,6 +1305,13 @@ String url = “jdbc:mysql://localhost:3306/database”;
     </div>
     <!-- .post-tail-bottom -->
   </div>
+  <script src="https://utteranc.es/client.js"
+          repo="byunyourim/comments"
+          issue-term="pathname"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
   <!-- div.post-tail-wrapper -->
 </article>
 
@@ -1241,6 +1345,27 @@ String url = “jdbc:mysql://localhost:3306/database”;
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
@@ -1249,27 +1374,6 @@ String url = “jdbc:mysql://localhost:3306/database”;
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Spring-DI/">Dependency Injection</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1342,42 +1446,6 @@ String url = “jdbc:mysql://localhost:3306/database”;
 
 
 
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
 
@@ -1782,6 +1850,80 @@ String url = “jdbc:mysql://localhost:3306/database”;
     <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
       
         <article class="col">
+          <a href="/posts/java-generic/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716998400"
+  data-df="ll"
+  
+>
+  May 30, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Generic 제네릭</h4>
+              <div class="text-muted">
+                <p>Generic
+데이터 타입을 일반화하여 클래스, 인터페이스, 메서드를 정의할 때 사용하는 기능
+
+클래스나 메서드를 선언할 때 타입을 명시적으로 지정하지 않고, 사용하는 시점에 실제 타입을 지정할 수 있다.
+
+제네릭을 이용하여 특정 타입에 의존하지 않고 데이터 구조나 알고리즘을 정의할 수 있으며, 코드의 재사용성과 타입 안정성을 향상 시킬 수 있다.
+
+...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/java-inherited/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716480000"
+  data-df="ll"
+  
+>
+  May 24, 2024
+</time>
+
+              <h4 class="pt-0 my-2">상속과 다형성</h4>
+              <div class="text-muted">
+                <p>상속
+상위 클래스의 기능을 하위클래스로 확장하는 것
+하위 클래스는 상위 클래스의 속성과 메서드를 사용할 수 있고 확장하거나 변경하여 사용할 수 있다.
+
+
+
+다형성
+부모 클래스나 인터페이스 타입의 참조 변수를 통해 여러 자식 클래스의 객체를 다룰 수 있는 특징
+
+메서드 오버라이딩을 통해 구현되며 실제 메서드 호출은 실행 시간에 결정된다.
+
+컴파일 시간의...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
           <a href="/posts/java-exception/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1801,93 +1943,26 @@ String url = “jdbc:mysql://localhost:3306/database”;
   May 19, 2024
 </time>
 
-              <h4 class="pt-0 my-2">예외</h4>
+              <h4 class="pt-0 my-2">Exception 예외?</h4>
               <div class="text-muted">
-                <p>Exception은 프로그램 실행 중 발생하는 예외 상황입니다.
-Exception의 종류에는 checked exception과 unchecked exception 이 있습니다.
+                <p>Exception은 프로그램 실행 중 발생하는 예외 상황으로
+
+Checked exception과 Unchecked exception 이 있다.
+
+
+
+
 
 Checked Exception
-컴파일 시점에 발생하며 컴파일러가 예외처리를 강제합니다
+컴파일 시점에 발생하며 컴파일러가 예외처리를 강제한다.
 
-처리 방법으로는 두 가지가 있습니다.
-try-catch 블록을 사용하는 방법과 thr...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-thread-synchronized/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
+처리 방법에는 두 가지가 있다.
+
+  try-catch 블록을 사용
+  throws 키워드를 사용
 
 
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Thread 구현 동기화와 Lock</h4>
-              <div class="text-muted">
-                <p>스레드 구현
-1. 스레드를 확장해서 런 메서드를 오버라이드 한 후 사용
-public class ThreadExtends extends Thread {
-    private String message;
-
-    public ThreadExtends(String message) {
-        this.message = message;
-    }
-
-  ...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-process-thread/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Process 와 Tread</h4>
-              <div class="text-muted">
-                <p>Process
-운영체제에 의해서 메모리에 올라가 실행 중인 프로그램
-
-
-
-각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없습니다.
-운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 가질 수 있습니다.
-
-프로세스는 최소 하나의 스레드를 갖습니다.
-
-
-  멀티 프로세스
-  여러 개의 프로세스...</p>
+예외가 발...</p>
               </div>
             </div>
           </a>
@@ -1912,7 +1987,7 @@ public class ThreadExtends extends Thread {
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>JDBC구현</p>
+      <p>JDBC 구현</p>
     </a>
   
 

@@ -79,7 +79,7 @@ a {
 img {
   max-width: 100%;
   height: auto;
-  transition: all 0.35s ease-in-out;
+  //transition: all 0.35s ease-in-out;
 
   .blur & {
     $blur: 20px;
@@ -127,6 +127,15 @@ p, ul li{
   font-size: 1rem;
 }
 
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
 
 kbd {
   font-family: Lato, sans-serif;
@@ -186,7 +195,7 @@ i {
 
 .access {
   top: 2rem;
-  transition: top 0.2s ease-in-out;
+  //transition: top 0.2s ease-in-out;
   margin-top: 3rem;
   margin-bottom: 4rem;
 
@@ -226,7 +235,7 @@ i {
     margin: 0 0.35rem 0.5rem 0;
 
     &:hover {
-      transition: all 0.3s ease-in;
+    //  transition: all 0.3s ease-in;
     }
   }
 }
@@ -369,7 +378,7 @@ sup {
     position: absolute;
     background-color: var(--card-hovor-bg);
     opacity: 0;
-    transition: opacity 0.35s ease-in-out;
+   // transition: opacity 0.35s ease-in-out;
   }
 
   &:hover {
@@ -535,33 +544,9 @@ main {
   background: var(--img-bg);
 
   &::before {
-    content: '';
     position: absolute;
-    background: var(--shimmer-bg);
     height: 100%;
     width: 100%;
-    -webkit-animation: shimmer 1.3s infinite;
-    animation: shimmer 1.3s infinite;
-  }
-
-  @-webkit-keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-
-    100% {
-      transform: translateX(100%);
-    }
   }
 }
 
@@ -652,7 +637,7 @@ main {
   box-shadow: none;
   border-color: var(--input-focus-border-color) !important;
   background: center !important;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+ // transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 
 .left {
@@ -885,15 +870,15 @@ $btn-mb: 0.5rem;
 
 @media (hover: hover) {
   #sidebar ul > li:last-child::after {
-    transition: top 0.5s ease;
+//    transition: top 0.5s ease;
   }
 
   .nav-link {
-    transition: background-color 0.3s ease-in-out;
+//    transition: background-color 0.3s ease-in-out;
   }
 
   .post-preview {
-    transition: background-color 0.35s ease-in-out;
+ //   transition: background-color 0.35s ease-in-out;
   }
 }
 

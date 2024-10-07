@@ -614,39 +614,6 @@
 
       
     
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
 
     
   
@@ -662,6 +629,39 @@
       
         
         
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
       
 
       
@@ -922,9 +922,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1815 words"
+  title="1746 words"
 >
-  <em>10 min</em> read</span>
+  <em>9 min</em> read</span>
 
         </div>
       </div>
@@ -935,7 +935,7 @@
     <h1 id="serialization">Serialization</h1>
 <p><span style="background-color:#D0E4FC"><strong>객체를 바이트 스트림으로 변환하여 저장하거나 전송할 수 있게 하는 과정</strong></span></p>
 
-<p>Java 시스템 내부에서 사용되는 데이터를 외부의 Java 시스템에서 사용할 수 있도록 바이트 형태로 변환하는 것을 의미합니다.</p>
+<p>Java 시스템 내부에서 사용되는 데이터를 외부의 Java 시스템에서 사용할 수 있도록 바이트 형태로 변환하는 것을 의미한다.</p>
 
 <p><a href="https://github.com/user-attachments/assets/b7cbfab4-4f5e-4183-9450-69a8601da202" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/b7cbfab4-4f5e-4183-9450-69a8601da202" alt="serialization.png" loading="lazy"></a></p>
 
@@ -951,8 +951,8 @@
     
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
-<p>자바에서 직렬화를 구현하기 위해서는 java.io.Serializable 인터페이스를 구현해야 합니다. 
-클래스의 필드 중에 직렬화하지 말아야 할 필드는 transient 키워드를 사용하여 표시해야 합니다.</p>
+<p>자바에서 직렬화를 구현하기 위해서는 java.io.Serializable 인터페이스를 구현해야 한다. <br />
+클래스의 필드 중에 직렬화하지 말아야 할 필드는 transient 키워드를 사용하여 표시한다.</p>
 
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
@@ -972,40 +972,40 @@
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
 <h3 id="1-serializable-인터페이스-구현"><span class="me-2">1. Serializable 인터페이스 구현</span><a href="#1-serializable-인터페이스-구현" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>직렬화할 클래스는 java.io.Serializable 인터페이스를 구현합니다.</p>
+<p>직렬화할 클래스는 java.io.Serializable 인터페이스를 구현한다.</p>
 
 <h3 id="2-transient-키워드-사용"><span class="me-2">2. transient 키워드 사용</span><a href="#2-transient-키워드-사용" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>객체를 직렬화할 때, 직렬화하지 않을 필드는 transient 키워드를 사용하여 표시합니다. 
-예를 들어, 암호와 같은 민감한 정보를 직렬화에서 제외하려면 transient를 사용합니다.</p>
+<p>객체를 직렬화할 때, 직렬화하지 않을 필드는 transient 키워드를 사용하여 표시한다. 
+예를 들어, 암호와 같은 민감한 정보를 직렬화에서 제외하려면 transient를 사용한다.</p>
 
 <h3 id="3-직렬화-및-역직렬화"><span class="me-2">3. 직렬화 및 역직렬화</span><a href="#3-직렬화-및-역직렬화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>ObjectOutputStream과 ObjectInputStream 클래스를 사용하여 객체를 파일에 저장하거나 읽어올 수 있습니다.</p>
+<p>ObjectOutputStream과 ObjectInputStream 클래스를 사용하여 객체를 파일에 저장하거나 읽어올 수 있다.</p>
 <ul>
-  <li>직렬화: 객체를 파일에 저장할때 ObjectOutputStream을 사용합니다.</li>
-  <li>역직렬화: 저장된 파일에서 객체를 읽어올때 ObjectInputStream을 사용합니다.</li>
+  <li>직렬화: 객체를 파일에 저장할때 ObjectOutputStream을 사용한다.</li>
+  <li>역직렬화: 저장된 파일에서 객체를 읽어올때 ObjectInputStream을 사용한다.</li>
 </ul>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
-<h2 id="json-csv가-아-자바-직렬화를-사용하는-이유"><span class="me-2">JSON, CSV가 아 자바 직렬화를 사용하는 이유</span><a href="#json-csv가-아-자바-직렬화를-사용하는-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>자바 직렬화는 자바 시스템 개발에 최적화되어 있으며, 자바 환경 내에서 객체의 상태를 보존, 저장, 전송할 때 유용합니다.
-JSON은 언어와 플랫폼에 독립적인 데이터 포맷을 제공하지만, 자바 직렬화는 자바에 최적화 되어 있습니다.</p>
+<h3 id="json-csv가-아닌-자바-직렬화를-사용하는-이유"><span class="me-2">JSON, CSV가 아닌 자바 직렬화를 사용하는 이유</span><a href="#json-csv가-아닌-자바-직렬화를-사용하는-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>자바 직렬화는 자바 시스템 개발에 최적화되어 있으며, 자바 환경 내에서 객체의 상태를 보존, 저장, 전송할 때 유용하다.
+JSON은 언어와 플랫폼에 독립적인 데이터 포맷을 제공하지만, 자바 직렬화는 자바에 최적화되어 있다.</p>
 
-<p>무엇보다 데이터 타입이 자동으로 맞춰지기 때문에, 역직렬화시 바로 기존 객체처럼 사용이 가능합니다.</p>
+<p>무엇보다 데이터 타입이 자동으로 맞춰지기 때문에, 역직렬화시 바로 기존 객체처럼 사용이 가능하다.</p>
 
-<p>무조건 자바 직렬화를 사용하는 것이 아닌 때에 따라서 맞게 사용하면 됩니다</p>
+<p>무조건 자바 직렬화를 사용하는 것이 아닌 때에 따라서 맞게 사용해야 한다.</p>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
-<h2 id="언제-사용하는가"><span class="me-2">언제 사용하는가?</span><a href="#언제-사용하는가" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>객체 데이터를 영속화하고 전송할 수 있는 특성으로 여러 곳에서 사용됩니다.</p>
+<h3 id="언제-사용하는지"><span class="me-2">언제 사용하는지</span><a href="#언제-사용하는지" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>객체 데이터를 영속화하고 전송할 수 있는 특성으로 여러 곳에서 사용된다.</p>
 
 <h4 id="서블릿-세션"><span class="me-2">서블릿 세션:</span><a href="#서블릿-세션" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>사용자의 상태 정보를 유지하기 위해 세션을 사용하며, 세션 데이터를 DB나 파일에 저장할 때 자바 직렬화를 통해 외부 저장소에 저장합니다.</p>
+<p>사용자의 상태 정보를 유지하기 위해 세션을 사용하며, 세션 데이터를 DB나 파일에 저장할 때 자바 직렬화를 통해 외부 저장소에 저장한다.</p>
 <h4 id="캐시"><span class="me-2">캐시:</span><a href="#캐시" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>Redis 같은 캐시 시스템에서 데이터를 저장할 때, 자바 객체를 직렬화하여 바이트 스트림으로 변환한 후 저장합니다.</p>
+<p>Redis 같은 캐시 시스템에서 데이터를 저장할 때, 자바 객체를 직렬화하여 바이트 스트림으로 변환한 후 저장한다.</p>
 <h4 id="자바-rmi"><span class="me-2">자바 RMI:</span><a href="#자바-rmi" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>원격 메소드 호출 시, 메소드 인자와 반환값을 직렬화하여 원격 시스템 간에 데이터를 전송하고, 수신 측에서 이를 역직렬화합니다.</p>
+<p>원격 메소드 호출 시, 메소드 인자와 반환값을 직렬화하여 원격 시스템 간에 데이터를 전송하고, 수신 측에서 이를 역직렬화한다.</p>
 
 <p><br /></p>
 
@@ -1043,56 +1043,66 @@ JSON은 언어와 플랫폼에 독립적인 데이터 포맷을 제공하지만,
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
 
-<p><br /></p>
+<p><br /><br />
+<br /></p>
 
-<h2 id="objectinputstream의-readobject"><span class="me-2">ObjectInputStream의 readObject()</span><a href="#objectinputstream의-readobject" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>readObject() 메서드는 직렬화된 파일에서 객체를 읽어올 때 사용니다. 이 메서드는 직렬화된 데이터를 역직렬화하여 원래의 객체로 복원합니다.
-Object 타입을 반환하기 때문에, 읽어온 객체를 원래의 클래스 타입으로 형 변환해야 합니다.</p>
+<h3 id="objectinputstream의-readobject"><span class="me-2">ObjectInputStream의 readObject()</span><a href="#objectinputstream의-readobject" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>readObject() 메서드는 직렬화된 파일에서 객체를 읽어올 때 사용한다.<br />
+이 메서드는 직렬화된 데이터를 역직렬화하여 원래의 객체로 복원한다.
+Object 타입을 반환하기 때문에, 읽어온 객체를 원래의 클래스 타입으로 형 변환해야 한다.</p>
 
-<p>역질렬화할 때 해당 클래스가 클래스패스에 없는 경우 ClassNotFoundException이 발생할 수 있습니다.
-또한 클래스의 구조나 패키지 이름이 변경된 경우에도 발생할 수 있습니다.
-직렬화된 객체가 다른 JVM 버전이나 다른 시스템에서 직렬화된 경우, 특정 클래스에 의존할 때도 예외가 발생할 수 있습니다.</p>
+<p>역질렬화할 때 해당 클래스가 클래스패스에 없는 경우 ClassNotFoundException이 발생할 수 있다.<br />
+또한 클래스의 구조나 패키지 이름이 변경된 경우에도 발생할 수 있다.  <br />
+직렬화된 객체가 다른 JVM 버전이나 다른 시스템에서 직렬화된 경우, 특정 클래스에 의존할 때도 예외가 발생할 수 있다.</p>
 
 <blockquote>
   <h5 id="serialversionuid"><span class="me-2">SerialVersionUID</span><a href="#serialversionuid" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
-  <p>SerialVersionUID 는 직렬화된 객체의 버전을 식별하는 고유 식별자입니다.</p>
+  <p>직렬화된 객체의 버전을 식별하는 고유 식별자</p>
 
-  <p>클래스에 새로운 필드가 추가되거나 제거되는 등 변경 사항이 있을 때 재정의하지 않으면 InvalidClassException 예외가 발생할 수 있습니다.
-또한 여러 버전의 클래스가 존재할 수 있는 경우 SerialVersionUID를 사용하여 호환성을 유지할 수 있기 때문에 직렬화시 버전 불일치의 문제를 방지할 수 있습니다.</p>
-</blockquote>
-
-<blockquote>
-  <h4 id="externalizable-인터페이스와-serializable-인터페이스의-차이"><span class="me-2">Externalizable 인터페이스와 Serializable 인터페이스의 차이</span><a href="#externalizable-인터페이스와-serializable-인터페이스의-차이" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-  <p>Externalizable 인터페이스를 구현하면, 직렬화 및 역질렬화 과정에서 writeExternal()과 readExternal() 메서드를 사용자가 직접 구현해야 합니다.
-또한 직렬화할 필드와 방법을 명시적으로 제어할 수 있어 불필요한 데이터를 직렬화하지 않을 수 있습니다.
-이 과정에서 성능 최적화가 가능하며 직렬화된 데이터의 구조를 명확하게 정의할 수 있습니다.</p>
+  <p>클래스에 새로운 필드가 추가, 제거등 변경 사항이 있을 때, 재정의하지 않으면 InvalidClassException 예외가 발생할 수 있다.
+여러 버전의 클래스가 존재할 수 있는 경우 SerialVersionUID를 사용하여 호환성을 유지할 수 있기 때문에 직렬화시 버전 불일치의 문제를 방지할 수 있다.</p>
 </blockquote>
 
 <p><br /></p>
 
+<blockquote>
+  <h4 id="externalizable-인터페이스"><span class="me-2">Externalizable 인터페이스</span><a href="#externalizable-인터페이스" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>Externalizable 인터페이스를 구현하면, 직렬화 및 역질렬화 과정에서, 사용자가 직접 writeExternal()과 readExternal() 메서드를 구현해야 한다.
+또한 직렬화할 필드와 방법을 명시적으로 제어할 수 있어 불필요한 데이터를 직렬화하지 않을 수 있다.
+이 과정에서 성능 최적화가 가능하며 직렬화된 데이터의 구조를 명확하게 정의할 수 있다.</p>
+</blockquote>
+
+<p><br /><br /><br /></p>
+
 <h2 id="transient"><span class="me-2">transient</span><a href="#transient" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>transient로 선언된 필드는 ObjectOutputStream을 사용하여 객체를 직렬화할 때 데이터 스트림에 저장되지 않습니다.
-역직렬화 과정에서는 transient로 선언된 필드는 기본값으로 초기화됩니다. 
-int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는 false로 초기화됩니다.
-직렬화가 필요한 데이터와 필요하지 않은 데이터를 구분할 때 유용합니다.</p>
+<p>transient로 선언된 필드는 ObjectOutputStream을 사용하여 객체를 직렬화할 때 데이터 스트림에 저장되지 않는다.<br />
+역직렬화 과정에서는 transient로 선언된 필드는 기본값으로 초기화된다. <br />
+int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는 false로 초기화된다.
+직렬화가 필요한 데이터와 필요하지 않은 데이터를 구분할 때 유용하다.</p>
 
 <blockquote>
   <h4 id="transient의-동작"><span class="me-2">transient의 동작</span><a href="#transient의-동작" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-  <p>transient 키워드가 적용된 필드가 사용자 정의 객체나 참조형 변수를 가지면, 직렬화 시 해당 필드의 값은 저장되지 않으며, 역직렬화 후에는 null이 되거나 기본값으로 초기화됩니다.</p>
+  <p>transient 키워드가 적용된 필드가 사용자 정의 객체나 참조형 변수를 가지면, 직렬화 시 해당 필드의 값은 저장되지 않으며, 역직렬화 후에는 null이 되거나 기본값으로 초기화된다.</p>
 
-  <p>민감한 정보나, 직렬화가 필요 없는 데이터가 있을 때 사용합니다. 
-하지, transient로 지정된 필드는 역직렬화 후에 제대로 복원되지 않으므로, 필요한 경우 readObject메서드에서 직접 복원 로직을 구현해야 합니다.</p>
+  <p>민감한 정보나, 직렬화가 필요 없는 데이터에 사용한다. <br />
+하지만, transient로 지정된 필드는 역직렬화 후 제대로 복원되지 않기 때문에, 필요한 경우 readObject메서드에서 직접 복원 로직을 구현해야 한다.</p>
 </blockquote>
+
+<p><br /></p>
 
 <blockquote>
-  <h4 id="readobject-메서드를-구현하여-transient-필드를-복원할-때-주의-사항"><span class="me-2">readObject 메서드를 구현하여 transient 필드를 복원할 때 주의 사항</span><a href="#readobject-메서드를-구현하여-transient-필드를-복원할-때-주의-사항" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-  <p>readObject에서 복원 로직을 정확하게 구현해야합니다. 직렬화되지 않기 때문에 복원시 적절한 값을 설정해야 하며, 
-직렬화와 역직렬화시 필드의 순서가 맞아야 합니다. 그리고 복원과정에서 발생할 수 있는 예외를 적절히 처리해야 합니다.</p>
+  <h4 id="readobject-메서드를-구현하여-transient-필드를-복원할-때-주의할-점"><span class="me-2">readObject 메서드를 구현하여 transient 필드를 복원할 때 주의할 점</span><a href="#readobject-메서드를-구현하여-transient-필드를-복원할-때-주의할-점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>readObject에서 복원 로직을 정확하게 구현해야 한다. <br />
+직렬화되지 않기 때문에 복원시 적절한 값을 설정해야 하며, 직렬화와 역직렬화시 필드의 순서가 맞아야 한다.<br />
+그리고 복원과정에서 발생할 수 있는 예외를 적절히 처리해야 한다.</p>
 </blockquote>
+
+<p><br /></p>
 
 <blockquote>
   <h4 id="serializable-인터페이스-내부의-writeobject-메서드"><span class="me-2">Serializable 인터페이스 내부의 writeObject 메서드</span><a href="#serializable-인터페이스-내부의-writeobject-메서드" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-  <p>writeObject() 메서드에서 transient 필드는 직렬화되지 않기 때문에 이 메서드에서는 transient 필드를 저장하지 않아야 합니다.</p>
+  <p>writeObject() 메서드에서 transient 필드는 직렬화되지 않기 때문에,<br />
+이 메서드에서는 transient 필드를 저장하지 않아야 한다.</p>
 </blockquote>
 
   </div>
@@ -1177,6 +1187,13 @@ int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는
     </div>
     <!-- .post-tail-bottom -->
   </div>
+  <script src="https://utteranc.es/client.js"
+          repo="byunyourim/comments"
+          issue-term="pathname"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
   <!-- div.post-tail-wrapper -->
 </article>
 
@@ -1210,6 +1227,27 @@ int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
@@ -1218,27 +1256,6 @@ int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Spring-DI/">Dependency Injection</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1435,43 +1452,7 @@ int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는
   
 
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
     
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   
 
   
@@ -1751,6 +1732,80 @@ int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는
     <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
       
         <article class="col">
+          <a href="/posts/java-generic/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716998400"
+  data-df="ll"
+  
+>
+  May 30, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Generic 제네릭</h4>
+              <div class="text-muted">
+                <p>Generic
+데이터 타입을 일반화하여 클래스, 인터페이스, 메서드를 정의할 때 사용하는 기능
+
+클래스나 메서드를 선언할 때 타입을 명시적으로 지정하지 않고, 사용하는 시점에 실제 타입을 지정할 수 있다.
+
+제네릭을 이용하여 특정 타입에 의존하지 않고 데이터 구조나 알고리즘을 정의할 수 있으며, 코드의 재사용성과 타입 안정성을 향상 시킬 수 있다.
+
+...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/java-inherited/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716480000"
+  data-df="ll"
+  
+>
+  May 24, 2024
+</time>
+
+              <h4 class="pt-0 my-2">상속과 다형성</h4>
+              <div class="text-muted">
+                <p>상속
+상위 클래스의 기능을 하위클래스로 확장하는 것
+하위 클래스는 상위 클래스의 속성과 메서드를 사용할 수 있고 확장하거나 변경하여 사용할 수 있다.
+
+
+
+다형성
+부모 클래스나 인터페이스 타입의 참조 변수를 통해 여러 자식 클래스의 객체를 다룰 수 있는 특징
+
+메서드 오버라이딩을 통해 구현되며 실제 메서드 호출은 실행 시간에 결정된다.
+
+컴파일 시간의...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
           <a href="/posts/java-exception/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1770,93 +1825,26 @@ int 타입의 transient 필드는 0으로, boolean 타입의 transient 필드는
   May 19, 2024
 </time>
 
-              <h4 class="pt-0 my-2">예외</h4>
+              <h4 class="pt-0 my-2">Exception 예외?</h4>
               <div class="text-muted">
-                <p>Exception은 프로그램 실행 중 발생하는 예외 상황입니다.
-Exception의 종류에는 checked exception과 unchecked exception 이 있습니다.
+                <p>Exception은 프로그램 실행 중 발생하는 예외 상황으로
+
+Checked exception과 Unchecked exception 이 있다.
+
+
+
+
 
 Checked Exception
-컴파일 시점에 발생하며 컴파일러가 예외처리를 강제합니다
+컴파일 시점에 발생하며 컴파일러가 예외처리를 강제한다.
 
-처리 방법으로는 두 가지가 있습니다.
-try-catch 블록을 사용하는 방법과 thr...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-thread-synchronized/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
+처리 방법에는 두 가지가 있다.
+
+  try-catch 블록을 사용
+  throws 키워드를 사용
 
 
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Thread 구현 동기화와 Lock</h4>
-              <div class="text-muted">
-                <p>스레드 구현
-1. 스레드를 확장해서 런 메서드를 오버라이드 한 후 사용
-public class ThreadExtends extends Thread {
-    private String message;
-
-    public ThreadExtends(String message) {
-        this.message = message;
-    }
-
-  ...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-process-thread/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Process 와 Tread</h4>
-              <div class="text-muted">
-                <p>Process
-운영체제에 의해서 메모리에 올라가 실행 중인 프로그램
-
-
-
-각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없습니다.
-운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 가질 수 있습니다.
-
-프로세스는 최소 하나의 스레드를 갖습니다.
-
-
-  멀티 프로세스
-  여러 개의 프로세스...</p>
+예외가 발...</p>
               </div>
             </div>
           </a>

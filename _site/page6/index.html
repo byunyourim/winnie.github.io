@@ -539,132 +539,6 @@
 <div id="post-list" class="flex-grow-1 px-xl-1">
   
     <article class="card-wrapper card">
-      <a href="/posts/java-generic/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Generic</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>Generic
-데이터 타입을 일반화하여 클래스, 인터페이스, 메서드를 정의할 때 사용하는 기능
-
-클래스나 메서드를 선언할 때 타입을 명시적으로 지정하지 않고 사용하는 시점에서 실제 타입을 지정할 수 있습니다.
-
-제네릭을 이용하여 특정 타입에 의존하지 않고 데이터 구조나 알고리즘을 정의할 수 있으며 코드의 재사용성과 타입 안정성을 향상 시킬 수 있습니다...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1716998400"
-  data-df="ll"
-  
->
-  May 30, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      Java
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/java-inherited/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">상속과 다형성</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>상속
-상위 클래스의 기능을 하위클래스로 확장하는 것
-하위 클래스는 상위 클래스의 속성과 메서드를 사용할 수 있고 확장하거나 변경하여 사용할 수 있습니다.
-
-
-
-다형성
-하나의 인터페이스나 상위 클래스를 통해로 여러 자식 클래스의 객체를 다룰 수 있는 특징으
-
-메서드 오버라이딩을 통해 구현되며 실제 메서드 호출은 실행 시간에 결정됩니다.
-
-컴파일 시간의 ...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1716480000"
-  data-df="ll"
-  
->
-  May 24, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      Java
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
       <a href="/posts/java-exception/" class="post-preview row g-0 flex-md-row-reverse">
         
 
@@ -672,17 +546,27 @@
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">예외</h1>
+            <h1 class="card-title my-2 mt-md-0">Exception 예외?</h1>
 
             <div class="card-text content mt-0 mb-3">
-              <p>Exception은 프로그램 실행 중 발생하는 예외 상황입니다.
-Exception의 종류에는 checked exception과 unchecked exception 이 있습니다.
+              <p>Exception은 프로그램 실행 중 발생하는 예외 상황으로
+
+Checked exception과 Unchecked exception 이 있다.
+
+
+
+
 
 Checked Exception
-컴파일 시점에 발생하며 컴파일러가 예외처리를 강제합니다
+컴파일 시점에 발생하며 컴파일러가 예외처리를 강제한다.
 
-처리 방법으로는 두 가지가 있습니다.
-try-catch 블록을 사용하는 방법과 thr...</p>
+처리 방법에는 두 가지가 있다.
+
+  try-catch 블록을 사용
+  throws 키워드를 사용
+
+
+예외가 발...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -737,16 +621,14 @@ try-catch 블록을 사용하는 방법과 thr...</p>
             <h1 class="card-title my-2 mt-md-0">Thread 구현 동기화와 Lock</h1>
 
             <div class="card-text content mt-0 mb-3">
-              <p>스레드 구현
-1. 스레드를 확장해서 런 메서드를 오버라이드 한 후 사용
+              <p>스레드 구현 방법
+1. 스레드를 확장해서 run() 메서드를 오버라이드한 후 사용
 public class ThreadExtends extends Thread {
     private String message;
 
     public ThreadExtends(String message) {
         this.message = message;
-    }
-
-  ...</p>
+   ...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -806,14 +688,16 @@ public class ThreadExtends extends Thread {
 
 
 
-각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없습니다.
-운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 가질 수 있습니다.
+각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없다.
+운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 갖는다.
 
-프로세스는 최소 하나의 스레드를 갖습니다.
+프로세스는 최소 하나의 스레드를 갖는다.
+
+
 
 
   멀티 프로세스
-  여러 개의 프로세스...</p>
+  여러 개의 프로세스가 동시에 실...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -875,11 +759,11 @@ public class ThreadExtends extends Thread {
 
 
 리터럴로 선언
-리터럴로 선언하는 경우 문자열을 String Constant pool에 저장합니다.
-따라서 메모리의 효율이 높습니다.
+리터럴로 선언하는 경우 문자열을 String Constant pool에 저장한다.
+따라서 메모리의 효율이 좋다.
 
-리터럴을 사용하여 생성할 때 상수 풀에 같은 값이 존재하면 객체는 이미 존재하는 값을 참조합니다.
-딷...</p>
+리터럴을 사용하여 생성할 때 상수 풀에 같은 값이 존재하면 객체는 이미 존재하는 값을 참조한다.
+따라 동일...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -942,6 +826,8 @@ public class ThreadExtends extends Thread {
   ==
 
 
+
+
 동등성
 
   Equality
@@ -953,7 +839,7 @@ public class ThreadExtends extends Thread {
 
 
 
-기본 타입의 변수는 값을 직접 저장하기 때문에 같은 값을 가지는 여러 ...</p>
+기본 타입의 변수는 값을 직접 저장하기 때문에 같은 값을 가지는 여...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -1008,7 +894,7 @@ public class ThreadExtends extends Thread {
             <h1 class="card-title my-2 mt-md-0">Primitive 타입과 Reference 타입</h1>
 
             <div class="card-text content mt-0 mb-3">
-              <p>⚡Primitive Type
+              <p>Primitive Type
 기본 데이터 타입으로 정수, 실수, 불리언 등의 실제 데이터 값을 저장하는 타입
 
   int, long, double, float, boolean
@@ -1016,7 +902,7 @@ public class ThreadExtends extends Thread {
 
 
 
-⚡Reference Type
+Reference Type
 객체 참조 타입으로 객체의 주소를 저장하는 타입
 
   배열, 클래스, 인터페이스
@@ -1024,8 +910,8 @@ public class ThreadExtends extends Thread {
 
 
 
-⚡차이
-두 타입의 차이는 메모리 저장 위치와 데이터 처...</p>
+차이
+두 타입의 차이는 메모리 저장 위치와 데이터 처리 방...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -1141,16 +1027,17 @@ public class ThreadExtends extends Thread {
             <h1 class="card-title my-2 mt-md-0">오버로딩과 오버라이딩</h1>
 
             <div class="card-text content mt-0 mb-3">
-              <p>⚡️Overloading
-같은 이름의 메소드나 생성자를 여러 개 정의하는 것으로 매개변수의 타입 또는 개수가 달라야 합니다.
+              <p>오버로딩 ️Overloading
+같은 이름의 메소드나 생성자를 여러 개 정의하는 것으로 매개변수의 타입 또는 개수가 달라야 한다.
 
 
 
 예시
-메소드 오버로딩의 예로 println 메소드가 있다.
-System.out 객체의 메소드로 여러 형태로 오버로딩 되어있다. 정수형, 실수형, 문자열 등 다양한 타입의 매개 변수를 받는 메소드를 오버로딩하여 제공한다.
 
-...</p>
+  println() 메서드
+    
+      System.out 객체의 메소드로 여러 형태로 오버로딩 되어있다.
+      정수형, 실수형, 문자열 등 다양한 타입의 매개 변수를 받는 메서드를 오버로딩하여 ...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -1181,6 +1068,136 @@ System.out 객체의 메소드로 여러 형태로 오버로딩 되어있다. �
                   <span class="categories">
                     
                       Java
+                  </span>
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
+      <a href="/posts/network-tcp-udp/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">TCP/ UDP</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>전송 계층에서 사용하는 두 가지 주요 프로토콜
+
+TCP (Transmission Control Protocol)
+키워드 : 연결 설정, 신뢰성, 전송제어, 속도조절, 패킷순서, 재전송
+
+  연결 지향적 프로토콜로 통신 전에 연결을 설정하고 통신이 완료되면 연결을 해제합니다. (3way handshake)
+  데이터를 순서대로 조립해서 보내며 데이터를 ...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1714320000"
+  data-df="ll"
+  
+>
+  Apr 29, 2024
+</time>
+
+
+                <!-- categories -->
+                
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    
+                      Network
+                  </span>
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
+      <a href="/posts/network-handshake/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">TCP 3-way handshake, 4-way handshake 동작 방식</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>3-way handshake ?
+TCP 연결을 설정하는 과정
+
+
+
+(TCP/IP 프로토콜을 이용해서) 통신을 하는 응용 프로그램이
+데이터를 전송하기 전에 정확한 전송을 보장하기 위해 상대방 컴퓨터와의 세션을 수립하는 과정
+
+
+
+
+  Control bits
+  
+    SYN : 연결 설정
+    ACK : 응답 확인, 패킷을 받았다는 것 의미 (Ack...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1714320000"
+  data-df="ll"
+  
+>
+  Apr 29, 2024
+</time>
+
+
+                <!-- categories -->
+                
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    
+                      Network
                   </span>
                 
               </div>
@@ -1383,6 +1400,27 @@ System.out 객체의 메소드로 여러 형태로 오버로딩 되어있다. �
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
@@ -1391,27 +1429,6 @@ System.out 객체의 메소드로 여러 형태로 오버로딩 되어있다. �
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Spring-DI/">Dependency Injection</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>

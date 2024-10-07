@@ -560,6 +560,16 @@
   
 
   
+
+  
+  
+
+  
+
+  
+  
+
+  
     
     
 
@@ -580,16 +590,6 @@
     
 
     
-  
-
-  
-  
-
-  
-
-  
-  
-
   
 
 
@@ -697,7 +697,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="659 words"
+  title="618 words"
 >
   <em>3 min</em> read</span>
 
@@ -709,25 +709,26 @@
   <div class="content">
     <h2 id="try-catch-finally"><span class="me-2">try-catch-finally</span><a href="#try-catch-finally" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
-<p>try-catch-finally 문은 많이 들어보았을 것이다.
-try-catch-finally 문은 자바7 이전에 나온 예외 처리 구문으로 모든 객체를 포함할 수 있다.
-사횽 후 반납을 해주어야 하는 자원들은 Closeable 인터페이스를 구현하고 있으며 사용 후 close 메서드를 직접 호출하여 반납해야 한다.</p>
+<p>try-catch-finally 문은 자바7 이전에 나온 예외 처리 구문으로 모든 객체를 포함할 수 있다.</p>
 
-<p>자원 반납이 이루어지지 않는 경우 메모리 누수가 생길 수 있으며 다른 프로세스, 스레드에 영향을 줄 수 있습니다. 따라서 finally 블록 내에서 자원을 해제하도록 해야합니다.</p>
+<p>사횽 후 반납을 해주어야 하는 자원들은 Closeable 인터페이스를 구현하고 있으며 사용 후 close 메서드를 직접 호출하여 반납해야 한다.</p>
+
+<p>자원 반납이 이루어지지 않는 경우 메모리 누수가 생길 수 있으며 다른 프로세스, 스레드에 영향을 줄 수 있습니다. 따라서 finally 블록 내에서 자원을 해제해야 한다.</p>
 
 <script src="https://gist.github.com/byunyourim/149d0d35b071e490779cd5ea11bec579.js"></script>
 
-<p>자원을 반납하는 추가적인 코드가 필요하며 실수나 에러로 자원을 반납하지 못하는 경우가 생길 수 있습니다.</p>
+<p>자원을 반납하는 추가적인 코드가 필요하며 실수나 에러로 자원을 반납하지 못하는 경우가 생길 수 있다.</p>
 
-<p>이러한 문제를 해결하기 위해 자바 7 부터 자원을 자동으로 반납해주는 try-with-resources 문법이 도입되었습니다.</p>
+<p>이러한 문제를 해결하기 위해 자바 7 부터 자원을 자동으로 반납해주는 try-with-resources 문법이 도입되었다.</p>
 
-<h3 id="try-with-resources-"><span class="me-2">try-with-resources ?</span><a href="#try-with-resources-" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p><br /><br /><br /></p>
 
-<p>try-with-resources 는 Java7 부터 도입된 자원 관리를 위한 구문입니다.
-AutoClosable 인터페이스를 구현하고 있는 자원을 사용 후 자동으로 반납해주는 기능을 제공합니다.
-이를 사용함으로써 가독성이 좋아지고 예외 발생 시 자원이 안전하게 해제될 수 있습니다.</p>
+<h2 id="try-with-resources"><span class="me-2">try-with-resources</span><a href="#try-with-resources" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>try-with-resources 는 Java7 부터 도입된 자원 관리를 위한 구문이다.</p>
 
-<p>구조</p>
+<p>AutoClosable 인터페이스를 구현하고 있는 자원을, 사용 후 자동으로 반납해주는 기능을 제공한다.<br />
+이를 사용함으로써 가독성이 좋아지고 예외 발생 시 자원이 안전하게 해제될 수 있다.</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="code-header">
         <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -741,18 +742,28 @@ AutoClosable 인터페이스를 구현하고 있는 자원을 사용 후 자동�
   // 예외 처리 코드
 }
 </pre></td></tr></tbody></table></code></div></div>
-<p>주의할 점은 AutoCloseable 인터페이스를 구현한 객체만이 try 블록내에서 리소스로 사용될 수 있다는 것입니다. 주로 파일, 소켓, 데이터베이스 연결 등에 사용됩니다.</p>
+
+<p><br /><br /></p>
+
+<p><strong>AutoCloseable 인터페이스를 구현한 객체만</strong> try 블록 내에서 리소스로 사용할 수 있다.</p>
+
+<p>주로 파일, 소켓, 데이터베이스 연결 등에 사용됩니다.</p>
 
 <script src="https://gist.github.com/byunyourim/3e1add1509cd417850aded31ff5ca3d4.js"></script>
 
-<p>Connection.java
-<script src="https://gist.github.com/byunyourim/f339136bca1017050e4238589b4e780a.js"></script></p>
+<p><br /> <br /></p>
+
+<h5 id="connectionjava"><span class="me-2">Connection.java</span><a href="#connectionjava" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
+<script src="https://gist.github.com/byunyourim/f339136bca1017050e4238589b4e780a.js"></script>
+
+<p><br /><br /><br /></p>
 
 <h2 id="closeable과-autocloseable의-관계"><span class="me-2">Closeable과 AutoCloseable의 관계</span><a href="#closeable과-autocloseable의-관계" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p>기존의 Closeable 에 부모 인터페이스 AutoCloseable 를 추가한 형태입니다.
 Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라서 Closeable은 AutoCloseable이 제공하는 모든 기능을 포함합니다. 이러한 구조로 기존에 구현된 자원 클래스 모두 try-with-resources 를 사용할 수 있습니다.</p>
 
-<h2 id="정리"><span class="me-2">정리</span><a href="#정리" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p><br /></p>
+
 <ul>
   <li>
     <p><code class="language-plaintext highlighter-rouge">try-catch</code> 문에서는 예외가 발생할 수 있는 모든 코드가 포함될 수 있으며, 특정 객체 타입에 제한되지 않습니다.</p>
@@ -845,6 +856,13 @@ Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라�
     </div>
     <!-- .post-tail-bottom -->
   </div>
+  <script src="https://utteranc.es/client.js"
+          repo="byunyourim/comments"
+          issue-term="pathname"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
   <!-- div.post-tail-wrapper -->
 </article>
 
@@ -878,6 +896,27 @@ Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라�
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
@@ -886,27 +925,6 @@ Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라�
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Spring-DI/">Dependency Injection</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -979,42 +997,6 @@ Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라�
 
 
 
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
 
@@ -1419,6 +1401,80 @@ Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라�
     <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
       
         <article class="col">
+          <a href="/posts/java-generic/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716998400"
+  data-df="ll"
+  
+>
+  May 30, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Generic 제네릭</h4>
+              <div class="text-muted">
+                <p>Generic
+데이터 타입을 일반화하여 클래스, 인터페이스, 메서드를 정의할 때 사용하는 기능
+
+클래스나 메서드를 선언할 때 타입을 명시적으로 지정하지 않고, 사용하는 시점에 실제 타입을 지정할 수 있다.
+
+제네릭을 이용하여 특정 타입에 의존하지 않고 데이터 구조나 알고리즘을 정의할 수 있으며, 코드의 재사용성과 타입 안정성을 향상 시킬 수 있다.
+
+...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/java-inherited/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716480000"
+  data-df="ll"
+  
+>
+  May 24, 2024
+</time>
+
+              <h4 class="pt-0 my-2">상속과 다형성</h4>
+              <div class="text-muted">
+                <p>상속
+상위 클래스의 기능을 하위클래스로 확장하는 것
+하위 클래스는 상위 클래스의 속성과 메서드를 사용할 수 있고 확장하거나 변경하여 사용할 수 있다.
+
+
+
+다형성
+부모 클래스나 인터페이스 타입의 참조 변수를 통해 여러 자식 클래스의 객체를 다룰 수 있는 특징
+
+메서드 오버라이딩을 통해 구현되며 실제 메서드 호출은 실행 시간에 결정된다.
+
+컴파일 시간의...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
           <a href="/posts/java-exception/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1438,93 +1494,26 @@ Closeable은 AutoCloseable을 확장한 하위 인터페이스입니다. 따라�
   May 19, 2024
 </time>
 
-              <h4 class="pt-0 my-2">예외</h4>
+              <h4 class="pt-0 my-2">Exception 예외?</h4>
               <div class="text-muted">
-                <p>Exception은 프로그램 실행 중 발생하는 예외 상황입니다.
-Exception의 종류에는 checked exception과 unchecked exception 이 있습니다.
+                <p>Exception은 프로그램 실행 중 발생하는 예외 상황으로
+
+Checked exception과 Unchecked exception 이 있다.
+
+
+
+
 
 Checked Exception
-컴파일 시점에 발생하며 컴파일러가 예외처리를 강제합니다
+컴파일 시점에 발생하며 컴파일러가 예외처리를 강제한다.
 
-처리 방법으로는 두 가지가 있습니다.
-try-catch 블록을 사용하는 방법과 thr...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-thread-synchronized/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
+처리 방법에는 두 가지가 있다.
+
+  try-catch 블록을 사용
+  throws 키워드를 사용
 
 
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Thread 구현 동기화와 Lock</h4>
-              <div class="text-muted">
-                <p>스레드 구현
-1. 스레드를 확장해서 런 메서드를 오버라이드 한 후 사용
-public class ThreadExtends extends Thread {
-    private String message;
-
-    public ThreadExtends(String message) {
-        this.message = message;
-    }
-
-  ...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-process-thread/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Process 와 Tread</h4>
-              <div class="text-muted">
-                <p>Process
-운영체제에 의해서 메모리에 올라가 실행 중인 프로그램
-
-
-
-각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없습니다.
-운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 가질 수 있습니다.
-
-프로세스는 최소 하나의 스레드를 갖습니다.
-
-
-  멀티 프로세스
-  여러 개의 프로세스...</p>
+예외가 발...</p>
               </div>
             </div>
           </a>

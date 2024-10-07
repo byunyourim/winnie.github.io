@@ -4,9 +4,9 @@ title: Time API
 categories: [Java]
 ---
 
-# Time API
+## Time API
 
-날짜와 시간을 다루기 위한 API로 자바 8에서 도입되었습니다.
+날짜와 시간을 다루기 위한 API로 자바 8에서 도입되었다.  
 
 
 
@@ -14,7 +14,7 @@ categories: [Java]
 
 
 
-## 주요 클래스
+### 주요 클래스
 - **LocalDate**: 날짜를 표현하는 클래스 (예: 2024-08-11)
 
 - **LocalTime**: 시간(시, 분, 초)을 표현하는 클래스 (예: 14:30:00)
@@ -73,8 +73,8 @@ public class TimeApiExample {
 <br>
 
 
-## LocalDate 클래스
-날짜 정보를 표현하며, 시간 정보는 포함되지 않습니다.  
+### LocalDate 클래스
+날짜 정보를 표현하며, 시간 정보는 포함되지 않는다.  
 
 - **now()**: 현재 날짜 반환
   
@@ -117,8 +117,8 @@ int daysInMonth = date.lengthOfMonth();
 
 
 
-## LocalTime 클래스
-시간 정보를 표현하며, 날짜 정보는 포함되지 않습니다.  
+### LocalTime 클래스
+시간 정보를 표현하며, 날짜 정보는 포함되지 않는다.  
 
 - **now()**: 현재 시간 반환
 
@@ -131,6 +131,8 @@ int daysInMonth = date.lengthOfMonth();
 - **getHour()**: 시 반환
 
 - **toSecondOfDay() & toNanoOfDay()**: 하루의 시작부터 경과된 초 또는 나노초 반환
+
+
 ```java
 LocalTime time = LocalTime.of(15, 30); // 15시 30분
 LocalTime later = time.plusMinutes(15); // 15시 45분
@@ -146,8 +148,8 @@ int secondsOfDay = time.toSecondOfDay();
 
 
 
-## LocalDateTime 클래스
-날짜와 시간 정보를 모두 표현합니다.
+### LocalDateTime 클래스
+날짜와 시간 정보를 모두 표현한다.
 
 - **now()**: 현재 날짜와 시간 반환 
 
@@ -158,6 +160,8 @@ int secondsOfDay = time.toSecondOfDay();
 - **minusHours(long hoursToSubtract)**: 시간 - 시간수
 
 - **getDate(), getTime()**: 날짜와 시간을 분리하여 반환
+
+
 
 ```java
 LocalDateTime dateTime = LocalDateTime.of(2024, 8, 11, 15, 30); // 2024년 8월 11일 15시 30분

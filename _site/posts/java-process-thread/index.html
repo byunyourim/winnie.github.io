@@ -876,9 +876,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="977 words"
+  title="1248 words"
 >
-  <em>5 min</em> read</span>
+  <em>6 min</em> read</span>
 
         </div>
       </div>
@@ -891,66 +891,82 @@
 
 <p><a href="https://github.com/user-attachments/assets/cbcd56d5-167f-4a4f-9bf4-53f20082a4bb" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/cbcd56d5-167f-4a4f-9bf4-53f20082a4bb" alt="process.png" loading="lazy"></a></p>
 
-<p>각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없습니다.<br />
-운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 가질 수 있습니다.</p>
+<p>각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없다.<br />
+운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 갖는다.</p>
 
-<p>프로세스는 최소 하나의 스레드를 갖습니다.</p>
+<p>프로세스는 최소 하나의 스레드를 갖는다.</p>
+
+<p><br /></p>
 
 <blockquote>
   <h3 id="멀티-프로세스"><span class="me-2">멀티 프로세스</span><a href="#멀티-프로세스" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
   <p><strong>여러 개의 프로세스가 동시에 실행되는 것</strong>
-각 프로세스가 독립적인 메모리 공간을 갖기 때문에 하나의 프로세스가 죽어도 다른 프로셋스에 영향을 끼치지 않습니다.<br />
-하지만 독립적인 공간을 갖기 때문에 메모리 사용량이 많고 프로세스 간의 통신이 복잡합니다.</p>
+각 프로세스가 독립적인 메모리 공간을 갖기 때문에 하나의 프로세스가 죽어도 다른 프로셋스에 영향을 끼치지 않는다.<br />
+하지만 독립적인 공간을 갖기 때문에 메모리 사용량이 많고 프로세스 간의 통신이 복잡하다.</p>
 </blockquote>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h1 id="thread">Thread</h1>
 <p><span style="background-color:#D0E4FC"><strong>프로세스 내에서 동시에 실행되는 작업의 단위</strong></span></p>
 
 <p><a href="https://github.com/user-attachments/assets/f45c60fe-28ab-4258-84ca-97d03ab56724" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/f45c60fe-28ab-4258-84ca-97d03ab56724" alt="thread.png" loading="lazy"></a></p>
 
-<p>프로세스 내에서 스택 영역만 따로 할당 받고 그 외의 <strong>코드, 데이터, 힙 영역은 공유</strong>합니다.</p>
+<p>프로세스 내에서 스택 영역만 따로 할당 받고 그 외의 <strong>코드, 데이터, 힙 영역은 공유</strong>한다.</p>
 
-<p>프로세스 내에 존재하며 프로세스가 할당받은 자원을 이용하여 실행됩니다.</p>
+<p>프로세스 내에 존재하며 프로세스가 할당받은 자원을 이용하여 실행된다.</p>
+
+<p><br /></p>
 
 <blockquote>
   <h3 id="멀티-스레드"><span class="me-2">멀티 스레드</span><a href="#멀티-스레드" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-  <p><strong>하나의 프로세스 안에서 여러 개의 스레드가 실행되는 것</strong><br />
-적은 메모리 공간을 차지하고 문맥 전환이 빠르지만 하나의 스레드에 문제가 생기면 전체 스레드가 영향을 받는 동기화 문제가 발생할 수 있습니다.</p>
+  <p><strong>하나의 프로세스 안에서 여러 개의 스레드가 병렬적으로 실행되는 방식</strong>  <br />
+CPU 자원을 효율적으로 사용할 수 있고, 응용 프로그램의 성능을 향상시킬 수 있다.<br />
+여러 스레드가 하나의 프로세스 내에서 실행되기 때문에, 각 스레드는 별도의 메모리 공간을 할당받지 않고, 프로세스의 자원을 공유한다.<br />
+프로세스 간 문맥 전환에 비해, 스레드 간 문맥 전환이 빨라 성능이 좋다.
+하지만, 하나의 스레드에 문제가 발생하면 전체 스레드가 영향을 받는 동기화 문제가 발생할 수 있다.</p>
 </blockquote>
 
 <blockquote>
   <h3 id="멀티-스레드-환경에서의-주의사항"><span class="me-2">멀티 스레드 환경에서의 주의사항</span><a href="#멀티-스레드-환경에서의-주의사항" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-  <p>다수의 스레드가 공유 자원에 동시에 접근하게 되는 경우, 동시성 문제 또는 데드락에 빠지지 않도록 주의해야 합니다.</p>
+  <p>다수의 스레드가 공유 자원에 동시에 접근하게 되는 경우, 동시성 문제가 발생할 수 있다. <br />
+이를 해결하기 위해 동기화 메커니즘을 사용하여 자원의 일관성을 보장해야 한다.<br />
+두 개 이상의 스레드가 서로 자원을 점유한 상태에서 다른 스레드가 사용 중인 자원을 무한정으로 대기하는 데드락에 빠질 수 있다.<br />
+데드락을 방지하기 위해서는 자원 획득 순서나 락을 걸어야 한다.</p>
 </blockquote>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="멀티-스레드의-동시성과-병렬성"><span class="me-2">멀티 스레드의 동시성과 병렬성</span><a href="#멀티-스레드의-동시성과-병렬성" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>동시성은 싱글 코어에서 멀티 작업을 위해 여러 개의 스레드를 실행하는 것을 말합니다.만</p>
+<p>동시성은 싱글 코어에서 멀티 작업을 위해 여러 개의 스레드를 실행하는 것이다.</p>
 
-<p>동시에 여러 개의 스레드를 실행하는 것으로 보이지만 실제로는 시분할로 빠르게 번갈아 가면서 실행됩니다.<br />
-스레드가 교대로 공유 자원에 접근하게 되는데 이로 인해섯 데이터의 일관성 문제가 발생할 수 있습니다.</p>
+<p>동시에 여러 개의 스레드를 실행하는 것으로 보이지만 실제로는 시분할로 빠르게 번갈아 가면서 실행된다.<br />
+스레드가 교대로 공유 자원에 접근하게 되는데, 이로 인해 데이터의 일관성 문제가 발생할 수 있다.</p>
 
 <h4 id="1-작업-교대의-불예측성"><span class="me-2">1. 작업 교대의 불예측성</span><a href="#1-작업-교대의-불예측성" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>스레드 스케줄링을 예측할 수 없고 언제든지 다른 스레드로 작업이 교체될 수 있습니다.<br />
-이로 인해서 스레드가 공유자원에 접근하고 있는 도중에 다른 스레드가 그 자원에 접근하게 되면, 데이터의 일관성이 깨질 수 있습니다.</p>
+<p>스레드 스케줄링을 예측할 수 없고, 언제든지 다른 스레드로 작업이 교체될 수 있다.<br />
+이로 인해서 스레드가 공유자원에 접근하고 있는 도중에, 다른 스레드가 그 자원에 접근하게 되면, 데이터의 일관성이 깨질 수 있다.</p>
 
 <h4 id="2-중간상태의-노출"><span class="me-2">2. 중간상태의 노출</span><a href="#2-중간상태의-노출" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>한 스레드가 공유 자원을 업데이트하는 동안 다른 스레드가 그 자원을 읽거나 수정할 수 있습니다. <br />
-만약첫 번째 스레드가 아직 작업을 완료하지 않은 상태에서 두 번째 스레드가 자원에 접근하면, 두 번째 스레드는 불완전한 중간 상태의 데이터에 접근하게 됩니.</p>
+<p>한 스레드가 공유 자원을 업데이트하는 동안 다른 스레드가 그 자원을 읽거나 수정할 수 있다.<br />
+만약 첫 번째 스레드가 아직 작업을 완료하지 않은 상태에서 두 번째 스레드가 자원에 접근하면, 두 번째 스레드는 불완전한 중간 상태의 데이터에 접근하게 된다.</p>
 
 <h4 id="3-경쟁-상태"><span class="me-2">3. 경쟁 상태</span><a href="#3-경쟁-상태" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>경쟁상태는 여러 스레드가 동시에 공유자원에 접근하여 그 자원을 변경하려고 할 때 발생합니다.</p>
+<p>경쟁상태는 여러 스레드가 동시에 공유자원에 접근하여 그 자원을 변경하려고 할 때 발생한다.</p>
 
-<p>두 스레드가 동시에 변수를 증가시키려고 하면 각각의 스레드가 읽고 수정하는 과정에서 서로의 작업을 덮어쓰기할 수 있습니다.</p>
+<p>두 스레드가 동시에 변수를 증가시키려고 하면 각각의 스레드가 읽고 수정하는 과정에서 서로의 작업을 덮어쓰기할 수 있다.</p>
+
+<p><br /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="code-header">
         <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre></td><td class="rouge-code"><pre>병렬성은 멀티 코어에서 멀티작업을 위해 한 개 이상의 스레드를 포함하는 코어들을 동시에 실행하는 것입니다.
+2
+</pre></td><td class="rouge-code"><pre>병렬성은 멀티 코어에서 다중 작업을 처리하기 위해 여러 개의 스레드를 동시에 실행하는 것이다.  
+즉, 여러 코어가 독립적으로 스레드를 실행하기 때문에, 각 스레드는 물리적으로 동시에 실행된다.  
 </pre></td></tr></tbody></table></code></div></div>
+
+<p>동시성은 주로 작업을 교대로 실행하는 것에 중점을 두고, 병렬성은 실제로 동시에 실행되는 점에서 차이가 있다.</p>
 
 
   </div>
@@ -1035,6 +1051,13 @@
     </div>
     <!-- .post-tail-bottom -->
   </div>
+  <script src="https://utteranc.es/client.js"
+          repo="byunyourim/comments"
+          issue-term="pathname"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
   <!-- div.post-tail-wrapper -->
 </article>
 
@@ -1068,6 +1091,27 @@
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
@@ -1076,27 +1120,6 @@
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Spring-DI/">Dependency Injection</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1233,43 +1256,7 @@
   
 
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
     
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   
 
   
@@ -1609,6 +1596,80 @@
     <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
       
         <article class="col">
+          <a href="/posts/java-generic/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716998400"
+  data-df="ll"
+  
+>
+  May 30, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Generic 제네릭</h4>
+              <div class="text-muted">
+                <p>Generic
+데이터 타입을 일반화하여 클래스, 인터페이스, 메서드를 정의할 때 사용하는 기능
+
+클래스나 메서드를 선언할 때 타입을 명시적으로 지정하지 않고, 사용하는 시점에 실제 타입을 지정할 수 있다.
+
+제네릭을 이용하여 특정 타입에 의존하지 않고 데이터 구조나 알고리즘을 정의할 수 있으며, 코드의 재사용성과 타입 안정성을 향상 시킬 수 있다.
+
+...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/java-inherited/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716480000"
+  data-df="ll"
+  
+>
+  May 24, 2024
+</time>
+
+              <h4 class="pt-0 my-2">상속과 다형성</h4>
+              <div class="text-muted">
+                <p>상속
+상위 클래스의 기능을 하위클래스로 확장하는 것
+하위 클래스는 상위 클래스의 속성과 메서드를 사용할 수 있고 확장하거나 변경하여 사용할 수 있다.
+
+
+
+다형성
+부모 클래스나 인터페이스 타입의 참조 변수를 통해 여러 자식 클래스의 객체를 다룰 수 있는 특징
+
+메서드 오버라이딩을 통해 구현되며 실제 메서드 호출은 실행 시간에 결정된다.
+
+컴파일 시간의...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
           <a href="/posts/java-exception/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1628,116 +1689,26 @@
   May 19, 2024
 </time>
 
-              <h4 class="pt-0 my-2">예외</h4>
+              <h4 class="pt-0 my-2">Exception 예외?</h4>
               <div class="text-muted">
-                <p>Exception은 프로그램 실행 중 발생하는 예외 상황입니다.
-Exception의 종류에는 checked exception과 unchecked exception 이 있습니다.
+                <p>Exception은 프로그램 실행 중 발생하는 예외 상황으로
+
+Checked exception과 Unchecked exception 이 있다.
+
+
+
+
 
 Checked Exception
-컴파일 시점에 발생하며 컴파일러가 예외처리를 강제합니다
+컴파일 시점에 발생하며 컴파일러가 예외처리를 강제한다.
 
-처리 방법으로는 두 가지가 있습니다.
-try-catch 블록을 사용하는 방법과 thr...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-thread-synchronized/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
+처리 방법에는 두 가지가 있다.
+
+  try-catch 블록을 사용
+  throws 키워드를 사용
 
 
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Thread 구현 동기화와 Lock</h4>
-              <div class="text-muted">
-                <p>스레드 구현
-1. 스레드를 확장해서 런 메서드를 오버라이드 한 후 사용
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-public class ThreadExtends extends Thread {
-    private String message;
-
-    publi...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-string/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1715702400"
-  data-df="ll"
-  
->
-  May 15, 2024
-</time>
-
-              <h4 class="pt-0 my-2">String 객체를 선언하는 방법</h4>
-              <div class="text-muted">
-                <p>String 을 선언하는 방법에는 두 가지 방법이 있습니다.
-
-두 방식은 저장 공간(메모리)에 차이가 있습니다.
-
-
-
-리터럴로 선언
-리터럴로 선언하는 경우 문자열을 String Constant pool에 저장합니다.
-따라서 메모리의 효율이 높습니다.
-
-리터럴을 사용하여 생성할 때 상수 풀에 같은 값이 존재하면 객체는 이미 존재하는 값을 참조합니다.
-딷...</p>
+예외가 발...</p>
               </div>
             </div>
           </a>

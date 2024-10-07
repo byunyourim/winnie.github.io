@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="StringBuffer StringBuilder" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="StringBuffer StringBuilder StringBuffer StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스입니다." />
-<meta property="og:description" content="StringBuffer StringBuilder StringBuffer StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스입니다." />
+<meta name="description" content="StringBuffer &amp; StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스이다." />
+<meta property="og:description" content="StringBuffer &amp; StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스이다." />
 <link rel="canonical" href="http://localhost:4000/posts/java-StringBuffer-StringBuilder/" />
 <meta property="og:url" content="http://localhost:4000/posts/java-StringBuffer-StringBuilder/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="StringBuffer StringBuilder" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-06-18T00:00:00+08:00","description":"StringBuffer StringBuilder StringBuffer StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스입니다.","headline":"StringBuffer StringBuilder","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-StringBuffer-StringBuilder/"},"url":"http://localhost:4000/posts/java-StringBuffer-StringBuilder/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-06-18T00:00:00+08:00","description":"StringBuffer &amp; StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스이다.","headline":"StringBuffer StringBuilder","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-StringBuffer-StringBuilder/"},"url":"http://localhost:4000/posts/java-StringBuffer-StringBuilder/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -530,6 +530,32 @@
 
       
     
+
+    
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
       
 
       
@@ -604,10 +630,26 @@
   
 
   
+    
+    
 
-  
-  
+    
+      
+        
+        
+      
 
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
   
 
   
@@ -720,9 +762,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1322 words"
+  title="1208 words"
 >
-  <em>7 min</em> read</span>
+  <em>6 min</em> read</span>
 
         </div>
       </div>
@@ -730,64 +772,93 @@
   </header>
 
   <div class="content">
-    <h2 id="stringbuffer-stringbuilder"><span class="me-2">StringBuffer StringBuilder</span><a href="#stringbuffer-stringbuilder" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>StringBuffer StringBuilder 둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스입니다.</p>
+    <h2 id="stringbuffer--stringbuilder"><span class="me-2">StringBuffer &amp; StringBuilder</span><a href="#stringbuffer--stringbuilder" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>둘 다 가변 길이 문자열을 처리하는 데 사용되는 클래스이다.</p>
 
-<p>StringBuffer 동기화가 적용되어 있으며 thread-safe 로 멀티 스레드 환경에서 StringBuffer 인스턴스에 접근할 때 안전하게 사용할 수  있습니다.
-여러 스레드가 동시에 문자열을 수정하는 경우에 사용됩니다. 예를 들어 멀티 스레드 환경에서 공유 문자열을 처리하는 경우 사용됩니다.
+<p><br /></p>
+
+<h3 id="stringbuffer"><span class="me-2">StringBuffer</span><a href="#stringbuffer" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>동기화가 적용되어 있으며 thread-safe 로 멀티 스레드 환경에서 StringBuffer 인스턴스에 접근할 때 안전하다.</p>
+
+<p>여러 스레드가 동시에 문자열을 수정해야 하는 경우 사용된다.<br />
+예를 들어 멀티 스레드 환경에서 공유 문자열을 처리하는 경우 사용할 수 있다.<br />
 <script src="https://gist.github.com/byunyourim/e1e56c08b6168c66d7324a03d3c1dc3c.js"></script></p>
 
-<p>StringBuilder 은 내부적으로 동기화가 적용되어 있지 않습니다. 따라서 멀티 스레드 환경에서 안전하지 않습니다.
-단일 스레드 환경에서 문자열을 수정할 때 사용되며 성능이 중요하고 thread-safe 가 필요하지 않은 경우 사용하는 것이 좋습니다.
+<p><br /></p>
+
+<h3 id="stringbuilder"><span class="me-2">StringBuilder</span><a href="#stringbuilder" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>내부적으로 동기화가 적용되어 있지 않기 때문에 멀티 스레드 환경에서 안전하지 않다.</p>
+
+<p>단일 스레드 환경에서 문자열을 수정할 때 사용되며 성능이 중요하고 thread-safe가 필요하지 않은 경우 사용하는 것이 좋다.<br />
 <script src="https://gist.github.com/byunyourim/3bc688cd74be0b6d4bf57f4b28300be4.js"></script></p>
 
-<h2 id="stringbuilder-가-단일-스레드-환경에서-사용하기-적합한-이유"><span class="me-2">StringBuilder 가 단일 스레드 환경에서 사용하기 적합한 이유</span><a href="#stringbuilder-가-단일-스레드-환경에서-사용하기-적합한-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>StringBuilder 가 단일 스레드 환경에 적합한 이유는 동기화로 인한 오버헤드가 없기 때문입니다. 따라서 단일 스레드환경에서 빠릅니다.
-동기화는 메서드 호출시마다 추가적인 검사와 잠금 획득 및 해제를 필요로 하여 성능을 저하시킬 수 있습니다.
-따라서 동기화가 없는 StringBuilder 이 더 빠르게 실행됩니다.
-동기화가 앖는 만큼 StringBuilder 의 메서드들은 더 간단하고 경량화되어 빠른 실행이 가능하며 StringBuffer 보다 더 적은 자원을 소모합니다.</p>
+<p><br /><br /><br /></p>
 
-<h2 id="불변성"><span class="me-2">불변성</span><a href="#불변성" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>불변성은 객체가 한 번 생성된 후로 상태를 바꿀 수 없는 성질을 말합니다.
-그렇기 때문에 여러 스레드가 동시에 읽어도 안전하며 상태가 변하지 않기 때문에 동기화 처리가 없어도 여러 스레드가 동시에 접근할 수 있습니다.
-또한 불변 객체는 변경될 일이 없기 때문에 캐싱하여 재사용할 수 있습니다. 따라서 메모리의 사용을 높일 수 있습니다.</p>
+<blockquote>
+  <h4 id="stringbuilder-가-단일-스레드-환경에서-사용하기-적합한-이유"><span class="me-2">StringBuilder 가 단일 스레드 환경에서 사용하기 적합한 이유</span><a href="#stringbuilder-가-단일-스레드-환경에서-사용하기-적합한-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>동기화로 인한 오버헤드가 없어, 단일 스레드 환경에서 빠르다.
+동기화는 메서드 호출시마다 추가적인 검사와 잠금 획득 및 해제를 필요로 하여 성능을 저하시킬 수 있다.</p>
 
-<p>StringBuilder 는 가변 객체로 불변 객체와 반대되는 개념입니다.
-StringBuidler 은 내부 상태를 변경할 수 있으며 그 과정에서 내부 배열을 재사용합니다. 새로운 객체를 생성하지 않고 문자열 수정이 가능합니다.
-따라서 성능 측면에서는 유리할 수 있지만 멀티 스레드 환경에서는 주의해야 합니다.</p>
+  <p>따라서 동기화가 없는 StringBuilder가 더 빠르게 실행된다.   <br />
+동기화가 앖는 만큼 StringBuilder의 메서드들은 더 간단하고 경량화되어 빠른 실행이 가능하며, StringBuffer 보다 더 적은 자원을 소모한다.</p>
+</blockquote>
 
-<h2 id="stringbuilder를-멀티-스레드-환경에서-안전하게-사용하려면"><span class="me-2">StringBuilder를 멀티 스레드 환경에서 안전하게 사용하려면</span><a href="#stringbuilder를-멀티-스레드-환경에서-안전하게-사용하려면" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>StringBuilder 를 멀티스레드 환경에서 안전하게 사용하기 위해서는 외부에서 동기화 처리를 해주어야 합니다.</p>
+<p><br /><br /><br /></p>
 
-<p>동기화 처리 방법에는 synchronized 와 Lock  있습니다.
-내부적으로 동기화 처리가 되어있는 StringBuffer을 사용하는 방법도 있습니다.</p>
+<h3 id="불변성"><span class="me-2">불변성</span><a href="#불변성" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p><strong>객체가 한 번 생성된 후로 상태를 바꿀 수 없는 성질</strong>로 여러 스레드가 동시에 읽어도 안전하며 상태가 변하지 않는다.<br />
+따라서 동기화 처리가 없어도 여러 스레드가 동시에 접근할 수 있다.</p>
 
-<h2 id="reentrantlock과-synchronized"><span class="me-2">ReentrantLock과 Synchronized?</span><a href="#reentrantlock과-synchronized" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>ReentrantLock과 Synchronized 둘 다 자바에서 동기화를 제공하지만 사용법과 기능 측면에서 차이가 있습니다.</p>
+<p>또한 불변 객체는 변경될 일이 없기 때문에 캐싱하여 재사용할 수 있으며, 따라서 메모리의 사용을 높일 수 있다.</p>
 
-<p>synchronized 키워드는 블록이나 메서드 수준에서 동기화가 가능합니다. 자동으로 락을 획득하고 해제합니다.
-사용이 간단하며 가독성이 좋습니다.
+<p>StringBuilder는 가변 객체로 불변 객체와 반대되는 개념이다.</p>
+
+<p>StringBuidler은 내부 상태를 변경할 수 있으며 그 과정에서 내부 배열을 재사용한다. 새로운 객체를 생성하지 않고 문자열 수정이 가능하다.
+따라서 성능 측면에서는 유리할 수 있지만 멀티 스레드 환경에서는 주의해야 한다.</p>
+
+<p><br /><br /><br /></p>
+
+<h3 id="stringbuilder를-멀티-스레드-환경에서-안전하게-사용하기-위해서는"><span class="me-2">StringBuilder를 멀티 스레드 환경에서 안전하게 사용하기 위해서는</span><a href="#stringbuilder를-멀티-스레드-환경에서-안전하게-사용하기-위해서는" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>외부에서 동기화 처리를 해주어야 한다.</p>
+
+<p>동기화 처리 방법에는 synchronized 와 Lock이 있으며, 
+내부적으로 동기화 처리가 되어있는 StringBuffer을 사용하는 방법도 있다.</p>
+
+<p><br /><br /><br /></p>
+
+<h3 id="reentrantlock과-synchronized"><span class="me-2">ReentrantLock과 Synchronized?</span><a href="#reentrantlock과-synchronized" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>ReentrantLock과 Synchronized 둘 다 자바에서 동기화를 제공하지만 사용법과 기능 측면에서 차이가 있다.</p>
+
+<p><strong>synchronized 키워드</strong>는 블록이나 메서드 수준에서 동기화가 가능하다. 자동으로 락을 획득하고 해제한다.
+사용이 간단하며 가독성이 좋다.
 <script src="https://gist.github.com/byunyourim/d522eee32b0670d90a681e5929975f23.js"></script></p>
 
-<p>ReentrantLock 클랫스는 명시적으로 락을 획득하고 해제하는 작업이 필요합니다.
-타임아웃을 지정할 수 있으며 Condition 객체를 사용하여 보다 세밀한 스레드 제어가 가능하며 공정성을 설정할 수 있습니다.
-복잡한 동기화 요구에 적합하지만 코드가 복잡해질 수 있습니다.
+<p><br /><br /></p>
+
+<p><strong>ReentrantLock 클래스</strong>는 명시적으로 락을 획득하고 해제하는 작업이 필요하다.
+타임아웃을 지정할 수 있으며 Condition 객체를 사용하여 보다 세밀한 스레드 제어가 가능하고 공정성을 설정할 수 있다.
+복잡한 동기화 요구에 적합하지만 코드가 복잡해질 수 있다.
 <script src="https://gist.github.com/byunyourim/29938a19d1b22b786230fdc2fd6493c9.js"></script></p>
 
-<h2 id="reentrantlock의-await-와-signal"><span class="me-2">ReentrantLock의 await 와 signal</span><a href="#reentrantlock의-await-와-signal" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>ReentrantLock 클래스는 Condition 객체를 통 스레드 간에 특정한 조건을 기다리고 신호를 보내는 기능을 제공합니다.해
-await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레드가 signal() 또는 signalAll() 을 호출할 때까지 기다립니다.</p>
+<p><br /><br /><br /></p>
 
-<p>singnal() 메서드는 하나의 대기 중인 스레드에게만 신호를 보냅니다. 일반적으로 상태가변경되어 하나의 스레만 깨어나야할 때 사용됩니다.
-공유 자원의 상태가 특정 조건을 만족할 때까지 대기하도록 스레드를 설정하는 경우 사용됩니다.
+<h3 id="reentrantlock의-await-와-signal"><span class="me-2">ReentrantLock의 await 와 signal</span><a href="#reentrantlock의-await-와-signal" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>ReentrantLock 클래스는 Condition 객체를 통해 스레드 간에 특정한 조건을 기다리고 신호를 보내는 기능을 제공한다.</p>
+
+<p>await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레드가 signal() 또는 signalAll() 을 호출할 때까지 기다린다.</p>
+
+<p>singnal() 메서드는 하나의 대기 중인 스레드에게만 신호를 보낸다. <br />
+일반적으로 상태가 변경되어 하나의 스레만 깨어나야 할 때 사용된다.<br />
+공유 자원의 상태가 특정 조건을 만족할 때까지 대기하도록 스레드를 설정하는 경우 사용된다.<br />
 <script src="https://gist.github.com/byunyourim/abc5c521cbbb8b597e7ca4587f021613.js"></script></p>
 
-<h2 id="stringbuffer의-동기화"><span class="me-2">StringBuffer의 동기화</span><a href="#stringbuffer의-동기화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>StringBuffer 은 내부적으로 동기화 처리가 되어있습니다.
-따라서 멀티 스레드 환경에서 안전하게 사용이 가능합니다.</p>
+<p><br /><br /><br /></p>
 
-<p>하지만 모든 메서드 동기화 되며 단일 스레드 환경에서도 불필요한 락을 걸고 해제하기 때문에 오버헤드가 발생할 수 있습니다.
-복잡 스레드 상호작용 과정에서 데드락이 발생할 수 있으며 synchronized 는 블록과 메서드 수준에서만 사용이 가능하기 때문에 세밀한 제어가 어려울 수 있습니다.</p>
+<h3 id="stringbuffer의-동기화"><span class="me-2">StringBuffer의 동기화</span><a href="#stringbuffer의-동기화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>StringBuffer 은 내부적으로 동기화 처리가 되어있어 멀티 스레드 환경에서 안전하게 사용이 가능하다.</p>
+
+<p>하지만 모든 메서드가 동기화 되며 단일 스레드 환경에서도 불필요한 락을 걸고 해제하기 때문에 오버헤드가 발생할 수 있다.
+복잡한 스레드 상호 작용 과정에서 데드락이 발생할 수 있으며, synchronized는 블록과 메서드 수준에서만 사용이 가능하기 때문에 세밀한 제어가 어려울 수 있다.</p>
 
   </div>
 
@@ -871,6 +942,13 @@ await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레
     </div>
     <!-- .post-tail-bottom -->
   </div>
+  <script src="https://utteranc.es/client.js"
+          repo="byunyourim/comments"
+          issue-term="pathname"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
   <!-- div.post-tail-wrapper -->
 </article>
 
@@ -904,6 +982,27 @@ await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
@@ -912,27 +1011,6 @@ await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Spring-DI/">Dependency Injection</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1005,42 +1083,6 @@ await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레
 
 
 
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
 
@@ -1445,6 +1487,80 @@ await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레
     <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
       
         <article class="col">
+          <a href="/posts/java-generic/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716998400"
+  data-df="ll"
+  
+>
+  May 30, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Generic 제네릭</h4>
+              <div class="text-muted">
+                <p>Generic
+데이터 타입을 일반화하여 클래스, 인터페이스, 메서드를 정의할 때 사용하는 기능
+
+클래스나 메서드를 선언할 때 타입을 명시적으로 지정하지 않고, 사용하는 시점에 실제 타입을 지정할 수 있다.
+
+제네릭을 이용하여 특정 타입에 의존하지 않고 데이터 구조나 알고리즘을 정의할 수 있으며, 코드의 재사용성과 타입 안정성을 향상 시킬 수 있다.
+
+...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/java-inherited/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1716480000"
+  data-df="ll"
+  
+>
+  May 24, 2024
+</time>
+
+              <h4 class="pt-0 my-2">상속과 다형성</h4>
+              <div class="text-muted">
+                <p>상속
+상위 클래스의 기능을 하위클래스로 확장하는 것
+하위 클래스는 상위 클래스의 속성과 메서드를 사용할 수 있고 확장하거나 변경하여 사용할 수 있다.
+
+
+
+다형성
+부모 클래스나 인터페이스 타입의 참조 변수를 통해 여러 자식 클래스의 객체를 다룰 수 있는 특징
+
+메서드 오버라이딩을 통해 구현되며 실제 메서드 호출은 실행 시간에 결정된다.
+
+컴파일 시간의...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
           <a href="/posts/java-exception/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1464,93 +1580,26 @@ await() 메서드는 현재 스레드를 일시적으로 멈추고 다른 스레
   May 19, 2024
 </time>
 
-              <h4 class="pt-0 my-2">예외</h4>
+              <h4 class="pt-0 my-2">Exception 예외?</h4>
               <div class="text-muted">
-                <p>Exception은 프로그램 실행 중 발생하는 예외 상황입니다.
-Exception의 종류에는 checked exception과 unchecked exception 이 있습니다.
+                <p>Exception은 프로그램 실행 중 발생하는 예외 상황으로
+
+Checked exception과 Unchecked exception 이 있다.
+
+
+
+
 
 Checked Exception
-컴파일 시점에 발생하며 컴파일러가 예외처리를 강제합니다
+컴파일 시점에 발생하며 컴파일러가 예외처리를 강제한다.
 
-처리 방법으로는 두 가지가 있습니다.
-try-catch 블록을 사용하는 방법과 thr...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-thread-synchronized/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
+처리 방법에는 두 가지가 있다.
+
+  try-catch 블록을 사용
+  throws 키워드를 사용
 
 
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Thread 구현 동기화와 Lock</h4>
-              <div class="text-muted">
-                <p>스레드 구현
-1. 스레드를 확장해서 런 메서드를 오버라이드 한 후 사용
-public class ThreadExtends extends Thread {
-    private String message;
-
-    public ThreadExtends(String message) {
-        this.message = message;
-    }
-
-  ...</p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
-          <a href="/posts/java-process-thread/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1715875200"
-  data-df="ll"
-  
->
-  May 17, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Process 와 Tread</h4>
-              <div class="text-muted">
-                <p>Process
-운영체제에 의해서 메모리에 올라가 실행 중인 프로그램
-
-
-
-각각의 프로세스마다 독립적인 메모리 공간을 가지며, 다른 프로세스의 메모리 공간에 접근할 수 없습니다.
-운영체제에 의해 메모리, 입출력 장치 등의 자원을 할당받으며 상태를 가질 수 있습니다.
-
-프로세스는 최소 하나의 스레드를 갖습니다.
-
-
-  멀티 프로세스
-  여러 개의 프로세스...</p>
+예외가 발...</p>
               </div>
             </div>
           </a>
