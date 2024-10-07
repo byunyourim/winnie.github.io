@@ -1,17 +1,17 @@
 
 
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <id>https://winnie.github.io/</id>
+  <id>http://localhost:4000/</id>
   <title>winnie's Tech Blog</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하</subtitle>
-  <updated>2024-10-03T01:04:09+08:00</updated>
+  <updated>2024-10-07T13:45:35+08:00</updated>
   <author>
     <name>winnie</name>
-    <uri>https://winnie.github.io/</uri>
+    <uri>http://localhost:4000/</uri>
   </author>
-  <link rel="self" type="application/atom+xml" href="https://winnie.github.io/feed.xml"/>
+  <link rel="self" type="application/atom+xml" href="http://localhost:4000/feed.xml"/>
   <link rel="alternate" type="text/html" hreflang="en"
-    href="https://winnie.github.io/"/>
+    href="http://localhost:4000/"/>
   <generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator>
   <rights> © 2024 winnie </rights>
   <icon>/assets/img/favicons/favicon.ico</icon>
@@ -20,14 +20,56 @@
 
   
   <entry>
+    <title>GC(Garbage Collection)란?</title>
+    <link href="http://localhost:4000/posts/java-gc/" rel="alternate" type="text/html" title="GC(Garbage Collection)란?" />
+    <published>2024-10-05T00:00:00+08:00</published>
+  
+    <updated>2024-10-05T00:00:00+08:00</updated>
+  
+    <id>http://localhost:4000/posts/java-gc/</id>
+    <content src="http://localhost:4000/posts/java-gc/" />
+    <author>
+      <name>winnie</name>
+    </author>
+
+  
+    
+    <category term="Java" />
+    
+  
+
+  <summary>프로그래밍 언어에서 자동으로 메모리를 관리하는 기능이다.
+
+객체를 더 이상 사용하지 않을 때 그 객체를 메모리에서 자동으로 해제하여 메모리 누수를 방지한다.
+
+개발자가 메모리를 직접 관리할 필요가 없어, 메모리 할당과 해제를 자동으로 처리하여 오류를 줄인다.
+메모리 누수와 이중 해제 등 메모리 관련 버그를 줄여 프로그램의 안정성을 높이며, 메모리 공간을 효율적으로 사용할 수 있도록 한다.
+
+GC는 크게 두 가지 메모리 영역에서 동작한다.
+
+  Young Generation (Young 영역)
+  Old Generation (Old 영역)
+
+
+
+
+JVM 메모리 구조
+
+  Eden Space: 새롭게 생성된 객체가 우선 저장되는 공간.
+  Survivor Space: Eden 영역에서 살아남은 객체가 이동...</summary>
+
+  </entry>
+
+  
+  <entry>
     <title>JIT 컴파일러?</title>
-    <link href="https://winnie.github.io/posts/java-jit_compiler/" rel="alternate" type="text/html" title="JIT 컴파일러?" />
+    <link href="http://localhost:4000/posts/java-jit_compiler/" rel="alternate" type="text/html" title="JIT 컴파일러?" />
     <published>2024-10-01T00:00:00+08:00</published>
   
     <updated>2024-10-03T00:51:05+08:00</updated>
   
-    <id>https://winnie.github.io/posts/java-jit_compiler/</id>
-    <content src="https://winnie.github.io/posts/java-jit_compiler/" />
+    <id>http://localhost:4000/posts/java-jit_compiler/</id>
+    <content src="http://localhost:4000/posts/java-jit_compiler/" />
     <author>
       <name>winnie</name>
     </author>
@@ -66,13 +108,13 @@
   
   <entry>
     <title>쿠키, 세션 그리고 토큰 인증</title>
-    <link href="https://winnie.github.io/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/" rel="alternate" type="text/html" title="쿠키, 세션 그리고 토큰 인증" />
+    <link href="http://localhost:4000/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/" rel="alternate" type="text/html" title="쿠키, 세션 그리고 토큰 인증" />
     <published>2024-09-28T00:00:00+08:00</published>
   
     <updated>2024-10-03T00:51:05+08:00</updated>
   
-    <id>https://winnie.github.io/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/</id>
-    <content src="https://winnie.github.io/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/" />
+    <id>http://localhost:4000/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/</id>
+    <content src="http://localhost:4000/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/" />
     <author>
       <name>winnie</name>
     </author>
@@ -106,13 +148,13 @@ key=value 형식의 문자열 데이터 묶음으로,
   
   <entry>
     <title>HTTP (Hyper Text Transfer Protocol)</title>
-    <link href="https://winnie.github.io/posts/network-http/" rel="alternate" type="text/html" title="HTTP (Hyper Text Transfer Protocol)" />
+    <link href="http://localhost:4000/posts/network-http/" rel="alternate" type="text/html" title="HTTP (Hyper Text Transfer Protocol)" />
     <published>2024-09-25T00:00:00+08:00</published>
   
     <updated>2024-10-03T00:51:05+08:00</updated>
   
-    <id>https://winnie.github.io/posts/network-http/</id>
-    <content src="https://winnie.github.io/posts/network-http/" />
+    <id>http://localhost:4000/posts/network-http/</id>
+    <content src="http://localhost:4000/posts/network-http/" />
     <author>
       <name>winnie</name>
     </author>
@@ -144,13 +186,13 @@ key=value 형식의 문자열 데이터 묶음으로,
   
   <entry>
     <title>버블 정렬 Bubble Sort 알고리즘</title>
-    <link href="https://winnie.github.io/posts/algorithm-bubble-sort/" rel="alternate" type="text/html" title="버블 정렬 Bubble Sort 알고리즘" />
+    <link href="http://localhost:4000/posts/algorithm-bubble-sort/" rel="alternate" type="text/html" title="버블 정렬 Bubble Sort 알고리즘" />
     <published>2024-09-25T00:00:00+08:00</published>
   
     <updated>2024-10-03T00:51:05+08:00</updated>
   
-    <id>https://winnie.github.io/posts/algorithm-bubble-sort/</id>
-    <content src="https://winnie.github.io/posts/algorithm-bubble-sort/" />
+    <id>http://localhost:4000/posts/algorithm-bubble-sort/</id>
+    <content src="http://localhost:4000/posts/algorithm-bubble-sort/" />
     <author>
       <name>winnie</name>
     </author>
@@ -184,45 +226,6 @@ key=value 형식의 문자열 데이터 묶음으로,
 public class 버블정렬 {
     public static void main(String[] args) {
         int[] array = ...</summary>
-
-  </entry>
-
-  
-  <entry>
-    <title>LRU(Least Recently Used)Cache 알고리즘</title>
-    <link href="https://winnie.github.io/posts/algorithm-lru/" rel="alternate" type="text/html" title="LRU(Least Recently Used)Cache 알고리즘" />
-    <published>2024-09-13T00:00:00+08:00</published>
-  
-    <updated>2024-10-03T00:51:05+08:00</updated>
-  
-    <id>https://winnie.github.io/posts/algorithm-lru/</id>
-    <content src="https://winnie.github.io/posts/algorithm-lru/" />
-    <author>
-      <name>winnie</name>
-    </author>
-
-  
-    
-    <category term="Algorithm" />
-    
-  
-
-  <summary>캐시는 데이터나 값을 미리 복사해 놓는 임시 저장소를 말한다.
-데이터를 접근하는 시간이 오래 걸리는 경우나 값을 다시 계산하는 시간을 절약하고 싶은 경우 사용한다.
-캐시에 데이터를 미리 복사해 놓으면 계산이나 접근 없이 더 빠른 속도로 데이터에 접근이 가능하다.
-
-
-
-LRU (Least Recently Used)
-가장 최근에 사용되지 않은 데이터를 제거하는 방식
-
-빠른 접근과, 업데이터가 가능하지만 많ㄱ은 공간을 차지한다는 단점이 있다.
-
-새로운 데이터가 캐시에 저장될 때, 캐시에 있는 데이터에 접근할 때마다 해당 데이터를
-가장 최근에 사용된 데이터로 표시하고 가장 오래 전에 사용된 데이터를 제거한다.
-따라서 가장 최근에 사용된 데이터를 캐시에 보존한다.
-
-이중 연결 리스트나 해시 맵과 같은 자료 구조...</summary>
 
   </entry>
 

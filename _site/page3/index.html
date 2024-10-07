@@ -34,16 +34,16 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하" />
 <meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하" />
-<link rel="canonical" href="https://winnie.github.io/page3/" />
-<meta property="og:url" content="https://winnie.github.io/page3/" />
+<link rel="canonical" href="http://localhost:4000/page3/" />
+<meta property="og:url" content="http://localhost:4000/page3/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
 <meta property="og:type" content="website" />
-<link rel="prev" href="https://winnie.github.io/page2" />
-<link rel="next" href="https://winnie.github.io/page4" />
+<link rel="prev" href="http://localhost:4000/page2" />
+<link rel="next" href="http://localhost:4000/page4" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="winnie’s Tech Blog" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하","headline":"winnie’s Tech Blog","url":"https://winnie.github.io/page3/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하","headline":"winnie’s Tech Blog","url":"http://localhost:4000/page3/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -239,7 +239,7 @@
 
 <aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
   <header class="profile-wrapper">
-    <a href="/" id="avatar" class="rounded-circle"><img src="https://chirpy-img.netlify.app/assets/img/pinggu.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
+    <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/pinggu.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
 
     <a class="site-title d-block" href="/">winnie's Tech Blog</a>
     <p class="site-subtitle fst-italic mb-0">Why? 생각하자</p>
@@ -537,75 +537,6 @@
 
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
-  
-    <article class="card-wrapper card">
-      <a href="/posts/jvm/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">JVM 내부 동작 원리</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>JDK (Java Development Kit)
-소프트웨어 개발 도구
-
-JRE (Java Runtime Environment)
-소프트웨어 번들로 자바 클래스와 라이브러리, 그 외 필수적인 컴포넌트
-
-  (=운영체제)
-
-
-JDK 를 설치하면 JRE도 같이 설치됨 (JDK = JRE + a)
-
-JVM (Javaa Virtual Machine)
-
-  
-  ...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1723392000"
-  data-df="ll"
-  
->
-  Aug 12, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      Java
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
   
     <article class="card-wrapper card">
       <a href="/posts/java-blocking/" class="post-preview row g-0 flex-md-row-reverse">
@@ -1169,6 +1100,67 @@ JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었
       </a>
     </article>
   
+    <article class="card-wrapper card">
+      <a href="/posts/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">영속성 컨텍스</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>영속성 컨텍스트
+JPA 는 영속성 컨텍스트라는 작은 메모리 공간을 가지고 있습니다. 이 영속성 컨텍스트는 엔티티 매니저의 생명주기와 일치하며, 엔티티를 관리하고 데이터베이스와 통신을 처리합니다.
+
+하나의 영속성 컨텍스트는 트랜잭션 단위로 관리되며, 엔티티의 상태를 추적하고 엔티티를 데이터베이스와 동기화합니다.
+
+@Service
+@Transactiona...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1719763200"
+  data-df="ll"
+  
+>
+  Jul  1, 2024
+</time>
+
+
+                <!-- categories -->
+                
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    
+                      JPA
+                  </span>
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
 </div>
 <!-- #post-list -->
 
@@ -1363,7 +1355,7 @@ JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-stream_api/">Stream API</a>
+          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
         
@@ -1384,14 +1376,14 @@ JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1415,104 +1407,7 @@ JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었
 
 
 
-  
-    
-    
-    
-    
-      
-        
-        
 
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-
-
-  <section>
-    <h2 class="panel-heading">Trending Tags</h2>
-    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/favicon/">favicon</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/getting-started/">getting started</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/typography/">typography</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/writing/">writing</a>
-      
-    </div>
-  </section>
 
 
             </div>
@@ -1586,104 +1481,7 @@ JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었
 
 
 
-  
-    
-    
-    
-    
-      
-        
-        
 
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-
-
-  <section>
-    <h2 class="panel-heading">Trending Tags</h2>
-    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/favicon/">favicon</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/getting-started/">getting started</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/typography/">typography</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/writing/">writing</a>
-      
-    </div>
-  </section>
 
 
     </div>

@@ -34,15 +34,15 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="3-way handshake ? TCP 연결을 설정하는 과정" />
 <meta property="og:description" content="3-way handshake ? TCP 연결을 설정하는 과정" />
-<link rel="canonical" href="https://winnie.github.io/posts/network-handshake/" />
-<meta property="og:url" content="https://winnie.github.io/posts/network-handshake/" />
+<link rel="canonical" href="http://localhost:4000/posts/network-handshake/" />
+<meta property="og:url" content="http://localhost:4000/posts/network-handshake/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2024-04-29T00:00:00+08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="TCP 3-way handshake, 4-way handshake 동작 방식" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-04-29T00:00:00+08:00","description":"3-way handshake ? TCP 연결을 설정하는 과정","headline":"TCP 3-way handshake, 4-way handshake 동작 방식","mainEntityOfPage":{"@type":"WebPage","@id":"https://winnie.github.io/posts/network-handshake/"},"url":"https://winnie.github.io/posts/network-handshake/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-04-29T00:00:00+08:00","description":"3-way handshake ? TCP 연결을 설정하는 과정","headline":"TCP 3-way handshake, 4-way handshake 동작 방식","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/network-handshake/"},"url":"http://localhost:4000/posts/network-handshake/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -243,7 +243,7 @@
 
 <aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
   <header class="profile-wrapper">
-    <a href="/" id="avatar" class="rounded-circle"><img src="https://chirpy-img.netlify.app/assets/img/pinggu.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
+    <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/pinggu.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
 
     <a class="site-title d-block" href="/">winnie's Tech Blog</a>
     <p class="site-subtitle fst-italic mb-0">Why? 생각하자</p>
@@ -747,94 +747,6 @@
 
       
     
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
 
     
   
@@ -850,6 +762,105 @@
       
         
         
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
       
 
       
@@ -975,9 +986,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1520 words"
+  title="1737 words"
 >
-  <em>8 min</em> read</span>
+  <em>9 min</em> read</span>
 
         </div>
       </div>
@@ -990,8 +1001,10 @@
 
 <p><a href="https://github.com/user-attachments/assets/9eaed275-cfb8-4736-b373-1d43cf98089c" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/9eaed275-cfb8-4736-b373-1d43cf98089c" alt="3wayhandshake.png" loading="lazy"></a></p>
 
-<p>즉, (TCP/IP 프로토콜을 이용해서) 통신을 하는 응용 프로그램이
+<p>(TCP/IP 프로토콜을 이용해서) 통신을 하는 응용 프로그램이
 데이터를 전송하기 전에 정확한 전송을 보장하기 위해 상대방 컴퓨터와의 세션을 수립하는 과정</p>
+
+<p><br /></p>
 
 <blockquote>
   <h3 id="control-bits"><span class="me-2">Control bits</span><a href="#control-bits" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
@@ -1002,29 +1015,32 @@
   </ul>
 </blockquote>
 
-<h2 id="step"><span class="me-2">STEP</span><a href="#step" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<h3 id="step1-client--syn--server"><span class="me-2">[Step1] Client -SYN-&gt; Server</span><a href="#step1-client--syn--server" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p><br /></p>
+
+<h2 id="동작방식"><span class="me-2">동작방식</span><a href="#동작방식" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<h4 id="step1-client--syn--server"><span class="me-2">[Step1] Client -SYN-&gt; Server</span><a href="#step1-client--syn--server" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0">**나 너한테 접속할건데 괜찮니?</span></p>
 <ul>
-  <li>Client가 Server에게 접속을 요청합니다. (SYN 비트 설정)</li>
+  <li>Client가 Server에게 접속을 요청한다. (SYN 비트 설정)</li>
 </ul>
 
-<h3 id="step2-client--syn--ack--server"><span class="me-2">[Step2] Client &lt;-SYN + ACK- Server</span><a href="#step2-client--syn--ack--server" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="step2-client--syn--ack--server"><span class="me-2">[Step2] Client &lt;-SYN + ACK- Server</span><a href="#step2-client--syn--ack--server" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0"><strong>웅 괜찮아!</strong></span></p>
 <ul>
-  <li>서버는 클라이언트의 요청을 수락하고, 동시에 클라이언트에 자신의 연결 요청을 보냅니다.</li>
-  <li>SYN + ACK 전송 (LISTEN -&gt; SYN_RECV)</li>
+  <li>서버는 클라이언트의 요청을 수락하고, 동시에 클라이언트에 자신의 연결 요청을 보낸다.</li>
+  <li>SYN(연결요청) + ACK(응답) 전송 (LISTEN -&gt; SYN_RECV)</li>
   <li>그 후 Server는 다시 대기 상태</li>
 </ul>
 
-<h3 id="step3-client--ack--server"><span class="me-2">[Step3] Client -ACK-&gt; Server</span><a href="#step3-client--ack--server" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="step3-client--ack--server"><span class="me-2">[Step3] Client -ACK-&gt; Server</span><a href="#step3-client--ack--server" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0"><strong>오케이 -&gt; 연결 성립 (Establised)</strong></span></p>
 <ul>
-  <li>Client는 서버의 요청을 확인하고 ACK 로 응답합니다.</li>
-  <li>SYN + ACK 상태를 확인 후</li>
+  <li>Client는 서버의 요청을 확인하고 ACK 로 응답한다.</li>
 </ul>
 
-<p><br /></p>
+<p>이 과정을 통해 TCP 세션이 수립되고, 이후 데이터를 주고받을 수 있는 안정적인 통신상태가 된다.</p>
+
+<p><br /><br /><br /></p>
 
 <h1 id="4-way-handshake-">4-way handshake ?</h1>
 <p><span style="background-color: #D0E4FC"><strong>TCP 연결을 종료하는 과정</strong></span></p>
@@ -1038,6 +1054,8 @@
   <li><strong>클라이언트-클라이언트</strong>의 형태</li>
 </ul>
 
+<p><br /></p>
+
 <blockquote>
   <h3 id="control-bits-1"><span class="me-2">Control bits</span><a href="#control-bits-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
   <ul>
@@ -1047,6 +1065,8 @@
     <li><strong>RST(Reset)</strong> : TCP 연결을 강제로 종료할 때 사용</li>
   </ul>
 </blockquote>
+
+<p><br /></p>
 
 <blockquote>
   <h3 id="port-상태-정보"><span class="me-2">Port 상태 정보</span><a href="#port-상태-정보" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
@@ -1072,51 +1092,53 @@ CLOSE-WAIT 상태를 처리 후 자신의 FIN요청을 보낸 후 FIN에 대한 
   </ul>
 </blockquote>
 
-<h2 id="step-1"><span class="me-2">STEP</span><a href="#step-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<h3 id="step1-클라이언트--fin--서버"><span class="me-2">[STEP1] 클라이언트 -FIN-&gt; 서버</span><a href="#step1-클라이언트--fin--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p><br /></p>
+
+<h2 id="동작방식-1"><span class="me-2">동작방식</span><a href="#동작방식-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<h4 id="step1-클라이언트--fin--서버"><span class="me-2">[STEP1] 클라이언트 -FIN-&gt; 서버</span><a href="#step1-클라이언트--fin--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0"><strong>연결종료 가능하니?</strong></span></p>
 <ul>
-  <li>클라이언트가 서버에 연결 종료를 요청하는 FIN 세그먼트 전송
+  <li>클라이언트가 서버에 연결 종료를 요청하는 FIN 패킷을 전송한다.
 FIN 비트 : 1</li>
   <li>이때 FIN 패킷에는 실질적으로 ACK도 포함</li>
-  <li>클라이언트는 <strong>FIN-WAIT-1</strong> 상태로 전환</li>
+  <li>클라이언트는 <strong>FIN-WAIT-1</strong> 상태로 전환되며 ACK를 기다린다.</li>
 </ul>
 
-<h3 id="step2-클라이언트--ack--서버"><span class="me-2">[STEP2] 클라이언트 &lt;-ACK- 서버</span><a href="#step2-클라이언트--ack--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="step2-클라이언트--ack--서버"><span class="me-2">[STEP2] 클라이언트 &lt;-ACK- 서버</span><a href="#step2-클라이언트--ack--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0"><strong>우웅! 잠만! 확인해볼게!</strong></span></p>
 <ul>
   <li>서버는 FIN을 받고 확인했다는 ACK를 클라이언트에 보낸 후 자신의 통신이 끝날때까지 기다림</li>
-  <li>남은 데이터가 있는 경우 전송을 마친 후 close() 호출</li>
+  <li>남은 데이터가 있는 경우 이를 처리한 후 close() 호출</li>
   <li>클라이언트는 ACK를 받은 후 서버가 남은 데이터 처리를 끝내고 FIN 패킷을 보낼 때까지 기다림</li>
   <li>클라이언트는 <strong>FIN_WAIT_2</strong> 상태로 전환</li>
 </ul>
 
-<h3 id="step3-클라이언트--fin--서버"><span class="me-2">[STEP3] 클라이언트 &lt;-FIN- 서버</span><a href="#step3-클라이언트--fin--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="step3-클라이언트--fin--서버"><span class="me-2">[STEP3] 클라이언트 &lt;-FIN- 서버</span><a href="#step3-클라이언트--fin--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0"><strong>종료하자!</strong></span></p>
 <ul>
-  <li>서버가 데이터를 모두 보냈다면 연결 종료를 요청합니다.</li>
+  <li>서버는 남은 데이터를 모두 전송한 후, 연결 종료를 요청한다.</li>
   <li>FIN 패킷을 클라이언트에 전송</li>
-  <li>이후 ACK 를 받을때까지 기다림</li>
   <li>서버는 <strong>LAST_ACK</strong> 상태로 전환</li>
+  <li>이후 클라이언트의 ACK 응답을 기다린다.</li>
 </ul>
 
-<h3 id="step4-클라이언트--ack--서버"><span class="me-2">[STEP4] 클라이언트 -ACK-&gt; 서버</span><a href="#step4-클라이언트--ack--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="step4-클라이언트--ack--서버"><span class="me-2">[STEP4] 클라이언트 -ACK-&gt; 서버</span><a href="#step4-클라이언트--ack--서버" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p><span style="background-color: #ffdce0"><strong>우웅! 아직 안 온 거 있을 수 있으니까 좀만 기다렸다가 종료해야지</strong></span></p>
 <ul>
   <li>클라이언트는 FIN 을 받고, 응답 ACK 를 서버에 전송</li>
-  <li>클라이언트는 아직 서버로 부터 받지 못한 데이터가 있을 수 있으므로 TIME_WAIT 를 통해 기다린다</li>
+  <li>클라이언트는 아직 서버로 부터 받지 못한 데이터가 있을 수 있으므로 TIME_WAIT 를 통해 기다린다.</li>
 </ul>
 
-<h3 id="after"><span class="me-2">[AFTER]</span><a href="#after" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="after"><span class="me-2">[AFTER]</span><a href="#after" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <ul>
-  <li>서버는 ACK 를 받은 이후 즉시연결 종료</li>
+  <li>서버는 ACK 를 받은 이후 즉시 연결을 종료한다.</li>
   <li>
     <p>TIME_WAIT 시간이 끝나면 클라이언트도 소켓을 Closed</p>
   </li>
   <li>TIME_WAIT : 의도치 않은 에러로 인해 데드락으로 빠지는 것을 방지, 클라이언트는 마지막 ACK를 보낸 후, 일정 시간 동안 연결을 유지하며, 지연된 패킷이 도착할 가능성을 대비</li>
 </ul>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="3-way-handshake와-차이가-나는-이유"><span class="me-2">3-way-handshake와 차이가 나는 이유?</span><a href="#3-way-handshake와-차이가-나는-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p>클라이언트가 데이터를 전송을 마쳤다고 하더라도 <strong>서버는 아직 보낼 데이터가 남아있을 수 있기 때문이다.</strong></p>
@@ -1129,14 +1151,15 @@ FIN 비트 : 1</li>
 
 <p>따라서 클라이언트는 <strong>FIN을 받은  TIME_WAIT 를 통해 혹시 모를 패킷 수신을 기다린다</strong></p>
 
-<p><br /></p>
+<p><br /><br /></p>
 
 <h2 id="abrupt-connection-release갑작스런-연결-해제"><span class="me-2">Abrupt Connection Release(갑작스런 연결 해제)</span><a href="#abrupt-connection-release갑작스런-연결-해제" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
-<p><strong>RST(TCP reset)</strong> : 세그먼트가 전송되면 갑작스러운 연결 해제가 수행된다.</p>
-
+<p><strong>RST(TCP reset)</strong> :</p>
 <ul>
-  <li>ACK를 보내거나 기다리는 작업을 하지 않고, <strong>바로 연결이 종료된다.</strong></li>
+  <li>RST 비트가 설정된 세그먼트를 전송하면, 연결이 즉시 종료된다.</li>
+  <li>ACK 과정 없이, 송신자와 수신자는 바로 연결을 종료한다.</li>
+  <li>정상적으로 닫기 위한 데이터 전송을 기다리지 않고 강제로 세션을 종료한다.</li>
   <li>RST 비트를 1로 설정한 세그먼트를 전송한다.
     <ul>
       <li>송신자는 패킷을 보내고 바로 연결 종료</li>
@@ -1145,23 +1168,26 @@ FIN 비트 : 1</li>
   </li>
 </ul>
 
+<p><br /></p>
+
 <h4 id="rst를-사용해-연결을-종료하는-경우"><span class="me-2">RST를 사용해 연결을 종료하는 경우</span><a href="#rst를-사용해-연결을-종료하는-경우" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <ol>
   <li>보안 위반의 경우
     <ul>
-      <li>악성 코드가 존재한다고 판단되면 연결을 즉시 종료하여 보호</li>
+      <li>악성 코드 또는 의심스러운 트래픽이 탐지되면, 즉시 연결을 종료하여 시스템을 보호한다.</li>
     </ul>
   </li>
   <li>
-    <p>자원이 부족해 자원 할당을 해제해야하는 경우</p>
+    <p>시스템 자원 부족으로 새로운 연결을 유지할 수 없을 때, RST를 사용해 빠르게 자원을 해제하고 다른 연결을 처리한다.</p>
   </li>
-  <li>TCP 연결에 장애가 발생한 경우, 비 정상적인 세션
-    <ul>
-      <li>즉시 연결을 끊고 새로운 연결을 시도</li>
-    </ul>
-  </li>
+  <li>TCP 연결에 장애가 발생했거나, 비 정상적인 세션이 감지되면, 즉시 연결을 끊고 새로운 연결을 시도한다.</li>
 </ol>
 
+<h4 id="rst의-특징"><span class="me-2">RST의 특징</span><a href="#rst의-특징" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<ul>
+  <li>연결 종료 과정에서의 절차적 보장이 없다는 점에서, 일반적인 FIN 플로우와 차이가 있다.</li>
+  <li>빠른 종료가 필요할 때 유용하지만, 연결 중인 데이터를 잃을 위험이 있다.</li>
+</ul>
 
   </div>
 
@@ -1209,21 +1235,21 @@ FIN 비트 : 1</li>
 
       
 
-      <a href="https://twitter.com/intent/tweet?text=TCP%203-way%20handshake,%204-way%20handshake%20%EB%8F%99%EC%9E%91%20%EB%B0%A9%EC%8B%9D%20-%20winnie's%20Tech%20Blog&url=https%3A%2F%2Fwinnie.github.io%2Fposts%2Fnetwork-handshake%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+      <a href="https://twitter.com/intent/tweet?text=TCP%203-way%20handshake,%204-way%20handshake%20%EB%8F%99%EC%9E%91%20%EB%B0%A9%EC%8B%9D%20-%20winnie's%20Tech%20Blog&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fnetwork-handshake%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
         <i class="fa-fw fa-brands fa-square-x-twitter"></i>
       </a>
     
 
       
 
-      <a href="https://www.facebook.com/sharer/sharer.php?title=TCP%203-way%20handshake,%204-way%20handshake%20%EB%8F%99%EC%9E%91%20%EB%B0%A9%EC%8B%9D%20-%20winnie's%20Tech%20Blog&u=https%3A%2F%2Fwinnie.github.io%2Fposts%2Fnetwork-handshake%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+      <a href="https://www.facebook.com/sharer/sharer.php?title=TCP%203-way%20handshake,%204-way%20handshake%20%EB%8F%99%EC%9E%91%20%EB%B0%A9%EC%8B%9D%20-%20winnie's%20Tech%20Blog&u=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fnetwork-handshake%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
         <i class="fa-fw fab fa-facebook-square"></i>
       </a>
     
 
       
 
-      <a href="https://t.me/share/url?url=https%3A%2F%2Fwinnie.github.io%2Fposts%2Fnetwork-handshake%2F&text=TCP%203-way%20handshake,%204-way%20handshake%20%EB%8F%99%EC%9E%91%20%EB%B0%A9%EC%8B%9D%20-%20winnie's%20Tech%20Blog" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fnetwork-handshake%2F&text=TCP%203-way%20handshake,%204-way%20handshake%20%EB%8F%99%EC%9E%91%20%EB%B0%A9%EC%8B%9D%20-%20winnie's%20Tech%20Blog" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
         <i class="fa-fw fab fa-telegram"></i>
       </a>
     
@@ -1278,7 +1304,7 @@ FIN 비트 : 1</li>
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-stream_api/">Stream API</a>
+          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
         
@@ -1299,14 +1325,14 @@ FIN 비트 : 1</li>
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1330,104 +1356,7 @@ FIN 비트 : 1</li>
 
 
 
-  
-    
-    
-    
-    
-      
-        
-        
 
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-
-
-  <section>
-    <h2 class="panel-heading">Trending Tags</h2>
-    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/favicon/">favicon</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/getting-started/">getting started</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/typography/">typography</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/writing/">writing</a>
-      
-    </div>
-  </section>
 
 
             </div>
@@ -1764,104 +1693,7 @@ TCP (Transmission Control Protocol)
 
 
 
-  
-    
-    
-    
-    
-      
-        
-        
 
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-
-
-  <section>
-    <h2 class="panel-heading">Trending Tags</h2>
-    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/favicon/">favicon</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/getting-started/">getting started</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/typography/">typography</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/writing/">writing</a>
-      
-    </div>
-  </section>
 
 
     </div>

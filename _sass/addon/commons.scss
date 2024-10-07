@@ -47,9 +47,10 @@ body {
 
     @if $i < 5 {
       $size-factor: 0.25rem;
-
+      font-weight: bold;
       @if $i > 1 {
         $size-factor: 0.18rem;
+        font-weight: bold;
 
         main & {
           @if $i == 2 {
@@ -122,6 +123,10 @@ blockquote {
   @include prompt('warning', '\f06a');
   @include prompt('danger', '\f071');
 }
+p, ul li{
+  font-size: 1rem;
+}
+
 
 kbd {
   font-family: Lato, sans-serif;

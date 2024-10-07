@@ -34,16 +34,16 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하" />
 <meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하" />
-<link rel="canonical" href="https://winnie.github.io/page6/" />
-<meta property="og:url" content="https://winnie.github.io/page6/" />
+<link rel="canonical" href="http://localhost:4000/page6/" />
+<meta property="og:url" content="http://localhost:4000/page6/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
 <meta property="og:type" content="website" />
-<link rel="prev" href="https://winnie.github.io/page5" />
-<link rel="next" href="https://winnie.github.io/page7" />
+<link rel="prev" href="http://localhost:4000/page5" />
+<link rel="next" href="http://localhost:4000/page7" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="winnie’s Tech Blog" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하","headline":"winnie’s Tech Blog","url":"https://winnie.github.io/page6/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하","headline":"winnie’s Tech Blog","url":"http://localhost:4000/page6/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -239,7 +239,7 @@
 
 <aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
   <header class="profile-wrapper">
-    <a href="/" id="avatar" class="rounded-circle"><img src="https://chirpy-img.netlify.app/assets/img/pinggu.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
+    <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/pinggu.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
 
     <a class="site-title d-block" href="/">winnie's Tech Blog</a>
     <p class="site-subtitle fst-italic mb-0">Why? 생각하자</p>
@@ -537,69 +537,6 @@
 
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
-  
-    <article class="card-wrapper card">
-      <a href="/posts/java-synchronized/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">synchroinzed 와 DeadLock</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>synchroinzed?
-멀티스레드 환경에서 동기화를 제공하기 위해 사용
-
-특정한 블록이나 메서드를 여러 스레드가 동신에 접근하지 못하도록 제어합니다.
-
-메서드 선언시 사용하면 해당 메서드는 해당 객체의 락을 획득하고 메서드 실행이 완료될 때 락을 해제합니다.
-다른 스레드가 동일 객체에 접근하려면 락이 해제될 때까지 대기해야 합니다.
-
-특정 코드 블록...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1717257600"
-  data-df="ll"
-  
->
-  Jun  2, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      Network
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
   
     <article class="card-wrapper card">
       <a href="/posts/java-generic/" class="post-preview row g-0 flex-md-row-reverse">
@@ -1193,6 +1130,70 @@ public class ThreadExtends extends Thread {
       </a>
     </article>
   
+    <article class="card-wrapper card">
+      <a href="/posts/java-overroading/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">오버로딩과 오버라이딩</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>⚡️Overloading
+같은 이름의 메소드나 생성자를 여러 개 정의하는 것으로 매개변수의 타입 또는 개수가 달라야 합니다.
+
+
+
+예시
+메소드 오버로딩의 예로 println 메소드가 있다.
+System.out 객체의 메소드로 여러 형태로 오버로딩 되어있다. 정수형, 실수형, 문자열 등 다양한 타입의 매개 변수를 받는 메소드를 오버로딩하여 제공한다.
+
+...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1714752000"
+  data-df="ll"
+  
+>
+  May  4, 2024
+</time>
+
+
+                <!-- categories -->
+                
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    
+                      Java
+                  </span>
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
 </div>
 <!-- #post-list -->
 
@@ -1382,7 +1383,7 @@ public class ThreadExtends extends Thread {
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-stream_api/">Stream API</a>
+          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
         </li>
       
         
@@ -1403,14 +1404,14 @@ public class ThreadExtends extends Thread {
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/Algorithm-hashmap/">HashMap 의 구조</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
         </li>
       
     </ul>
@@ -1434,104 +1435,7 @@ public class ThreadExtends extends Thread {
 
 
 
-  
-    
-    
-    
-    
-      
-        
-        
 
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-
-
-  <section>
-    <h2 class="panel-heading">Trending Tags</h2>
-    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/favicon/">favicon</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/getting-started/">getting started</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/typography/">typography</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/writing/">writing</a>
-      
-    </div>
-  </section>
 
 
             </div>
@@ -1605,104 +1509,7 @@ public class ThreadExtends extends Thread {
 
 
 
-  
-    
-    
-    
-    
-      
-        
-        
 
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-    
-  
-    
-    
-    
-    
-      
-        
-        
-
-
-
-  <section>
-    <h2 class="panel-heading">Trending Tags</h2>
-    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/favicon/">favicon</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/getting-started/">getting started</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/typography/">typography</a>
-      
-        
-        <a class="post-tag btn btn-outline-primary" href="/tags/writing/">writing</a>
-      
-    </div>
-  </section>
 
 
     </div>
