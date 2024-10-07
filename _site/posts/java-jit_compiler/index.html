@@ -647,28 +647,6 @@
 
       
     
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
 
     
   
@@ -739,28 +717,6 @@
 
       
     
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
 
     
   
@@ -776,6 +732,28 @@
       
         
         
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
       
 
       
@@ -1022,7 +1000,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="2688 words"
+  title="2684 words"
 >
   <em>14 min</em> read</span>
 
@@ -1049,7 +1027,7 @@
 <p><br /><br /><br /></p>
 
 <h2 id="컴파일러와-인터프리터"><span class="me-2">컴파일러와 인터프리터</span><a href="#컴파일러와-인터프리터" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>컴파일러와 인터프리터 모두 고수준 언어를 기계어로 변환시킨디ㅏ.</p>
+<p>컴파일러와 인터프리터 모두 고수준 언어를 기계어로 변환시킨다.</p>
 
 <p>컴파일러는 소스코드 전체를 한 번에 번역하여 목적 파일로 만들어 메모리에 적재하는 방식이다.<br />
 인터프리터는 소스코드를 한 행씩 중간 코드로 번역 후 실행한다.</p>
@@ -1105,7 +1083,7 @@
 
 <p>하지만 모든 코드들을 캐시하는건 아니다. JVM은 내부에서 자주 수행되는 코드들을 선별하여 캐시 공간에 넣어 둔다.</p>
 
-<p><br /></p>
+<p><br /><br /></p>
 
 <h3 id="어떤-기준으로-선별할까"><span class="me-2">어떤 기준으로 선별할까?</span><a href="#어떤-기준으로-선별할까" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 
@@ -1166,6 +1144,9 @@ GUI 어플리케이션과 같은 짧은 실행 시간과 빠른 응답속도가 
   <li>최적화된 코드로 인해 CPU, 메모리 사용을 줄인다.</li>
 </ul>
 
+<p><br />
+<br /></p>
+
 <h2 id="tiered-compilation-계층적-컴파일"><span class="me-2">Tiered Compilation (계층적 컴파일)</span><a href="#tiered-compilation-계층적-컴파일" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p>C1, C2 컴파일러의 장점을 결합한 JVM 컴파일 전략이다.<br />
 C1 컴파일러로 빠르게 바이트 코드를 기계어로 변환하여 실행하고, 프로그램이 더 오래 실행되면,
@@ -1173,26 +1154,26 @@ C2 컴파일러로 고급 최적화를 수행한다.</p>
 
 <p><br /><br /><br /></p>
 
-<h2 id="특징"><span class="me-2">특징</span><a href="#특징" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<h3 id="1-성능-최적화"><span class="me-2">1. 성능 최적화</span><a href="#1-성능-최적화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h3 id="특징"><span class="me-2">특징</span><a href="#특징" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="1-성능-최적화"><span class="me-2">1. 성능 최적화</span><a href="#1-성능-최적화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>바이트 코드를 실행하는 대신, 자주 실행되는 코드를 JIT 컴파일러가 직접 기계어로 변환하면 더 빠르게 실행된다.
 이를 통해 실행 성능이 향상된다.</p>
 
-<h3 id="2-동적-최적화"><span class="me-2">2. 동적 최적화</span><a href="#2-동적-최적화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="2-동적-최적화"><span class="me-2">2. 동적 최적화</span><a href="#2-동적-최적화" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>JIT 컴파일러는 실행 중에 코드의 사용 패턴을 분석하여 최적회된 코드를 생성할 수 있다.</p>
 
-<h3 id="3-메모리-효율성"><span class="me-2">3. 메모리 효율성</span><a href="#3-메모리-효율성" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="3-메모리-효율성"><span class="me-2">3. 메모리 효율성</span><a href="#3-메모리-효율성" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>필요할 때만 바이트 코드를 컴파일하기 때문에, 메모리 사용을 최적화할 수 있다.</p>
 
-<h3 id="4-호환성-유지"><span class="me-2">4. 호환성 유지</span><a href="#4-호환성-유지" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h4 id="4-호환성-유지"><span class="me-2">4. 호환성 유지</span><a href="#4-호환성-유지" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>바이트 코드를 처음부터 기계어로 변환하는 AOT(Ahead-of-Time) 컴파일러와 달리, JIT는
 바이트 코드 상태로 유지하다가 실행 시점에 필요한 부분을 변환한다.  <br />
 이를 통해 다양한 플랫폼에서 동일한 바이트 코드를 실행할 수 있는 JVM의 이식성을 유지하면서
 성능을 개선할 수 있다.</p>
 
 <blockquote>
-  <p>AOT 컴파일
-프로그램 코드를 실행하기 전 미리 기계어로 변환하는 방식<br />
+  <h4 id="aot-컴파일"><span class="me-2">AOT 컴파일</span><a href="#aot-컴파일" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>프로그램 코드를 실행하기 전 미리 기계어로 변환하는 방식<br />
 실행 시점에 추가적인 컴파일 작업이 필요하지 않아 실행 속도가 빠르다.<br />
 AOT로 생성된 기계어는 특정 플랫폼에서만 실행이 가능하다.<br />
 플랫폼에 종속적이며, 다른 환경에서 실행하려면 별도로 AOT 컴파일 해야 한다.</p>
@@ -1200,10 +1181,12 @@ AOT로 생성된 기계어는 특정 플랫폼에서만 실행이 가능하다.<
 
 <p><br /><br /><br /></p>
 
-<h2 id="jit의-작동-방식"><span class="me-2">JIT의 작동 방식</span><a href="#jit의-작동-방식" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<h4 id="1-프로그램이-실행되면-jvm은-바이트코드를-인터프리터를-통해-한-줄씩-해석하며-실행한다"><span class="me-2">1. 프로그램이 실행되면 JVM은 바이트코드를 인터프리터를 통해 한 줄씩 해석하며 실행한다.</span><a href="#1-프로그램이-실행되면-jvm은-바이트코드를-인터프리터를-통해-한-줄씩-해석하며-실행한다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<h4 id="2-실행-중-특정-메서드나-코드-블록이-자주-호출되면-jit-컴파일러가-해당-부분을-감지한다"><span class="me-2">2. 실행 중, 특정 메서드나 코드 블록이 자주 호출되면 JIT 컴파일러가 해당 부분을 감지한다.</span><a href="#2-실행-중-특정-메서드나-코드-블록이-자주-호출되면-jit-컴파일러가-해당-부분을-감지한다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<h4 id="3-그-코드를-기계어로-변환하고-캐싱하여-이후부터는-변환된-기계어를-사용해-더-빠르-실행한다"><span class="me-2">3. 그 코드를 기계어로 변환하고 캐싱하여, 이후부터는 변환된 기계어를 사용해 더 빠르 실행한다.</span><a href="#3-그-코드를-기계어로-변환하고-캐싱하여-이후부터는-변환된-기계어를-사용해-더-빠르-실행한다" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<h3 id="jit의-작동-방식"><span class="me-2">JIT의 작동 방식</span><a href="#jit의-작동-방식" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<ol>
+  <li>프로그램이 실행되면 JVM은 바이트코드를 인터프리터를 통해 한 줄씩 해석하며 실행한다.</li>
+  <li>실행 중, 특정 메서드나 코드 블록이 자주 호출되면 JIT 컴파일러가 해당 부분을 감지한다.</li>
+  <li>그 코드를 기계어로 변환하고 캐싱하여, 이후부터는 변환된 기계어를 사용해 더 빠르 실행한다.</li>
+</ol>
 
   </div>
 
@@ -1327,35 +1310,35 @@ AOT로 생성된 기계어는 특정 플랫폼에서만 실행이 가능하다.<
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/java-overroading/">오버로딩과 오버라이딩</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/java-enum/">enum</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+          <a href="/posts/java-primitive-referencee/">Primitive 타입과 Reference 타입</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/java-%EB%8F%99%EB%93%B1%EC%84%B1%EA%B3%BC%EB%8F%99%EC%9D%BC%EC%84%B1/">동등성과 동일성</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+          <a href="/posts/java-string/">String 객체를 선언하는 방법</a>
         </li>
       
     </ul>

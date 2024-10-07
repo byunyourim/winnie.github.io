@@ -1475,7 +1475,8 @@
   <p>즉, 소스 파일(<em>.java)은 컴파일된 자바 클래스 파일(</em>.clss)을 이해 중간단계 언어(바이트 코드)로 컴파일 되고, JVM이 이러한 컴파일된 자바 클래스파일(*class)을 OS에 맞는 기계어로 변환(인터프리터와 JIT 컴파일러를 통해)하여 실행되는 것이다.</p>
 </blockquote>
 
-<p><br /></p>
+<p><br /><br />
+<br /></p>
 
 <h2 id="java-실행-방식"><span class="me-2">Java 실행 방식</span><a href="#java-실행-방식" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p><a href="https://github.com/user-attachments/assets/055a1d07-4329-4f1f-8fff-59548609b68f" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/055a1d07-4329-4f1f-8fff-59548609b68f" alt="compile.png" loading="lazy"></a></p>
@@ -1526,7 +1527,8 @@ JIT 컴파일러는 프로그램을 실행 하는 동안 반복되는 코드 블
   </li>
 </ol>
 
-<p><br /></p>
+<p><br /><br />
+<br /></p>
 
 <h1 id="jvm-구성요소">JVM 구성요소</h1>
 <p><a href="https://github.com/user-attachments/assets/6a10be91-d22a-4322-ab3e-a5c303bc4965" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/6a10be91-d22a-4322-ab3e-a5c303bc4965" alt="jvm.png" loading="lazy"></a></p>
@@ -1585,6 +1587,8 @@ JIT 컴파일러는 프로그램을 실행 하는 동안 반복되는 코드 블
 
 <p>자바 응용 프로그램의 기본 클래스 로더로, 대부분의 사용자 클래스와 라이브러리를 로드하는데 사용된다.</p>
 
+<p><br /></p>
+
 <h4 id="링크"><span class="me-2">링크</span><a href="#링크" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>로드된 클래스 파일을 JVM이 사용할 수 있도록 준비하는 단</p>
 
@@ -1642,6 +1646,8 @@ JVM은 런타임 데이터 영역을 효율적으로 관리하기 위해 가비�
   <li>GC의 대상</li>
 </ul>
 
+<p><br /></p>
+
 <h4 id="heap-area"><span class="me-2">Heap Area</span><a href="#heap-area" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <ul>
   <li>모든 스레드에 공유</li>
@@ -1650,30 +1656,32 @@ JVM은 런타임 데이터 영역을 효율적으로 관리하기 위해 가비�
 </ul>
 
 <blockquote>
-  <p><strong>Young Generation</strong>
-객체가 처음 할당되는 영역
+  <p><strong>Young Generation</strong><br />
+객체가 처음 할당되는 영역<br />
 객체가 생성되고, 살아남은 객체는 Survivor 영역으로 이동</p>
 </blockquote>
 
 <blockquote>
-  <p><strong>Old Generation</strong>
-Young Generation을 거쳐 오래 살아남은 객체들이 할당되는 영역
+  <p><strong>Old Generation</strong><br />
+Young Generation을 거쳐 오래 살아남은 객체들이 할당되는 영역<br />
 메모리에서 생존 기간이 긴 객체들이 이곳에 저장된다.</p>
 </blockquote>
 
 <blockquote>
-  <p><strong>Permanent Generation (PermGen, JDK 8 이전)</strong>
+  <p><strong>Permanent Generation (PermGen, JDK 8 이전)</strong><br />
 클래스 메타데이터, 상수, 메서드, 클래스 정보 등 저장</p>
 </blockquote>
 
 <blockquote>
-  <p><strong>Metaspace (JDK 8 이후)</strong>
-메타 데이터를 저장하는 공간
+  <p><strong>Metaspace (JDK 8 이후)</strong><br />
+메타 데이터를 저장하는 공간<br />
 메서드 영역과 유사한 역할이나 네이티브 메모리 영역에서 관리</p>
 </blockquote>
 
 <p>힙은 JVM에서 가장 큰 메모리 영역이며, 모든 스레드가 공유한다.<br />
 GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체를 제거한다.</p>
+
+<p><br /></p>
 
 <h4 id="pc-register"><span class="me-2">PC Register</span><a href="#pc-register" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <ul>
@@ -1683,9 +1691,13 @@ GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체�
   <li>JVM 은 스택 기반의 가상 머신으로 CPU에 직접 접근하지 않고 Stack에서 주소를 가져온다</li>
 </ul>
 
+<p><br /></p>
+
 <p>일반적으로 프로그램의 실행은 CPU에서 명령어를 수행하는 과정으로 이루어진다. CPU는 컴퓨터의 연산을 실행하고 제어하는 가장 중요한 일을 맡고 있다. 이 CPU가 연산을 수행하는 동안 필요한 정보를 CPU 내의 기억장치를 이용해 기억하는데 이를 PC register라고 한다.
 하지만 자바는 OS 입장에서 단순히 하나의 프로세스이기때문에 JVM을 사용한다. 그래서 CPU에 직접 연산을 수행하는 것이 아닌 현재 작업하는 내용을 CPU에게 연산으로 제공해야하며, 이때 필요한 공간으로 PC register 라는 메모리 영역을 만든 것이다. 
 따라서 JVM은 스택프레임에 있는 Operand라는 스택 영역에서 명령어를 뽑아서 PC regtster에 저장한 후 CPU에게 명령을 전달한다.</p>
+
+<p><br /></p>
 
 <h4 id="stack-area"><span class="me-2">Stack Area</span><a href="#stack-area" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <ul>
@@ -1693,7 +1705,11 @@ GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체�
   <li>호출된 메소드의 파라미터, 지역 변수, 리턴 값 및 연산 값 등이 저장되는 영역</li>
   <li>메소드가 호출될때마다 스택 프레임이라 불리는 블럭이 하나씩 생성되고 메서드 실행이 종료되면 삭제된다.</li>
   <li>스택 오버플로우 발생시 JVM은 해당 스레드에 대해 예외를 발생시킨다.</li>
-  <li>LIFO</li>
+  <li>
+    <p>LIFO</p>
+
+    <p><br /></p>
+  </li>
 </ul>
 
 <blockquote>
@@ -1711,6 +1727,8 @@ GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체�
   <p><strong>프레임 데이터</strong>
 메서드의 실행 상태 저장(메서드 호출자, 리턴 주소 등)</p>
 </blockquote>
+
+<p><br /></p>
 
 <h4 id="native-method-stack"><span class="me-2">Native Method Stack</span><a href="#native-method-stack" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <ul>
@@ -1736,6 +1754,8 @@ GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체�
 한 줄씩 순차적으로 컴파일 하여 Native로 변환하는 작업을 하는데, 매번 컴파일을 할 때 비효율적이다.
 중복된 바이트 코드에 대해서는 JIT 컴파일러를 사용한다.</p>
 
+<p><br /></p>
+
 <h4 id="2-jit-compiler-just-in-time"><span class="me-2">2. JIT Compiler (Just-In-Time)</span><a href="#2-jit-compiler-just-in-time" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>인터프리터의 단점을 개선하기 위해 등장<br />
 인터프리터가 반복되는 코드를 발견하면 JIT 컴파일러로 반복되는 코드를 모두 Native Code로 변환한다.
@@ -1743,6 +1763,8 @@ GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체�
 따라서 한 번 바꾼 Native Code는 인터프리터가 더 이상 컴파일하지 않아도 된다.</p>
 
 <p>즉, 자바 바이트코드에서 Native Code로 바꾸는 과정을 JIT에서 수행하는 것이다.</p>
+
+<p><br /></p>
 
 <h4 id="3-garbage-collections"><span class="me-2">3. Garbage Collections</span><a href="#3-garbage-collections" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>JVM 상에서 더 이상 참조되지않는 객체를 메모리에서 해제시켜주는 장치</p>
@@ -1870,35 +1892,35 @@ GC가 주기적으로 힙 메모리를 청소하여 사용되지 않는 객체�
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/java-overroading/">오버로딩과 오버라이딩</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/java-enum/">enum</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+          <a href="/posts/java-primitive-referencee/">Primitive 타입과 Reference 타입</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/java-%EB%8F%99%EB%93%B1%EC%84%B1%EA%B3%BC%EB%8F%99%EC%9D%BC%EC%84%B1/">동등성과 동일성</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+          <a href="/posts/java-string/">String 객체를 선언하는 방법</a>
         </li>
       
     </ul>

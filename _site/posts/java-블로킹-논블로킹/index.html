@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="Blocking vs Non-Blocking" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Blocking vs Non-Blocking Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식" />
-<meta property="og:description" content="Blocking vs Non-Blocking Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식" />
+<meta name="description" content="Blocking vs Non-Blocking" />
+<meta property="og:description" content="Blocking vs Non-Blocking" />
 <link rel="canonical" href="http://localhost:4000/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/" />
 <meta property="og:url" content="http://localhost:4000/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Blocking vs Non-Blocking" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-07-01T00:00:00+08:00","description":"Blocking vs Non-Blocking Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식","headline":"Blocking vs Non-Blocking","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/"},"url":"http://localhost:4000/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-07-01T00:00:00+08:00","description":"Blocking vs Non-Blocking","headline":"Blocking vs Non-Blocking","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/"},"url":"http://localhost:4000/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -560,6 +560,38 @@
   
 
   
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
 
   
   
@@ -676,7 +708,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="690 words"
+  title="635 words"
 >
   <em>3 min</em> read</span>
 
@@ -687,35 +719,44 @@
 
   <div class="content">
     <h2 id="blocking-vs-non-blocking"><span class="me-2">Blocking vs Non-Blocking</span><a href="#blocking-vs-non-blocking" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>Blocking IO는 작업이 완료될 때까지 스레드가 대기하는 방식</p>
 
-<p>Non-Blocking IO는 작업이 완료되지 않더라도 대기하지 않고 다른 작업을 처리하는 방식</p>
+<h3 id="blocking-io"><span class="me-2">Blocking IO</span><a href="#blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>작업이 완료될 때까지 스레드가 대기하는 방식</p>
 
-<h2 id="blocking-io에서의-문제점"><span class="me-2">Blocking IO에서의 문제점</span><a href="#blocking-io에서의-문제점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>입출력 작업이 완료될때 까지 다른 스레드가 대기하여야한다. 따라서 멀티 스레드 환경에서 대기시간이 오래걸릴수있다. 
-많은 클라이언트의 요청을 동시에 처리할 수 없으며 블록상태가 발생할 수 있습니다.</p>
+<h3 id="non-blocking-io"><span class="me-2">Non-Blocking IO</span><a href="#non-blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>작업이 완료되지 않더라도 대기하지 않고 다른 작업을 처리하는 방식</p>
+
+<p><br /><br /></p>
+
+<h2 id="blocking-io의-문제"><span class="me-2">Blocking IO의 문제</span><a href="#blocking-io의-문제" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>입출력 작업이 완료될때 까지 다른 스레드가 대기해야하기 때문에 멀티 스레드 환경에서 대기 시간이 오래 걸릴 수 있다. 
+많은 클라이언트의 요청을 동시에 처리할 수 없으며 블록 상태가 발생할 수 있다.</p>
+
+<p><br /><br /></p>
 
 <h2 id="non-blocking-io에서의-장단점"><span class="me-2">Non-Blocking IO에서의 장단점</span><a href="#non-blocking-io에서의-장단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>작업이 완료될 때까지 기다리지 않고 해당 작업을 수행하는 동안 다른 작업을 수행할 수 있는 방식입니다.
-요청한 작업이 완료되면, 결과를 처리할 수 있도록 콜백함수 등을 통해 알림을 받습니다.
-병렬적으로 여러 작업을 처리할 수 있는 장점이 있습니다.</p>
+<p>작업이 완료될 때까지 기다리지 않고 해당 작업을 수행하는 동안 다른 작업을 수행할 수 있다.</p>
 
-<p>대기시간이 최소화되어 시스템이 더 효율적을 자원을 이용할 수 있으며 여러 작업을 동시에 처리하기 때문에 응답성이 향상됩니다.
-비교적 적은 스레드로 많은 요청을 처리할 수 있어 스케일링에 유리합니다.
-IO 작업이 많이 발생하는 환경에 효과적입니다.</p>
+<p>요청한 작업이 완료되면, 결과를 처리할 수 있도록 콜백 함수 등을 통해 알림을 받는다.</p>
 
-<p>하지만 비동기 프로그래밍으로 동기적 프로그래밍보다 복잡하며 콜백 지옥과 같은 문제가 발생할 수 있습니다.
-또한 이벤트를 기반으로 동작하기 때문에 실행 흐름을 추적하거나 디버깅이 어렵습니다.</p>
+<p>대기 시간이 최소화되어 시스템이 더 효율적을 자원을 이용할 수 있으며 여러 작업을 동시에 처리하기 때문에 응답성이 향상된다.</p>
 
-<p>비동기 작업이 많아질수록 메모리 사용량이 증가할 수 있습니다.</p>
+<p>비교적 적은 스레드로 많은 요청을 처리할 수 있어 스케일링에 유리하다.<br />
+IO 작업이 많이 발생하는 환경에 효과적이다.</p>
 
-<p>주로 다수의 클라이언트 요청을 비동기로 처리할 때 사용됩니다. 또한 웹 서버에서 여러 요청을 동시에 처리하고
-IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하는데 유용하게 사용됩니다.
-대규모 데이터베이스나 파일 처리에서 비동기 IO는 시스템의 처리량을 향상 시키는데 기여할 수 있습니다.</p>
+<p>하지만 비동기 프로그래밍으로 동기적 프로그래밍보다 복잡하며 콜백 지옥과 같은 문제가 발생할 수 있다.<br />
+또한 이벤트를 기반으로 동작하기 때문에 실행 흐름을 추적, 디버깅하는 것이 어렵다.</p>
+
+<p>비동기 작업이 많아질수록 메모리 사용량이 증가할 수 있다.</p>
+
+<p>주로 다수의 클라이언트 요청을 비동기로 처리할 때 사용되며, 또한 웹 서버에서 여러 요청을 동시에 처리하고
+IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하는데 유용하게 사용된다.</p>
+
+<p>대규모 데이터베이스나 파일 처리에서 비동기 IO는 시스템의 처리량을 향상 시키는데 기여할 수 있다.</p>
 
 <p>구현방법에는 
-가장 기본적인 방법으로 자바스크립트에서 콜백함수를 사용하거나 promise 를 사용하는 방법이 있습니다.
-또한 자바의 NIO 와 같은 라이브러리를 사용하여 블로킹 IO 를 비동기적으로 처리할 수 있습니다.</p>
+가장 기본적인 방법으로 자바스크립트에서 콜백함수를 사용하거나 promise 를 사용하는 방법이 있다.
+또한 자바의 NIO 와 같은 라이브러리를 사용하여 블로킹 IO 를 비동기적으로 처리할 수 있다.</p>
 
 
   </div>
@@ -840,35 +881,35 @@ IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하�
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/java-overroading/">오버로딩과 오버라이딩</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/java-enum/">enum</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+          <a href="/posts/java-primitive-referencee/">Primitive 타입과 Reference 타입</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/java-%EB%8F%99%EB%93%B1%EC%84%B1%EA%B3%BC%EB%8F%99%EC%9D%BC%EC%84%B1/">동등성과 동일성</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+          <a href="/posts/java-string/">String 객체를 선언하는 방법</a>
         </li>
       
     </ul>
@@ -1478,11 +1519,11 @@ Checked Exception
 
   
     <a
-      href="/posts/spring-configuration/"
+      href="/posts/spring-allargsconstructor-requiredargsconstructor/"
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>Configuration어노테이션</p>
+      <p>어노테이션 RequiredArgsConstructor, AllArgsConstructor</p>
     </a>
   
 

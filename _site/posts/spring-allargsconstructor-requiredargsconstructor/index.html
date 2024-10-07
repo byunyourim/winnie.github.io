@@ -512,6 +512,11 @@
   
 
   
+
+  
+  
+
+  
     
     
 
@@ -565,11 +570,6 @@
     
 
     
-  
-
-  
-  
-
   
 
   
@@ -687,7 +687,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="646 words"
+  title="626 words"
 >
   <em>3 min</em> read</span>
 
@@ -698,8 +698,6 @@
 
   <div class="content">
     <p>프로젝트 진행 중 계속해서 의존성 주입 문제가 생겼다.</p>
-
-<p>도대체 뭘까..</p>
 
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
@@ -745,11 +743,13 @@
 
 <p>@RequiredArgsConstructor 와 @AllArgsConstructor 를 알아보자</p>
 
-<p>둘 다 Lombok 에서 제공하는 어노테이션으로 코드를 간결하게 작성할 수 있도록 도와주는 역할을 합니다.</p>
+<p>둘 다 Lombok 에서 제공하는 어노테이션으로 코드를 간결하게 작성할 수 있도록 도와주는 역할을 한다.</p>
 
-<h2 id="requiredargsconstructor"><span class="me-2">@RequiredArgsConstructor</span><a href="#requiredargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>클래스의 final로 선언된 필드나 @NonNull 로 표시된 필드를 기반으로 생성자를 생성합니다.
-생성자는 이러한 필드들을 매개변수로 받아 초기화합니다.</p>
+<p><br /><br /></p>
+
+<h3 id="requiredargsconstructor"><span class="me-2">@RequiredArgsConstructor</span><a href="#requiredargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>클래스의 final로 선언된 필드나 @NonNull 로 표시된 필드를 기반으로 생성자를 생성한다.
+생성자는 이러한 필드들을 매개변수로 받아 초기화한다.</p>
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -780,12 +780,14 @@
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
 <ul>
-  <li>즉, 초기화되지 않은 final 필드의 생성자를 생성합니다.</li>
+  <li>즉, 초기화되지 않은 final 필드의 생성자를 생성한다.</li>
 </ul>
 
-<h2 id="allargsconstructor"><span class="me-2">@AllArgsConstructor</span><a href="#allargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>모든 필드를 기반으로 생성자를 생성합니다.
-final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변수로 받는 생성자를 생성합니다.</p>
+<p><br /><br /></p>
+
+<h3 id="allargsconstructor"><span class="me-2">@AllArgsConstructor</span><a href="#allargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>모든 필드를 기반으로 생성자를 생성한다.<br />
+final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변수로 받는 생성자를 생성한다.</p>
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -814,19 +816,23 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
 
-<h2 id="value-와-requiredargsconstructor"><span class="me-2">@Value 와 @RequiredArgsConstructor?</span><a href="#value-와-requiredargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p><br /><br /></p>
+
+<h3 id="value-와-requiredargsconstructor"><span class="me-2">@Value 와 @RequiredArgsConstructor?</span><a href="#value-와-requiredargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>@Value 이 뭘까?</p>
 
 <p>final 로 선언한 필드에 @Value를 사용하면?
-스프링이 빈을 생성할 때 해당 필드를 초기화할 수 없기 때문에 에러가 발생합니다.
+스프링이 빈을 생성할 때 해당 필드를 초기화할 수 없기 때문에 에러가 발생한다.<br />
 @Value 을 사용할 때는 생성자 인젝션을 사용하지 않기 때문에 @RequiredArgsConstructor 를 사용하여
-생성자를 자동을 생성할 수 없습니다.</p>
+생성자를 자동을 생성할 수 없다.</p>
 
-<h2 id="value-와-allargsconstructor"><span class="me-2">@Value 와 @AllArgsConstructor?</span><a href="#value-와-allargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>스프링은 빈을 초기화 할 때 @Value 어노테이션을 사용하여 외부 프로퍼티 파일에서 값을 주입할 수 있습니다.
-이것은 생성자 인젝션을 지원하지 않습니다.
-따라서 @AllArgsConstructor을 사용할 때는 스프링이 @Value 어노테이션을 통해 초기화할 수 없는 필드에 대해서는 생성자를 자동으로 생성하지 않습니다. 
-이로 인해 apiKey, apiSecret, fromNumber 필드는 @Value 어노테이션을 통해 초기화할 수 없어서 에러가 발생합니다.</p>
+<p><br /><br /></p>
+
+<h3 id="value-와-allargsconstructor"><span class="me-2">@Value 와 @AllArgsConstructor?</span><a href="#value-와-allargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>스프링은 빈을 초기화 할 때 @Value 어노테이션을 사용하여 외부 프로퍼티 파일에서 값을 주입할 수 있다.<br />
+이것은 생성자 인젝션을 지원하지 않는다.<br />
+따라서 @AllArgsConstructor을 사용할 때는 스프링이 @Value 어노테이션을 통해 초기화할 수 없는 필드에 대해서는 생성자를 자동으로 생성하지 않는다. <br />
+이로 인해 apiKey, apiSecret, fromNumber 필드는 @Value 어노테이션을 통해 초기화할 수 없어서 에러가 발생한다.</p>
 
   </div>
 
@@ -950,35 +956,35 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/java-overroading/">오버로딩과 오버라이딩</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/java-enum/">enum</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+          <a href="/posts/java-primitive-referencee/">Primitive 타입과 Reference 타입</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/java-%EB%8F%99%EB%93%B1%EC%84%B1%EA%B3%BC%EB%8F%99%EC%9D%BC%EC%84%B1/">동등성과 동일성</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+          <a href="/posts/java-string/">String 객체를 선언하는 방법</a>
         </li>
       
     </ul>
@@ -1104,30 +1110,6 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
 
   
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
 
 
 
@@ -1177,34 +1159,6 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
         </article>
       
         <article class="col">
-          <a href="/posts/transaction-%EA%B2%A9%EB%A6%AC%EC%88%98%EC%A4%80/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1721232000"
-  data-df="ll"
-  
->
-  Jul 18, 2024
-</time>
-
-              <h4 class="pt-0 my-2">Transaction 격리수준</h4>
-              <div class="text-muted">
-                <p></p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
           <a href="/posts/transactional-proxy/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1224,17 +1178,57 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
   Jul 17, 2024
 </time>
 
-              <h4 class="pt-0 my-2">Transactional과 Proxy</h4>
+              <h4 class="pt-0 my-2">Transactional어노테이션 과 Proxy</h4>
               <div class="text-muted">
-                <p>좌석을 선택하고 결제하는 api를 구현하는데 트랜잭션에 대하여 이해가 떨어져서 공부하게 되었다.
-개념은 익히 들어서 알고 있지만 온전히 내 것으로 만들지는 못했다.
+                <p>@Transactional은 어떻게 동작할까?
+메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
+예외가 발생하면 트랜잭션이 롤백된다.
 
 
-트랜잭션?
+  
+    스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감싼다. 
+이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 ...</p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/transaction/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1721145600"
+  data-df="ll"
+  
+>
+  Jul 17, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Transaction</h4>
+              <div class="text-muted">
+                <p>트랜잭션
 
 일련의 작업들을 하나로 묶어서 처리하는 단위.
-트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소됩니다.
-데이터의 일관성과 ...</p>
+
+트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소된다.
+데이터의 일관성과 결성을 유지하는 중요한 개념이다.
+
+트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.
+
+
+
+콘서트 티켓 예매를 예로 들어보자
+
+상품을 구매하...</p>
               </div>
             </div>
           </a>
@@ -1259,17 +1253,17 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>index와 B-tree, Hash인덱스</p>
+      <p>index와 B-tree 그리고 Hash Index</p>
     </a>
   
 
   
     <a
-      href="/posts/spring-configuration/"
+      href="/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/"
       class="btn btn-outline-primary"
       aria-label="Newer"
     >
-      <p>Configuration어노테이션</p>
+      <p>Blocking vs Non-Blocking</p>
     </a>
   
 </nav>

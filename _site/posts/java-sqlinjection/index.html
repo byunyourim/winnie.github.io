@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="SQL Injection" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="전송 계층에서 사용하는 두 가지 주요 프로토콜" />
-<meta property="og:description" content="전송 계층에서 사용하는 두 가지 주요 프로토콜" />
+<meta name="description" content="SQL Injection 공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격 이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다." />
+<meta property="og:description" content="SQL Injection 공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격 이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다." />
 <link rel="canonical" href="http://localhost:4000/posts/java-sqlinjection/" />
 <meta property="og:url" content="http://localhost:4000/posts/java-sqlinjection/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="SQL Injection" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-08-01T00:00:00+08:00","description":"전송 계층에서 사용하는 두 가지 주요 프로토콜","headline":"SQL Injection","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-sqlinjection/"},"url":"http://localhost:4000/posts/java-sqlinjection/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-08-01T00:00:00+08:00","description":"SQL Injection 공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격 이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다.","headline":"SQL Injection","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-sqlinjection/"},"url":"http://localhost:4000/posts/java-sqlinjection/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -530,6 +530,17 @@
 
       
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
 
     
   
@@ -675,7 +686,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="681 words"
+  title="636 words"
 >
   <em>3 min</em> read</span>
 
@@ -685,35 +696,38 @@
   </header>
 
   <div class="content">
-    <p>전송 계층에서 사용하는 두 가지 주요 프로토콜</p>
-
-<h1 id="sql-injection">SQL Injection</h1>
+    <h2 id="sql-injection"><span class="me-2">SQL Injection</span><a href="#sql-injection" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p><span style="background-color:#D0E4FC"><strong>공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격</strong></span></p>
 
-<p>이 공격을 통해 데이터를 유출하거나, 데이터를 조작할 수 있습니다.</p>
+<p>이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다.</p>
+
+<p><br /><br /></p>
 
 <h3 id="과정"><span class="me-2">과정</span><a href="#과정" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>공격자는 웹 사이트의 입력 필드나 url 파라미터에 sql 인젝션 취약점이 있는지 파악 후, 취약점이 확인되면 쿼리에 악의적인 sql 문을 삽입합니다.
-예를 들어 “admin; –” 와 같이 입력함으로써 쿼리를 변경합니다.
-이로써 데이터베이스가 의도치 않은 동작을 하게 만들어 사용자의 정보를 유출할 수 있습니다.</p>
+<p>공격자는 웹 사이트의 입력 필드나 url 파라미터에 sql 인젝션 취약점이 있는지 파악 후, 취약점이 확인되면 쿼리에 악의적인 sql 문을 삽입한다.<br />
+예를 들어 “admin; –” 와 같이 입력함으로써 쿼리를 변경한다.<br />
+이로써 데이터베이스가 의도치 않은 동작을 하게 만들어 사용자의 정보를 유출할 수 있다.</p>
 
-<p>이러한 작업을 통해 데이터를 유출할 수 있으며, 특정 사용자의 비밀번호를 변경, 관리자 권한을 얻어 시스텡 서버를 장악할 수 있습니다.
-또한 로그인시 비밀번호 검증을 피하여 로그인이 가능합니다.</p>
+<p>이러한 작업을 통해 데이터를 유출할 수 있으며, 특정 사용자의 비밀번호를 변경, 관리자 권한을 얻어 시스텡 서버를 장악할 수 있다.<br />
+또한 로그인시 비밀번호 검증을 피하여 로그인이 가능하다.</p>
+
+<p><br /></p>
 
 <h2 id="예방하려면"><span class="me-2">예방하려면?</span><a href="#예방하려면" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>PreparedStatement를 사용하면 드라이버가 자동으로 매개변수 값을 이스케이프 처리하여 SQL Injection 공격을 방지할 수 있습니다.</p>
+<p>PreparedStatement를 사용하면 드라이버가 자동으로 매개변수 값을 이스케이프 처리하여 SQL Injection 공격을 방지할 수 있다.</p>
 
-<p>Hibernate와 같은 ORM 프레임워크를 사용하여 SQL 쿼리 작성을 자동화함으로써 위험을 줄일 수 있습니다.
-모든 사용자의 입력을 검증하고 특수문자를 이스케이프 처리합니다.
-또한 데이터베이스 권한에 최소한의 권한을 부여하는 것이 좋습니다.</p>
+<p>Hibernate와 같은 ORM 프레임워크를 사용하여 SQL 쿼리 작성을 자동화함으로써 위험을 줄일 수 있다.</p>
 
-<p>하지만 SQL 쿼리를 동적으로 생성하는 코드에서 PreparedStatement의 파라미터 바인딩을 적절히 사용하지 않으면 여전히 취약점이 발생할 수 있습니다.
-그리고 개발자가 입력 값을 제대로 검증하지 않거나, 특히 입력 값이 코드 또는 쿼리 구조의 일부로 사용되는 경우 공격에 노출될 수 있습니다.</p>
+<p>모든 사용자의 입력을 검증하고 특수문자를 이스케이프 처리한다.<br />
+또한 데이터베이스 권한에 최소한의 권한을 부여하는 것이 좋다.</p>
 
-<p>따라서 입력 값의 유형, 길이, 형식 등을 철저히 검증해야 하며, 모든 변수는 반드시 PreparedStatement의 파라미터로 바인딩해야 합니다.
-필요에 따라 특수 문자를 이스케이프 처리하고, 입력 값이 SQL 구조에 영향을 주지 않도록 합니다.</p>
+<p>하지만 SQL 쿼리를 동적으로 생성하는 코드에서 PreparedStatement의 파라미터 바인딩을 적절히 사용하지 않으면 여전히 취약점이 발생할 수 있다.<br />
+그리고 개발자가 입력 값을 제대로 검증하지 않거나, 특히 입력 값이 코드 또는 쿼리 구조의 일부로 사용되는 경우 공격에 노출될 수 있다.</p>
 
-<p>이러한 방법을 통해 Sql injection를 예방할 수 있습니다.</p>
+<p>따라서 입력 값의 유형, 길이, 형식 등을 철저히 검증해야 하며, 모든 변수는 반드시 PreparedStatement의 파라미터로 바인딩해야 한다.<br />
+필요에 따라 특수 문자를 이스케이프 처리하고, 입력 값이 SQL 구조에 영향을 주지 않도록 한다.</p>
+
+<p>이러한 방법을 통해 Sql injection를 예방할 수 있다.</p>
 
 
   </div>
@@ -838,35 +852,35 @@
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/java-overroading/">오버로딩과 오버라이딩</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/java-enum/">enum</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+          <a href="/posts/java-primitive-referencee/">Primitive 타입과 Reference 타입</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/java-%EB%8F%99%EB%93%B1%EC%84%B1%EA%B3%BC%EB%8F%99%EC%9D%BC%EC%84%B1/">동등성과 동일성</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+          <a href="/posts/java-string/">String 객체를 선언하는 방법</a>
         </li>
       
     </ul>
@@ -1030,10 +1044,10 @@
               <div class="text-muted">
                 <p>Redis (Remote dictionary server) 란?
 
-오픈 소스 인메모리 데이터 구조의 저장소로, 주로 데이터베이스, 캐시, 메시지 브로커로 사용됩니다.
-빠른 접근 속도와 다양한 데이터 구조를 지원합니다.
+오픈 소스 인메모리 데이터 구조의 저장소로, 주로 데이터베이스, 캐시, 메시지 브로커로 사용된다.
+빠른 접근 속도와 다양한 데이터 구조를 지원한다.
 
-데이터를 메모리에 저장하여 빠른 접근 속도를 제공합니다. 데이터를 메모리에 저장함면 디스크 I/O 를 줄이고, 높은 성능을 유지할 수...</p>
+데이터를 메모리에 저장하여 빠른 접근 속도를 제공하며, 데이터를 메모리에 저장하면 디스크 I/O 를 줄이고, 높은 성능을 유지할 수 있다...</p>
               </div>
             </div>
           </a>
@@ -1061,16 +1075,19 @@
 
               <h4 class="pt-0 my-2">CI/CD</h4>
               <div class="text-muted">
-                <p>CI/CD 는 코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
-소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스입니다.
+                <p>코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
+소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스이다.
 
 
 
 
 
-CI (Continuous Integration) 란?
-지속적인 통합이라는 의미로 개발자들이 각자의 작업을 자주 병합하여 통합하는 프로세스 입니다.
-병합할 때마다 자동화된 빌드와 테스트가 실행됩니...</p>
+CI (Continuous Integration)
+지속적인 통합
+
+개발자들이 각자의 작업을 병합하여 통합하는 프로세스로 병합할 때마다 자동화된 빌드와 테스트가 실행된다.
+
+개발자들이 작업한 코드를 자주 메인 브랜...</p>
               </div>
             </div>
           </a>

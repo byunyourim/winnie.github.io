@@ -1110,11 +1110,13 @@
   <li>네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우</li>
 </ul>
 
+<p><br /></p>
+
 <h4 id="문제"><span class="me-2">문제</span><a href="#문제" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>입출력 작업이 완료될때 까지 다른 스레드가 대기해야하기 때문에, 멀티 스레드 환경에서 대기 시간이 오래 걸릴 수 있습니다. 
 많은 클라이언트의 요청을 동시에 처리할 수 없으며 블록 상태가 발생할 수 있습니다.</p>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h1 id="non-blocking">Non-Blocking</h1>
 <p><a href="https://github.com/user-attachments/assets/4fa1e260-068b-4e24-9c73-cd6c4c14baff" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/4fa1e260-068b-4e24-9c73-cd6c4c14baff" alt="non_blocking.png" loading="lazy"></a>
@@ -1127,6 +1129,8 @@
 
 <p>차- 작업이 완료될 때까지 대기하지 않고, 작업 큐에 넣어 두고 다른 작업을 수행하는 경우</p>
 
+<p><br /></p>
+
 <h4 id="문제-1"><span class="me-2">문제</span><a href="#문제-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>복잡하며, 콜백 지옥과 같은 문제가 발생할 수 있고, 이벤트를 기반으로 동작하기 때문에 실행 흐름을 추적하거나 디버깅이 어렵습니다.
 비동기 작업이 많아질수록 메모리 사용량이 증가할 수 있습니다.</p>
@@ -1138,7 +1142,7 @@ IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하�
 <p>구현 방법에는 자바스크립트에서 콜백함수를 사용하거나 promise 를 사용하는 방법이 있습니다.
 또한 자바의 NIO 와 같은 라이브러리를 사용하여 블로킹 IO 를 비동기적으로 처리할 수 있습니다.</p>
 
-<p><br /></p>
+<p><br /><br /></p>
 
 <h1 id="동기">동기</h1>
 
@@ -1147,7 +1151,8 @@ IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하�
 
 <p>작업의 순서가 보장되며, 코드의 실행 순서가 예측 가능합니다.</p>
 
-<p><br /></p>
+<p><br />
+<br /></p>
 
 <h1 id="비동기">비동기</h1>
 <p><a href="https://github.com/user-attachments/assets/4e618758-a40c-4aef-87f6-f71af4d6f1d2" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/4e618758-a40c-4aef-87f6-f71af4d6f1d2" alt="async.png" loading="lazy"></a>
@@ -1166,7 +1171,8 @@ IO 작업이 완료될 때까지 기다리지 않고 다른 요청을 처리하�
   <p>작업 완료 시점에 대한 처리 방식</p>
 </blockquote>
 
-<p><br /></p>
+<p><br />
+<br /></p>
 
 <h3 id="promise"><span class="me-2">Promise?</span><a href="#promise" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>비동기 작업의 결과를 나중에 처리할 수 있는 객체로, 작업의 성공(fulfilled) 또는 실패(rejected)를 다룹니다.
@@ -1177,18 +1183,20 @@ Promise 객체가 생성될 경우 메모리 사용량이 증가합니다.</p>
 <p>따라서 모든 비동기에 에러 처리를 해야하며, Promise.all()을 사용할 때, 하나의 Promise라도 실패하면 전체가 실패로 간주되므로, 개별적으로 에러 처리를 할 필요가 있습니다.
 Promise 내부에서 또 다른 Promise를 반환하는 경우, 코드가 복잡해질 수 있기 때문 async/await를 사용하는 것이 더 적합할 수 있습니다.</p>
 
+<p><br /></p>
+
 <h3 id="nio-new-io"><span class="me-2">NIO (New I/O)</span><a href="#nio-new-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>자바의 비동기 IO를 지원하는 API로, 네트워크와 파일 작업을 효율적으로 처리할 수 있게 합니다.
 Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관리할 수 있습니다.</p>
 
 <p><br />
-<br /></p>
-
-<p><br />
+<br />
 <br /></p>
 
 <h1 id="이벤트-통지-방식">이벤트 통지 방식</h1>
 <p><a href="https://github.com/user-attachments/assets/c97d033c-e0dc-4825-8e1c-7e5df74b594e" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/c97d033c-e0dc-4825-8e1c-7e5df74b594e" alt="event.png" loading="lazy"></a></p>
+
+<p><br /></p>
 
 <h3 id="sync-blocking-io"><span class="me-2">Sync Blocking I/O</span><a href="#sync-blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>입력 요청 등 제어권과 처리 결과를 동시에 반환</p>
@@ -1200,6 +1208,8 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
 </ol>
 
 <p>구현이 간단하고 직관적이며, 스레드가 직적 I/O 작업을 기다리기 때문에 비동기 처리가 필요없습니다.</p>
+
+<p><br /></p>
 
 <h3 id="sync-non-blocking-io"><span class="me-2">Sync Non-Blocking I/O</span><a href="#sync-non-blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>자신의 작업을 하면서 결과가 반환됐는지 확인하는 방식</p>
@@ -1214,6 +1224,8 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
 
 <p>스레드가 다른 작업을 계속 수행할 수 있으므로 자원 효율성이 좋으며, 높은 I/O 성능을 요구하는 어플리케이션에서 효과적입니다.</p>
 
+<p><br /></p>
+
 <h3 id="async-blocking-io"><span class="me-2">Async Blocking I/O</span><a href="#async-blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>비동기적으로 I/O 요청을 시작하고, I/O 작업의 완료를 기다리는 블로킹 방식</p>
 
@@ -1227,6 +1239,8 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
 
 <p>스레드가 블로킹되는 동안 다른 작업을 수행할 수 없기 때문에 자원의 활용도가 떨어질 수 있으며,
 비동기 요청과 블로킹 대기 사이의 복잡성을 관리하기 어려울 수 있습니다.</p>
+
+<p><br /></p>
 
 <h3 id="async-non-blocking-io"><span class="me-2">Async Non-Blocking I/O</span><a href="#async-non-blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>I/O 작업의 완료를 기다리지 않고 다른 작업을 동시에 처리할 수 있는 접근 방식</p>
@@ -1368,35 +1382,35 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-osi7/">OSI 7 계층과 주소창에 naver.com을 치면 일어나는 일</a>
+          <a href="/posts/java-overroading/">오버로딩과 오버라이딩</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-url/">URL (Uniform Resource Locator)</a>
+          <a href="/posts/java-enum/">enum</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/network-handshake/">TCP 3-way handshake, 4-way handshake 동작 방식</a>
+          <a href="/posts/java-primitive-referencee/">Primitive 타입과 Reference 타입</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/java-%EB%8F%99%EB%93%B1%EC%84%B1%EA%B3%BC%EB%8F%99%EC%9D%BC%EC%84%B1/">동등성과 동일성</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+          <a href="/posts/java-string/">String 객체를 선언하는 방법</a>
         </li>
       
     </ul>
