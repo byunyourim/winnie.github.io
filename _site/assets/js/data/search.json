@@ -19,7 +19,7 @@
   
   {
     "title": "JIT 컴파일러?",
-    "url": "/posts/java-jit_compiler/",
+    "url": "/posts/java-jit-compiler/",
     "categories": "Java",
     "tags": "",
     "date": "2024-10-01 00:00:00 +0800",
@@ -36,7 +36,7 @@
   
   {
     "title": "쿠키, 세션 그리고 토큰 인증",
-    "url": "/posts/network-%EC%BF%A0%ED%82%A4,%EC%84%B8%EC%85%98,-%ED%86%A0%ED%81%B0/",
+    "url": "/posts/network-authentication-method/",
     "categories": "Network",
     "tags": "",
     "date": "2024-09-28 00:00:00 +0800",
