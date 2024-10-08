@@ -721,6 +721,10 @@ $btn-mb: 0.5rem;
     }
   }
 
+  background: url('/assets/img/fish.png');
+  background-size: 200% 70%;
+  background-position: center;
+
   .profile-wrapper {
 
     padding-left: 10rem;
@@ -1531,6 +1535,11 @@ search {
         @include ml-mr(calc(($sb-btn-gap-lg - $btn-border-width) / 2));
       }
     }
+
+    background: url('/assets/img/fish.png');
+    background-size: 100% 100%;
+    background-position: center;
+
   }
 } /* min-width: 1650px */
 
