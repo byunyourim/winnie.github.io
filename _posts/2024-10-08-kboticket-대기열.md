@@ -15,7 +15,7 @@ categories: [kboticket]
 - 순번 조회 가능
 
 
-SQS, RabbitMQ, Kafka와 같은 큐 서비스의 특장점 탐색.
+SQS, RabbitMQ, Kafka와 같은 큐 서비스의 장단점 확인 후 적합성 판단.
 
 <br>
 
