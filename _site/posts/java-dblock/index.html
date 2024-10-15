@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="DB Lock" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="동시성 Concurrency" />
-<meta property="og:description" content="동시성 Concurrency" />
+<meta name="description" content="Concurrency" />
+<meta property="og:description" content="Concurrency" />
 <link rel="canonical" href="http://localhost:4000/posts/java-dblock/" />
 <meta property="og:url" content="http://localhost:4000/posts/java-dblock/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="DB Lock" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-08-29T00:00:00+08:00","description":"동시성 Concurrency","headline":"DB Lock","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-dblock/"},"url":"http://localhost:4000/posts/java-dblock/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-03T00:51:05+08:00","datePublished":"2024-08-29T00:00:00+08:00","description":"Concurrency","headline":"DB Lock","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-dblock/"},"url":"http://localhost:4000/posts/java-dblock/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -788,6 +788,17 @@
 
       
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
 
     
   
@@ -803,6 +814,17 @@
       
         
         
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
       
 
       
@@ -993,9 +1015,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="2376 words"
+  title="2303 words"
 >
-  <em>13 min</em> read</span>
+  <em>12 min</em> read</span>
 
         </div>
       </div>
@@ -1003,73 +1025,74 @@
   </header>
 
   <div class="content">
-    <h2 id="동시성-concurrency"><span class="me-2">동시성 Concurrency</span><a href="#동시성-concurrency" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+    <h2 id="concurrency"><span class="me-2">Concurrency</span><a href="#concurrency" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
-<p><strong>여러 작업이 동시에 실행되는 것처럼 보이도록 관리되는 상태</strong>로, 하나의 CPU에서 여러 작업이 실행될 때
-CPU는 빠르게 작업을 전환하여 <strong>마치 여러 작업이 동시에 실행되는 것처럼</strong> 보이게 한다.</p>
+<p><strong>여러 작업이 동시에 실행되는 것처럼 보이도록 관리되는 상태</strong><br />
+하나의 CPU에서 여러 작업이 실행될 때, CPU는 빠르게 작업을 전환하여 <strong>마치 여러 작업이 동시에 실행되는 것처럼</strong> 보이게 한다.</p>
 
 <p>동시성을 활용하면 프로그램의 여러 부분이 동시에 실행되어, 더 많은 작업을 빠르게 처리할 수 있고, 자원을 효율적으로 사용하며,
 응답을 향상시킬 수 있다.</p>
 
-<p>데이터베이스는 다수의 사용자가 데이터에 동시에 접근하게된다. 여러 사용자가 데이터베이스에 접근하는 과정에서
-사용자에 대한 제어가 적절하게 이루어지지 않으면 데이터의 일관성과 무결성이 깨지게 된다.</p>
-
-<p>따라서 동시성 제어를 통해 여러 사용자가 있는 상황에서 여러 개의 트랜잭션이 동시에 수행될 때, 데이터의 일관성이 깨지지 않도록 해야한다.</p>
+<p>특히 데이터베이스는 다수의 사용자가 동시에 접근한다. 이 과정에서 사용자에 대한 제어가 적절하게 이루어지지 않으면 데이터의 일관성과 무결성이 깨지게 된다.
+따라서 동시성 제어를 통해 여러 사용자가 동시에 여러 개의 트랜잭션을 수행 때, 데이터의 일관성이 깨지지 않도록 해야한다.</p>
 
 <p><br /></p>
 
-<h4 id="락의-범위"><span class="me-2">락의 범위</span><a href="#락의-범위" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<h3 id="락의-범위"><span class="me-2">락의 범위</span><a href="#락의-범위" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>DB, 파일, 테이블, 페이지, 컬럼 등</p>
 
-<p><br /></p>
+<p><br /><br /><br /></p>
 
 <h2 id="낙관적-락-optimistic-lock"><span class="me-2">낙관적 락 (Optimistic Lock)</span><a href="#낙관적-락-optimistic-lock" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p><a href="https://github.com/user-attachments/assets/a1976ba0-b811-4270-b8c1-6e4fc408e1a5" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/a1976ba0-b811-4270-b8c1-6e4fc408e1a5" alt="optimistic.png" loading="lazy"></a>
-자원에 락을 걸지 않고, 동시성 문제가 발생하면 그때 그때 처리하는 방식이다.</p>
+<p><a href="https://github.com/user-attachments/assets/a1976ba0-b811-4270-b8c1-6e4fc408e1a5" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/a1976ba0-b811-4270-b8c1-6e4fc408e1a5" alt="optimistic.png" loading="lazy"></a></p>
 
-<p>수정 작업을 할때 수정했다고 명시하여 다른 트랜잭션이 동일한 조건으로 값을 수정할 수 없도록 하는 것이다.<br />
-version과 같은 별도의 컬럼을 추가하여 충돌의 발생을 막는다.
+<p><code class="language-plaintext highlighter-rouge">자원에 락을 걸지 않고, 동시성 문제가 발생하면 그때 그때 처리하는 방식</code></p>
+
+<p>수정 작업을 할때 수정했다고 명시하여 다른 트랜잭션이 동일한 조건으로 값을 수정할 수 없도록 한다.</p>
+
+<p>version과 같은 별도의 컬럼을 추가하여 충돌의 발생을 막는다.
 version(hashcode/ timestamp)의 상태로 충돌을 확인하며, 충돌된 경우 롤백한다.</p>
 
-<p>데이터 충돌이 자주 일어나지 않을 것이라고 예상되는 경우 주로 사용한다.
+<p>데이터 충돌이 자주 일어나지 않을 것이라고 예상되는 경우 주로 사용한다.<br />
 조회 작업이 많기 때문에 동시 접근 성능이 중요하다.</p>
 
-<h4 id="장-단점"><span class="me-2">장 단점</span><a href="#장-단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>충돌이 안난다는 가정하에, 동시 요청에 대해서 처리 성능이 좋다.</p>
+<h4 id="장단점"><span class="me-2">장단점</span><a href="#장단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>충돌이 안난다는 가정하에, 동시 요청에 대한 처리 성능이 좋다.</p>
 
-<p>그러나 충돌이 빈번하게 일어나는 경우, 롤백처리에 대한 비용이 많이 들어 성능에서 손해를 볼 수 있다.
+<p>그러나 충돌이 빈번하게 일어나는 경우, 롤백처리에 대한 비용이 많이 들어 성능이 떨어질 수 있다.<br />
 또한, 개발자가 직접 롤백을 구현해야하기 때문에 시스템 구조에 따라 복잡해질 수 있다.</p>
 
 <p><br />
-<br />
-<br />
 <br />
 <br /></p>
 
 <h2 id="비관적-락-pessimistic-lock"><span class="me-2">비관적 락 (Pessimistic Lock)</span><a href="#비관적-락-pessimistic-lock" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
 <p><a href="https://github.com/user-attachments/assets/a5b7eb4f-082e-49d4-8a4b-013a4dd84d4b" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/a5b7eb4f-082e-49d4-8a4b-013a4dd84d4b" alt="pessimistic.png" loading="lazy"></a>
-데이터베이스나 다른 공유 자원에 접근할 때, 데이터 충돌이 발생할 가능성을 미리 고려하고 이를 방지하기 위해
-자원에 대해 락을 미리 거는 방법이다.</p>
+<code class="language-plaintext highlighter-rouge">공유 자원에 접근할 때, 데이터 충돌이 발생할 가능성을 미리 고려하고 이를 방지하기 위해
+자원에 대해 락을 미리 거는 방법</code></p>
 
 <p>하나의 트랜잭션이 자원에 접근시 락을 걸고, 다른 트랜잭션이 접근하지 못하게 하여 조회 또는 갱신 처리가 완료될 때까지 락을 유지한다.</p>
 
-<p>데이터베이스에서 Shared Lock(공유, 읽기 잠금) 이나 Exclusive Lock(배타, 쓰기 잠금) 을 걸 수 있다.</p>
+<ul>
+  <li>Shared Lock(공유, 읽기 잠금)</li>
+  <li>Exclusive Lock(배타, 쓰기 잠금)</li>
+</ul>
 
-<p>충돌이 자주 발생하는 상황에서 유리하며 데이터의 무결성을 보장한다. 하지만 읽기 작업이 많이 이루어지는 경우 성능이 떨어지며
+<p>충돌이 자주 발생하는 상황에 유리하며 데이터의 무결성을 보장한다. 하지만 조회 작업이 많은 경우 성능이 떨어지고,
 서로 자원이 필요한 경우 데드락에 걸릴 가능성이 있다.</p>
 
 <p><a href="https://github.com/user-attachments/assets/c39ab451-cc23-410c-a80b-5b8e5f9e4c0a" class="popup img-link  shimmer"><img src="https://github.com/user-attachments/assets/c39ab451-cc23-410c-a80b-5b8e5f9e4c0a" alt="deadlock.png" loading="lazy"></a></p>
 
-<p>따라서, 조건을 추가하여 대기시간을 주거나 예외처리가 가능하다.</p>
+<p>따라서, 조건을 추가하여 대기시간을 주거나 예외 처리를 할 수 있다.</p>
 
 <blockquote>
-  <h6 id="no-wiat">NO WIAT</h6>
+  <h5 id="no-wiat"><span class="me-2">NO WIAT</span><a href="#no-wiat" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
   <p>잠금을 획득하지 못하면 바로 예외를 발생시킨다. <br />
 트랜잭션은 다른 트랜잭션의 잠금이 해제될 때까지 대기하지 않고, 바로 실패한다. <br />
 즉각 적인 실패 응답이 필요한 경우 사용</p>
 
-  <h6 id="waitn">WAIT[n]</h6>
+  <h5 id="waitn"><span class="me-2">WAIT[n]</span><a href="#waitn" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
   <p>트랜잭션이 잠금을 요청했을 때, 해당 자원이 잠겨있는 경우, 최대 n 초 동안 대기한다.<br />
 n 초 동안 잠금이 해제되지 않으면 예외가 발생하며 트랜잭션이 실패한다.</p>
 </blockquote>
@@ -1102,12 +1125,10 @@ n 초 동안 잠금이 해제되지 않으면 예외가 발생하며 트랜잭�
 공유락은 트랜잭션이 데이터를 읽는 동안 해당 데이터가 다른 트랜잭션에 의해 변경되지 않도록 보호한다.</li>
 </ol>
 
-<blockquote>
-  <h5 id="공유락의-장단점"><span class="me-2">공유락의 장단점</span><a href="#공유락의-장단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
-  <p>여러 트랜잭션이 동시에 데이터를 읽을 수 있어 읽기 작업의 효율성이 높으며, 데이터를 읽는 동안 데이터의 일관성을 유지할 수 있다.
+<h4 id="공유락의-장단점"><span class="me-2">공유락의 장단점</span><a href="#공유락의-장단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>여러 트랜잭션이 동시에 데이터를 읽을 수 있어 읽기 작업의 효율성이 높으며, 데이터를 읽는 동안 데이터의 일관성을 유지할 수 있다.
 그러나 여러 트랜잭션이 공유락을 설정한 상태엣서는 쓰기 작업을 기다려야 하기 때문에 성능저하가 발생할 수 있다.
 또한 데드락이 발생할 수 있다.</p>
-</blockquote>
 
 <p><br /></p>
 
@@ -1150,12 +1171,10 @@ n 초 동안 잠금이 해제되지 않으면 예외가 발생하며 트랜잭�
 <p>그러나 자원이 락이 걸린 동안 다른 트랜잭션이 대기해야 하므로 성능 저하가 발생할 수 있으며,
 대기 시간이 길어질 경우, 데드락의 가능성이 증가한다.</p>
 
-<blockquote>
-  <h5 id="배타락의-장단점"><span class="me-2">배타락의 장단점</span><a href="#배타락의-장단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
-  <p>데이터의 무결성과 일관성을 보장하며, 충돌을 사전에 방지하기 때문에 데이터의 손상과 비일관성을 방지할 수 있다.</p>
+<h4 id="배타락의-장단점"><span class="me-2">배타락의 장단점</span><a href="#배타락의-장단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>데이터의 무결성과 일관성을 보장하며, 충돌을 사전에 방지하기 때문에 데이터의 손상과 비일관성을 방지할 수 있다.</p>
 
-  <p>그러나 자원이 락에 걸린동안 다른 트랜잭션이 대기해야하기 때문에 성능 저하가 발생할 수 있으며, 대기 시간이 길어질 경우 데드락의 가능성이 증가한다.</p>
-</blockquote>
+<p>그러나 자원이 락에 걸린 동안 다른 트랜잭션이 대기해야하기 때문에 성능 저하가 발생할 수 있으며, 대기 시간이 길어질 경우 데드락의 가능성이 증가한다.</p>
 
 
   </div>
@@ -1280,6 +1299,27 @@ n 초 동안 잠금이 해제되지 않으면 예외가 발생하며 트랜잭�
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/algorithm-lru/">LRU(Least Recently Used)Cache 알고리즘</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/algorithm-bubble-sort/">버블 정렬 Bubble Sort 알고리즘</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/Algorithm-hashmap/">HashMap의 구조</a>
         </li>
       
@@ -1288,27 +1328,6 @@ n 초 동안 잠금이 해제되지 않으면 예외가 발생하며 트랜잭�
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-encoding/">Encoding</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/db-index/">index와 B-tree 그리고 Hash Index</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/spring-allargsconstructor-requiredargsconstructor/">어노테이션 RequiredArgsConstructor, AllArgsConstructor</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/">Blocking vs Non-Blocking</a>
         </li>
       
     </ul>

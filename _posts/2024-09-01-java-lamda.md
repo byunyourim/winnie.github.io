@@ -6,7 +6,7 @@ categories: [Java]
 
 <br>
 
-람다 표현식은 **자바의 메서드 하나의 식으로 간결하게 표현한 것** 이다.
+람다 표현식은 **자바의 메서드를 하나의 식으로 간결하게 표현한 것** 이다.
 
 <br>
 
@@ -184,9 +184,11 @@ interface MyFunctionInterface {
 }
 ```  
   
+<br>
 
 ### 인터페이스에 추상 메서드가 여러 개라면?
-함수형 인터페이스는 추상 메서드를 하나만 갖는 인터페이스이다. 이 추상 메서드는 람다표현식을 사용하여 구현할 수 있다.
+함수형 인터페이스는 **추상 메서드를 하나만 갖는 인터페이스**이다.   
+이 추상 메서드는 람다표현식을 사용하여 구현할 수 있다.
 
 추상 메서드가 여러 개인 인터페이스의 경우 함수형 인터페이스가 아니기 때문에 람다 표현식으로 구현할 수 없다.  
 만약 여러 개의 메서드가 필요한 경우에는 각각의 메서드를 분리하여 함수형 인터페이스로 만들어야 한다.
@@ -209,17 +211,17 @@ public class Example {
   
 <br>
 
-## 8. 기존 인터페이스와 호환
+### 8. 기존 인터페이스와 호환
 
 자바에서 제공하는 함수형 인터페이스에는 **Runnable, Function, Predicate, Consumer, Supplier, Callable** 등이 있다.
   
 <br>
 
-### ◾️ Runnable
+#### ◾️ Runnable
 스레드를 실행하기 위한 함수형 인터페이스
 
-### ◾️ Function<T, R>
-- T타입의 매개변수를 입력 받아, R 타입으로 반환하는 함수형 인터페이스
+#### ◾️ Function<T, R>
+- T 타입의 매개변수를 입력 받아, R을 리턴하는 함수형 인터페이스
 - **R apply (T t)**
 ```java
 Function<String, Integer> lengthFunction = s -> s.length;
@@ -227,7 +229,7 @@ int length = lengthFunction.apply("Hello");
 ```
 입력을 받아서 출력으로 변환하며, 주로 변환 작업에 사용된다.
 
-### ◾️ Predicate< T >
+#### ◾️ Predicate< T >
 - T타입의 매개변수를 입력 받아, 조건 검사 후 boolean 값을 반환하는 함수형 인터페이스
 - **boolean test(T t)**
 ```java
@@ -236,7 +238,7 @@ boolean result = isEmpty.test(""); // true
 ```
 입력값에 대해 boolean 값을 반환하며, 조건 검증에 사용한다.
 
-### ◾️ Consumer< T > 
+#### ◾️ Consumer< T > 
 - T타입의 입력을 받아 동작을 수행한 후, 결과를 반환하지 않는 함수형 인터페이스이다.
 - **void accept(T t)** 
 ```java
@@ -245,7 +247,7 @@ print.accept("Hello, World!");
 ```
 입력을 받아서 동작을 수행하며, 결과를 반환하지 않는다.
 
-### ◾️ Supplier< T > 
+#### ◾️ Supplier< T > 
 - 매개변수 없이 T타입의 값을 반환하는 함수형 인터페이스로 객체를 생성하거나 값을 제공한다.
 - **T get()**
 ```java

@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="HashMap의 구조" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T10:15:06+08:00","datePublished":"2024-09-12T00:00:00+08:00","description":"키-값의 쌍으로 데이터를 저장하는 자료구조","headline":"HashMap의 구조","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/Algorithm-hashmap/"},"url":"http://localhost:4000/posts/Algorithm-hashmap/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T11:28:05+08:00","datePublished":"2024-09-12T00:00:00+08:00","description":"키-값의 쌍으로 데이터를 저장하는 자료구조","headline":"HashMap의 구조","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/Algorithm-hashmap/"},"url":"http://localhost:4000/posts/Algorithm-hashmap/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -844,7 +844,7 @@
 
 <time
   
-  data-ts="1728353706"
+  data-ts="1728358085"
   data-df="ll"
   
     data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -897,7 +897,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1576 words"
+  title="1579 words"
 >
   <em>8 min</em> read</span>
 
@@ -939,7 +939,7 @@
 
 <blockquote>
   <h5 id="로드-팩터-load-factor"><span class="me-2">로드 팩터 (Load Factor)</span><a href="#로드-팩터-load-factor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5>
-  <p>Load Factor은 HashMap이 일정 수준 채워지면 버킷 배열을 확장할지 정하는 기준이다.
+  <p>Load Factor은 HashMap이 일정 수준 채워지면 버킷 배열을 확장할지 정하는 기준이다.<br />
 기본적으로 Java의 HashMap은 로드 팩터 0.75를 사용한다. 따라서 버킷의 75%가 차면 배열의 크기를 resizing하고 재해싱 한다.
 로드 팩터를 낮게 설정하는 경우 리사이징이 더 자주 일어나며, 높게 설정하는 경우 충돌 가능성이 증가한다.</p>
 </blockquote>
@@ -947,8 +947,8 @@
 <p><br /></p>
 
 <p>HashMap의 시간 복잡도는 평균적으로 <strong>O(1)</strong>이다.
-하지만, 해시 충돌이 많이 발생하면, 특정 버킷에 연결된 리스트를 탐색해야 하기 때문에 시간 복잡도가  <strong>O(n)</strong>에 도달한다.
-하지만, Java 8 이후 트리 구조를 사용하여 최악의 경우에도 <strong>O(log n)</strong>으로 성능을 보장할 수 있.</p>
+해시 충돌이 많이 발생하면, 특정 버킷에 연결된 리스트를 탐색해야 하기 때문에 시간 복잡도가  <strong>O(n)</strong>에 도달한다.
+하지만, Java 8 이후 <strong>트리 구조를 사용하여</strong> 최악의 경우에도 <strong>O(log n)</strong>으로 성능을 보장한다.</p>
 
 <p><br /><br /><br /></p>
 
@@ -989,7 +989,7 @@
 <ol>
   <li>키를 해시 함수로 변환하여 버킷의 인덱스를 찾는다.</li>
   <li>해당 버킷에 연결된 리스트를 순회하여 일치하는 키를 찾아 대응하는 값을 반환한다.</li>
-  <li>키가 없는 경우 -1 또는 null 반</li>
+  <li>키가 없는 경우 -1 또는 null 반환한다.</li>
 </ol>
 
 <p><br /></p>
@@ -1029,9 +1029,10 @@
 갖게 되면, 해시 충둘이 발생한다.
 충돌이 발생하면, 같은 버킷에 여러 엔트리가 저장되는데, 이때 연결리스트로 연결한다.</p>
 
-<p>자바 8 이전에는 충돌이 발생하는 경우 연결리스트를 이용하였지만, 하나의 버킷에 많은 엔트리가 저장되면,
-검색 속도가 O(n)이 된다. 이를 개선하기 위해 엔트리가 일정 수준을 넘어가게되면 이진트리로 변환된다.
-이진 트리는 최악의 경우에도 검색 성능이 O(log n)으로 유지된다.</p>
+<p>자바 8 이전에는 충돌이 발생하는 경우 연결리스트를 이용하였다.<br />
+이 경우, 하나의 버킷에 많은 엔트리가 저장되면, 검색 속도가 O(n)이 된다.<br />
+이를 개선하기 위해 엔트리가 일정 수준을 넘어가게되면 이진 트리 구조로 변환된다.
+이진 트리는 최악의 경우에도 검색 성능이 O(log n)을 유지한다.</p>
 
 <p>해시코드를 이용해 데이터의 저장 위치를 빠르게 찾을 수 있으며, 검색 속도를 향상시킨다.</p>
 
@@ -1312,6 +1313,27 @@
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/algorithm-lru/">LRU(Least Recently Used)Cache 알고리즘</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/algorithm-bubble-sort/">버블 정렬 Bubble Sort 알고리즘</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-supplier-lru/">Supplier 인터페이스와 LRU</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/Algorithm-hashmap/">HashMap의 구조</a>
         </li>
       
@@ -1320,27 +1342,6 @@
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-encoding/">Encoding</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/db-index/">index와 B-tree 그리고 Hash Index</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/spring-allargsconstructor-requiredargsconstructor/">어노테이션 RequiredArgsConstructor, AllArgsConstructor</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/">Blocking vs Non-Blocking</a>
         </li>
       
     </ul>
@@ -1624,7 +1625,7 @@ LRU (Least Recently Used)
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>Dependency Injection</p>
+      <p>DI(Dependency Injection)</p>
     </a>
   
 
