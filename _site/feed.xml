@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>winnie's Tech Blog</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하</subtitle>
-  <updated>2024-10-15T12:27:49+08:00</updated>
+  <updated>2024-10-17T09:13:37+08:00</updated>
   <author>
     <name>winnie</name>
     <uri>http://localhost:4000/</uri>
@@ -24,7 +24,7 @@
     <link href="http://localhost:4000/posts/kboticket-%EB%8C%80%EA%B8%B0%EC%97%B4/" rel="alternate" type="text/html" title="티켓팅 시스템 - 대기열 구현" />
     <published>2024-10-08T00:00:00+08:00</published>
   
-    <updated>2024-10-08T00:00:00+08:00</updated>
+    <updated>2024-10-15T12:42:38+08:00</updated>
   
     <id>http://localhost:4000/posts/kboticket-%EB%8C%80%EA%B8%B0%EC%97%B4/</id>
     <content src="http://localhost:4000/posts/kboticket-%EB%8C%80%EA%B8%B0%EC%97%B4/" />
@@ -47,7 +47,7 @@
   순번 조회 가능
 
 
-SQS, RabbitMQ, Kafka와 같은 큐 서비스의 특장점 탐색.
+SQS, RabbitMQ, Kafka와 같은 큐 서비스의 장단점 확인 후 적합성 판단.
 
 
 
@@ -72,8 +72,7 @@ SQS
 RabbitMQ
 장점
 
-  다양한 라우팅 옵션과 기능을 제공한다.(우선순위, TTL)
-  클러스터링...</summary>
+  다양한 라우팅 옵션과 기능을 제공한다.(우선순위, TTL...</summary>
 
   </entry>
 
@@ -171,7 +170,7 @@ public class Shop31cmApplication {
     <link href="http://localhost:4000/posts/java-gc/" rel="alternate" type="text/html" title="GC(Garbage Collection)란?" />
     <published>2024-10-05T00:00:00+08:00</published>
   
-    <updated>2024-10-08T00:54:57+08:00</updated>
+    <updated>2024-10-15T12:29:00+08:00</updated>
   
     <id>http://localhost:4000/posts/java-gc/</id>
     <content src="http://localhost:4000/posts/java-gc/" />
