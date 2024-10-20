@@ -552,6 +552,17 @@
 
       
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
 
     
   
@@ -560,10 +571,140 @@
   
 
   
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
 
   
   
 
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
   
 
   
@@ -676,9 +817,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="618 words"
+  title="2885 words"
 >
-  <em>3 min</em> read</span>
+  <em>16 min</em> read</span>
 
         </div>
       </div>
@@ -689,34 +830,62 @@
     <p>프로젝트 중에 JWT를 사용하여서
 잘 몰라서.. 공부하고자</p>
 
-<h2 id="이전에는"><span class="me-2">이전에는?</span><a href="#이전에는" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었다.</p>
+<p><br /></p>
 
-<p>세션의 Stateful로 상태를 유지하는 것이 특징이다.</p>
+<p>HTTP 프로토콜은 웹에서 클라이언트와 서버 간의 통신을 가능하게 하는 기본적인 규약이다.<br />
+그러나 이 프로토콜은 connectionless(연결이 끊어짐)하고 stateless(상태 비저장) 특성을 갖는다. 즉,
+한 번의 통신이 끝나면 연결이 끊어지고, 이후 요청에서 이전 상태를 기억하지 않기 때문에 매번 사용자 인증과정을 반복해야 한다는 단점이 있다.</p>
 
-<p>사용자의 정보를 서버에 저장하고, 클라이언트는 세션ID를 통해 인증 상태를 유지한다.</p>
+<p>전통적인 세션 관리 방식은 서버에 사용자의 상태를 저장하고, 클라이언트가 쿠키를 통해 세션 ID를 전송하여 이를 식별한다.<br />
+그러나 이 방식은 사용자가 많아질 경우 서버에 부하를 줄 수 있고, 여러 서버를 사용할 때는 세션 공유 문제가 발생할 수 있다.</p>
 
-<p>세션은 서버 메모리나 데이터베이스에 저장되어야하기 때문에 서버 측에서 상태를 유지해야 한다.</p>
+<p>그러던 중 RESTful API와 같은 상태 비저장(stateless) 아키텍처의 필요성이 커지면서, 서버가 클라이언트의
+상태를 관리하지 않고도 인증을 처리할 수 있는 방식이 필요해 졌다.</p>
 
-<p>매 요청마다 서버와 통신해야하며, 사용자가 많아지는 경우 부하가 심해질 수 있다.</p>
+<p>그때, JWT가 등장하였다.</p>
 
-<p>이러한 문제로 등장한 것이 JWT로 Stateless 인 것이 특징이다.</p>
+<p>JWT는 사용자 정보를 포함하는 JSON 형식의 토큰으로, 클라이언트가 서버에 요청할 때 이 토큰을 함께 전송한다.<br />
+이 토큰은 서버에서 서명되어 있어, 중간에 변경되지 않았음을 확인한다.. 
+덕분에 서버는 상태를 저장할 필요 없이, 클라이언트가 보낸 토큰을 검증하기만 하면 사용자 인증을 수행할 수 있다.</p>
+
+<p>JWT를 통해 사용자 정보를 확인할 수 있고, 다양한 플랫폼과 언어 간의 호환성도 좋다.</p>
 
 <p><br /><br /></p>
 
-<h2 id="jwt"><span class="me-2">JWT</span><a href="#jwt" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<p>JSON Web Token의 약자로 정보를 JSON 형태로 클라이언트에 저장하고 서버는 해당 토큰을 검증하여
-인증을 처리하는 방식이다.</p>
+<h2 id="jwt-json-web-token"><span class="me-2">JWT (JSON Web Token)</span><a href="#jwt-json-web-token" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>정보를 JSON 형태로 클라이언트에 저장하고 서버는 해당 토큰을 검증하여 인증을 처리하는 방식이다.</p>
 
 <p>토큰 안에 미리 인증에 필요한 정보를 넣어두면 매 요청마다 서버와 통신할 필요가 없다.
 이로 인해 서버 부하와 같은 문제를 해결할 수 있다.</p>
 
-<p><br /><br /></p>
+<p><br /></p>
 
-<h2 id="구조"><span class="me-2">구조</span><a href="#구조" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<blockquote>
+  <h4 id="jwt를-활용한-로그인-프로세스"><span class="me-2">JWT를 활용한 로그인 프로세스</span><a href="#jwt를-활용한-로그인-프로세스" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p><strong>1. [클라이언트의 인증 요청]</strong>     <br />
+   사용자가 아이디와 비밀번호를 입력하여 서버에 인증 요청을 보낸다.  <br />
+<strong>2. [사용자 정보 유효성 확인]</strong>  <br />
+   서버는 데이터베이스와 비교하여 사용자의 정보가 유효한지 확인한다.<br />
+<strong>3. [서버 : JWT 생성]</strong><br />
+   인증에 성공하면 서버는 사용자의 정보를 기반으로 JWT를 생성한다.<br />
+<strong>4. [클라이언트에 JWT 반환]</strong>  <br />
+   서버는 생성된 JWT를 클라이언트에 반환한다.<br />
+<strong>5. [JWT 저장]</strong>  <br />
+클라이언트는 받은 JWT를 세션이나 쿠키에 저장한다.
+<br /></p>
+  <h4 id="인증-필요한-자원에-접근시"><span class="me-2">인증 필요한 자원에 접근시</span><a href="#인증-필요한-자원에-접근시" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p><strong>6. [인증이 필요한 API 요청]</strong> <br />
+   인증이 필요한 API를 호출할 때, Authorization헤더에 JWT를 포함시킨다.<br />
+<strong>7. [서버에서 JWT 검증]</strong> <br />
+   서버는 요청을 받으면 JWT를 검증한다.  <br />
+<strong>8. [리소스 제공]</strong>  <br />
+   JWT 가 유효한 경우 서버는 보호된 자원을 사용자에게 반환한다.</p>
+</blockquote>
+
+<p><br /><br /><br /></p>
+
+<h2 id="jwt-구조"><span class="me-2">JWT 구조</span><a href="#jwt-구조" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 <p>헤더, 페이로드, 서명 세 부분으로 구성된다.</p>
-
-<p>헤더 부분은 알고리즘 방식과 토큰의 타입을 갖으며, 서명 생성을 위해 어떤 알고리즘을 사용할지 식별하는 부분이다.</p>
 
 <p>페이로드는 클레임이라고 불리는 정보 조각을 포함한다.<br />
 클레임은 토큰에 추가할 정보를 의미하며 사용자 ID, 권한 정보등이 포함된다.<br />
@@ -725,8 +894,120 @@
 <p>서명은 토큰을 인코딩하거나 유효성 검증을 위해서 사용되는 부분으로,
 헤더와 페이로드를 합친 후 비밀키를 사용하여 생성한다.</p>
 
-<p>서버는 클라이언트로부터 받은 토큰을 검증하기 위해 서명 부분을 해싱 알고리즘과 비밀키로 다시 생성하고
-이를 클라이언트가 전달한 서명과 비교하여, 일치하면 인증이 유요한 것으로 판단한다.</p>
+<h4 id="헤더"><span class="me-2">헤더</span><a href="#헤더" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<ul>
+  <li>헤더는 JWT의 메타데이터를 포함하며 일반적으로 토큰의 타입과 사용된 알고리즘 방식을 나타낸다.</li>
+  <li>예를 들어, {“alg”: “HS256”, “typ”: “JWT”}와 같이 설정됩니다.</li>
+</ul>
+
+<h4 id="페이로드"><span class="me-2">페이로드</span><a href="#페이로드" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<ul>
+  <li>실제 데이터가 담긴 부분으로 여러 개의 클레임을 포함한다.</li>
+  <li>클레임은 JWT에 담을 정보 조각으로 사용자ID, 권한, 만료 시간 등이 포함된다.</li>
+  <li>쉽게 디코딩될 수 있기때문에, 민감한 정보(pw)는 포함하지 않는 것이 좋다.</li>
+</ul>
+
+<h4 id="서명"><span class="me-2">서명</span><a href="#서명" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<ul>
+  <li>헤더와 페이로드를 합친 후 비밀키를 사용해 생성된다.</li>
+  <li>토큰의 무겴성을 검증하는 용도로 사용된다.</li>
+  <li>서버는 클라이언트로부터 받은 토큰을 검증하기 위해 서명 부분을 해싱 알고리즘과 비밀키로 다시 생성하고
+이를 클라이언트가 전달한 서명과 비교하여, 일치하면 인증이 유효한 것으로 판단한다.</li>
+</ul>
+
+<p>이러한 구조로 JWT는 클라이언트와 서버 간의 인증 정보를 안전하게 전송하고, 서버는 상태를 저장하지 않고 사용자를 인증할 수 있다.</p>
+
+<p><br /><br /></p>
+
+<p>JWT는 발급될 때 <strong>유효기간</strong>을 설정하는데, 한 번 발급된 JWT는 그 유효기간이 만료될 때까지 변경할 수 없다.<br />
+따라서 유효기간이 짧게 설정되면 로그인을 계속 해야해서 사용자에게 불편을 줄 수 있고, 길게 설정하면 보안이 취약해질 수 있다.</p>
+
+<p>그리고 JWT는 서버에서 상태를 관리하지 않기 때문에, 사용자가 로그아웃하거나, 토큰을 무효화하고자 할 때 즉시 처리하기가 어렵다. <br />
+또한 서명되어 있기 때문에 데이터의 변조는 방지할 수 있지만, JWT는 만료될 때까지 사용이 가능하기 때문에, 유효기간이 긴 토큰이 탈취되는 경우 위험하다.</p>
+
+<p>이러한 단점을 보완하기 위해 Access Token과 Refresh Token이 같이 사용된다.</p>
+
+<p><br /><br /><br /></p>
+
+<h2 id="access-token과-refresh-token"><span class="me-2">Access Token과 Refresh Token</span><a href="#access-token과-refresh-token" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<h3 id="access-token"><span class="me-2">Access Token</span><a href="#access-token" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>Access Token은 사용자가 서버에 요청할 때 전달되는 토큰으로, 짧은 유효기간을 갖는다.
+이 토큰은 사용자의 인증과 권한을 검증하는 데 사용되며, 토큰이 만료되면 클라이언트는 더 이상 이 토큰으로 요청할 수 없다.<br />
+그러나 유효기간이 짧기 때문에 탈취된 경우에도 큰 피해를 줄 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="refresh-token"><span class="me-2">Refresh Token</span><a href="#refresh-token" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>Refresh Token은 Access Token의 유효기간이 만료되었을 때 새로운 Access Token을 발급받기 위한 토큰으로 유효기간이 더 길고, 민감한 정보가 포함되지 않는다.
+Access Token이 만료되었을 때 클라이언트는 Refresh Token을 서버로 보내 Access Token을 새로 발급받는다.</p>
+
+<p><br /></p>
+
+<blockquote>
+  <h4 id="access-token과-refresh-token의-흐름"><span class="me-2">Access Token과 Refresh Token의 흐름</span><a href="#access-token과-refresh-token의-흐름" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p><strong>1. 로그인 시 Access Token과 Refresh Token 발급</strong></p>
+
+  <p><strong>2. 사용자가 로그인하면, 서버는 클라이언트에게 두 개의 토큰을 발급한다.</strong></p>
+  <ul>
+    <li>짧은 유효기간을 가진 Access Token</li>
+    <li>긴 유효기간을 가진 Refresh Token</li>
+  </ul>
+
+  <p><strong>3. Access Token을 사용한 요청</strong><br />
+사용자는 Access Token을 가지고 API 서버에 요청을 보내며, 서버는 Access Token을 검증하여 유효하면 요청을 처리한다.<br />
+Access Token 만료 시 Refresh Token을 이용해 Access Token을 갱신한다.</p>
+
+  <p><strong>4. Access Token 발급</strong><br />
+Access Token이 만료되면 클라이언트는 Refresh Token을 서버에 전달하여 새로운 Access Token을 요청한다.<br />
+서버는 Refresh Token을 검증한 후, 새로운 Access Token을 발급해 클라이언트에 반환한다.</p>
+
+  <p><strong>5. 로그아웃 또는 Refresh Token 만료</strong>  <br />
+사용자가 로그아웃하면, 서버는 Refresh Token을 무효화하는 로직을 실행한다. (블랙리스트) <br />
+만약 Refresh Token의 유효기간이 만료되면, 사용자는 다시 로그인을 통해 새로운 Refresh Token을 받아야 한다.</p>
+</blockquote>
+
+<p><br /><br /></p>
+
+<h3 id="refresh-token을-사용하는-이유"><span class="me-2">Refresh Token을 사용하는 이유</span><a href="#refresh-token을-사용하는-이유" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>Access Token을 짧은 유효기간을 갖도록 해서, 탈취되더라도 그 피해를 최소화할 수 있다. 하지만 짧은 유효기간으로 인해 Access Token이 자주 만료되기 때문에, 매번 재발급받야아 하는 번거로움이 있다.
+Refresh Token은 더 긴 유효기간을 가지며, 민감한 정보는 포함하지 않는다. 
+그래서 서버는 Access Token이 만료되었을 때, Refresh Token을 사용하여 새로운 Access Token을 발급한다.</p>
+
+<p>이를 통 짧은 유효기간의 Access Token으로 보안을 강화하고, 긴 유효기간의 Refresh Token을 사용하여 사용자 편의성을 유지할 수 있다.</p>
+
+<p><br /><br /><br /></p>
+
+<h2 id="refresh-token-rotation"><span class="me-2">Refresh Token Rotation</span><a href="#refresh-token-rotation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>리프레시 토큰은 한 번 발급되면 장기간 사용할 수 있는 토큰으로, 한 번 탈취되면 계속해서 엑세스 토큰을 발급할 수 있다.</p>
+
+<p>이 위험을 줄이기 위해 리프레스 토큰을 한 번 사용하면, 다시 새로운 리프레시 토큰을 발급하고 이전 토큰을 무효화하도록 한다.
+이 방식이 <strong>Refresh Token Rotation</strong> 이다.</p>
+
+<p><br /></p>
+
+<blockquote>
+  <h4 id="rtr-흐름"><span class="me-2">RTR 흐름</span><a href="#rtr-흐름" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p><strong>1. 액세스 토큰과 리프레시 토큰 발급</strong><br />
+   사용자가 처음 로그인하면 서버는 액세스 토큰과 리프레시 토큰을 클라이언트에게 발급한다.</p>
+
+  <p><strong>2. 액세스 토큰 재발급</strong><br />
+ 액세스 토큰이 만료되면, 클라이언트는 리프레시 토큰을 사용하여 새로운 액세스 토큰을 요청한다.
+ 이때, 서버는 클라이언트에게 새로운 액세스 토큰과 새로운 리프레시 토큰을 함께 발급해준다.</p>
+
+  <p><strong>3. 이전 리프레시 토큰을 무효</strong><br />
+ 새로운 리프레시 토큰이 발급되면 이전 리프레시 토큰은 즉시 무효화되며, 한 번 사용된 리프레시 토큰은 다시 사용할 수 없다.</p>
+
+  <p><strong>4. 탈취 방지</strong>
+  리프레시 토큰이 탈취된 경우, 공격자는 그 토큰을 사용하려고 시도한다. <br />
+  하지만, 리프레시 토큰이 한 번 사용될 때마다 새로운 토큰으로 교체되기 때문에, 이미 무효화되어 사용할 수 없다.
+  따라서, 공격자는 탈취한 토큰으로 다시 액세스 토큰을 발급받을 수 없다.</p>
+
+  <p><strong>5. 서버 측 저장 관리</strong>
+  서버는 클라이언트에게 마지막으로 발급된 리프레시 토큰만을 저장하고 관리한다.
+  따라서 새로 발급된 리프레시 토큰만 유효하고, 이전의 모든 리프레시 토큰은 사용할 수 없다.</p>
+</blockquote>
 
 
   </div>
@@ -851,7 +1132,21 @@
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -866,20 +1161,6 @@
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1074,16 +1355,17 @@
   Jul 17, 2024
 </time>
 
-              <h4 class="pt-0 my-2">Transactional어노테이션 과 Proxy</h4>
+              <h4 class="pt-0 my-2">Transactional Annotation과 Proxy</h4>
               <div class="text-muted">
-                <p>@Transactional은 어떻게 동작할까?
-메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
-예외가 발생하면 트랜잭션이 롤백된다.
+                <p>@Transactional은 메서드 실행 전후에 트랜잭션을 시작하고 커밋 또는 롤백하는 기능을 제공하는 어노테이션으로 스프링에서 트랜잭션 관리를 자동으로 처리한다.
 
 
-  
-    스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감싼다. 
-이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 ...</p>
+
+트랜잭션 경계 설정
+
+  트랜잭션 시작:
+    
+      @Transactional이 적용된 메서드를 호출할 때, 먼저 PlatformTransactionManager를 사용하여 ...</p>
               </div>
             </div>
           </a>
@@ -1111,20 +1393,18 @@
 
               <h4 class="pt-0 my-2">Transaction</h4>
               <div class="text-muted">
-                <p>트랜잭션
-
-일련의 작업들을 하나로 묶어서 처리하는 단위.
+                <p>트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다.
 
 트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소된다.
-데이터의 일관성과 결성을 유지하는 중요한 개념이다.
-
-트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.
+데이터의 일관성과 무결성을 유지하는 중요한 개념이다.
 
 
 
-콘서트 티켓 예매를 예로 들어보자
+트랜잭션의 특징 (ACID)
 
-상품을 구매하...</p>
+  
+    Atomicity 원자성 
+한 트랜잭션 내의 모든 연산들이 완전히 수행되거나 전혀 ...</p>
               </div>
             </div>
           </a>
@@ -1145,11 +1425,11 @@
 
   
     <a
-      href="/posts/jpa-%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8/"
+      href="/posts/jpa-jpa/"
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>영속성 컨텍스</p>
+      <p>JPA와 영속성</p>
     </a>
   
 

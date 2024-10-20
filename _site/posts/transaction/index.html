@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="Transaction" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="트랜잭션" />
-<meta property="og:description" content="트랜잭션" />
+<meta name="description" content="트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다." />
+<meta property="og:description" content="트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다." />
 <link rel="canonical" href="http://localhost:4000/posts/transaction/" />
 <meta property="og:url" content="http://localhost:4000/posts/transaction/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Transaction" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T00:54:57+08:00","datePublished":"2024-07-17T00:00:00+08:00","description":"트랜잭션","headline":"Transaction","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/transaction/"},"url":"http://localhost:4000/posts/transaction/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T00:54:57+08:00","datePublished":"2024-07-17T00:00:00+08:00","description":"트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다.","headline":"Transaction","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/transaction/"},"url":"http://localhost:4000/posts/transaction/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -598,6 +598,71 @@
   
 
   
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
 
   
   
@@ -709,9 +774,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1968 words"
+  title="2084 words"
 >
-  <em>10 min</em> read</span>
+  <em>11 min</em> read</span>
 
         </div>
       </div>
@@ -719,12 +784,34 @@
   </header>
 
   <div class="content">
-    <h1 id="트랜잭션">트랜잭션</h1>
-
-<p>일련의 작업들을 하나로 묶어서 처리하는 단위.</p>
+    <p>트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다.</p>
 
 <p>트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소된다.<br />
-데이터의 일관성과 결성을 유지하는 중요한 개념이다.</p>
+데이터의 일관성과 무결성을 유지하는 중요한 개념이다.</p>
+
+<p><br /></p>
+
+<h3 id="트랜잭션의-특징-acid"><span class="me-2">트랜잭션의 특징 (ACID)</span><a href="#트랜잭션의-특징-acid" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<ol>
+  <li>
+    <p>Atomicity 원자성 <br />
+한 트랜잭션 내의 모든 연산들이 완전히 수행되거나 전혀 수행되지 않는다. ( All or Nothing )</p>
+  </li>
+  <li>
+    <p>Consistency 일관성 <br />
+어떤 트랜잭션이 수행되기 전에 데이터베이스가 일관된 상태를 가졌다면 트랜잭션이 수행된 후에 일관된 상태를 갖는다.</p>
+  </li>
+  <li>
+    <p>Isolation 격리성 or 고립 <br />
+여러 트랜잭션이 동시에 실행될 때 각 트랜잭션은 다른 트랜잭션의 영향을 받지않고 독립적으로 실행되어야 하며, 중간 상태가 다른 트랜잭션에 노출되지 않아야 한다.</p>
+  </li>
+  <li>
+    <p>Durability 영속성 <br />
+트랜잭션이 성공적으로 완료되면 그 결과는 영구적으로 저장되어야 하며, 시스템 오류가 발생하더라도 데이터가 손실되지 않아야 한다.</p>
+  </li>
+</ol>
+
+<p><br /></p>
 
 <p>트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.</p>
 
@@ -732,7 +819,7 @@
 
 <p>콘서트 티켓 예매를 예로 들어보자</p>
 
-<h3 id="상품을-구매하려면-어떻게-해야할까"><span class="me-2">상품을 구매하려면 어떻게 해야할까?</span><a href="#상품을-구매하려면-어떻게-해야할까" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h3 id="상품을-구매하는-과정을-살펴보자"><span class="me-2">상품을 구매하는 과정을 살펴보자.</span><a href="#상품을-구매하는-과정을-살펴보자" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <ol>
   <li>상품의 재고를 확인한 후 장바구니에 추가합니다.</li>
   <li>상품을 결제합니다.</li>
@@ -741,18 +828,17 @@
 
 <p><br /></p>
 
-<h3 id="이-과정에서-트랜잭션을-사용하지-않는다고-하면-어떤-문제가-발생할까"><span class="me-2">이 과정에서 트랜잭션을 사용하지 않는다고 하면 어떤 문제가 발생할까?</span><a href="#이-과정에서-트랜잭션을-사용하지-않는다고-하면-어떤-문제가-발생할까" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h3 id="이-과정에서-트랜잭션을-사용하지-않으면-어떤-문제가-발생할까"><span class="me-2">이 과정에서 트랜잭션을 사용하지 않으면 어떤 문제가 발생할까?</span><a href="#이-과정에서-트랜잭션을-사용하지-않으면-어떤-문제가-발생할까" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>재고가 부족한 상황에서 동시에 여러 사용자가 같은 상품을 구매하려고 하면 재고가 음수가 될 수 있다.</p>
 
-<p>또한 결제가 성공했지만 주문 생성이 실패하거나 재고 업데이트가 실패하면 데이터의 일관성이 깨질 수 있다.</p>
-
-<p>그리고 결제에는 성공했지만 재고가 부족한 상황에서 주문생성에 실패하면, 사용자는 돈을 지불했지만 주문이 완료되지 않을 수 있다.</p>
+<p>또한 결제가 성공했지만 주문 생성이 실패하거나 재고 업데이트가 실패하면 나는 결제만 하고 물건은 받지 못할 수 있다.</p>
 
 <p><br /><br /></p>
 
-<p>상품 구매 시스템에서 트랜잭션을 사용하면 여러 단계의 구매 과정을 하나의 단위로 묶어서 처리할 수 있다.<br />
-모든 단계가 성공적으로 완료되거나, 도중에 실패하는 경우 모든 변경 사항이 롤백되어 데이터의 무결성과 일관성을 보장할 수 있다.<br />
-스프링에서는 @Transactional 어노테이션을 사용하여 트랜잭션을 관리할 수 있다.</p>
+<p>트랜잭션을 사용하면 여러 단계의 구매 과정을 하나의 단위로 묶어서 처리할 수 있다.<br />
+모든 단계가 성공적으로 완료되면 변경 사항이 데이터베이스에 반영되지만, 도중에 실패하는 경우 모든 변경 사항이 롤백되어 데이터의 무결성과 일관성을 보장해야 한다.</p>
+
+<p>스프링에서는 @Transactional 어노테이션을 사용하여 트랜잭션을 관리할 수 있다.</p>
 
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
@@ -815,28 +901,9 @@
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
-<p>클래스나 메서드에 붙여 해당 범위 내 메서드가 트랜잭션이 되도록 보장한다.<br />
-직접 객체를 생성할 필요없이 선언만으로 관리가 가능하다.</p>
 
-<h3 id="트랜잭션의-특징"><span class="me-2">트랜잭션의 특징</span><a href="#트랜잭션의-특징" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<ol>
-  <li>
-    <p>Atomicity 원자성 <br />
-한 트랜잭션 내의 모든 연산들이 완전히 수행되거나 전혀 수행되지 않는다. ( All or Nothing )</p>
-  </li>
-  <li>
-    <p>Consistency 일관성 <br />
-어떤 트랜잭션이 수행되기 전에 데이터베이스가 일관된 상태를 가졌다면 트랜잭션이 수행된 후에 일관된 상태를 갖는다.</p>
-  </li>
-  <li>
-    <p>Isolation 격리성 or 고립 <br />
-여러 트랜잭션이 동시에 실행될 때 각 트랜잭션은 다른 트랜잭션의 영향을 받지않고 독립적으로 실행되어야 한다.</p>
-  </li>
-  <li>
-    <p>Durability 영속성 <br />
-성공적으로 완료된 트랜잭션의 결과를 영구적으로 보존해야 한다.</p>
-  </li>
-</ol>
+<p>이 어노테이션은 트랜잭션의 시작과 종료를 자동으로 처리하며, 메서드 내의 모든 데이터베이스 연산을 하나의 트랜잭션으로 묶어준다.
+클래스나 메서드에 붙여 해당 범위 내 메서드가 트랜잭션이 되도록 보장한다.</p>
 
 <p><br /><br /></p>
 
@@ -868,20 +935,28 @@
 <p>트랜잭션과 영속성 컨텍스트는 서로 긴밀하게 연결되어 있다.</p>
 
 <ol>
-  <li>
-    <p>트랜잭션 범위: 
-트랜잭션은 데이터베이스 작업을 논리적 단위로 묶어주며, 트랜잭션 내에서 영속성 컨텍스트는 엔티티의 상태 변경을 추적한다.
-트랜잭션 커밋 시 영속성 컨텍스트는 데이터베이스에 변경 사항을 반영하고, 롤백 시 변경 사항을 취소한다.</p>
+  <li>트랜잭션 범위:
+    <ul>
+      <li>트랜잭션은 데이터베이스 작업을 논리적 단위로 묶어주며, 트랜잭션 내에서 영속성 컨텍스트는 엔티티의 상태 변경을 추적한다.</li>
+      <li>트랜잭션 커밋 시 영속성 컨텍스트는 데이터베이스에 변경 사항을 반영하고, 롤백 시 변경 사항을 취소한다.</li>
+    </ul>
   </li>
-  <li>
-    <p>트랜잭션의 격리 수준: 
-트랜잭션 격리 수준(Transaction Isolation Level)은 여러 트랜잭션이 동시에 실행될 때의 동작을 제어한다. <br />
-높은 격리 수준일수록 동시성 문제를 줄일 수 있지만, 성능 저하가 발생할 수 있다.</p>
+  <li>트랜잭션의 격리 수준:
+    <ul>
+      <li>트랜잭션 격리 수준(Transaction Isolation Level)은 여러 트랜잭션이 동시에 실행될 때의 동작을 제어한다.</li>
+      <li>높은 격리 수준일수록 동시성 문제를 줄일 수 있지만, 성능 저하가 발생할 수 있다.</li>
+    </ul>
   </li>
-  <li>
-    <p>플러시(Flushing): 
-영속성 컨텍스트의 변경 사항을 데이터베이스에 동기화하는 작업 
-일반적으로 트랜잭션 커밋 시 자동으로 플러시가 발생한다.</p>
+  <li>데이터 일관성:
+    <ul>
+      <li>영속성 컨텍스트 내의 엔티티는 트랜잭션 동안 데이터베이스와의 일관성을 유지하고, 트랜잭션이 커밋될 때 영속성 컨텍스트의 변경 사항이 데이터베이스에 반영된다.</li>
+    </ul>
+  </li>
+  <li>플러시(Flushing):
+    <ul>
+      <li>영속성 컨텍스트의 변경 사항을 데이터베이스에 동기화하는 작업</li>
+      <li>일반적으로 트랜잭션 커밋 시 자동으로 플러시가 발생한다.</li>
+    </ul>
   </li>
 </ol>
 
@@ -890,31 +965,23 @@
 <p><br /><br /></p>
 
 <h3 id="트랜잭션의-활용"><span class="me-2">트랜잭션의 활용</span><a href="#트랜잭션의-활용" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<ul>
-  <li>
-    <p>데이터베이스 상태 변경 
-예를 들어, 사용자가 새로운 주문을 생성할 때, 주문 내역을 데이터베이스에 반영하는 작업은 하나의 트랜잭션으로 묶인다.<br />
-이 경우 주문 생성, 결제 정보 저장, 재고 조정 등 여러 개의 데이터베이스 작업이 하나의 원자적인 작업 단위로 묶이게 된다.</p>
-  </li>
-  <li>
-    <p>예외 처리와 롤백 
-트랜잭션은 예외 상황이 발생했을 때 데이터베이스 상태를 롤백하여 이전 상태로 복원한다.<br />
-예를 들어, 주문 생성 중 결제 과정에서 오류가 발생하면, 주문과 관련된 모든 변경 사항을 취소하고 이전 상태로 돌아가야 한다.</p>
-  </li>
-  <li>
-    <p>동시성 제어 
-트랜잭션은 동시에 여러 사용자가 동일한 데이터에 접근할 때 발생할 수 있는 문제를 방지한다. <br />
-여러 사용자가 동시에 주문을 생성 할 때, 트랜잭션을 이용하여 충돌을 방지하고 일관성 있는 데이터 처리를 보장해야 한다.</p>
-  </li>
-  <li>
-    <p>복잡한 비즈니스 로직 처리 
-여러 개의 서비스 호출이나 데이터 조작 작업을 하나의 트랜잭션으로 묶어서 실행하면, 데이터 일관성을 유지하면서 원자적으로 처리해야 한다.</p>
-  </li>
-  <li>
-    <p>권한 관리 및 보안 
-트랜잭션을 시작할 때 권한을 확인하고, 트랜잭션이 종료될 때 권한을 제거하는 등의 작업을 통해 보안을 강화한다.</p>
-  </li>
-</ul>
+<h4 id="데이터베이스-상태-변경"><span class="me-2">데이터베이스 상태 변경</span><a href="#데이터베이스-상태-변경" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>예를 들어, 사용자가 새로운 주문을 생성할 때, 주문 내역을 데이터베이스에 반영하는 작업은 하나의 트랜잭션으로 묶인다.<br />
+  이 경우 주문 생성, 결제 정보 저장, 재고 조정 등 여러 개의 데이터베이스 작업이 하나의 원자적인 작업 단위로 묶이게 된다.</p>
+
+<h4 id="예외-처리와-롤백"><span class="me-2">예외 처리와 롤백</span><a href="#예외-처리와-롤백" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>트랜잭션은 예외 상황이 발생했을 때 데이터베이스 상태를 롤백하여 이전 상태로 복원한다.<br />
+  예를 들어, 주문 생성 중 결제 과정에서 오류가 발생하면, 주문과 관련된 모든 변경 사항을 취소하고 이전 상태로 돌아가야 한다.</p>
+
+<h4 id="동시성-제어"><span class="me-2">동시성 제어</span><a href="#동시성-제어" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>트랜잭션은 동시에 여러 사용자가 동일한 데이터에 접근할 때 발생할 수 있는 문제를 방지한다. <br />
+  여러 사용자가 동시에 주문을 생성 할 때, 트랜잭션을 이용하여 충돌을 방지하고 일관성 있는 데이터 처리를 보장해야 한다.</p>
+
+<h4 id="복잡한-비즈니스-로직-처리"><span class="me-2">복잡한 비즈니스 로직 처리</span><a href="#복잡한-비즈니스-로직-처리" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>여러 개의 서비스 호출이나 데이터 조작 작업을 하나의 트랜잭션으로 묶어서 실행하면, 데이터 일관성을 유지하면서 원자적으로 처리해야 한다.</p>
+
+<h4 id="권한-관리-및-보안"><span class="me-2">권한 관리 및 보안</span><a href="#권한-관리-및-보안" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>트랜잭션을 시작할 때 권한을 확인하고, 트랜잭션이 종료될 때 권한을 제거하는 등의 작업을 통해 보안을 강화한다.</p>
 
   </div>
 
@@ -1038,7 +1105,21 @@
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -1053,20 +1134,6 @@
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1261,16 +1328,17 @@
   Jul 17, 2024
 </time>
 
-              <h4 class="pt-0 my-2">Transactional어노테이션 과 Proxy</h4>
+              <h4 class="pt-0 my-2">Transactional Annotation과 Proxy</h4>
               <div class="text-muted">
-                <p>@Transactional은 어떻게 동작할까?
-메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
-예외가 발생하면 트랜잭션이 롤백된다.
+                <p>@Transactional은 메서드 실행 전후에 트랜잭션을 시작하고 커밋 또는 롤백하는 기능을 제공하는 어노테이션으로 스프링에서 트랜잭션 관리를 자동으로 처리한다.
 
 
-  
-    스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감싼다. 
-이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 ...</p>
+
+트랜잭션 경계 설정
+
+  트랜잭션 시작:
+    
+      @Transactional이 적용된 메서드를 호출할 때, 먼저 PlatformTransactionManager를 사용하여 ...</p>
               </div>
             </div>
           </a>
@@ -1301,14 +1369,11 @@
                 <p>프로젝트 중에 JWT를 사용하여서
 잘 몰라서.. 공부하고자
 
-이전에는?
-JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었다.
 
-세션의 Stateful로 상태를 유지하는 것이 특징이다.
 
-사용자의 정보를 서버에 저장하고, 클라이언트는 세션ID를 통해 인증 상태를 유지한다.
-
-세션은 서버 메모리나 데이터베이스에 저장되어야하기 때문에 서버 측에...</p>
+HTTP 프로토콜은 웹에서 클라이언트와 서버 간의 통신을 가능하게 하는 기본적인 규약이다.
+그러나 이 프로토콜은 connectionless(연결이 끊어짐)하고 stateless(상태 비저장) 특성을 갖는다. 즉,
+한 번의 통신이 끝나면 연결이 끊어지고, 이후 요청에서 이전 상태를 기억하지...</p>
               </div>
             </div>
           </a>
@@ -1343,7 +1408,7 @@ JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었
       class="btn btn-outline-primary"
       aria-label="Newer"
     >
-      <p>Transactional어노테이션 과 Proxy</p>
+      <p>Transactional Annotation과 Proxy</p>
     </a>
   
 </nav>

@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Blocking IO와 Non-Blocking IO , 동기와 비동기" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T00:54:57+08:00","datePublished":"2024-08-12T00:00:00+08:00","description":"Blocking 현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, 그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태 제어권이 호출된 함수에게 넘어가서, 함수가 작업을 끝낼때까지 제어권을 유지합니다. 따라서 호출한 함수는 호출된 함수가 끝나기 전까지 다른 작업을 하지 못하고 대기합니다. 파일을 읽거나 쓰는 작업에서 파일 읽기/쓰기가 완료될 때까지 스레드가 대기하는 경우 네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우","headline":"Blocking IO와 Non-Blocking IO , 동기와 비동기","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-blocking/"},"url":"http://localhost:4000/posts/java-blocking/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-17T11:54:10+08:00","datePublished":"2024-08-12T00:00:00+08:00","description":"Blocking 현재 스레드(또는 프로세스)가 어떤 작업을 수행할 때, 그 작업이 완료될 때까지 다른 작업을 할 수 없도록 대기하는 상태 제어권이 호출된 함수에게 넘어가서, 함수가 작업을 끝낼때까지 제어권을 유지합니다. 따라서 호출한 함수는 호출된 함수가 끝나기 전까지 다른 작업을 하지 못하고 대기합니다. 파일을 읽거나 쓰는 작업에서 파일 읽기/쓰기가 완료될 때까지 스레드가 대기하는 경우 네트워크에서 데이터를 받을 때까지 응답을 기다리며 다른 작업을 하지 못하는 경우","headline":"Blocking IO와 Non-Blocking IO , 동기와 비동기","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/java-blocking/"},"url":"http://localhost:4000/posts/java-blocking/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1035,13 +1035,13 @@
 
 <time
   
-  data-ts="1728320097"
+  data-ts="1729137250"
   data-df="ll"
   
     data-bs-toggle="tooltip" data-bs-placement="bottom"
   
 >
-  Oct  8, 2024
+  Oct 17, 2024
 </time>
 
         </span>
@@ -1214,7 +1214,7 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
 <h3 id="sync-non-blocking-io"><span class="me-2">Sync Non-Blocking I/O</span><a href="#sync-non-blocking-io" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <p>자신의 작업을 하면서 결과가 반환됐는지 확인하는 방식</p>
 
-<p>반환됐을 경우 바로 처리합니다.</p>
+<p><strong>반환됐을 경우 바로 처리합니다.</strong></p>
 
 <ol>
   <li>호출: 스레드가 I/O 작업을 요청합니다. 요청이 즉시 완료되지 않더라도 스레드는 다른 작업을 계속 진행합니다.</li>
@@ -1382,7 +1382,21 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -1397,20 +1411,6 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1483,18 +1483,6 @@ Selector와 Channel을 사용하여 비동기적으로 여러 IO 작업을 관�
 
 
 
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
 

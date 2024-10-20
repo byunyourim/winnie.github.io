@@ -1230,7 +1230,21 @@ final을 사용하면 서비스 클래스와 컨트롤러 클래스가 한 번 �
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -1245,20 +1259,6 @@ final을 사용하면 서비스 클래스와 컨트롤러 클래스가 한 번 �
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1418,16 +1418,17 @@ final을 사용하면 서비스 클래스와 컨트롤러 클래스가 한 번 �
   Jul 17, 2024
 </time>
 
-              <h4 class="pt-0 my-2">Transactional어노테이션 과 Proxy</h4>
+              <h4 class="pt-0 my-2">Transactional Annotation과 Proxy</h4>
               <div class="text-muted">
-                <p>@Transactional은 어떻게 동작할까?
-메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
-예외가 발생하면 트랜잭션이 롤백된다.
+                <p>@Transactional은 메서드 실행 전후에 트랜잭션을 시작하고 커밋 또는 롤백하는 기능을 제공하는 어노테이션으로 스프링에서 트랜잭션 관리를 자동으로 처리한다.
 
 
-  
-    스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감싼다. 
-이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 ...</p>
+
+트랜잭션 경계 설정
+
+  트랜잭션 시작:
+    
+      @Transactional이 적용된 메서드를 호출할 때, 먼저 PlatformTransactionManager를 사용하여 ...</p>
               </div>
             </div>
           </a>
@@ -1455,20 +1456,18 @@ final을 사용하면 서비스 클래스와 컨트롤러 클래스가 한 번 �
 
               <h4 class="pt-0 my-2">Transaction</h4>
               <div class="text-muted">
-                <p>트랜잭션
-
-일련의 작업들을 하나로 묶어서 처리하는 단위.
+                <p>트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다.
 
 트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소된다.
-데이터의 일관성과 결성을 유지하는 중요한 개념이다.
-
-트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.
+데이터의 일관성과 무결성을 유지하는 중요한 개념이다.
 
 
 
-콘서트 티켓 예매를 예로 들어보자
+트랜잭션의 특징 (ACID)
 
-상품을 구매하...</p>
+  
+    Atomicity 원자성 
+한 트랜잭션 내의 모든 연산들이 완전히 수행되거나 전혀 ...</p>
               </div>
             </div>
           </a>
@@ -1499,14 +1498,11 @@ final을 사용하면 서비스 클래스와 컨트롤러 클래스가 한 번 �
                 <p>프로젝트 중에 JWT를 사용하여서
 잘 몰라서.. 공부하고자
 
-이전에는?
-JWT가 보급되기 전에는 주로 세션 기반 인증 방식이 사용되었다.
 
-세션의 Stateful로 상태를 유지하는 것이 특징이다.
 
-사용자의 정보를 서버에 저장하고, 클라이언트는 세션ID를 통해 인증 상태를 유지한다.
-
-세션은 서버 메모리나 데이터베이스에 저장되어야하기 때문에 서버 측에...</p>
+HTTP 프로토콜은 웹에서 클라이언트와 서버 간의 통신을 가능하게 하는 기본적인 규약이다.
+그러나 이 프로토콜은 connectionless(연결이 끊어짐)하고 stateless(상태 비저장) 특성을 갖는다. 즉,
+한 번의 통신이 끝나면 연결이 끊어지고, 이후 요청에서 이전 상태를 기억하지...</p>
               </div>
             </div>
           </a>

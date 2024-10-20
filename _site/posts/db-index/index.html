@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="index와 B-tree 그리고 Hash Index" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Index 데이터베이스 테이블에서 데이터를 빠르게 검색할 수 있도록 도와주는 데이터 구조" />
-<meta property="og:description" content="Index 데이터베이스 테이블에서 데이터를 빠르게 검색할 수 있도록 도와주는 데이터 구조" />
+<meta name="description" content="데이터이 양이 많아지면 많아질수록 원하는 데이터를 찾는 시간이 오래 걸린다. 테이블의 처음부터 끝까지 검색하기 때문에 성능이 떨어지게 된다." />
+<meta property="og:description" content="데이터이 양이 많아지면 많아질수록 원하는 데이터를 찾는 시간이 오래 걸린다. 테이블의 처음부터 끝까지 검색하기 때문에 성능이 떨어지게 된다." />
 <link rel="canonical" href="http://localhost:4000/posts/db-index/" />
 <meta property="og:url" content="http://localhost:4000/posts/db-index/" />
 <meta property="og:site_name" content="winnie’s Tech Blog" />
@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="index와 B-tree 그리고 Hash Index" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T00:54:57+08:00","datePublished":"2024-06-27T00:00:00+08:00","description":"Index 데이터베이스 테이블에서 데이터를 빠르게 검색할 수 있도록 도와주는 데이터 구조","headline":"index와 B-tree 그리고 Hash Index","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/db-index/"},"url":"http://localhost:4000/posts/db-index/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T00:54:57+08:00","datePublished":"2024-06-27T00:00:00+08:00","description":"데이터이 양이 많아지면 많아질수록 원하는 데이터를 찾는 시간이 오래 걸린다. 테이블의 처음부터 끝까지 검색하기 때문에 성능이 떨어지게 된다.","headline":"index와 B-tree 그리고 Hash Index","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/db-index/"},"url":"http://localhost:4000/posts/db-index/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -530,6 +530,17 @@
 
       
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
 
     
   
@@ -545,17 +556,6 @@
       
         
         
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
       
 
       
@@ -740,7 +740,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="1277 words"
+  title="1387 words"
 >
   <em>7 min</em> read</span>
 
@@ -750,66 +750,74 @@
   </header>
 
   <div class="content">
-    <h2 id="index"><span class="me-2">Index</span><a href="#index" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
-<blockquote>
-  <p>데이터베이스 테이블에서 데이터를 빠르게 검색할 수 있도록 도와주는 데이터 구조</p>
-</blockquote>
+    <p>데이터이 양이 많아지면 많아질수록 원하는 데이터를 찾는 시간이 오래 걸린다. 테이블의 처음부터 끝까지 검색하기 때문에 
+성능이 떨어지게 된다.</p>
+
+<p>이러한 대량의 데이터를 빠르고 효율적으로 조회하기 위해서 인덱스가 도입되었다.</p>
+
+<p>데이터가 저장된 위치에 대한 정보를 별도의 구조로 저장하여 필요한 데이터에 직접 찾아갈 수 있도록 도와준다.
+책의 목차처럼 필요한 내용을 바로 찾아갈 수 있도록 해주기 때문에 검색 시간을 단축할 수 있다.</p>
 
 <p><br /></p>
 
-<p>인덱스는 테이블 내의 1개 또는 여러 개의 컬럼을 이용하여 생성할 수 있다.<br />
-인덱스는 데이터베이스의 테이블과 별도로 저장되며, 인덱스를 저장하기 위한 추가적인 저장공간이 필요하다.</p>
+<h2 id="index"><span class="me-2">Index</span><a href="#index" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>데이터베이스 테이블에서 데이터를 빠르게 검색할 수 있도록 도와주는 데이터 구조</p>
 
-<p>테이블의 특정 컬럼에 대해서 인덱스를 생성하면, 해당 컬럼의 데이터를 정렬한 후 별도의 메모리 공간에 데이터의 물리적 주소와 함께 저장된다.</p>
+<p>주로 테이블 내의 특정 컬럼에 대해 인덱스를 생성하여, 해당 컬럼의 값을 정렬하고 물리적 데이터 위치를 함께 저장한다.<br />
+이를 통해 전체 테이블을 스캔하지 않고, 인덱스를 통해 빠르게 원하는 값을 찾을 수 있다.</p>
+
+<p><br /></p>
+
+<p>인덱스는 테이블 내의 1개 또는 여러 개의 컬럼을 이용하여 생성할 수 있으며, 데이터베이스의 테이블과 별도로 인덱스를 저장하기 위한 추가적인 저장공간이 필요하다.</p>
 
 <ul>
   <li><strong>키 값</strong> : 인덱스가 참조하는 컬럼 값</li>
   <li><strong>포인터/ 참조</strong> : 실제 데이터가 저장된 테이블의 행을 가리키는 포인터</li>
 </ul>
 
-<p>해당 컬럼의 값을 키로 사용하기 때문에 테이블 전체를 스캔하지 않고 원하는 데이터를 찾을 수 있다.</p>
-
-<p><strong>정렬된 상태로 저장이 되기 때문에</strong> 정렬된 데이터에 빠르게 접근할 수 있어, 검색 속도를 향상 시킨다.</p>
-
-<p><br /><br /><br /></p>
-
-<h4 id="장점"><span class="me-2">장점</span><a href="#장점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>인덱스를 이용하면 특정 키 값을 빠르게 검색할 수 있습니다. <br />
-인덱스는 정렬된 데이터 구조이기 때문에, 비트리 인덱스와 같은 알고리즘을 사용하여 데이터를 빠르게 찾을 수 있다.<br />
-인덱스를 사용하면 전체 테이블을 스캔하지 않고 원하는 데이터를 찾을 수 있다. 따라서 더 빠른 응답시간을 제공할 수 있다.</p>
-
-<p>정렬되지 않은 데이터의 경우 특정 키 값을 찾기 위해 데이터를 순차적으로 스캔해야 하기 때문에 선형 검색을 수행해야 한다.
-따라서 데이터가 많아질수록 검색 속도가 느려질 수 있다.</p>
-
-<h4 id="단점"><span class="me-2">단점</span><a href="#단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
-<p>인덱스는 추가적인 저장공간을 필요로 하기 때문에 데이터베이스의 크기가 증가할 수 있다.
-또한 데이터의 삽입, 삭제, 수정시 인덱스도 리밸런싱되어야 하기 때문에 오버헤드가 발생할 수 있다.</p>
-
-<p>키를 기준으로 검색하는 경우 빠른 속도를 기대할 수 있으나 다른 컬럼을 기준으로 검색하는 경우, 해당 컬럼이 인덱스로 지정되지 않은 경우
-성능 저하가 발생할 수 있다. <br />
-따러서 자주 사용되는 검색 조건에 대해 적절한 인덱스를 생성하고 관리하는 것이 중요하다.</p>
+<p>특정 컬럼의 값을 키로 사용하기 때문에 테이블 전체를 스캔하지 않고 원하는 데이터를 찾을 수 있고, 
+<strong>정렬된 상태로 저장되기 때문에</strong> 정렬된 데이터에 빠르게 접근할 수 있어, 검색 속도가 빠르다.</p>
 
 <p><br /></p>
 
-<h3 id="언제-사용하는지"><span class="me-2">언제 사용하는지</span><a href="#언제-사용하는지" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>특정 컬럼이 자주 검색 조건으로 사용될 때 인덱스를 생성하는 것이 효율적이다.<br />
-예로 주문 번호, 날짜, 사용자 ID 등 검색이 빈번한 컬럼은 인덱스를 통해 검색 성능을 향상시킬 수 있다.</p>
+<h4 id="장점"><span class="me-2">장점</span><a href="#장점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>인덱스를 이용하면 특정 키 값을 빠르게 검색할 수 있다. <br />
+인덱스는 정렬된 데이터 구조이기 때문에, 비트리 인덱스와 같은 알고리즘을 사용하여 효율적으로 데이터를 찾을 수 있고, 이를 통해
+ 전체 테이블을 스캔하지 않고 원하는 데이터를 조회할 수 있 더 빠른 응답시간을 제공한다.</p>
 
-<p>정렬과 같은 그룹화 작업이 자주 일어나는 컬럼에 사용하는 것도 쿼리의 성능을 향상시킬 수 있다.<br />
-조인 연산에 사용되는 컬럼에 인덱스를 생성하거나, 범위 검색이나 부분 일치 검색을 수행할 때 사용할 수 있다.</p>
+<p>반대로, 정렬되지 않은 데이터는 선형 검색을 해야하기 때문에 데이터가 많아질수록 검색 속도가 느려진다.</p>
 
-<p>하지만 너무 많은 인덱스를 생성하는 것은 성능 저하를 일으킬 수 있어, 자주 사용되는 검색 조건 등 꼭 필요한 인덱스만 생성하는 것이 좋다.</p>
+<p><br /></p>
+
+<h4 id="단점"><span class="me-2">단점</span><a href="#단점" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+<p>추가적인 저장공간을 요구하며, 데이터의 삽입, 삭제, 수정 시 인덱스를 리밸런싱 해야하기 때문에 오버헤드가 발생할 수 있다.</p>
+
+<p>특정 키를 기준으로 검색하는 경우 빠른 속도를 기대할 수 있으나 인덱스가 없는 다른 컬럼을 기준으로 검색하는 경우 성능 저하가 발생할 수 있다.</p>
+
+<p>따러서 자주 사용되는 검색 조건에 대해 적절한 인덱스를 생성하고 관리하는 것이 중요하다.</p>
+
+<p><br /><br /></p>
+
+<h3 id="언제-사용될까"><span class="me-2">언제 사용될까</span><a href="#언제-사용될까" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>특정 컬럼이 자주 검색 조건으로 사용되거나, 정렬 및 그룹화 작업이 자주 발생하는 경우 인덱스를 통해 성능을 향상시킬 수 있다.</p>
+
+<p>예를 들어 주문 번호, 날짜, 사용자 ID 등 검색이 빈번한 컬럼은 인덱스를 통해 효율적으로 처리할 수 있다.</p>
+
+<p>또한, 조인 연산에 사용되거나 범위 검색 및 부분 일치 검색을 수행할 때도 인덱스가 유용하게 사용된다.</p>
+
+<p>하지만 너무 많은 인덱스를 생성하면, 데이터베이스의 성능 저하를 일으킬 수 있어, 자주 사용되는 검색 조건에 맞춰 꼭 필요한 인덱스만 생성하는 것이 좋다.</p>
 
 <p><br /><br /><br /></p>
 
-<h3 id="인덱스-구조"><span class="me-2">인덱스 구조</span><a href="#인덱스-구조" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<h2 id="인덱스-구조"><span class="me-2">인덱스 구조</span><a href="#인덱스-구조" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
 <h4 id="b-tree-인덱스"><span class="me-2">B-tree 인덱스</span><a href="#b-tree-인덱스" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
 <p>Balanced tree의 약자로 균형잡힌 트리 구조이다. <br />
 모든 리프노드가 동일한 깊이에 위치하여, 노드의 삽입 및 삭제 시 특정 규칙에 맞게 재정렬 되어 밸런스를 유지하는 트리이다.
-각 노드는 여러 개의 키와 포인터를 가지고 있으며 키는 정렬된 상태로 저장된다.</p>
+각 노드는 키와 포인터를 가지고 있으며 키는 정렬된 상태로 저장된다.</p>
 
-<p>검색시 루트 노드부터 시작하여 비교를 통해 적절한 리프노드에 도달한다.</p>
+<p>검색 시 루트 노드부터 시작하여 비교를 통해 적절한 리프노드에 도달한다. 
+범위 검색 및 정렬된 데이터에 빠르게 접근할 수 있어 일반적으로 많이 사용된다.</p>
 
 <p><br /></p>
 
@@ -819,8 +827,8 @@
 
 <p>정확하게 일치하는 검색에 대해서는 빠르지만 범위를 검색하는 경우에는 적합하지 않다.</p>
 
-<p>해시 인덱스는 데이터가 해시코드에 따라 분산되어 있습니다. 그래서 데이터를 정렬된 순서로 접근하는 것이 어렵다.<br />
-데이터들이 정렬되어 있지 않기 때문에 특정 기준보다 크거나 작은 값, 부등호 연에 대해 검색이 적합하지 않다.</p>
+<p>해시 인덱스는 데이터가 해시코드에 따라 분산되어 있어, 데이터를 정렬된 순서로 접근하는 것이 어렵고, 
+특정 기준보다 크거나 작은 값에 대한 범위 검색에 적합하지 않다.</p>
 
 
   </div>
@@ -945,7 +953,21 @@
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -960,20 +982,6 @@
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1166,21 +1174,17 @@
   Aug  6, 2024
 </time>
 
-              <h4 class="pt-0 my-2">CI/CD</h4>
+              <h4 class="pt-0 my-2">CI/CD 지속적 통합과 지속적 배포</h4>
               <div class="text-muted">
-                <p>코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
-소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스이다.
+                <p>다수의 개발자가 함께 작업하는 경우, 공유 저장소에 많은 커밋이 쌓이게 된다.
+기능별로 빌드, 테스트 그리고 병합까지 매번 해야 하는 것은 정말 번거로운 작업이며 시간이 상당히 소요되는 작업이다.
+이 문제를 해결하기 위해 CI/CD가 등장하였다.
 
 
 
-
-
-CI (Continuous Integration)
-지속적인 통합
-
-개발자들이 각자의 작업을 병합하여 통합하는 프로세스로 병합할 때마다 자동화된 빌드와 테스트가 실행된다.
-
-개발자들이 작업한 코드를 자주 메인 브랜...</p>
+CI/CD
+코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
+소프트웨어 개발과 배포 과정을 효율적이...</p>
               </div>
             </div>
           </a>
@@ -1209,14 +1213,19 @@ CI (Continuous Integration)
               <h4 class="pt-0 my-2">SQL Injection</h4>
               <div class="text-muted">
                 <p>SQL Injection
-공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격
 
-이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다.
-
+공격자가 악의적인 SQL문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격
 
 
-과정
-공격자는 웹 사이트의 입력 필드나 url 파라미터에 sql 인젝션 취약점이 있는지 파악 후, 취약점이 확인되면 쿼리에 악의적인 sql...</p>
+이 공격을 통해 데이터를 유출하거나, 데이터를 조작할 수 있다.
+
+
+
+언제?
+
+  사용자가 입력한 데이터를 SQL쿼리에 직접 삽일할 때
+    
+      사용자의 이름과 비밀번호를 확인하는 쿼리에서 입력 값이 제대로 검증되지 않은 경우...</p>
               </div>
             </div>
           </a>

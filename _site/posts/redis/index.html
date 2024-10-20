@@ -985,7 +985,21 @@ Lua 스크립팅 : Lua 스크립트를 사용하여 서버 측에서 복잡한 �
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -1000,20 +1014,6 @@ Lua 스크립팅 : Lua 스크립트를 사용하여 서버 측에서 복잡한 �
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1173,21 +1173,17 @@ Lua 스크립팅 : Lua 스크립트를 사용하여 서버 측에서 복잡한 �
   Aug  6, 2024
 </time>
 
-              <h4 class="pt-0 my-2">CI/CD</h4>
+              <h4 class="pt-0 my-2">CI/CD 지속적 통합과 지속적 배포</h4>
               <div class="text-muted">
-                <p>코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
-소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스이다.
+                <p>다수의 개발자가 함께 작업하는 경우, 공유 저장소에 많은 커밋이 쌓이게 된다.
+기능별로 빌드, 테스트 그리고 병합까지 매번 해야 하는 것은 정말 번거로운 작업이며 시간이 상당히 소요되는 작업이다.
+이 문제를 해결하기 위해 CI/CD가 등장하였다.
 
 
 
-
-
-CI (Continuous Integration)
-지속적인 통합
-
-개발자들이 각자의 작업을 병합하여 통합하는 프로세스로 병합할 때마다 자동화된 빌드와 테스트가 실행된다.
-
-개발자들이 작업한 코드를 자주 메인 브랜...</p>
+CI/CD
+코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
+소프트웨어 개발과 배포 과정을 효율적이...</p>
               </div>
             </div>
           </a>
@@ -1216,21 +1212,26 @@ CI (Continuous Integration)
               <h4 class="pt-0 my-2">SQL Injection</h4>
               <div class="text-muted">
                 <p>SQL Injection
-공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격
 
-이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다.
-
+공격자가 악의적인 SQL문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격
 
 
-과정
-공격자는 웹 사이트의 입력 필드나 url 파라미터에 sql 인젝션 취약점이 있는지 파악 후, 취약점이 확인되면 쿼리에 악의적인 sql...</p>
+이 공격을 통해 데이터를 유출하거나, 데이터를 조작할 수 있다.
+
+
+
+언제?
+
+  사용자가 입력한 데이터를 SQL쿼리에 직접 삽일할 때
+    
+      사용자의 이름과 비밀번호를 확인하는 쿼리에서 입력 값이 제대로 검증되지 않은 경우...</p>
               </div>
             </div>
           </a>
         </article>
       
         <article class="col">
-          <a href="/posts/mysql-index/" class="post-preview card h-100">
+          <a href="/posts/db-like/" class="post-preview card h-100">
             <div class="card-body">
               <!--
   Date format snippet
@@ -1249,18 +1250,20 @@ CI (Continuous Integration)
   Jul 22, 2024
 </time>
 
-              <h4 class="pt-0 my-2">LIKE 와 full-scan</h4>
+              <h4 class="pt-0 my-2">Mysql의 LIKE 연산자 와 full-scan</h4>
               <div class="text-muted">
-                <p>LIKE
-LIKE 는 SQL에서 문자열 패턴 매칭을 위해서 사용합니다.
-주로 where절에서 특정 패턴과 일치하는 문자열을 검색하는데 사용할 수 있습니다.
-하지만 데이터가 많아지는 경우 문제가 생길 수 있습니다.
+                <p>Mysql의 LIKE 연산자는 문자열을 비교하는 데 사용된다.
+
+패턴 매칭을 통해 특정 문자열이 포함된 레코드를 검색하며, % 와 _를 사용한다.
+
+
+  % : 0개 이상의 문자와 일치
+  _ : 정확히 1개의 문자와 일치
 
 
 
-어떤 문제가 생길까??
-LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
-와일드 카드가 패턴의 시작 부분에 위치하면 Mys...</p>
+
+SELECT * FROM users WHERE username LIKE &#39;john%&#39;;  -- &#39;john&#39;으로 시작하는 모...</p>
               </div>
             </div>
           </a>
@@ -1285,7 +1288,7 @@ LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>CI/CD</p>
+      <p>CI/CD 지속적 통합과 지속적 배포</p>
     </a>
   
 

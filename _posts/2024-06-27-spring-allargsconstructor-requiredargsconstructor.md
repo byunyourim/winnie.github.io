@@ -36,7 +36,6 @@ public class SmsSenderService {
 
 ### @RequiredArgsConstructor
 클래스의 final로 선언된 필드나 @NonNull 로 표시된 필드를 기반으로 생성자를 생성한다.
-생성자는 이러한 필드들을 매개변수로 받아 초기화한다.  
 ```java
 @RequiredArgsConstructor
 public class User {
@@ -44,7 +43,7 @@ public class User {
     private final int age;
     
     
-    /* 아래와 같은 생성자가 자동으로 생성됩니다.
+    /* 아래와 같은 생성자가 자동으로 생성된다.
     public User(String name, int age) {
       this.name = name;
       this.age = age;
@@ -52,20 +51,19 @@ public class User {
      */
 }
 ```
-* 즉, 초기화되지 않은 final 필드의 생성자를 생성한다.
 
 <br><br>
 
 ### @AllArgsConstructor
-모든 필드를 기반으로 생성자를 생성한다.  
-final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변수로 받는 생성자를 생성한다.  
+클래스의 모든 필드를 매개변수로 받는 생성자를 자동으로 생성한다.
+final 필드를 포함한 모든 필드를 초기화하는 생성자가 생성되며, 이를 통해 final 필드를 반드시 초기화할 수 있다.
 ```java
 @AllArgsConstructor
 public class User {
     private String name;
     private int age;
     
-    /* 아래와 같은 생성자가 자동으로 생성됩니다.
+    /* 아래와 같은 생성자가 자동으로 생성된다.
     public User(String name, int age) {
       this.name = name;
       this.age = age;
@@ -74,21 +72,17 @@ public class User {
 }
 ```
 
-<br><br>
+<br><br><br>
 
 ### @Value 와 @RequiredArgsConstructor?
-@Value 이 뭘까?
+@Value는 외부 프로퍼티 파일에서 값을 주입받는 데 사용되는데, 이 값은 런타임 시점에 결정된다. 
 
+final로 선언된 필드는 한 번 초기화되면, 변경할 수 없기 때문에 값을 반드시 생성자에서 할당해야 한다.  
+@RequiredArgsConstructor가 생성자를 만들 때, 이 생성자는 컴파일 시점에 생성되는데, 이때 final 필드는 생성자의 인자로 받아야 하기때문에, 컴파일러는 이 필드에 값을 초기화해야 한다.
 
-final 로 선언한 필드에 @Value를 사용하면?
-스프링이 빈을 생성할 때 해당 필드를 초기화할 수 없기 때문에 에러가 발생한다.  
-@Value 을 사용할 때는 생성자 인젝션을 사용하지 않기 때문에 @RequiredArgsConstructor 를 사용하여
-생성자를 자동을 생성할 수 없다.  
+final 필드는 생성자가 호출되기 전에 값이 할당되어야 하는데, @Value를 사용하면
+@Value가 값을 주입하려고 할 때 이미 @RequiredArgsConstructor로 인해 생성자가 만들어진 상태이다. 따라서 필드를 초기화할 수 없기 때문에 오류가 발생한다.
+
+결국, 컴파일 시점에서 생성자가 만들어지는 것과 런타임 시점에서 @Value가 값을 주입하려는 시도가 충돌하여 오류가 발생한다.
 
 <br><br>
-
-### @Value 와 @AllArgsConstructor?
-스프링은 빈을 초기화 할 때 @Value 어노테이션을 사용하여 외부 프로퍼티 파일에서 값을 주입할 수 있다.  
-이것은 생성자 인젝션을 지원하지 않는다.  
-따라서 @AllArgsConstructor을 사용할 때는 스프링이 @Value 어노테이션을 통해 초기화할 수 없는 필드에 대해서는 생성자를 자동으로 생성하지 않는다.   
-이로 인해 apiKey, apiSecret, fromNumber 필드는 @Value 어노테이션을 통해 초기화할 수 없어서 에러가 발생한다.  

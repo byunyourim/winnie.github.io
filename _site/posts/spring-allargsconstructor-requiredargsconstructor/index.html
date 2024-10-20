@@ -557,17 +557,6 @@
 
       
     
-      
-
-      
-      
-
-      
-      
-      
-
-      
-    
 
     
   
@@ -687,7 +676,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="626 words"
+  title="638 words"
 >
   <em>3 min</em> read</span>
 
@@ -748,8 +737,7 @@
 <p><br /><br /></p>
 
 <h3 id="requiredargsconstructor"><span class="me-2">@RequiredArgsConstructor</span><a href="#requiredargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>클래스의 final로 선언된 필드나 @NonNull 로 표시된 필드를 기반으로 생성자를 생성한다.
-생성자는 이러한 필드들을 매개변수로 받아 초기화한다.</p>
+<p>클래스의 final로 선언된 필드나 @NonNull 로 표시된 필드를 기반으로 생성자를 생성한다.</p>
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -771,7 +759,7 @@
     <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
     
     
-    <span class="cm">/* 아래와 같은 생성자가 자동으로 생성됩니다.
+    <span class="cm">/* 아래와 같은 생성자가 자동으로 생성된다.
     public User(String name, int age) {
       this.name = name;
       this.age = age;
@@ -779,15 +767,12 @@
      */</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
-<ul>
-  <li>즉, 초기화되지 않은 final 필드의 생성자를 생성한다.</li>
-</ul>
 
 <p><br /><br /></p>
 
 <h3 id="allargsconstructor"><span class="me-2">@AllArgsConstructor</span><a href="#allargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>모든 필드를 기반으로 생성자를 생성한다.<br />
-final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변수로 받는 생성자를 생성한다.</p>
+<p>클래스의 모든 필드를 매개변수로 받는 생성자를 자동으로 생성한다.
+final 필드를 포함한 모든 필드를 초기화하는 생성자가 생성되며, 이를 통해 final 필드를 반드시 초기화할 수 있다.</p>
 <div class="language-java highlighter-rouge"><div class="code-header">
         <span data-label-text="Java"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -807,7 +792,7 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
     <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
     
-    <span class="cm">/* 아래와 같은 생성자가 자동으로 생성됩니다.
+    <span class="cm">/* 아래와 같은 생성자가 자동으로 생성된다.
     public User(String name, int age) {
       this.name = name;
       this.age = age;
@@ -816,23 +801,20 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></div></div>
 
-<p><br /><br /></p>
+<p><br /><br /><br /></p>
 
 <h3 id="value-와-requiredargsconstructor"><span class="me-2">@Value 와 @RequiredArgsConstructor?</span><a href="#value-와-requiredargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>@Value 이 뭘까?</p>
+<p>@Value는 외부 프로퍼티 파일에서 값을 주입받는 데 사용되는데, 이 값은 런타임 시점에 결정된다.</p>
 
-<p>final 로 선언한 필드에 @Value를 사용하면?
-스프링이 빈을 생성할 때 해당 필드를 초기화할 수 없기 때문에 에러가 발생한다.<br />
-@Value 을 사용할 때는 생성자 인젝션을 사용하지 않기 때문에 @RequiredArgsConstructor 를 사용하여
-생성자를 자동을 생성할 수 없다.</p>
+<p>final로 선언된 필드는 한 번 초기화되면, 변경할 수 없기 때문에 값을 반드시 생성자에서 할당해야 한다.<br />
+@RequiredArgsConstructor가 생성자를 만들 때, 이 생성자는 컴파일 시점에 생성되는데, 이때 final 필드는 생성자의 인자로 받아야 하기때문에, 컴파일러는 이 필드에 값을 초기화해야 한다.</p>
+
+<p>final 필드는 생성자가 호출되기 전에 값이 할당되어야 하는데, @Value를 사용하면
+@Value가 값을 주입하려고 할 때 이미 @RequiredArgsConstructor로 인해 생성자가 만들어진 상태이다. 따라서 필드를 초기화할 수 없기 때문에 오류가 발생한다.</p>
+
+<p>결국, 컴파일 시점에서 생성자가 만들어지는 것과 런타임 시점에서 @Value가 값을 주입하려는 시도가 충돌하여 오류가 발생한다.</p>
 
 <p><br /><br /></p>
-
-<h3 id="value-와-allargsconstructor"><span class="me-2">@Value 와 @AllArgsConstructor?</span><a href="#value-와-allargsconstructor" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-<p>스프링은 빈을 초기화 할 때 @Value 어노테이션을 사용하여 외부 프로퍼티 파일에서 값을 주입할 수 있다.<br />
-이것은 생성자 인젝션을 지원하지 않는다.<br />
-따라서 @AllArgsConstructor을 사용할 때는 스프링이 @Value 어노테이션을 통해 초기화할 수 없는 필드에 대해서는 생성자를 자동으로 생성하지 않는다. <br />
-이로 인해 apiKey, apiSecret, fromNumber 필드는 @Value 어노테이션을 통해 초기화할 수 없어서 에러가 발생한다.</p>
 
   </div>
 
@@ -956,7 +938,21 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -971,20 +967,6 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1179,16 +1161,17 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
   Jul 17, 2024
 </time>
 
-              <h4 class="pt-0 my-2">Transactional어노테이션 과 Proxy</h4>
+              <h4 class="pt-0 my-2">Transactional Annotation과 Proxy</h4>
               <div class="text-muted">
-                <p>@Transactional은 어떻게 동작할까?
-메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
-예외가 발생하면 트랜잭션이 롤백된다.
+                <p>@Transactional은 메서드 실행 전후에 트랜잭션을 시작하고 커밋 또는 롤백하는 기능을 제공하는 어노테이션으로 스프링에서 트랜잭션 관리를 자동으로 처리한다.
 
 
-  
-    스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감싼다. 
-이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 ...</p>
+
+트랜잭션 경계 설정
+
+  트랜잭션 시작:
+    
+      @Transactional이 적용된 메서드를 호출할 때, 먼저 PlatformTransactionManager를 사용하여 ...</p>
               </div>
             </div>
           </a>
@@ -1216,20 +1199,18 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
 
               <h4 class="pt-0 my-2">Transaction</h4>
               <div class="text-muted">
-                <p>트랜잭션
-
-일련의 작업들을 하나로 묶어서 처리하는 단위.
+                <p>트랜잭션은 일련의 작업들을 하나로 묶어서 처리하는 단위이다.
 
 트랜잭션이 성공적으로 완료되면 모든 작업이 영구적으로 반영되고, 하나라도 실패하면 모든 작업이 취소된다.
-데이터의 일관성과 결성을 유지하는 중요한 개념이다.
-
-트랜잭션의 개념은 많이 들어서 알고 있었지만 내가 완전하게 이해하기는 어려웠다.
+데이터의 일관성과 무결성을 유지하는 중요한 개념이다.
 
 
 
-콘서트 티켓 예매를 예로 들어보자
+트랜잭션의 특징 (ACID)
 
-상품을 구매하...</p>
+  
+    Atomicity 원자성 
+한 트랜잭션 내의 모든 연산들이 완전히 수행되거나 전혀 ...</p>
               </div>
             </div>
           </a>
@@ -1260,11 +1241,11 @@ final로 선언되지 않은 필드도 포함하여 모든 필드를 매개변�
 
   
     <a
-      href="/posts/java-%EB%B8%94%EB%A1%9C%ED%82%B9-%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9/"
+      href="/posts/jpa-jpa/"
       class="btn btn-outline-primary"
       aria-label="Newer"
     >
-      <p>Blocking vs Non-Blocking</p>
+      <p>JPA와 영속성</p>
     </a>
   
 </nav>

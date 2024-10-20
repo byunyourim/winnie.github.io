@@ -42,7 +42,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="운영체제의 동작" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-17T08:08:15+08:00","datePublished":"2024-08-19T00:00:00+08:00","description":"Operating System","headline":"운영체제의 동작","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/"},"url":"http://localhost:4000/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-17T11:54:10+08:00","datePublished":"2024-08-19T00:00:00+08:00","description":"Operating System","headline":"운영체제의 동작","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/"},"url":"http://localhost:4000/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -802,6 +802,17 @@
 
       
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
 
     
   
@@ -817,6 +828,39 @@
       
         
         
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
       
 
       
@@ -911,7 +955,7 @@
 
 <time
   
-  data-ts="1729123695"
+  data-ts="1729137250"
   data-df="ll"
   
     data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -964,9 +1008,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="2170 words"
+  title="2662 words"
 >
-  <em>12 min</em> read</span>
+  <em>14 min</em> read</span>
 
         </div>
       </div>
@@ -1075,10 +1119,26 @@ CPU가 하나의 프로세스에서 다른 프로세스로 전환할 때, 현재
 <p>사용자 프로그램이 커널 서비스이 필요할 때 시스템 콜을 사용하여 커널 영역으로 전환한다.
 CPU는 사용자 모드에서 커널 모드로 전환되며, 커널은 요청된 작업을 수행한 후 결과를 사용자 프로그램에 반환한다.</p>
 
+<p><br /></p>
+
+<h3 id="동작"><span class="me-2">동작</span><a href="#동작" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+<p>시스템 콜이 호출되면 아래와 같은 동작을 한다.</p>
+<ol>
+  <li>
+    <p>사용자 프로그램이 시스템 콜을 호출하면, 운영체제는 사용자 모드에서 커널 모드로 전환합니다. 이 과정에서 CPU는 더 높은 권한을 가진 커널 모드로 전환됩니다.</p>
+  </li>
+  <li>사용자 프로그램이 시스템 콜을 호출한다</li>
+  <li>운영체제는 사용자 모드에서 커널 모드로 전환한다. 이 과정에서 CPU는 더 높은 권한을 가진 커널 모드로 전환한다.</li>
+  <li>운영체제는 해당 시스템 콜 번호를 통해 요청을 식별한 후 처리를 시작한다.</li>
+  <li>커널은 읽기, 프로세스 생성, 메모리 할당 등 요청된 작업을 처리한다.</li>
+  <li>요청이 완료되면, 커널은 결과(성공 여부, 데이터 등)를 사용자 프로그램에 반환한다.</li>
+  <li>CPU는 다시 사용자 모드로 전환되어 프로그램이 계속 실행될 수 있도록 한다.</li>
+</ol>
+
 <p><br /><br /><br /></p>
 
 <h1 id="4-driver">4. Driver</h1>
-<p>프린터, 키보드 및 디스크 드라이브와 같은 하드웨어 장치와 운영체제 간의 동신을 가능하게 하는 소프트웨어</p>
+<p>프린터, 키보드 및 디스크 드라이브와 같은 하드웨어 장치와 운영체제 간의 통신을 가능하게 하는 소프트웨어</p>
 
 <p><br /><br /><br /></p>
 
@@ -1093,9 +1153,21 @@ CPU는 사용자 모드에서 커널 모드로 전환되며, 커널은 요청된
 </ul>
 
 <blockquote>
-  <p><strong>bootloader</strong>
-운영체제를 메모리에 로드하는 프로그램</p>
+  <h4 id="bootloader"><span class="me-2">bootloader</span><a href="#bootloader" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>운영체제를 메모리에 로드하는 프로그램</p>
+
+  <h4 id="pos-power-on-self-test"><span class="me-2">POS (Power-On Self-Test)</span><a href="#pos-power-on-self-test" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>컴퓨터가 전원을 켤 때 하드웨어가 정상적으로 작동하는지 확인하는 초기 검사
+CPU, 메모리, 저장 장치, 그래픽 카드 등 주요 하드웨어 구성 요소가 제대로 작동하는지 검사</p>
+
+  <h4 id="bios-basic-inputoutput-system"><span class="me-2">BIOS (Basic Input/Output System)</span><a href="#bios-basic-inputoutput-system" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+  <p>컴퓨터의 초기화 및 부팅 과정을 관리하는 펌웨어
+하드웨어를 초기화하고, 운영체제를 로드한다.
+부팅 장치를 찾고, 해당 장치에서 운영체제를 메모리에 로드한다.</p>
 </blockquote>
+
+<p>POS는 하드웨어의 정상 작동을 확인하는 초기 검사 과정이고,<br />
+BIOS는 하드웨어를 초기화하고 운영체제를 로드하는 시스템입니다. POS는 BIOS의 일부 과정이다.</p>
 
 <p><br /></p>
 
@@ -1120,7 +1192,7 @@ CPU는 사용자 모드에서 커널 모드로 전환되며, 커널은 요청된
 <h3 id="4-사용자-인터페이스-제공"><span class="me-2">4. 사용자 인터페이스 제공</span><a href="#4-사용자-인터페이스-제공" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <ul>
   <li>사용자에게 로그인 화면을 제공한다. ID, PWD를 입력하여 인증 절차를 거친다.</li>
-  <li>사용자 인증 후, 데스크탑 환경(윈도우 시슷템, 아이콘, 메뉴 등)이 로드된다.</li>
+  <li>사용자 인증 후, 데스크탑 환경(윈도우 시스템, 아이콘, 메뉴 등)이 로드된다.</li>
 </ul>
 
 <p><br /></p>
@@ -1262,7 +1334,21 @@ CPU는 사용자 모드에서 커널 모드로 전환되며, 커널은 요청된
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -1277,20 +1363,6 @@ CPU는 사용자 모드에서 커널 모드로 전환되며, 커널은 요청된
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
@@ -1500,11 +1572,11 @@ CPU
 
   
     <a
-      href="/posts/java-NIO/"
+      href="/posts/kboticket-docker/"
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>NIO</p>
+      <p>Docker</p>
     </a>
   
 

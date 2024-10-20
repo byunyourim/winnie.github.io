@@ -550,12 +550,11 @@
 
             <div class="card-text content mt-0 mb-3">
               <p>ThreadLocal
-각각의 스레드 별로 별도의 저장 공간을 제공하는 컨테이너
+각각의 스레드 별로 별도의 저장 공간을 제공하는 컨테이너로 스레드 단위로 로컬 변수를 할당할 수 있다.
 
-각 스레드는 자신만의 별도의 데이터를 가질 수 있고, 다른 스레드와 독립적으로 데이터를 설정하고 조회할 수 있다.
+각 스레드가 자신만의 데이터를 가질 수 있고, 다른 스레드와 공유하지 않아, 멀티 스레드 환경에서도 스레드 간 데이터 공유와 동기화 문제를 해결할 수 있다.
 
-각 인스턴스는 특정 스레드에 연결되어 있는 데이터를 참조하며 다른 스레드에 영향을 주지 않는다.
-이를 통해 멀티 스레드 환경에서도 스레드 간 데이터 공유와 ...</p>
+일반 변수의 수명은 특정 코드 블록(메서드, for 블록범위 등) ...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -662,6 +661,117 @@
     </article>
   
     <article class="card-wrapper card">
+      <a href="/posts/kboticket-docker/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">Docker</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>Docker
+컨테이너 환경에서 응용 프로그램과 종속성을 컨테이너로 패키징화하여 실행하는 기술
+이를 통해 일관되게 실행할 수 있고, 개발 환경과 운영 환경 사이의 차이로 인한 문제를 줄일 수 있다.
+
+도커 컨테이너는 가볍고 빠르며 확장성이 좋아서 개발 및 배포 프로세스를 간소화하는데 사용된다.
+
+따라서 Docker는 어플리케이션과 필요한 모든 파일을 하...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1723651200"
+  data-df="ll"
+  
+>
+  Aug 15, 2024
+</time>
+
+
+                <!-- categories -->
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
+      <a href="/posts/kboticket-ci_cd/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">CI/CD Github Action</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>자동화된 프로세스를 통해 수동 작업을 줄이고 불필요한 시간을 줄이기 통해 CI/CD를 구축했다.
+
+CI/CD를 구축하는 방법에는 여러 가지 종류가 있는데, 그 중 Github Action을 선택했다.
+
+
+
+Github Action
+Github에서 제공하는 CI/CD 작업을 자동화하고 관리하는 도구로  PR, 푸시 등 코드 변경이 일어났을 때, 빌드 및...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1723651200"
+  data-df="ll"
+  
+>
+  Aug 15, 2024
+</time>
+
+
+                <!-- categories -->
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
       <a href="/posts/java-NIO/" class="post-preview row g-0 flex-md-row-reverse">
         
 
@@ -712,6 +822,125 @@ Java IO
                     
                       Java
                   </span>
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
+      <a href="/posts/kboticket-redis/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">NCP(Naver Cloud Platform)를 이용하여 Redis 서버</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>Naver에서 제공하는 서비스를 이용하여 서버를 구축하였다.
+
+f-lab을 통해 Naver의 클라우드 서버 금액에 대한 지원을 받아 Naver를 채택하게 되었습니다.
+
+필요한 서비스를 생각해보자
+
+  애플리케이션 서버(2)
+  웹 서버 (Nginx 1)
+  CI/CD 서버 (github Action)
+  Redis 서버</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1723478400"
+  data-df="ll"
+  
+>
+  Aug 13, 2024
+</time>
+
+
+                <!-- categories -->
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
+      <a href="/posts/kboticket-npc/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">NCP(Naver Cloud Platform)를 이용하여 서버 구축</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>Naver에서 제공하는 서비스를 이용하여 서버를 구축하였다.
+
+f-lab을 통해 Naver의 클라우드 서버 금액에 대한 지원을 받아 Naver를 채택하게 되었습니다.
+
+시스템 아키텍처
+
+
+필요한 서비스를 생각해보자
+
+  애플리케이션 서버(2)
+  웹 서버 (Nginx 1)
+  CI/CD 서버 (github Action)
+  Redis 서버</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1723478400"
+  data-df="ll"
+  
+>
+  Aug 13, 2024
+</time>
+
+
+                <!-- categories -->
                 
               </div>
 
@@ -894,262 +1123,6 @@ Java IO
                   <span class="categories">
                     
                       DB
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/CI-CD/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">CI/CD</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>코드 변경 사항을 자동으로 빌드, 테스트, 배포하여
-소프트웨어 개발과 배포 과정을 효율적이고 안정적으로 만드는 자동화 프로세스이다.
-
-
-
-
-
-CI (Continuous Integration)
-지속적인 통합
-
-개발자들이 각자의 작업을 병합하여 통합하는 프로세스로 병합할 때마다 자동화된 빌드와 테스트가 실행된다.
-
-개발자들이 작업한 코드를 자주 메인 브랜...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1722873600"
-  data-df="ll"
-  
->
-  Aug  6, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      DB
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/java-sqlinjection/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">SQL Injection</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>SQL Injection
-공격자가 보안상의 취약점을 노리고 쿼리에 자신이 작성한 sql 문을 입력하여 데이터베이스가 비정상적으로 동작하도록 하는 공격
-
-이 공격을 통해 데이터를 유출하거나, 데이터를 조작한다.
-
-
-
-과정
-공격자는 웹 사이트의 입력 필드나 url 파라미터에 sql 인젝션 취약점이 있는지 파악 후, 취약점이 확인되면 쿼리에 악의적인 sql...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1722441600"
-  data-df="ll"
-  
->
-  Aug  1, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      DB
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/mysql-index/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">LIKE 와 full-scan</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>LIKE
-LIKE 는 SQL에서 문자열 패턴 매칭을 위해서 사용합니다.
-주로 where절에서 특정 패턴과 일치하는 문자열을 검색하는데 사용할 수 있습니다.
-하지만 데이터가 많아지는 경우 문제가 생길 수 있습니다.
-
-
-
-어떤 문제가 생길까??
-LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
-와일드 카드가 패턴의 시작 부분에 위치하면 Mys...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1721577600"
-  data-df="ll"
-  
->
-  Jul 22, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      DB
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/transactional-proxy/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Transactional어노테이션 과 Proxy</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>@Transactional은 어떻게 동작할까?
-메서드의 실행이 시작될 때 트랜잭션이 시작되고, 메서드가 정상적으로 종료되면 트랜잭션이 커밋되며,
-예외가 발생하면 트랜잭션이 롤백된다.
-
-
-  
-    스프링은 @Transactional 어노테이션이 적용된 빈을 프록시 객체로 감싼다. 
-이 프록시는 실제 빈의 메서드를 호출하기 전에 트랜잭션 관련 로직을 ...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1721145600"
-  data-df="ll"
-  
->
-  Jul 17, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      Spring
                   </span>
                 
               </div>
@@ -1357,7 +1330,21 @@ LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
         
         
         <li class="text-truncate lh-lg">
+          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
           <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/java-threadlocal/">ThreadLocal</a>
         </li>
       
         
@@ -1372,20 +1359,6 @@ LIKE 연산자는 와일드 카드를 사용하여 패턴 매칭을 합니다.
         
         <li class="text-truncate lh-lg">
           <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/jvm/">JVM 내부 동작 원리</a>
-        </li>
-      
-        
-        
-        
-        <li class="text-truncate lh-lg">
-          <a href="/posts/java-socket/">Socket</a>
         </li>
       
     </ul>
