@@ -222,7 +222,8 @@ ThreadLocal의 remove() 메서드를 호출하면 해당 스레드에 대한 값
 <br><br><br>
 
 ## ThreadPoolExecutor
-java.util.concurrent 패키지에 포함된 클래스 중 하나로 스레드 풀을 관리한다.  
+java.util.concu
+rrent 패키지에 포함된 클래스 중 하나로 스레드 풀을 관리한다.  
 
 - beforeExecute()와 afterExecute() 메서드는 작업이 실행되기 전, 후에 실행된다. 
 - execute(), submit() 메서드는 작업을 큐에 추가하고 실행하는 방법을 정의한다.

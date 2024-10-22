@@ -193,3 +193,4 @@ timeout의 값은 시스템 환경과 동작하는 스레드의 특성에 따라
   
 또한 unit으로 락을 대기하는 간격을 적절하게 조절할 수 있다. 일반적으로 TimeUnit.MILLISECONDS나 TimeUnit.SECONDS를 주로 사용하며, 상황에 따라 TimeUnit.MINUTES 등을 선택할 수도 있다.
   
+

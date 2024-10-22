@@ -539,75 +539,6 @@
 <div id="post-list" class="flex-grow-1 px-xl-1">
   
     <article class="card-wrapper card">
-      <a href="/posts/os-basic/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">컴퓨터 구조</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>컴퓨터 구성 요소
-
-
-
-
-CPU
-중앙 처리 장치로 컴퓨터의 두뇌에 해당하며, 연산과 명령을 처리한다.
-
-명령어 처리 속도로 성능이 결정되며, 명령어를 빠르고 효율적으로 처리하는 것이 주 역할이다.
-
-1. 연산 장치
-산술 연산, 논리 연산 등을 수행한다.
-
-2. 제어 장치
-메모리에서 명령어를 읽어와 해석하고, 다른 구성 요소에 신호를 보내 작업을 수행하...</p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1718812800"
-  data-df="ll"
-  
->
-  Jun 20, 2024
-</time>
-
-
-                <!-- categories -->
-                
-                  <i class="far fa-folder-open fa-fw me-1"></i>
-                  <span class="categories">
-                    
-                      OS
-                  </span>
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
       <a href="/posts/java-StringBuffer-StringBuilder/" class="post-preview row g-0 flex-md-row-reverse">
         
 
@@ -808,13 +739,16 @@ try-catch-finally 문은 자바7 이전에 나온 예외 처리 구문으로 모
             <h1 class="card-title my-2 mt-md-0">static</h1>
 
             <div class="card-text content mt-0 mb-3">
-              <p>static 변수
-변수나 메서드를 정의할때 사용하는 키워드로, 프로그램의 시작과 동시에 메모리에 로드되어, 모든 인스턴스가 공유할 수 있는 변수이다.
+              <p>static 키워드는 프로그램의 시작과 동시에 메모리에 로드되어, 모든 인스턴스가 공유할 수 있으며, 변수나 메서드를 정의할 때 사용된다.
+
+
+
+static 변수
 
 모든 객체마다 존재하는 인스턴스 변수와는 다르게 클래스 당 한 개만 존재한다.
 인스턴스 변수는 객체마다 개별적인 값을 갖지만 정적 변수는 모든 객체가 동일한 값을 공유한다.
 
-클래스에 종속되어 있으며 ...</p>
+클래스에 종속...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -1139,12 +1073,79 @@ ArrayList
             <h1 class="card-title my-2 mt-md-0">System.out.println()</h1>
 
             <div class="card-text content mt-0 mb-3">
-              <p>System.out.println()
-Java 에서 콘솔에 출력할 때 사용되는 메서드로 주로 디버깅 목적으로 사용한다.
+              <p>System.out.println()은 Java 에서 콘솔에 출력할 때 사용되는 메서드로 주로 디버깅 목적으로 사용한다.
 
-콘솔로 출력하기 위해 디스크에 I/O 작업을 수행한다. 
-디스크 I/O 는 메모리 작업보다 상대적으로 느리며, 이 작업이 빈번하게 발생하는 경우 성능 저하를 초래할 수 있다.
-I/O 작업은 블로킹 성격으로, 출력 작업이 완료될 때까...</p>
+내부적으로 출력 버퍼링을 사용하기 때문에, 작은 양의 데이터를 출력할 때도 버퍼를 채우고 비운다.따라서, 일정 시간이 소요되어, 오버헤드가 발생할 수 있고, 
+객체를 문자열로 변환하여 출력하기 때문에 문자열 작업이 추가적으로 필요...</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1717430400"
+  data-df="ll"
+  
+>
+  Jun  4, 2024
+</time>
+
+
+                <!-- categories -->
+                
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    
+                      Java
+                  </span>
+                
+              </div>
+
+              
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  
+    <article class="card-wrapper card">
+      <a href="/posts/java-serialization/" class="post-preview row g-0 flex-md-row-reverse">
+        
+
+        
+
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">Serialization</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>Serialization
+객체를 바이트 스트림으로 변환하여 저장하거나 전송할 수 있게 하는 과정
+
+Java 시스템 내부에서 사용되는 데이터를 외부의 Java 시스템에서 사용할 수 있도록 바이트 형태로 변환하는 것을 의미한다.
+
+
+
+
+
+구현 방식
+public interface Serializable() {
+    
+}
+
+자바에서 직렬화를 구현하기 위해서...</p>
             </div>
 
             <div class="post-meta flex-grow-1 d-flex align-items-end">
@@ -1382,35 +1383,35 @@ I/O 작업은 블로킹 성격으로, 출력 작업이 완료될 때까...</p>
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-blocking/">Blocking IO와 Non-Blocking IO , 동기와 비동기</a>
+          <a href="/posts/java-static/">static</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/os-%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C/">운영체제의 동작</a>
+          <a href="/posts/os-basic/">컴퓨터 구조</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-threadlocal/">ThreadLocal</a>
+          <a href="/posts/db-index/">index와 B-tree 그리고 Hash Index</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/kboticket-%EB%8C%80%EA%B8%B0%EC%97%B4/">티켓팅 시스템 - 대기열 구현</a>
+          <a href="/posts/spring-allargsconstructor-requiredargsconstructor/">어노테이션 RequiredArgsConstructor, AllArgsConstructor</a>
         </li>
       
         
         
         
         <li class="text-truncate lh-lg">
-          <a href="/posts/java-gc/">GC(Garbage Collection)란?</a>
+          <a href="/posts/jpa-jpa/">JPA와 영속성</a>
         </li>
       
     </ul>

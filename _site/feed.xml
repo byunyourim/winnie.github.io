@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>winnie's Tech Blog</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing. 생각하라, 질문하라, 공부하</subtitle>
-  <updated>2024-10-19T14:37:26+08:00</updated>
+  <updated>2024-10-22T18:36:26+08:00</updated>
   <author>
     <name>winnie</name>
     <uri>http://localhost:4000/</uri>
@@ -38,14 +38,7 @@
     
   
 
-  <summary>이 시스템은 트래픽이 몰리는 경우를 가정한다.
-
-구현
-
-
-  (수천 명의 동시 요청) 대용량 트래픽이 몰리는 경우
-  순번 조회 가능
-
+  <summary>이 시스템은 트래픽이 몰리는 경우를 가정하며, 실시간으로 순번이 조회가 가능해야 한다.
 
 SQS, RabbitMQ, Kafka와 같은 큐 서비스의 장단점 확인 후 적합성 판단.
 
@@ -72,7 +65,9 @@ SQS
 RabbitMQ
 장점
 
-  다양한 라우팅 옵션과 기능을 제공한다.(우선순위, TTL...</summary>
+  다양한 라우팅 옵션과 기능을 제공한다.(우선순위, TTL)
+  클러스터링을 통한 고가용성 지원
+    단...</summary>
 
   </entry>
 
